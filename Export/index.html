@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <!--
+    TODO:
+    - mv to github
+    - have a look on concatPathsIfLinear
+    - create two bugfix repository
+    - add translate
+    - add mesure
+    - addresses, maxspeed, max others
+    - add trancparency per layer
+    - adresse error
+    - summer/winter
+    - add routing panel
+    - add scale (that working)
+    - add google street view
+    - add google earth
+    - add velo routing with height
+    - add editor (oauth)
+
+http://dev.geoext.org/extensions/geoext.ux/ux/Measure/examples/measure.html
+
+ol translate
+OpenLayers.Util.extend(OpenLayers.Lang.en, {
+    'Cancel': "Cancel",
+});
+
+
+/public for the site
+/scriptes for the generation scrypte
+/OpenLayers (git submodule add git@github.com:sbrunner/openlayers.git)
+/GeoExt as js and css
+/ExtJs as js and css
+... ?
+
+
+calculateInRange in layer ?
+
+add default and supported language in OpenLayers.Lang
+
+probleme on share geometre between feature.
+
+    -->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <!--[if lt IE 7]><script src="http://openstreetmap.org/javascripts/pngfix.js" type="text/javascript"></script><![endif]--> <!-- thanks, microsoft! -->
+    <title>Diverces cartes OSM</title>
+
+    <meta NAME="description" Content="Différentes cartes pour contributeur à OpenStreetMap" />
+    <meta NAME="keywords" Content="Carte, Map, OSM, OpenStreetMap, Topo, Topographique, Mapnik, Osmarender, Cycle, Vélo, Cycliste, Piste, Sky, Transport public, Maplint, Maxspeed, Promenade, MaxHeight, MaxWidth, MaxLength, MaxWeight, Bus, Fixme, Note" />
+    <meta NAME="author" CONTENT="Stéphane Brunner" />
+    <meta NAME="Copyright" CONTENT="Stéphane Brunner, 2009" />
+    <meta NAME="Formatter" CONTENT="Geany" />
+    <meta NAME="Generator" CONTENT="Geany" />
+    <meta NAME="Robot" CONTENT="INDEX,FOLLOW" />
+    <meta HTTP-EQUIV="Content-Language" CONTENT="fr" />
+    <meta name="verify-v1" content="syP8XFMkXjlqcZAwWi+v+943YidZzaCgRsAWI1leDQE=" />
+
+    <script type="text/javascript" src="http://extjs.cachefly.net/ext-3.2.1/adapter/ext/ext-base.js"></script>
+    <script type="text/javascript" src="http://extjs.cachefly.net/ext-3.2.1/ext-all.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="http://extjs.cachefly.net/ext-3.2.1/resources/css/ext-all.css" />
+    <link rel="stylesheet" type="text/css" href="http://extjs.cachefly.net/ext-3.2.1/examples/shared/examples.css" />
+
+    <script src="../openlayers/lib/OpenLayers.js"></script>
+    
+    <script type="text/javascript" src="../GeoExt/lib/GeoExt.js"></script>
+
+    <script src="layout.js"></script>
+    <script src="josmstyle.js"></script>
+    <script src="style.js"></script>
+
+    <link type="text/css" rel="stylesheet" media="screen" href="theme/default/style.css">
+
+    <script type="text/javascript" src="protocole.js"></script>
+    <link type="text/css" rel="stylesheet" media="screen" href="style.css">
+  </head>
+  <body>
+    <div id="desc">
+      <h2>Données</h2>
+      <div id="featureData">...</div>
+
+      <h2>Permalien</h2>
+      <div>
+        <ul>
+          <li><div id="permalink"><a href="">Permalink</a></div></li>
+          <li><a id="permalink.potlatch" href="">Edit on Potlatch</a></li>
+          <li><div id="josm"><a href="">Edit with JOSM</a></div></li>
+        </ul>
+      </div>
+        
+      <h2>Liens utiles</h2>
+      <div>
+        <ul>
+          <li><a id="permalink.amenity.editor" href="http://ae.osmsurround.org/">Amenity (POI) Editor</a></li>
+          <li><a id="permalink.keepright" href="http://keepright.ipax.at/report_map.php">Keep right!</a></li>
+          <li><a id="permalink.restrictions" href="http://osm.virtuelle-loipe.de/restrictions/">Restrictions</a></li>
+          <li><a id="permalink.maxspeed" href="http://maxspeed.osm.lab.rfc822.org/?layers=B0TF">Max speed</a></li>
+          <li><a id="permalink.refuges" href="http://refuges.info/nav.php?choix_layer=OSM">Refuges.info</a></li>
+          <li><a id="permalink.browser" href="http://www.openstreetbrowser.org/">OSBrowser</a></li>
+          <li><a id="permalink.letuffe" href="http://beta.letuffe.org/">Autre site de test</a></li>
+        </ul>
+      </div>
+      
+      <h2>Credits</h2>
+      <p><a href="http://www.stephane-brunner.ch/mediawiki/index.php/Map">Info</a></p>
+
+      <!-- phpmyvisites -->
+      <a href="http://www.phpmyvisites.net/" title="Free web analytics, website statistics"
+      onclick="window.open(this.href);return(false);"><script type="text/javascript">
+      <!--
+      var a_vars = Array();
+      var pagename='The map';
+
+      var phpmyvisitesSite = 1;
+      var phpmyvisitesURL = "http://www.stephane-brunner.ch/phpmv2/phpmyvisites.php";
+      //-->
+      </script>
+      <script language="javascript" src="http://www.stephane-brunner.ch/phpmv2/phpmyvisites.js" type="text/javascript"></script>
+      <object><noscript><p>Free web analytics, website statistics
+      <img src="http://www.stephane-brunner.ch/phpmv2/phpmyvisites.php" alt="Statistics" style="border:0" />
+      </p></noscript></object></a>
+      <!-- /phpmyvisites -->
+    </div>
+</body>
+</html>
+

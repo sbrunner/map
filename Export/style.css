@@ -1,0 +1,17 @@
+    /* OSM */
+.olControlPanZoom {
+  display: none;
+}
+.olControlAttribution {
+  bottom: 0em !important;
+}
+.olControlMousePosition {
+  bottom: 1.25em !important;
+}
+
+a {
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
