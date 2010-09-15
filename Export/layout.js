@@ -9,6 +9,104 @@ var permalinkProvider;
 var permalinkBase;
 var permalinkTitleBase;
 
+function getEventListener() {
+    return {
+        "featureselected": function(o) {
+            var html = null;
+            for (a in o.feature.attributes) {
+              if (html == null) {
+                html = '';
+              }
+              else {
+                html += '<br />'
+              }
+              if (a == 'url') {
+                var href = o.feature.attributes[a];
+                html += a + ': <a href="' + href + '">' + href + '</a>';
+              }
+              else if (a == 'wikipedia') {
+                var href = 'http://en.wikipedia.org/wiki/' + o.feature.attributes[a];
+                html += a + ': <a href="' + href + '">' + o.feature.attributes[a] + '</a>';
+              }
+              else if (a.match('^wikipedia:')) {
+                var lang = a.substring('wikipedia:'.length, a.length);
+                var href = 'http://' + lang + '.wikipedia.org/wiki/' + o.feature.attributes[a];
+                html += a + ': <a href="' + href + '">' + o.feature.attributes[a] + '</a>';
+              }
+              if (a == 'OSM user') {
+                var href = "http://www.openstreetmap.org/user/" + o.feature.attributes[a];
+                html += '<a href="' + href + '">Last edit by ' + o.feature.attributes[a] + '</a>';
+              }
+              
+              else {                  
+                html += a + ": " + o.feature.attributes[a];
+              }
+
+            }
+            var href = "http://www.openstreetmap.org/browse/" + o.feature.type + "/" + o.feature.osm_id + "/history";
+            html += '<br /><a href="' + href + '">History</a>';
+            
+            OpenLayers.Util.getElement('featureData').innerHTML = "<p>" + html + "</p>";
+        },
+        scope: this
+    }
+}
+function addXapiStyleLayer(map, name, styleMap, type, id, element, predicate) {
+    layer = new OpenLayers.Layer.Vector(name, {
+        id: id,
+        projection: epsg4326,
+        strategies: [ new OpenLayers.Strategy.BBOX({ ratio: 1.2 }) ], 
+        protocol: new OpenLayers.Protocol.XAPI({
+            element: element,
+            predicate: predicate,
+            format: new OpenLayers.Format.OSM({ 
+                checkTags: true,
+                externalProjection: epsg4326
+            })
+        }),
+        eventListeners: getEventListener(),
+        styleMap: styleMap,
+        visibility: false,
+        type: type,
+        numZoomLevels: 22,
+        attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>"
+    });
+    map.addLayer(layer);
+    var sf = new OpenLayers.Control.SelectFeature(layer, {
+      autoActivate: true,
+      hover: true
+    });
+    map.addControl(sf);
+}
+function addOsmStyleLayer(map, name, styleMap, type, id) {
+    layer = new OpenLayers.Layer.Vector(name, {
+        id: id,
+        projection: epsg4326,
+        maxResolution: 1.5,
+        strategies: [ new OpenLayers.Strategy.BBOX({ ratio: 1.2 }) ],
+        protocol: new OpenLayers.Protocol.HTTP({
+//            url: "http://localhost/ol/osm.osm",
+            url: "http://api.openstreetmap.org/api/0.6/map?",
+            format: new OpenLayers.Format.OSM({ 
+                checkTags: true,
+                externalProjection: epsg4326
+            })
+        }),
+        eventListeners: getEventListener(),
+        styleMap: styleMap,
+        visibility: false,
+        type: type,
+        numZoomLevels: 22,
+        attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>"
+    });
+    map.addLayer(layer);
+    var sf = new OpenLayers.Control.SelectFeature(layer, {
+      autoActivate: true,
+      hover: true
+    });
+    map.addControl(sf);
+}
+
 Ext.onReady(function() {
 
     // set a permalink provider
@@ -45,8 +143,7 @@ Ext.onReady(function() {
     map.addControl(new OpenLayers.Control.KeyboardDefaults());
     map.addControl(new OpenLayers.Control.Attribution());
 //            map.addControl(new OpenLayers.Control.MouseDefaults());
-//            map.addControl(new OpenLayers.Control.ScaleLine());
-//            map.addControl(new OpenLayers.Control.Scale);
+    map.addControl(new OpenLayers.Control.ScaleLine({geodesic: true}));
 
     map.addControl(new OpenLayers.Control.PermalinkLayer("permalink.potlatch", "http://www.openstreetmap.org/edit"));
     map.addControl(new OpenLayers.Control.PermalinkLayer("permalink.amenity.editor", " http://ae.osmsurround.org/"));

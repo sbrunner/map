@@ -4,17 +4,15 @@
   <head>
     <!--
     TODO:
-    - mv to github
     - have a look on concatPathsIfLinear
     - create two bugfix repository
     - add translate
     - add mesure
-    - addresses, maxspeed, max others
+    - addresses
     - add trancparency per layer
     - adresse error
-    - summer/winter
+    - summer/winter layer
     - add routing panel
-    - add scale (that working)
     - add google street view
     - add google earth
     - add velo routing with height
@@ -26,14 +24,6 @@ ol translate
 OpenLayers.Util.extend(OpenLayers.Lang.en, {
     'Cancel': "Cancel",
 });
-
-
-/public for the site
-/scriptes for the generation scrypte
-/OpenLayers (git submodule add git@github.com:sbrunner/openlayers.git)
-/GeoExt as js and css
-/ExtJs as js and css
-... ?
 
 
 calculateInRange in layer ?
@@ -68,7 +58,9 @@ probleme on share geometre between feature.
     <script type="text/javascript" src="../GeoExt/lib/GeoExt.js"></script>
 
     <script src="layout.js"></script>
+    <script src="commonstyle.js"></script>
     <script src="josmstyle.js"></script>
+    <script src="osmstyle.js"></script>
     <script src="style.js"></script>
 
     <link type="text/css" rel="stylesheet" media="screen" href="theme/default/style.css">
