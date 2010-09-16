@@ -1,0 +1,68 @@
+#!/usr/bin/python
+
+import xml.dom.minidom
+import string
+
+#dom = xml.dom.minidom.parse("...josm-svn/styles/standard/elemstyles.xml")
+dom = xml.dom.minidom.parse("elemstyles.xml")
+
+rules = dom.getElementsByTagName("rule")
+
+std = ""
+deprecated = ""
+fixme = ""
+
+for rule in rules:
+    condition = rule.getElementsByTagName("condition")[0]
+    k = condition.getAttribute("k")
+    v = condition.getAttribute("v")
+
+    if v == "":
+        v = ".+"
+    first = True
+    icon = rule.getElementsByTagName("icon")
+    line = rule.getElementsByTagName("line")
+    area = rule.getElementsByTagName("area")
+    if icon:
+        src = icon[0].getAttribute("src")
+        val = "    addPoint(styleMap, '" + k + "', '" + v + "', 'josm/" + src + "');\n"
+        if src == "misc/deprecated.png":
+            deprecated += val
+        elif src == "fixme.png":
+            fixme += val
+        else:
+            std += val
+
+    if line and area:
+        colour =  area[0].getAttribute("colour")
+        index = string.find(colour, "#")
+        if index > 0:
+            colour = colour[index:]
+        std += "    addStrokeArea(styleMap, '" + k + "', '" + v + "', '" + colour + "', '" + line[0].getAttribute("width") + "');\n"
+
+    elif line:
+        colour = line[0].getAttribute("colour")
+        index = string.find(colour, "#")
+        if index > 0:
+            colour = colour[index:]
+        dashed = line[0].getAttribute("dashed")
+        width = int(line[0].getAttribute("width")) * 4
+        if dashed and dashed != "false":
+            std += "    addStroke(styleMap, '" + k + "', '" + v + "', '" + colour + "', " + width + ", 'dash');\n"
+        else:
+            std += "    addStroke(styleMap, '" + k + "', '" + v + "', '" + colour + "', " + width + ");\n"
+
+    elif area:
+        colour =  area[0].getAttribute("colour")
+        index = string.find(colour, "#")
+        if index > 0:
+            colour = colour[index:]
+        std += "    addArea(styleMap, '" + k + "', '" + v + "', '" + colour + "');\n"
+
+print("function getJOSMLikeStyleMap() {")
+print("    var styleMap = new OpenLayers.StyleMap();")
+print(deprecated)
+print(fixme)
+print(std)
+print("    return styleMap;")
+print("}")
