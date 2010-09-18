@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE Map[
+    <!ENTITY color_shade_0 SYSTEM "rasters-0.include">
+    <!ENTITY color_shade_1 SYSTEM "rasters-1.include">
+    <!ENTITY color_shade_2 SYSTEM "rasters-2.include">
+    <!ENTITY color_shade_3 SYSTEM "rasters-3.include">
+    <!ENTITY color_shade_4 SYSTEM "rasters-4.include">
+    <!ENTITY color_shade_5 SYSTEM "rasters-5.include">
+    <!ENTITY color_shade_6 SYSTEM "rasters-6.include">
+    <!ENTITY color_shade_7 SYSTEM "rasters-7.include">
+    <!ENTITY color_shade_8 SYSTEM "rasters-8.include">
+    <!ENTITY color_shade_9 SYSTEM "rasters-9.include">
+    <!--ENTITY swbd SYSTEM "swbd.include"-->
+
+    <!ENTITY db SYSTEM "db.include">
+
+    <!--ENTITY symbols "/media/Mapnik/mapnik/symbols"-->
+    <!--ENTITY world_boundaries "/media/Mapnik/world_boundaries"-->
+
+    <!--ENTITY zoom_level_15 "20000000">
+    <!ENTITY zoom_level_25 "10000000">
+    <!ENTITY zoom_level_35 "50000000">
+    <!ENTITY zoom_level_45 "20000000">
+    <!ENTITY zoom_level_55 "16000000">
+    <!ENTITY zoom_level_65 "8000000">
+    <!ENTITY zoom_level_75 "4000000">
+    <!ENTITY zoom_level_85 "2000000">
+    <!ENTITY zoom_level_95 "1000000">
+    <!ENTITY zoom_level_105 "500000">
+    <!ENTITY zoom_level_115 "200000">
+    <!ENTITY zoom_level_125 "100000">
+    <!ENTITY zoom_level_135 "50000">
+    <!ENTITY zoom_level_145 "20000">
+    <!ENTITY zoom_level_155 "10000">
+    <!ENTITY zoom_level_165 "5000">
+    <!ENTITY zoom_level_175 "3000">
+    <!ENTITY zoom_level_185 "1000"-->
+    
+    <!ENTITY zoom_max_100 "200000">
+    <!ENTITY zoom_max_50 "50000">
+    <!ENTITY zoom_max_10 "20000">
+]>
+<!-- bgcolor="#f6d986" -->
+<!-- bgcolor="#b6d1d1" -->
+<!-- bgcolor="#98d788" -->
+<Map bgcolor="#98d788" srs="+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs +over">
+    <!--Style name="world-1">
+    <Rule>
+      <MaxScaleDenominator>250000000000</MaxScaleDenominator>
+      <MinScaleDenominator>100000000</MinScaleDenominator>
+      <PolygonSymbolizer>
+        <CssParameter name="fill">#f2efe9</CssParameter>
+      </PolygonSymbolizer>
+       <LineSymbolizer>
+        <CssParameter name="stroke">#a97ea9</CssParameter>
+        <CssParameter name="stroke-width">0.3</CssParameter>
+      </LineSymbolizer>
+    </Rule>
+  </Style-->
+  <!--Style name="world">
+    <Rule>
+      <MaxScaleDenominator>6000000</MaxScaleDenominator>
+      <MinScaleDenominator>600000</MinScaleDenominator>
+      <PolygonSymbolizer>
+        <CssParameter name="fill">#f2efe9</CssParameter>
+      </PolygonSymbolizer>
+    </Rule>
+  </Style-->
+
+  <!--Style name="coast-poly">
+    <Rule>
+      <!- -MaxScaleDenominator>600000</MaxScaleDenominator- ->
+      <PolygonSymbolizer>
+        <!- -CssParameter name="fill">#f2efe9</CssParameter- ->
+        <CssParameter name="fill">#b5d0d0</CssParameter>
+      </PolygonSymbolizer>
+    </Rule>
+  </Style-->
+<!--Style name="raster">
+    <Rule>
+        <MaxScaleDenominator>100000</MaxScaleDenominator>
+        <RasterSymbolizer>
+        </RasterSymbolizer>
+    </Rule>
+</Style-->
+<Style name="raster0">
+    <Rule>
+        <!--MinScaleDenominator>50000</MinScaleDenominator-->
+        <MaxScaleDenominator>200000</MaxScaleDenominator>
+        <RasterSymbolizer>
+            <CssParameter name="scaling">bilinear</CssParameter>
+        </RasterSymbolizer>
+    </Rule>
+</Style>
+<Style name="raster1">
+    <Rule>
+        <MinScaleDenominator>200000</MinScaleDenominator>
+        <MaxScaleDenominator>400000</MaxScaleDenominator>
+        <RasterSymbolizer>
+            <CssParameter name="scaling">bilinear</CssParameter>
+        </RasterSymbolizer>
+    </Rule>
+</Style>
+<Style name="raster2">
+    <Rule>
+        <MinScaleDenominator>200000</MinScaleDenominator>
+        <MaxScaleDenominator>800000</MaxScaleDenominator>
+        <RasterSymbolizer>
+            <CssParameter name="scaling">bilinear</CssParameter>
+        </RasterSymbolizer>
+    </Rule>
+</Style>
+<Style name="raster3">
+    <Rule>
+        <MinScaleDenominator>800000</MinScaleDenominator>
+        <MaxScaleDenominator>1600000</MaxScaleDenominator>
+        <RasterSymbolizer>
+            <CssParameter name="scaling">bilinear</CssParameter>
+        </RasterSymbolizer>
+    </Rule>
+</Style>
+<Style name="raster4">
+    <Rule>
+        <MinScaleDenominator>1600000</MinScaleDenominator>
+        <MaxScaleDenominator>3200000</MaxScaleDenominator>
+        <RasterSymbolizer>
+            <CssParameter name="scaling">bilinear</CssParameter>
+        </RasterSymbolizer>
+    </Rule>
+</Style>
+<Style name="raster5">
+    <Rule>
+        <MinScaleDenominator>3200000</MinScaleDenominator>
+        <MaxScaleDenominator>6400000</MaxScaleDenominator>
+        <RasterSymbolizer>
+            <CssParameter name="scaling">bilinear</CssParameter>
+        </RasterSymbolizer>
+    </Rule>
+</Style>
+<Style name="raster6">
+    <Rule>
+        <MinScaleDenominator>6400000</MinScaleDenominator>
+        <MaxScaleDenominator>12800000</MaxScaleDenominator>
+        <RasterSymbolizer>
+            <CssParameter name="scaling">bilinear</CssParameter>
+        </RasterSymbolizer>
+    </Rule>
+</Style>
+<Style name="raster7">
+    <Rule>
+        <MinScaleDenominator>12800000</MinScaleDenominator>
+        <MaxScaleDenominator>25600000</MaxScaleDenominator>
+        <RasterSymbolizer>
+            <CssParameter name="scaling">bilinear</CssParameter>
+        </RasterSymbolizer>
+    </Rule>
+</Style>
+<Style name="raster8">
+    <Rule>
+        <MinScaleDenominator>25600000</MinScaleDenominator>
+        <MaxScaleDenominator>51200000</MaxScaleDenominator>
+        <RasterSymbolizer>
+            <CssParameter name="scaling">bilinear</CssParameter>
+        </RasterSymbolizer>
+    </Rule>
+</Style>
+<Style name="raster9">
+    <Rule>
+        <MinScaleDenominator>51200000</MinScaleDenominator>
+        <RasterSymbolizer>
+            <CssParameter name="scaling">bilinear</CssParameter>
+        </RasterSymbolizer>
+    </Rule>
+</Style>
+
+
+&color_shade_0;
+&color_shade_1;
+&color_shade_2;
+<!--
+&color_shade_3;
+&color_shade_4;
+
+&color_shade_5;
+&color_shade_6;
+&color_shade_7;
+&color_shade_8;
+&color_shade_9;
+-->
+  <!--Layer name="water_areas" status="on" srs="+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs +over">
+    <StyleName>water_areas</StyleName>
+    <Datasource>
+      &db;
+      <Parameter name="table">(select * from planet_osm_polygon where waterway='dock' or waterway='dam' or waterway='mill_pond' or waterway='riverbank' or landuse='reservoir' or landuse='water' or landuse='basin' or "natural"='water' or "natural"='lake') as water_areas</Parameter>
+    </Datasource>
+  </Layer-->
+
+
+  <Style name="water_areas">
+    <Rule>
+      <!--MaxScaleDenominator>50000000</MaxScaleDenominator-->
+      <!--Filter>[waterway] = 'dock' or [waterway] = 'dam' or [landuse] = 'reservoir' or [landuse] = 'water' or [waterway] = 'mill_pond' or [waterway] = 'riverbank'</Filter-->
+      <PolygonSymbolizer>
+        <CssParameter name="fill">#b5d0d0</CssParameter>
+        <CssParameter name="fill-opacity">0.5</CssParameter>
+     </PolygonSymbolizer>
+    </Rule>
+  </Style>
+  
+    <!--Layer name="water_areas" status="on" srs="+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs +over">
+    <StyleName>water_areas</StyleName>
+    <Datasource>
+      <Parameter name="table">(select * from planet_osm_polygon where waterway='dock' or waterway='dam' or waterway='mill_pond' or waterway='riverbank' or landuse='reservoir' or landuse='water' or landuse='basin' or "natural"='water' or "natural"='lake') as water_areas</Parameter>
+      <Parameter name="type">postgis</Parameter>
+      <Parameter name="dbname">osm</Parameter>
+      <Parameter name="user"></Parameter>
+      <Parameter name="password"></Parameter>
+      <Parameter name="extent">-20037508,-19929239,20037508,19929239</Parameter>
+      <Parameter name="estimate_extent">false</Parameter>
+    </Datasource>
+  </Layer-->
+  
+</Map>

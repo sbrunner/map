@@ -1,0 +1,144 @@
+<Layer name="raster_7_0" status="on">
+  <StyleName>raster7</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/3/SE_3_120.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">13349062.271</Parameter>
+    <Parameter name="loy">9276.6275034</Parameter>
+    <Parameter name="hix">20037062.271</Parameter>
+    <Parameter name="hiy">-23414723.3725</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_7_1" status="on">
+  <StyleName>raster7</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/3/SW_3_180.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">-20037508.3428</Parameter>
+    <Parameter name="loy">9276.6275034</Parameter>
+    <Parameter name="hix">-13349508.3428</Parameter>
+    <Parameter name="hiy">-23414723.3725</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_7_2" status="on">
+  <StyleName>raster7</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/3/NE_3_060.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">6669892.82336</Parameter>
+    <Parameter name="loy">23412334.3471</Parameter>
+    <Parameter name="hix">13365892.8234</Parameter>
+    <Parameter name="hiy">-11665.6529133</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_7_3" status="on">
+  <StyleName>raster7</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/3/SE_3_000.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">-9276.62423277</Parameter>
+    <Parameter name="loy">9276.6275034</Parameter>
+    <Parameter name="hix">6686723.37577</Parameter>
+    <Parameter name="hiy">-23414723.3725</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_7_4" status="on">
+  <StyleName>raster7</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/3/SE_3_060.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">6669892.82336</Parameter>
+    <Parameter name="loy">9276.6275034</Parameter>
+    <Parameter name="hix">13365892.8234</Parameter>
+    <Parameter name="hiy">-23414723.3725</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_7_5" status="on">
+  <StyleName>raster7</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/3/NW_3_060.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">-6688446.07183</Parameter>
+    <Parameter name="loy">23412334.3471</Parameter>
+    <Parameter name="hix">7553.92817081</Parameter>
+    <Parameter name="hiy">-11665.6529133</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_7_6" status="on">
+  <StyleName>raster7</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/3/NW_3_180.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">-20037508.3428</Parameter>
+    <Parameter name="loy">23412334.3471</Parameter>
+    <Parameter name="hix">-13349508.3428</Parameter>
+    <Parameter name="hiy">-11665.6529133</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_7_7" status="on">
+  <StyleName>raster7</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/3/SW_3_060.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">-6688446.07183</Parameter>
+    <Parameter name="loy">9276.6275034</Parameter>
+    <Parameter name="hix">7553.92817081</Parameter>
+    <Parameter name="hiy">-23414723.3725</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_7_8" status="on">
+  <StyleName>raster7</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/3/NW_3_120.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">-13367615.5194</Parameter>
+    <Parameter name="loy">23412334.3471</Parameter>
+    <Parameter name="hix">-6671615.51943</Parameter>
+    <Parameter name="hiy">-11665.6529133</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_7_9" status="on">
+  <StyleName>raster7</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/3/SW_3_120.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">-13367615.5194</Parameter>
+    <Parameter name="loy">9276.6275034</Parameter>
+    <Parameter name="hix">-6671615.51943</Parameter>
+    <Parameter name="hiy">-23414723.3725</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_7_10" status="on">
+  <StyleName>raster7</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/3/NE_3_000.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">-9276.62423277</Parameter>
+    <Parameter name="loy">23412334.3471</Parameter>
+    <Parameter name="hix">6686723.37577</Parameter>
+    <Parameter name="hiy">-11665.6529133</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_7_11" status="on">
+  <StyleName>raster7</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/3/NE_3_120.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">13349062.271</Parameter>
+    <Parameter name="loy">23412334.3471</Parameter>
+    <Parameter name="hix">20037062.271</Parameter>
+    <Parameter name="hiy">-11665.6529133</Parameter>
+  </Datasource>
+</Layer>

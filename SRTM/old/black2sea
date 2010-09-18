@@ -1,0 +1,17 @@
+#!/bin/bash
+
+
+for i in $( ls * );
+do
+  cd i
+  for j in $( ls * );
+  do
+    cd j
+    for k in $( ls [NS]60*.png );
+    do
+      convert -fill '#98d788' -opaque '#b5d0d0' $k $k
+    done
+    cd ..
+  done
+  cd ..
+done

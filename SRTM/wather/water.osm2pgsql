@@ -1,0 +1,8 @@
+# OsmType  Tag          DataType     Flags
+
+way       area         text         # hard coded support for area=1/yes => polygon is in osm2pgsql
+node,way  z_order      int4         linear # This is calculated during import
+way       way_area     real                # This is calculated during import
+way       landuse      text         polygon
+way       natural      text         polygon
+way       waterway     text         polygon

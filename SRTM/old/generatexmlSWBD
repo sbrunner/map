@@ -1,0 +1,49 @@
+#!/usr/bin/python
+
+from subprocess import call
+from mapnik import *
+import glob
+
+prj_str = "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs +over"
+prj = Projection(prj_str)
+
+f = open('/media/Mapnik/styles/swbd.include', 'w')
+y = 0
+for file in glob.glob('/media/Mapnik/SWBD/shp/*.zip'):
+  file = file.replace(".zip", "")
+  call("unzip -n %s.zip" % (file), shell=True)
+
+  rm = 0;
+  ew = file[-8-rm].capitalize()
+  ns = file[-4-rm].capitalize()
+  ewv = file[-7-rm:-4-rm]
+  nsv = file[-3-rm:-1-rm]
+
+  ewv = int(ewv)
+  nsv = int(nsv)
+  if ew == 'W':
+    ewv = -ewv;
+  if ns == 'S':
+    nsv = -nsv
+    
+  merc = prj.forward(Coord(ewv, nsv))
+  lox = merc.x
+  loy = merc.y
+  merc = prj.forward(Coord(ewv + 1, nsv + 1))
+  hix = merc.x
+  hiy = merc.y
+  
+  f.write("<Layer name=\"swbd"+`y`+"\" status=\"on\" srs=\"+proj=latlong +datum=WGS84\">\n")
+  f.write("  <StyleName>swbd</StyleName>\n")
+  f.write("  <Datasource>\n")
+  f.write("    <Parameter name=\"type\">shape</Parameter>\n")
+  f.write('    <Parameter name="file">' + file + "</Parameter>\n")
+  f.write('    <Parameter name="lox">%s</Parameter>\n' % lox)
+  f.write('    <Parameter name="loy">%s</Parameter>\n' % loy)
+  f.write('    <Parameter name="hix">%s</Parameter>\n' % hix)
+  f.write('    <Parameter name="hiy">%s</Parameter>\n' % hiy)
+  f.write("  </Datasource>\n")
+  f.write("</Layer>\n")
+  y = y + 1
+f.close
+

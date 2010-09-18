@@ -1,0 +1,49 @@
+#!/bin/python
+
+import sys
+import os
+import string
+import glob
+from subprocess import call
+
+def rm(file):
+  if os.path.exists(file):
+    os.remove(file)
+
+
+call("/media/Mapnik/demtools/gebco2tif-multi GEBCO_08.nc", shell=True)
+
+
+for file in glob.glob("multi/*.tif"):
+  file = file.replace(".tif", "")
+
+  call("gdal_translate -of GTiff -co TILED=YES -a_srs +proj=latlong %s.tif %s-adapted.tif"%(file, file), shell=True)
+  call("gdalwarp -of GTiff -co TILED=YES -srcnodata -9999 -dstnodata -9999 -t_srs \"+proj=merc +ellps=sphere +R=6378137 +a=6378137 +units=m\" -rcs -order 3 -tr 1000 1000 -multi %s-adapted.tif %s-warped.tif"%(file, file), shell=True)
+
+  call("/media/Mapnik/demtools/color-shade %s-warped.tif /media/Mapnik/scale2.txt %s-color-shade.tif -z 2 -s 1.8 -a 0.2"%(file, file), shell=True)
+
+  rm("%s.tif" % file)
+  rm("%s.tif" % file)
+  rm("%s-adapted.tif" % file)
+  call("mv %s-warped.tif warped/" % (file), shell=True)
+
+
+#/media/Mapnik/demtools/color-shade warped.tif /media/Mapnik/scale-test.txt color-shade.tif -z 2 -s 1.8 -a 0.2
+#gdal_translate -ot Byte -of GTiff -co BLOCKYSIZE=8 color-shade-t.tif color-shade.tif
+
+
+#/media/Mapnik/demtools/gebco2tif GEBCO_08.nc test2.tif
+#gdal_translate -of GTiff -co TILED=YES -a_srs +proj=latlong test2.tif adapted2.tif
+#gdalwarp -of GTiff -co TILED=YES -srcnodata -9999 -dstnodata -9999 -t_srs "+proj=merc +ellps=sphere +R=6378137 +a=6378137 +units=m" -rcs -order 3 -tr 10000 10000 -multi adapted2.tif warped2.tif
+
+#/media/Mapnik/demtools/color-shade warped.tif /media/Mapnik/scale2.txt color-shade-t2.tif -z 2 -s 1.8 -a 0.2
+#gdal_translate -ot Byte -of GTiff -co BLOCKYSIZE=8 color-shade-t2.tif color-shade2.tif
+
+
+
+
+/media/Mapnik/scriptes/demtools/gebco2tif-single GEBCO_08.nc 0 0 87 9 test.tif
+gdal_translate -of GTiff -co TILED=YES -a_srs +proj=latlong N87E000.tif adapted.tif
+rm warped.tif
+gdalwarp -of GTiff -co TILED=YES -srcnodata -9999 -dstnodata -9999 -t_srs "+proj=merc +ellps=sphere +R=6378137 +a=6378137 +units=m" -rcs -order 3 -tr 1000 1000 -multi adapted.tif warped.tif
+/media/Mapnik/demtools/color-shade warped.tif /media/Mapnik/scriptes/scale2.txt test2.tif -z 2 -s 1.8 -a 0.2

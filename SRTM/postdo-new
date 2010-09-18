@@ -1,0 +1,116 @@
+#!/usr/bin/python3
+# ionice -c3 nice -n 19 ../postdo
+
+import sys
+import os
+import string
+import glob
+from multiprocessing import Pool
+from subprocess import call
+
+def rm(file):
+  if os.path.exists(file):
+    os.remove(file)
+
+coord = ["NW", "NE", "SW", "SE"]
+coord_all = {"NW": "N*W", "NE": "N*E", "SW": "S*W", "SE": "S*E"}
+coord_add = {"NW": 1, "NE": 0, "SW": 1, "SE": 0}
+
+#for X in glob.glob('colorshade/[NS]*.tif'):
+#  print(X)
+#  if not os.path.exists("%s_t" % (X)):
+#    call("mv %s %s_t" % (X, X), shell=True)
+#    rm(X)
+#    call("/media/Mapnik/demtools/void-filling-color %s_t %s" % (X, X), shell=True)
+
+# 30 -> 250 ? =>
+# 30 80 200 500 ?
+
+for n in range(0,180):
+  for c in coord:
+    do = not os.path.isfile("%s_1_%03d.tif"%(c, n+coord_add[c]))
+    one = False
+    for f in glob.glob("colorshade/%s%03d-color-shade.tif"%(coord_all[c], n+coord_add[c])):
+      do = do or (os.path.getmtime(f) > os.path.getmtime("%s_1_%03d.tif"%(c, n+coord_add[c])))
+      one = True
+    if do and one:
+      print("%s_1_%03d.tif" % (c, n+coord_add[c]))
+      rm("%s_1_%03d.tif" % (c, n+coord_add[c]))
+      rm("%s_1_%03d_t.tif" % (c, n+coord_add[c]))
+#      print("gdal_merge.py colorshade/%s%03d-color-shade.tif -o %s_1_%03d_t.tif -ps 250 250" % (coord_all[c], n+coord_add[c], c, n+coord_add[c]))
+      call("gdal_merge.py colorshade/%s%03d-color-shade.tif -o %s_1_%03d_t.tif -ps 200 200" % (coord_all[c], n+coord_add[c], c, n+coord_add[c]), shell=True)
+#      call("mv %s_1_%03d_t.tif %s_1_%03d.tif" % (c, n+coord_add[c], c, n+coord_add[c]), shell=True)
+      call("/media/Mapnik/demtools/void-filling-color %s_1_%03d_t.tif %s_1_%03d.tif" % (c, n+coord_add[c], c, n+coord_add[c]), shell=True)
+      rm("%s_1_%03d_t.tif" % (c, n+coord_add[c]))
+
+for n in range(0,180,6):
+  for c in coord:
+    names = "";
+    do = not os.path.isfile("%s_2_%03d.tif"%(c, n+coord_add[c]));
+    one = False
+    for j in range(n, n+6):
+      if os.path.isfile("%s_1_%03d.tif" % (c, j+coord_add[c])):
+        names += "%s_1_%03d.tif " % (c, j+coord_add[c])
+        do = do or (os.path.getmtime("%s_1_%03d.tif" % (c, j+coord_add[c])) > os.path.getmtime("%s_2_%03d.tif"%(c, n+coord_add[c])))
+        one = True
+    if do and one:
+      print("%s_2_%03d.tif" % (c, n+coord_add[c]))
+      rm("%s_2_%03d.tif" % (c, n+coord_add[c]))
+      call("gdal_merge.py %s -o %s_2_%03d_t.tif -ps 500 500" % (names, c, n+coord_add[c]), shell=True)
+#      call("mv %s_2_%03d_t.tif %s_2_%03d.tif" % (c, n+coord_add[c], c, n+coord_add[c]), shell=True)
+      call("/media/Mapnik/demtools/void-filling-color %s_2_%03d_t.tif %s_2_%03d.tif" % (c, n+coord_add[c], c, n+coord_add[c]), shell=True)
+      rm("%s_2_%03d_t.tif" % (c, n+coord_add[c]))
+
+
+for n in range(0,180,18):
+  for c in coord:
+    names = "";
+    do = not os.path.isfile("%s_3_%03d.tif"%(c, n+coord_add[c]));
+    one = False
+    for j in range(n, n+18, 6):
+      if os.path.isfile("%s_2_%03d.tif" % (c, j+coord_add[c])):
+        names += "%s_2_%03d.tif " % (c, j+coord_add[c])
+        do = do or (os.path.getmtime("%s_2_%03d.tif" % (c, j+coord_add[c])) > os.path.getmtime("%s_3_%03d.tif"%(c, n+coord_add[c])))
+        one = True
+    if do and one:
+      print("%s_3_%03d.tif" % (c, n+coord_add[c]))
+      rm("%s_3_%03d.tif" % (c, n+coord_add[c]))
+      call("gdal_merge.py %s -o %s_3_%03d_t.tif -ps 1000 1000" % (names, c, n+coord_add[c]), shell=True)
+#      call("mv %s_3_%03d_t.tif %s_3_%03d.tif" % (c, n+coord_add[c], c, n+coord_add[c]), shell=True)
+      call("/media/Mapnik/demtools/void-filling-color %s_3_%03d_t.tif %s_3_%03d.tif" % (c, n+coord_add[c], c, n+coord_add[c]), shell=True)
+      rm("%s_3_%03d_t.tif" % (c, n+coord_add[c]))
+
+"""
+for c in coord:
+  names = "";
+  do = not os.path.isfile("%s_4.tif"%(c));
+  one = False
+  for j in range(0, 180, 36):
+    if os.path.isfile("%s_3_%03d.tif" % (c, j+coord_add[c])):
+      names += "%s_3_%03d.tif " % (c, j+coord_add[c])
+      do = do or (os.path.getmtime("%s_3_%03d.tif" % (c, j+coord_add[c])) > os.path.getmtime("%s_4.tif"%(c)))
+      one = True
+  if do and one:
+    print("%s_4.tif" % (c))
+    rm("%s_4.tif" % (c))
+    call("gdal_merge.py %s -o %s_4_t.tif -ps 4000 4000" % (names, c), shell=True)
+#    call("mv %s_4_t.tif %s_4.tif" % (c, c), shell=True)
+    call("/media/Mapnik/demtools/void-filling-color %s_4_t.tif %s_4.tif" % (c, c), shell=True)
+    rm("%s_4_t.tif" % (c))
+
+do = not os.path.isfile("all.tif");
+do = do or (os.path.getmtime("NW_4.tif") > os.path.getmtime("all.tif"))
+do = do or (os.path.getmtime("NE_4.tif") > os.path.getmtime("all.tif"))
+do = do or (os.path.getmtime("SW_4.tif") > os.path.getmtime("all.tif"))
+do = do or (os.path.getmtime("SE_4.tif") > os.path.getmtime("all.tif"))
+
+if do:
+  print("all.tif")
+  rm("all.tif")
+  call("gdal_merge.py NW_4.tif NE_4.tif SW_4.tif SE_4.tif -o all_t.tif -ps 8000 8000", shell=True)
+#  call("mv all_t.tif all.tif", shell=True)
+  call("/media/Mapnik/demtools/void-filling-color all_t.tif all.tif", shell=True)
+  rm("all_t.tif")
+"""
+#call("mv [NS][WE]_[123]_[0-9][0-9][0-9].tif ..", shell=True)
+#call("mv [NS][WE]_4.tif ..", shell=True)

@@ -1,0 +1,197 @@
+#!/usr/bin/python3
+# ionice -c3 nice -n 19 ../postdo
+
+import sys
+import os
+import string
+import glob
+import math
+from multiprocessing import Pool
+from subprocess import call
+
+def rm(file):
+  if os.path.exists(file):
+    os.remove(file)
+
+coord = ["NW", "NE", "SW", "SE"]
+coord_all = {"NW": "N*W", "NE": "N*E", "SW": "S*W", "SE": "S*E"}
+coord_some = {"NW": "N%sW", "NE": "N%sE", "SW": "S%sW", "SE": "S%sE"}
+coord_add = {"NW": 1, "NE": 0, "SW": 1, "SE": 0}
+
+void_filling = "/media/Mapnik/scriptes/demtools/void-filling"
+void_filling_collor = "/media/Mapnik/scriptes/demtools/void-filling-color"
+color_shade = "/media/Mapnik/scriptes/demtools/color-shade"
+color_scale = "/media/Mapnik/scriptes/scale2.txt"
+
+warped_path = "/media/Mapnik/SRTM/warped"
+multi_path = "/media/Mapnik/SRTM/colorshade"
+
+def doone(file, file_warped, names, scale):
+    print(file)
+
+    rm("%s-merge.tif" % file_warped)
+    print("gdal_merge.py -n 32767 %s -o %s-merge.tif" % (names, file_warped))
+    call("gdal_merge.py -n 32767 %s -o %s-merge.tif" % (names, file_warped), shell=True)
+    
+    rm("%s-void-filled.tif" % file_warped)
+    print("/media/Mapnik/demtools/void-filling %s-merge.tif %s-void-filled.tif" % (file_warped, file_warped))
+    call("/media/Mapnik/demtools/void-filling %s-merge.tif %s-void-filled.tif" % (file_warped, file_warped), shell=True)
+    
+#    rm("%s-resized.tif" % file_warped)
+#    call("gdal_merge.py -ps %d %d %s -o %s-merge.tif" % (scale, scale, file_warped, file_warped), shell=True)
+
+    rm("%s.tif" % file_warped)
+#    call("gdal_translate -of GTiff -co COMPRESS=LZW %s-resized.tif %s.tif" % (file_warped, file_warped), shell=True)
+    call("gdal_merge.py -n 32767 -of GTiff -co COMPRESS=LZW -ps %d %d %s-void-filled.tif -o %s.tif" % (scale, scale, file_warped, file_warped), shell=True)
+    
+    rm("%s-shade.tif" % file)
+    call("%s %s.tif %s %s-shade.tif -z 2 -s 1.8 -a 0.2"%(color_shade, file_warped, color_scale, file), shell=True)
+
+    """
+    rm("%s-shade.tif" % file)n
+    call("%s %s-void-filled.tif %s %s-shade.tif -z 2 -s 1.8 -a 0.2"%(color_shade, file_warped, color_scale, file), shell=True)
+    
+    rm("%s.tif" % file_warped)
+    call("gdal_translate -of GTiff -co COMPRESS=LZW %s-void-filled.tif %s.tif" % (file_warped, file_warped), shell=True)
+    """
+    rm("%s-shade-filled.tif" % file)
+    call("%s %s-shade.tif %s-shade-filled.tif" % (void_filling_collor, file, file), shell=True)
+    
+
+    rm("%s.tif" % file)
+    call("gdal_translate -ot Byte -of GTiff -co COMPRESS=JPEG -co JPEG_QUALITY=90 -co BLOCKYSIZE=8 %s-shade-filled.tif %s.tif" % (file, file), shell=True)
+    
+    rm("%s-resized.tif" % file_warped)
+    rm("%s-merge.tif" % file_warped)
+    rm("%s-void-filled.tif" % file_warped)
+    rm("%s-shade.tif" % file)
+    rm("%s-shade-filled.tif" % file)
+
+
+def dolevel(nbLon, previousNbLon, level, scale):
+    for n in range(0,180, nbLon):
+        for c in coord:
+            file_name = "%i/%s%03d"%(level, c, n+coord_add[c])
+            file = "%s/%s"%(multi_path, file_name)
+            file_warped = "%s/%s"%(warped_path, file_name)
+
+            names = "";
+            do = not os.path.isfile("%s.tif"%(file)) or not os.path.isfile("%s.tif"%(file_warped))
+            one = False
+            for j in range(n, n+nbLon, previousNbLon):
+                name = "%s/%d/%s%03d.tif"%(warped_path, level-1, c, abs(j)+coord_add[c])
+                if os.path.isfile(name):
+                    names += ' '
+                    names += name
+                    do = do or (os.path.getmtime(name) > os.path.getmtime("%s.tif"%file))
+                    one = True
+            if do and one:
+                doone(file, file_warped, names, scale)
+
+
+def doglob(file, file_warped, scale, file_glob):
+    do = not os.path.isfile("%s.tif"%(file)) or not os.path.isfile("%s.tif"%(file_warped))
+    one = False
+    for name in glob.glob(file_glob):
+        do = do or (os.path.getmtime(name) > os.path.getmtime("%s.tif"%(file_warped)))
+        one = True
+    if do and one:
+        doone(file, file_warped, file_glob, scale)
+
+
+#for X in glob.glob('colorshade/[NS]*.tif'):
+#  print(X)
+#  if not os.path.exists("%s_t" % (X)):
+#    call("mv %s %s_t" % (X, X), shell=True)
+#    rm(X)
+#    call("/media/Mapnik/demtools/void-filling-color %s_t %s" % (X, X), shell=True)
+
+#scale = (6378137*2*math.pi)/2**19
+# /256 ?
+scale = (6378137*2*math.pi)/(2**11*256)
+level = 2
+for n in range(0,180):
+    for c in coord:
+        for current_lat in range(0, 7):
+            file_name = "%d/%s%03d"%(level, coord_some[c]%("%d"%current_lat), n+coord_add[c])
+            file = "%s/%s"%(multi_path, file_name)
+            file_warped = "%s/%s"%(warped_path, file_name)
+            file_glob = "%s/%d/%s%03d.tif"%(warped_path, level-1, coord_some[c]%("%d*"%current_lat), n+coord_add[c])
+            doglob(file, file_warped, scale, file_glob)
+
+
+scale = (6378137*2*math.pi)/(2**10*256)
+level += 1
+for n in range(0,180):
+    for c in coord:
+        file_name = "%d/%s%03d"%(level, c, n+coord_add[c])
+        file = "%s/%s"%(multi_path, file_name)
+        file_warped = "%s/%s"%(warped_path, file_name)
+        file_glob = "%s/%d/%s%03d.tif"%(warped_path, level-1, coord_all[c], n+coord_add[c])
+        doglob(file, file_warped, scale, file_glob)
+previousNbLon = 1
+
+scale = (6378137*2*math.pi)/(2**9*256)
+level += 1
+nbLon = 5
+dolevel(nbLon, previousNbLon, level, scale)
+previousNbLon = nbLon
+
+scale = (6378137*2*math.pi)/(2**8*256)
+nbLon = 20
+level += 1
+dolevel(nbLon, previousNbLon, level, scale)
+previousNbLon = nbLon
+
+"""
+scale = (6378137*2*math.pi)/2**18
+level += 1
+nbLon = 3
+level(3, 1, level, scale)
+previousNbLon = nbLon
+
+scale = (6378137*2*math.pi)/2**17
+level += 1
+nbLon = 6
+level(nbLon, previousNbLon, level, scale)
+previousNbLon = nbLon
+
+scale = (6378137*2*math.pi)/2**16
+level += 1
+nbLon = 12
+level(nbLon, previousNbLon, level, scale)
+previousNbLon = nbLon
+
+scale = (6378137*2*math.pi)/2**15
+level += 1
+nbLon = 36
+level(nbLon, previousNbLon, level, scale)
+previousNbLon = nbLon
+"""
+
+
+"""
+file = "%s/all"%(multi_path)
+file_warped = "%s/all"%(warped_path)
+do = not os.path.isfile(file) or not os.path.isfile(file_warped)
+do = do or (os.path.getmtime("%s/7/NW_7.tif" % (warped_path)) > os.path.getmtime("%s.tif" % (file_warped)))
+do = do or (os.path.getmtime("%s/7/NE_7.tif" % (warped_path)) > os.path.getmtime("%s.tif" % (file_warped)))
+do = do or (os.path.getmtime("%s/7/SW_7.tif" % (warped_path)) > os.path.getmtime("%s.tif" % (file_warped)))
+do = do or (os.path.getmtime("%s/7/SE_7.tif" % (warped_path)) > os.path.getmtime("%s.tif" % (file_warped)))
+
+if do:
+    print("all.tif")
+    rm("%s.tif" % (file_warped))
+    call("gdal_merge.py %s/7/NW_7.tif %s/7/NE_7.tif %s/7/SW_7.tif %s/7/SE_7.tif -o %s.tif -ps 8000 8000" % (warped_path, warped_path, warped_path, warped_path, file_warped), shell=True)
+#  call("mv all_t.tif all.tif", shell=True)
+    call("%s %s.tif %s %s.tif -z 2 -s 1.8 -a 0.2"%(color_shade, file_warped, color_scale, file), shell=True)
+#  print("/media/Mapnik/demtools/void-filling-color %s/3/all.tif %s/3/all.tif" % (warped_path, multi_path))
+#  call("/media/Mapnik/demtools/void-filling-color %s/3/all.tif %s/3/all.tif" % (warped_path, multi_path), shell=True)
+
+#call("mv [NS][WE]_[123]_[0-9][0-9][0-9].tif ..", shell=True)
+#call("mv [NS][WE]_4.tif ..", shell=True)
+
+
+#call("mv [NS][WE]_[123]_[0-9][0-9][0-9].tif ..", shell=True)
+#call("mv [NS][WE]_4.tif ..", shell=True)
+"""

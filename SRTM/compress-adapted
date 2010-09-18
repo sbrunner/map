@@ -1,0 +1,23 @@
+#!/usr/bin/python3
+# ionice -c3 nice -n 19 ../do *.hgt.zip
+
+import sys
+import os
+import string
+from subprocess import call
+
+
+def rm(file):
+  if os.path.exists(file):
+    os.remove(file)
+
+def job(file):
+  file = file.replace(".tif", "")
+  call("gdal_translate -of GTiff -co COMPRESS=LZW %s.tif %s_t.tif" % (file, file), shell=True)
+  call("mv %s_t.tif %s.tif" % (file, file), shell=True)
+
+#pool = Pool(processes=3)
+#pool.map(job, sys.argv[1:])
+
+for i in sys.argv[1:]:
+  job(i)

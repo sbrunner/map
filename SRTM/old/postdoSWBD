@@ -1,0 +1,40 @@
+#!/usr/bin/python3
+
+import sys
+import os
+import string
+from multiprocessing import Pool
+from subprocess import call
+
+def rm(file):
+	if os.path.exists(file):
+		os.remove(file)
+
+coord = ["NW", "NE", "SW", "SE"]
+coord_all = {"NW": "N*W", "NE": "N*E", "SW": "S*W", "SE": "S*E"}
+coord_add = {"NW": 1, "NE": 0, "SW": 1, "SE": 0}
+
+for n in range(0,180):
+    for c in coord:
+        print("%s_1_%03d.tif" % (c, n+coord_add[c]))
+        rm("%s_1_%03d.tif" % (c, n+coord_add[c]))
+        rm("%s_1_%03d_t.tif" % (c, n+coord_add[c]))
+        call("gdal_merge.py colorshade/%s%03d.tif -o %s_1_%03d_t.tif -ps 200 200" % (coord_all[c], n+coord_add[c], c, n+coord_add[c]), shell=True)
+        call("/media/Mapnik/demtools/void-filling-color %s_1_%03d_t.tif %s_1_%03d.tif" % (c, n+coord_add[c], c, n+coord_add[c]), shell=True)
+        rm("%s_1_%03d_t.tif" % (c, n+coord_add[c]))
+
+for n in range(0,180,30):
+    for c in coord:
+        names = "";
+        for j in range(n, n+30):
+            names += "%s_1_%03d.tif " % (c, j+coord_add[c])
+        print("%s_2_%03d.tif" % (c, n+coord_add[c]))
+        rm("%s_2_%03d.tif" % (c, n+coord_add[c]))
+        call("gdal_merge.py %s -o %s_2_%03d.tif -ps 1000 1000" % (names, c, n+coord_add[c]), shell=True)
+
+print("all.tif")
+rm("all.tif")
+call("gdal_merge.py *_2_*.tif -o all.tif -ps 8000 8000", shell=True)
+
+#call("mv [NS][WE]_[123]_[0-9][0-9][0-9].tif ..", shell=True)
+#call("mv [NS][WE]_4.tif ..", shell=True)

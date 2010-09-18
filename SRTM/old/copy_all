@@ -1,0 +1,10 @@
+#!/bin/bash
+
+#rsync -ah --progress `ls -l --color=never /media/Mapnik/|grep ^-|awk '{ print $8 }'` /media/Mapnik_/copy
+#rsync -arh --progress /media/Mapnik/demtools /media/Mapnik/mapnik /media/Mapnik/styles /media/Mapnik/world_boundaries /media/Mapnik_/copy
+#rsync -arh --progress /media/Mapnik/tiles /media/Mapnik_/copy
+#rsync -arh --progress /media/Mapnik/tiles /media/Mapnik_/copy
+
+# --delete 
+rsync -arh --progress --exclude **/Fond-marin --exclude **/ocean --exclude **/SRTM --exclude **/SWBD /media/Mapnik /media/Mapnik_/copy/
+

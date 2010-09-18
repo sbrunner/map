@@ -1,0 +1,432 @@
+<Layer name="raster_4_0" status="on">
+  <StyleName>raster4</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/SRTM/colorshade/5/SE080.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">10686624.733</Parameter>
+    <Parameter name="loy">46.3831211646</Parameter>
+    <Parameter name="hix">11132043.733</Parameter>
+    <Parameter name="hiy">-1459632.61688</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_4_1" status="on">
+  <StyleName>raster4</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/SRTM/colorshade/5/NW061.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">-8905605.64658</Parameter>
+    <Parameter name="loy">8625918.87369</Parameter>
+    <Parameter name="hix">-6679121.64658</Parameter>
+    <Parameter name="hiy">-179.12631244</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_4_2" status="on">
+  <StyleName>raster4</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/SRTM/colorshade/5/NW081.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">-11131995.4624</Parameter>
+    <Parameter name="loy">9608408.09397</Parameter>
+    <Parameter name="hix">-8905511.46245</Parameter>
+    <Parameter name="hiy">-177.906033009</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_4_3" status="on">
+  <StyleName>raster4</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/SRTM/colorshade/5/NE160.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">17811072.1438</Parameter>
+    <Parameter name="loy">8625918.87369</Parameter>
+    <Parameter name="hix">20037556.1438</Parameter>
+    <Parameter name="hiy">-179.12631244</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_4_4" status="on">
+  <StyleName>raster4</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/SRTM/colorshade/5/SE040.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">4452733.24861</Parameter>
+    <Parameter name="loy">46.3831211646</Parameter>
+    <Parameter name="hix">6679217.24861</Parameter>
+    <Parameter name="hiy">-5942539.61688</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_4_5" status="on">
+  <StyleName>raster4</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/SRTM/colorshade/5/SE100.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">11131902.6962</Parameter>
+    <Parameter name="loy">46.3831211646</Parameter>
+    <Parameter name="hix">13358386.6962</Parameter>
+    <Parameter name="hiy">-4300782.61688</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_4_6" status="on">
+  <StyleName>raster4</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/SRTM/colorshade/5/SE060.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">7013081.53686</Parameter>
+    <Parameter name="loy">46.3831211646</Parameter>
+    <Parameter name="hix">8682944.53686</Parameter>
+    <Parameter name="hiy">-7170038.61688</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_4_7" status="on">
+  <StyleName>raster4</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/SRTM/colorshade/5/NW141.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">-17811164.91</Parameter>
+    <Parameter name="loy">8625918.87369</Parameter>
+    <Parameter name="hix">-15584680.91</Parameter>
+    <Parameter name="hiy">111022.873688</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_4_8" status="on">
+  <StyleName>raster4</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/SRTM/colorshade/5/NE060.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">6679123.06448</Parameter>
+    <Parameter name="loy">8625918.87369</Parameter>
+    <Parameter name="hix">8905607.06448</Parameter>
+    <Parameter name="hiy">-179.12631244</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_4_9" status="on">
+  <StyleName>raster4</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/SRTM/colorshade/5/SE140.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">15584682.3279</Parameter>
+    <Parameter name="loy">46.3831211646</Parameter>
+    <Parameter name="hix">17811166.3279</Parameter>
+    <Parameter name="hiy">-7558634.61688</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_4_10" status="on">
+  <StyleName>raster4</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/SRTM/colorshade/5/NE020.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">2226343.43274</Parameter>
+    <Parameter name="loy">9608408.09397</Parameter>
+    <Parameter name="hix">4452827.43274</Parameter>
+    <Parameter name="hiy">-177.906033009</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_4_11" status="on">
+  <StyleName>raster4</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/SRTM/colorshade/5/NW121.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">-15584775.0942</Parameter>
+    <Parameter name="loy">8625918.87369</Parameter>
+    <Parameter name="hix">-13358291.0942</Parameter>
+    <Parameter name="hiy">3895556.87369</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_4_12" status="on">
+  <StyleName>raster4</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/SRTM/colorshade/5/SW061.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">-8905605.64658</Parameter>
+    <Parameter name="loy">46.3831211646</Parameter>
+    <Parameter name="hix">-6679121.64658</Parameter>
+    <Parameter name="hiy">-7558634.61688</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_4_13" status="on">
+  <StyleName>raster4</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/SRTM/colorshade/5/SE020.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">2226343.43274</Parameter>
+    <Parameter name="loy">46.3831211646</Parameter>
+    <Parameter name="hix">4452827.43274</Parameter>
+    <Parameter name="hiy">-5941928.61688</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_4_14" status="on">
+  <StyleName>raster4</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/SRTM/colorshade/5/NE120.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">13358292.5121</Parameter>
+    <Parameter name="loy">8625918.87369</Parameter>
+    <Parameter name="hix">15584776.5121</Parameter>
+    <Parameter name="hiy">-179.12631244</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_4_15" status="on">
+  <StyleName>raster4</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/SRTM/colorshade/5/NW001.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">-2115116.70819</Parameter>
+    <Parameter name="loy">8625918.87369</Parameter>
+    <Parameter name="hix">165.291806638</Parameter>
+    <Parameter name="hiy">445239.873688</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_4_16" status="on">
+  <StyleName>raster4</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/SRTM/colorshade/5/SW101.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">-12245190.3704</Parameter>
+    <Parameter name="loy">-2999029.33761</Parameter>
+    <Parameter name="hix">-11688569.3704</Parameter>
+    <Parameter name="hiy">-3248928.33761</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_4_17" status="on">
+  <StyleName>raster4</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/SRTM/colorshade/5/NE040.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">4452733.24861</Parameter>
+    <Parameter name="loy">8625918.87369</Parameter>
+    <Parameter name="hix">6679217.24861</Parameter>
+    <Parameter name="hiy">-179.12631244</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_4_18" status="on">
+  <StyleName>raster4</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/SRTM/colorshade/5/NW101.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">-13358385.2783</Parameter>
+    <Parameter name="loy">8625918.87369</Parameter>
+    <Parameter name="hix">-11131901.2783</Parameter>
+    <Parameter name="hiy">1118561.87369</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_4_19" status="on">
+  <StyleName>raster4</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/SRTM/colorshade/5/SE120.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">13358292.5121</Parameter>
+    <Parameter name="loy">46.3831211646</Parameter>
+    <Parameter name="hix">15584776.5121</Parameter>
+    <Parameter name="hiy">-4579398.61688</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_4_20" status="on">
+  <StyleName>raster4</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/SRTM/colorshade/5/SE160.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">17811072.1438</Parameter>
+    <Parameter name="loy">46.3831211646</Parameter>
+    <Parameter name="hix">20037556.1438</Parameter>
+    <Parameter name="hiy">-6983072.61688</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_4_21" status="on">
+  <StyleName>raster4</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/SRTM/colorshade/5/SW141.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">-17811164.91</Parameter>
+    <Parameter name="loy">-334064.724636</Parameter>
+    <Parameter name="hix">-15584680.91</Parameter>
+    <Parameter name="hiy">-3249145.72464</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_4_22" status="on">
+  <StyleName>raster4</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/SRTM/colorshade/5/NW161.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">-20037461.9597</Parameter>
+    <Parameter name="loy">8625918.87369</Parameter>
+    <Parameter name="hix">-17810977.9597</Parameter>
+    <Parameter name="hiy">-179.12631244</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_4_23" status="on">
+  <StyleName>raster4</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/SRTM/colorshade/5/SW041.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">-6679215.83072</Parameter>
+    <Parameter name="loy">46.3831211646</Parameter>
+    <Parameter name="hix">-4452731.83072</Parameter>
+    <Parameter name="hiy">-6983072.61688</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_4_24" status="on">
+  <StyleName>raster4</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/SRTM/colorshade/5/NE140.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">15584682.3279</Parameter>
+    <Parameter name="loy">8625918.87369</Parameter>
+    <Parameter name="hix">17811166.3279</Parameter>
+    <Parameter name="hiy">111022.873688</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_4_25" status="on">
+  <StyleName>raster4</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/SRTM/colorshade/5/SW161.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">-20037461.9597</Parameter>
+    <Parameter name="loy">46.3831211646</Parameter>
+    <Parameter name="hix">-17810977.9597</Parameter>
+    <Parameter name="hiy">-5621764.61688</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_4_26" status="on">
+  <StyleName>raster4</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/SRTM/colorshade/5/SW121.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">-15584775.0942</Parameter>
+    <Parameter name="loy">-893416.912082</Parameter>
+    <Parameter name="hix">-13803710.0942</Parameter>
+    <Parameter name="hiy">-2998922.91208</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_4_27" status="on">
+  <StyleName>raster4</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/SRTM/colorshade/5/NW021.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">-3562270.08851</Parameter>
+    <Parameter name="loy">4866002.82855</Parameter>
+    <Parameter name="hix">-2449028.08851</Parameter>
+    <Parameter name="hiy">1573934.82855</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_4_28" status="on">
+  <StyleName>raster4</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/SRTM/colorshade/5/NE000.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">-46.3831211638</Parameter>
+    <Parameter name="loy">8625918.87369</Parameter>
+    <Parameter name="hix">2226437.61688</Parameter>
+    <Parameter name="hiy">-179.12631244</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_4_29" status="on">
+  <StyleName>raster4</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/SRTM/colorshade/5/NW041.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">-6679215.83072</Parameter>
+    <Parameter name="loy">8625918.87369</Parameter>
+    <Parameter name="hix">-4675135.83072</Parameter>
+    <Parameter name="hiy">-179.12631244</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_4_30" status="on">
+  <StyleName>raster4</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/SRTM/colorshade/5/NE080.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">8905512.88034</Parameter>
+    <Parameter name="loy">8625918.87369</Parameter>
+    <Parameter name="hix">11131996.8803</Parameter>
+    <Parameter name="hiy">-179.12631244</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_4_31" status="on">
+  <StyleName>raster4</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/SRTM/colorshade/5/NE100.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">11131902.6962</Parameter>
+    <Parameter name="loy">8625918.87369</Parameter>
+    <Parameter name="hix">13358386.6962</Parameter>
+    <Parameter name="hiy">-179.12631244</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_4_32" status="on">
+  <StyleName>raster4</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/SRTM/colorshade/5/SW021.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">-4452826.01485</Parameter>
+    <Parameter name="loy">-222637.797118</Parameter>
+    <Parameter name="hix">-3117180.01485</Parameter>
+    <Parameter name="hiy">-7558303.79712</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_4_33" status="on">
+  <StyleName>raster4</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/SRTM/colorshade/5/SW001.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">-1669838.74502</Parameter>
+    <Parameter name="loy">-781135.482759</Parameter>
+    <Parameter name="hix">-556596.74502</Parameter>
+    <Parameter name="hiy">-5012310.48276</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_4_34" status="on">
+  <StyleName>raster4</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/SRTM/colorshade/5/SW081.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">-10241439.5361</Parameter>
+    <Parameter name="loy">46.3831211646</Parameter>
+    <Parameter name="hix">-8905793.5361</Parameter>
+    <Parameter name="hiy">-4028887.61688</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_4_35" status="on">
+  <StyleName>raster4</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/SRTM/colorshade/5/SE000.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">333912.089259</Parameter>
+    <Parameter name="loy">46.3831211646</Parameter>
+    <Parameter name="hix">2226179.08926</Parameter>
+    <Parameter name="hiy">-7361892.61688</Parameter>
+  </Datasource>
+</Layer>

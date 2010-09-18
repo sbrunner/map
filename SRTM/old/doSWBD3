@@ -1,0 +1,36 @@
+#!/usr/bin/python
+# ionice -c3 -p0 nice -n 19 ../doSWBD.py *.zip
+
+import sys
+import os
+import string
+import shutil
+import osgeo.gdal
+from osgeo.gdalconst import *
+from mapnik import *
+from subprocess import call
+#from multiprocessing import Pool
+
+script_path = sys.argv[0].replace("do.py", "")
+hgt_path = "/media/Mapnik/SWBD/shp"
+colorshade_from_path = "/media/Mapnik/SRTM/colorshade"
+colorshade_path = "/media/Mapnik/SWBD/colorshade"
+swdb_path = "/media/Mapnik/SWBD"
+
+prj_str = "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs +over"
+prj = Projection(prj_str)
+
+
+def rm(file):
+  if os.path.exists(file):
+    os.remove(file)
+
+def job(file):
+  file = file.replace("-color-shade.tif", "")
+
+  if not os.path.exists("%s/%s.tif" % (colorshade_path, file)):
+    print("copy %s.tif" % file);
+    shutil.copy("%s/%s-color-shade.tif" % (colorshade_from_path, file), "%s/%s.tif" % (colorshade_path, file))
+
+for i in sys.argv[1:]:
+  job(i)

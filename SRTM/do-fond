@@ -1,0 +1,135 @@
+#!/usr/bin/python3
+# ionice -c3 nice -n 19 ./do-fond
+
+import sys
+import os
+import string
+from multiprocessing import Pool
+from subprocess import call
+
+script_path = "/media/Mapnik/scriptes"
+ectract_gebco = "/media/Mapnik/scriptes/demtools/gebco2tif-single"
+void_filling = "/media/Mapnik/scriptes/demtools/void-filling"
+color_shade = "/media/Mapnik/scriptes/demtools/color-shade"
+color_scale = "/media/Mapnik/scriptes/scale2.txt"
+
+#hgt_path = "/media/Mapnik/SRTM/hgt"
+#colorshade_path = "/media/Mapnik/SRTM/colorshade"
+#contour_path = "/media/Mapnik/SRTM/contour"
+#contour100_path = "/media/Mapnik/SRTM/contour/100"
+#contour50_path = "/media/Mapnik/SRTM/contour/50"
+#contour10_path = "/media/Mapnik/SRTM/contour/10"
+
+source_file = '/media/Mapnik/Fond-marin/GEBCO_08/GEBCO_08.nc'
+warped_path = '/media/Mapnik/Fond-marin/GEBCO_08/warped'
+multi_path = '/media/Mapnik/Fond-marin/GEBCO_08/multi'
+
+
+def rm(file):
+  if os.path.exists(file):
+    os.remove(file)
+
+def level(nbLon, previousNbLon, level, scale):
+  for n in range(-180,180,nbLon):
+      ew = "E"
+      if n < 0:
+          ew = "W"
+
+      for ns in ["N", "S"]:
+          file = "%s/%d/%s%s_%d_%03d"%(multi_path, level, ns, ew, level, abs(n))
+          file_warped = "%s/%d/%s%s_%d_%03d"%(warped_path, level, ns, ew, level, abs(n))
+          names = "";
+          do = (not os.path.isfile("%s.tif"%(file))) or (not os.path.isfile("%s.tif"%(file_warped)))
+          one = False
+          for j in range(n, n+nbLon, previousNbLon):
+              name = "%s/%d/%s%s_%d_%03d.tif"%(warped_path, level-1, ns, ew, level-1, abs(j))
+              if os.path.isfile(name):
+                  names += ' '
+                  names += name
+                  do = do or (os.path.getmtime(name) > os.path.getmtime("%s.tif"%file))
+                  one = True
+          if do and one:
+              print(file)
+              rm("%s.tif" % (file))
+              rm("%s.tif" % (file_warped))
+
+              call("gdal_merge.py %s -o %s.tif -ps %d %d" % (names, file_warped, scale, scale), shell=True)
+              call("%s %s.tif %s %s.tif -z 2 -s 1.8 -a 0.2"%(color_shade, file_warped, color_scale, file), shell=True)
+
+
+for n in range(-180,180,6):
+    ew = "E"
+    if n < 0:
+        ew = "W"
+
+    for ns in ["N", "S"]:
+
+        file = "%s/1/%s%s_1_%03d"%(multi_path, ns, ew, abs(n))
+        file_warped = "%s/1/%s%s_1_%03d"%(warped_path, ns, ew, abs(n))
+
+        do = (not os.path.isfile("%s.tif"%(file))) or (not os.path.isfile("%s.tif"%(file_warped)))
+        if do:
+            if ns == 'N':
+                fromlat = 0
+                tolat = 87
+            else :
+                fromlat = -87
+                tolat = 0
+
+            call("%s %s %d %d %d %d %s-gebco.tif"%(ectract_gebco, source_file, fromlat, n, tolat, n+6, file), shell=True)
+
+#            rm("%s-void-filled.tif" % file)
+#            call("%s %s-gebco.tif %s-void-filled.tif" % (void_filling, file, file), shell=True)
+
+            rm("%s-adapted.tif" % file)
+            call("gdal_translate -of GTiff -co TILED=YES -a_srs +proj=latlong %s-gebco.tif %s-adapted.tif" % (file, file), shell=True)
+            rm("%s-warped.tif" % file)
+            call("gdalwarp -of GTiff -co TILED=YES -srcnodata 32767 -dstnodata 32767 -t_srs \"+proj=merc +ellps=sphere +R=6378137 +a=6378137 +units=m\" -rcs -order 3 -tr 927 927 -multi %s-adapted.tif %s-warped.tif" % (file, file), shell=True)
+
+            rm("%s-color-shade.tif" % file)
+#            call("ls -lh %s* %s*"%(file, file_warped), shell=True)
+#            call("gdalinfo %s-adapted.tif"%file, shell=True)
+#            call("gdalinfo %s-warped.tif"%file, shell=True)
+            call("%s %s-warped.tif %s %s.tif -z 2 -s 1.8 -a 0.2" % (color_shade, file, color_scale, file), shell=True)
+
+#            call("gdal_translate -ot Byte -of GTiff -co COMPRESS=JPEG -co JPEG_QUALITY=90 -co BLOCKYSIZE=8 %s-color-shade.tif %s-test2.tif" % (file, file), shell=True)
+
+    #    call("cp %s*.tif new" % (file), shell=True)
+    #    call("cp %s/%s-color-shade.tif new" % (colorshade_path, file), shell=True)
+
+#            rm("%s.tif" % file)
+            rm("%s-gebco.tif" % file)
+            rm("%s-void-filled.tif" % file)
+            rm("%s-adapted.tif" % file)
+            call("mv %s-warped.tif %s.tif" % (file, file_warped), shell=True)
+    #    rm("%s-warped.tif" % file)
+            rm("%s-color-shade-t.tif" % file)
+
+scale = (6378137*2*math.pi)/(2**6*256)
+level(12, 6, 2, 2000)
+scale = (6378137*2*math.pi)/(2**5*256)
+level(60, 12, 3, 4000)
+scale = (6378137*2*math.pi)/(2**4*256)
+level(180, 60, 4, 8000)
+
+scale = (6378137*2*math.pi)/(2**3*256)
+previouslevel = 4
+file = "%s/all"%(multi_path)
+file_warped = "%s/all"%(warped_path)
+do = not os.path.isfile(file) or not os.path.isfile(file_warped)
+do = do or (os.path.getmtime("%s/%d/NW_%d_180.tif" % (warped_path, previouslevel, previouslevel)) > os.path.getmtime("%s.tif" % (file_warped)))
+do = do or (os.path.getmtime("%s/%d/NE_%d_000.tif" % (warped_path, previouslevel, previouslevel)) > os.path.getmtime("%s.tif" % (file_warped)))
+do = do or (os.path.getmtime("%s/%d/SW_%d_180.tif" % (warped_path, previouslevel, previouslevel)) > os.path.getmtime("%s.tif" % (file_warped)))
+do = do or (os.path.getmtime("%s/%d/SE_%d_000.tif" % (warped_path, previouslevel, previouslevel)) > os.path.getmtime("%s.tif" % (file_warped)))
+
+if do:
+    print("all.tif")
+    rm("%s.tif" % (file_warped))
+    call("gdal_merge.py %s/%d/NW_%d_180.tif %s/%d/NE_%d_000.tif %s/%d/SW_%d_180.tif %s/%d/SE_%d_000.tif -o %s.tif -ps 16000 16000" % (warped_path, previouslevel, previouslevel, warped_path, previouslevel, previouslevel, warped_path, previouslevel, previouslevel, warped_path, previouslevel, previouslevel, file_warped), shell=True)
+#  call("mv all_t.tif all.tif", shell=True)
+    call("%s %s.tif %s %s.tif -z 2 -s 1.8 -a 0.2"%(color_shade, file_warped, color_scale, file), shell=True)
+#  print("/media/Mapnik/demtools/void-filling-color %s/3/all.tif %s/3/all.tif" % (warped_path, multi_path))
+#  call("/media/Mapnik/demtools/void-filling-color %s/3/all.tif %s/3/all.tif" % (warped_path, multi_path), shell=True)
+
+#call("mv [NS][WE]_[123]_[0-9][0-9][0-9].tif ..", shell=True)
+#call("mv [NS][WE]_4.tif ..", shell=True)

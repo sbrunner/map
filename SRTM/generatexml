@@ -1,0 +1,111 @@
+#!/usr/bin/python
+
+from mapnik import *
+import glob
+
+
+prj_str = "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs +over"
+prj = Projection(prj_str)
+
+f = open('/media/Mapnik/scriptes/styles/contour-layers-c100.include', 'w')
+y = 0
+#for X in glob.glob('/media/Mapnik/SRTM/contour/100/N4[3-9]E0[01][0-9]c100.shp'):
+for X in glob.glob('/media/Mapnik/SRTM/contour/100/*c100.shp'):
+  rm = 4
+  ew = int(X[-7-rm:-4-rm])
+  if X[-8-rm] == 'W':
+    ew = 0 - ew
+  ns = int(X[-10-rm:-8-rm])
+  if X[-11-rm] == 'S':
+    ns = 0 - ns
+
+  merc = prj.forward(Coord(ew, ns))
+  lox = merc.x
+  loy = merc.y
+  merc = prj.forward(Coord(ew + 1, ns + 1))
+  hix = merc.x
+  hiy = merc.y
+  
+  f.write("<Layer name=\"srtm100"+`y`+"\" status=\"on\" srs=\"+proj=latlong +datum=WGS84\">\n")
+  f.write("  <StyleName>contours100</StyleName>\n")
+  f.write("  <StyleName>contours-text100</StyleName>\n")
+  f.write("  <Datasource>\n")
+  f.write("    <Parameter name=\"type\">shape</Parameter>\n")
+  f.write('    <Parameter name="file">' + X[0:-4] + "</Parameter>\n")
+  f.write('    <Parameter name="lox">%s</Parameter>\n' % lox)
+  f.write('    <Parameter name="loy">%s</Parameter>\n' % loy)
+  f.write('    <Parameter name="hix">%s</Parameter>\n' % hix)
+  f.write('    <Parameter name="hiy">%s</Parameter>\n' % hiy)
+  f.write("  </Datasource>\n")
+  f.write("</Layer>\n")
+  y = y + 1
+
+f.close
+
+f = open('/media/Mapnik/scriptes/styles/contour-layers-c50.include', 'w')
+y = 0
+#for X in glob.glob('/media/Mapnik/SRTM/contour/50/N4[3-9]E0[01][0-9]c50.shp'):
+for X in glob.glob('/media/Mapnik/SRTM/contour/50/*c50.shp'):
+  rm = 3
+  ew = int(X[-7-rm:-4-rm])
+  if X[-8-rm] == 'W':
+    ew = 0 - ew
+  ns = int(X[-10-rm:-8-rm])
+  if X[-11-rm] == 'S':
+    ns = 0 - ns
+
+  merc = prj.forward(Coord(ew, ns))
+  lox = merc.x
+  loy = merc.y
+  merc = prj.forward(Coord(ew + 1, ns + 1))
+  hix = merc.x
+  hiy = merc.y
+  
+  f.write("<Layer name=\"srtm50"+`y`+"\" status=\"on\" srs=\"+proj=latlong +datum=WGS84\">\n")
+  f.write("  <StyleName>contours50</StyleName>\n")
+  f.write("  <StyleName>contours-text50</StyleName>\n")
+  f.write("  <Datasource>\n")
+  f.write("    <Parameter name=\"type\">shape</Parameter>\n")
+  f.write('    <Parameter name="file">' + X[0:-4] + "</Parameter>\n")
+  f.write('    <Parameter name="lox">%s</Parameter>\n' % lox)
+  f.write('    <Parameter name="loy">%s</Parameter>\n' % loy)
+  f.write('    <Parameter name="hix">%s</Parameter>\n' % hix)
+  f.write('    <Parameter name="hiy">%s</Parameter>\n' % hiy)
+  f.write("  </Datasource>\n")
+  f.write("</Layer>\n")
+  y = y + 1
+  
+f.close
+
+f = open('/media/Mapnik/scriptes/styles/contour-layers-c10.include', 'w')
+y = 0
+#for X in glob.glob('/media/Mapnik/SRTM/contour/10/N4[3-9]E0[01][0-9]c10.shp'):
+for X in glob.glob('/media/Mapnik/SRTM/contour/10/*c10.shp'):
+  rm = 3
+  ew = int(X[-7-rm:-4-rm])
+  if X[-8-rm] == 'W':
+    ew = 0 - ew
+  ns = int(X[-10-rm:-8-rm])
+  if X[-11-rm] == 'S':
+    ns = 0 - ns
+
+  merc = prj.forward(Coord(ew, ns))
+  lox = merc.x
+  loy = merc.y
+  merc = prj.forward(Coord(ew + 1, ns + 1))
+  hix = merc.x
+  hiy = merc.y
+  
+  f.write("<Layer name=\"srtm10"+`y`+"\" status=\"on\" srs=\"+proj=latlong +datum=WGS84\">\n")
+  f.write("  <StyleName>contours10</StyleName>\n")
+  f.write("  <Datasource>\n")
+  f.write("    <Parameter name=\"type\">shape</Parameter>\n")
+  f.write('    <Parameter name="file">' + X[0:-4] + "</Parameter>\n")
+  f.write('    <Parameter name="lox">%s</Parameter>\n' % lox)
+  f.write('    <Parameter name="loy">%s</Parameter>\n' % loy)
+  f.write('    <Parameter name="hix">%s</Parameter>\n' % hix)
+  f.write('    <Parameter name="hiy">%s</Parameter>\n' % hiy)
+  f.write("  </Datasource>\n")
+  f.write("</Layer>\n")
+  y = y + 1
+f.close

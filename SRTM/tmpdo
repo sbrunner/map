@@ -1,0 +1,24 @@
+#!/usr/bin/python3
+# ionice -c3 nice -n 19 ../../tmpdo *.tif
+
+import sys
+import os
+import string
+from multiprocessing import Pool
+from subprocess import call
+
+
+def rm(file):
+  if os.path.exists(file):
+    os.remove(file)
+
+def job(file):
+  print(file)
+  call("/media/Mapnik/demtools/replace-color %s 1_%s" % (file, file), shell=True)
+  call("gdal_translate -ot Byte -of GTiff -co BLOCKYSIZE=8 1_%s %s" % (file, file), shell=True)
+  rm("1_%s" % (file))
+
+
+
+for i in sys.argv[1:]:
+  job(i)

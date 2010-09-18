@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE Map[
+    <!ENTITY color_shade SYSTEM "rasters.include">
+    <!ENTITY contour-c100 SYSTEM "contour-layers-c100.include">
+    <!ENTITY contour-c50 SYSTEM "contour-layers-c50.include">
+    <!ENTITY contour-c10 SYSTEM "contour-layers-c10.include">
+    <!--ENTITY contour-c100 "">
+    <!ENTITY contour-c50 "">
+    <!ENTITY contour-c10 ""-->
+    <!--ENTITY swbd SYSTEM "swbd.include"-->
+
+    <!ENTITY db SYSTEM "db.include">
+
+    <!--ENTITY symbols "/media/Mapnik/mapnik/symbols"-->
+    <!--ENTITY world_boundaries "/media/Mapnik/world_boundaries"-->
+
+    <!--ENTITY zoom_level_15 "20000000">
+    <!ENTITY zoom_level_25 "10000000">
+    <!ENTITY zoom_level_35 "50000000">
+    <!ENTITY zoom_level_45 "20000000">
+    <!ENTITY zoom_level_55 "16000000">
+    <!ENTITY zoom_level_65 "8000000">
+    <!ENTITY zoom_level_75 "4000000">
+    <!ENTITY zoom_level_85 "2000000">
+    <!ENTITY zoom_level_95 "1000000">
+    <!ENTITY zoom_level_105 "500000">
+    <!ENTITY zoom_level_115 "200000">
+    <!ENTITY zoom_level_125 "100000">
+    <!ENTITY zoom_level_135 "50000">
+    <!ENTITY zoom_level_145 "20000">
+    <!ENTITY zoom_level_155 "10000">
+    <!ENTITY zoom_level_165 "5000">
+    <!ENTITY zoom_level_175 "3000">
+    <!ENTITY zoom_level_185 "1000"-->
+    
+    <!ENTITY zoom_max_100 "200000">
+    <!ENTITY zoom_max_50 "50000">
+    <!ENTITY zoom_max_10 "20000">
+]>
+<!-- bgcolor="#f6d986" -->
+<!-- bgcolor="#b6d1d1" -->
+<!-- bgcolor="#98d788" -->
+<Map bgcolor="#98d788" srs="+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs +over">
+    <!--Style name="world-1">
+    <Rule>
+      <MaxScaleDenominator>250000000000</MaxScaleDenominator>
+      <MinScaleDenominator>100000000</MinScaleDenominator>
+      <PolygonSymbolizer>
+        <CssParameter name="fill">#f2efe9</CssParameter>
+      </PolygonSymbolizer>
+       <LineSymbolizer>
+        <CssParameter name="stroke">#a97ea9</CssParameter>
+        <CssParameter name="stroke-width">0.3</CssParameter>
+      </LineSymbolizer>
+    </Rule>
+  </Style-->
+  <!--Style name="world">
+    <Rule>
+      <MaxScaleDenominator>6000000</MaxScaleDenominator>
+      <MinScaleDenominator>600000</MinScaleDenominator>
+      <PolygonSymbolizer>
+        <CssParameter name="fill">#f2efe9</CssParameter>
+      </PolygonSymbolizer>
+    </Rule>
+  </Style-->
+
+  <!--Style name="coast-poly">
+    <Rule>
+      <!- -MaxScaleDenominator>600000</MaxScaleDenominator- ->
+      <PolygonSymbolizer>
+        <!- -CssParameter name="fill">#f2efe9</CssParameter- ->
+        <CssParameter name="fill">#b5d0d0</CssParameter>
+      </PolygonSymbolizer>
+    </Rule>
+  </Style-->
+<!--Style name="raster">
+    <Rule>
+        <MaxScaleDenominator>100000</MaxScaleDenominator>
+        <RasterSymbolizer>
+        </RasterSymbolizer>
+    </Rule>
+</Style-->
+<Style name="raster0">
+    <Rule>
+        <!--MinScaleDenominator>50000</MinScaleDenominator-->
+        <MaxScaleDenominator>300000</MaxScaleDenominator>
+        <RasterSymbolizer>
+            <CssParameter name="scaling">bilinear</CssParameter>
+        </RasterSymbolizer>
+    </Rule>
+</Style>
+<Style name="raster1">
+    <Rule>
+        <MinScaleDenominator>300000</MinScaleDenominator>
+        <MaxScaleDenominator>5000000</MaxScaleDenominator>
+        <RasterSymbolizer>
+            <CssParameter name="scaling">bilinear</CssParameter>
+        </RasterSymbolizer>
+    </Rule>
+</Style>
+<Style name="raster2">
+    <Rule>
+        <MinScaleDenominator>5000000</MinScaleDenominator>
+        <MaxScaleDenominator>10000000</MaxScaleDenominator>
+        <RasterSymbolizer>
+            <CssParameter name="scaling">bilinear</CssParameter>
+        </RasterSymbolizer>
+    </Rule>
+</Style>
+<Style name="raster3">
+    <Rule>
+        <MinScaleDenominator>10000000</MinScaleDenominator>
+        <MaxScaleDenominator>20000000</MaxScaleDenominator>
+        <RasterSymbolizer>
+            <CssParameter name="scaling">bilinear</CssParameter>
+        </RasterSymbolizer>
+    </Rule>
+</Style>
+<Style name="rasterall">
+    <Rule>
+        <MinScaleDenominator>20000000</MinScaleDenominator>
+        <RasterSymbolizer>
+            <CssParameter name="scaling">bilinear</CssParameter>
+        </RasterSymbolizer>
+    </Rule>
+</Style>
+
+
+<Style name="contours10">
+        <Rule>
+                <MaxScaleDenominator>&zoom_max_10;</MaxScaleDenominator>
+                <!--MinScaleDenominator>1000</MinScaleDenominator-->
+                <LineSymbolizer>
+                        <CssParameter name="stroke">#9cb197</CssParameter>
+                        <CssParameter name="stroke-width">0.3</CssParameter>
+                        <CssParameter name="stroke-linejoin">round</CssParameter>
+                        <CssParameter name="stroke-linecap">round</CssParameter>
+                </LineSymbolizer>
+        </Rule>
+</Style>
+<Style name="contours50">
+        <Rule>
+                <MaxScaleDenominator>&zoom_max_50;</MaxScaleDenominator>
+                <MinScaleDenominator>&zoom_max_10;</MinScaleDenominator>
+                <LineSymbolizer>
+                        <CssParameter name="stroke">#9cb197</CssParameter>
+                        <CssParameter name="stroke-width">0.3</CssParameter>
+                        <CssParameter name="stroke-linejoin">round</CssParameter>
+                        <CssParameter name="stroke-linecap">round</CssParameter>
+                </LineSymbolizer>
+        </Rule>
+        <Rule>
+                <MaxScaleDenominator>&zoom_max_10;</MaxScaleDenominator>
+                <!--MinScaleDenominator>1000</MinScaleDenominator-->
+                <LineSymbolizer>
+                        <CssParameter name="stroke">#747b90</CssParameter>
+                        <CssParameter name="stroke-width">0.4</CssParameter>
+                        <CssParameter name="stroke-linejoin">round</CssParameter>
+                        <CssParameter name="stroke-linecap">round</CssParameter>
+                </LineSymbolizer>
+        </Rule>
+</Style>
+
+<Style name="contours100">
+        <Rule>
+                <MaxScaleDenominator>&zoom_max_100;</MaxScaleDenominator>
+                <MinScaleDenominator>&zoom_max_50;</MinScaleDenominator>
+                <LineSymbolizer>
+                        <CssParameter name="stroke">#9cb197</CssParameter>
+                        <CssParameter name="stroke-width">0.3</CssParameter>
+                        <CssParameter name="stroke-linejoin">round</CssParameter>
+                        <CssParameter name="stroke-linecap">round</CssParameter>
+                </LineSymbolizer>
+        </Rule>
+        <Rule>
+                <MaxScaleDenominator>&zoom_max_50;</MaxScaleDenominator>
+                <MinScaleDenominator>&zoom_max_10;</MinScaleDenominator>
+                <LineSymbolizer>
+                        <CssParameter name="stroke">#747b90</CssParameter>
+                        <CssParameter name="stroke-width">0.4</CssParameter>
+                        <CssParameter name="stroke-linejoin">round</CssParameter>
+                        <CssParameter name="stroke-linecap">round</CssParameter>
+                </LineSymbolizer>
+        </Rule>
+        <Rule>
+                <MaxScaleDenominator>&zoom_max_10;</MaxScaleDenominator>
+                <!--MinScaleDenominator>1000</MinScaleDenominator-->
+                <LineSymbolizer>
+                        <CssParameter name="stroke">#855d62</CssParameter>
+                        <CssParameter name="stroke-width">0.5</CssParameter>
+                        <CssParameter name="stroke-linejoin">round</CssParameter>
+                        <CssParameter name="stroke-linecap">round</CssParameter>
+                </LineSymbolizer>
+        </Rule>
+</Style>
+
+<Style name="contours-text50">
+        <Rule>
+                <MaxScaleDenominator>5000</MaxScaleDenominator>
+                <MinScaleDenominator>1000</MinScaleDenominator>
+                <!--TextSymbolizer name="height" face_name="DejaVu Sans Book" size="8" fill="#747b90" halo_radius="1" placement="line" min_distance="80" /-->
+                <TextSymbolizer name="height" face_name="DejaVu Sans Book" size="8" fill="#555" placement="line" min_distance="100" max_char_angle_delta="50" />
+        </Rule>
+</Style>
+<Style name="contours-text100">
+        <Rule>
+                <MaxScaleDenominator>100000</MaxScaleDenominator>
+                <MinScaleDenominator>25000</MinScaleDenominator>
+                <TextSymbolizer name="height" face_name="DejaVu Sans Book" size="8" fill="#555" placement="line" min_distance="100" max_char_angle_delta="50" />
+        </Rule>
+        <Rule>
+                <MaxScaleDenominator>25000</MaxScaleDenominator>
+                <MinScaleDenominator>1000</MinScaleDenominator>
+                <TextSymbolizer name="height" face_name="DejaVu Sans Book" size="8" fill="#555" placement="line" min_distance="100" max_char_angle_delta="50" />
+        </Rule>
+        <!--Rule>
+                <MaxScaleDenominator>50000</MaxScaleDenominator>
+                <MinScaleDenominator>1000</MinScaleDenominator>
+                <TextSymbolizer name="height" face_name="DejaVu Sans Book" size="8" fill="#855d62" halo_radius="1" placement="line"/>
+        </Rule-->
+</Style>
+
+<Style name="contours100">
+        <Rule>
+                <PolygonSymbolizer>
+                        <CssParameter name="fill">#b5d0d0</CssParameter>
+                </PolygonSymbolizer>
+        </Rule>
+</Style>
+
+<!--
+& color_shade;
+-->
+<Layer name="raster_1_100" status="on">
+  <StyleName>raster1</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/SRTM/NE_1_035.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">3896135.79464</Parameter>
+    <Parameter name="loy">8625918.87369</Parameter>
+    <Parameter name="hix">4007635.79464</Parameter>
+    <Parameter name="hiy">-81.1263124403</Parameter>
+  </Datasource>
+</Layer>
+
+  <!--Layer name="water_areas" status="on" srs="+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs +over">
+    <StyleName>water_areas</StyleName>
+    <Datasource>
+      &db;
+      <Parameter name="table">(select * from planet_osm_polygon where waterway='dock' or waterway='dam' or waterway='mill_pond' or waterway='riverbank' or landuse='reservoir' or landuse='water' or landuse='basin' or "natural"='water' or "natural"='lake') as water_areas</Parameter>
+    </Datasource>
+  </Layer-->
+
+<!--
+& contour-c100;
+& contour-c50;
+& contour-c10;
+-->
+
+<!--Layer name="srtm_10" status="on" srs="+proj=latlong +datum=WGS84">
+        <StyleName>contours10</StyleName>
+        <StyleName>contours-text10</StyleName>
+        <Datasource>
+                <Parameter name="type">postgis</Parameter>
+                <Parameter name="host"></Parameter>
+                <Parameter name="port"></Parameter>
+                <Parameter name="user"></Parameter>
+                <Parameter name="password"></Parameter>
+                <Parameter name="dbname">gis</Parameter>
+                <Parameter name="estimate_extent">false</Parameter>
+                <Parameter name="table">(select way,height from contours WHERE height::integer % 10 = 0 AND height::integer % 50 != 0 AND height::integer % 100 != 0) as "contours-10"</Parameter>
+                <Parameter name="extent">-180,-89.99,180,89.99</Parameter>
+        </Datasource>
+</Layer>
+<Layer name="srtm_50" status="on" srs="+proj=latlong +datum=WGS84">
+        <StyleName>contours50</StyleName>
+        <StyleName>contours-text50</StyleName>
+        <Datasource>
+                <Parameter name="type">postgis</Parameter>
+                <Parameter name="host"></Parameter>
+                <Parameter name="port"></Parameter>
+                <Parameter name="user"></Parameter>
+                <Parameter name="password"></Parameter>
+                <Parameter name="dbname">gis</Parameter>
+                <Parameter name="estimate_extent">false</Parameter>
+                <Parameter name="table">(select way,height from contours WHERE height::integer % 50 = 0 AND height::integer % 100 != 0) as "contours-50"</Parameter>
+                <Parameter name="extent">-180,-89.99,180,89.99</Parameter>
+        </Datasource>
+</Layer>
+<Layer name="srtm_100" status="on" srs="+proj=latlong +datum=WGS84">
+        <StyleName>contours100</StyleName>
+        <StyleName>contours-text100</StyleName>
+        <Datasource>
+                <Parameter name="type">postgis</Parameter>
+                <Parameter name="host"></Parameter>
+                <Parameter name="port"></Parameter>
+                <Parameter name="user"></Parameter>
+                <Parameter name="password"></Parameter>
+                <Parameter name="dbname">gis</Parameter>
+                <Parameter name="estimate_extent">false</Parameter>
+                <Parameter name="table">(select way,height from contours WHERE height::integer % 100 = 0) as "contours-100"</Parameter>
+                <Parameter name="extent">-180,-89.99,180,89.99</Parameter>
+        </Datasource>
+</Layer-->
+
+  <Style name="water_areas">
+    <Rule>
+      <!--MaxScaleDenominator>50000000</MaxScaleDenominator-->
+      <!--Filter>[waterway] = 'dock' or [waterway] = 'dam' or [landuse] = 'reservoir' or [landuse] = 'water' or [waterway] = 'mill_pond' or [waterway] = 'riverbank'</Filter-->
+      <PolygonSymbolizer>
+        <CssParameter name="fill">#b5d0d0</CssParameter>
+        <CssParameter name="fill-opacity">0.7</CssParameter>
+     </PolygonSymbolizer>
+    </Rule>
+  </Style>
+  
+    <Layer name="water_areas" status="on" srs="+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs +over">
+    <StyleName>water_areas</StyleName>
+    <Datasource>
+      <Parameter name="table">(select * from planet_osm_polygon where waterway='dock' or waterway='dam' or waterway='mill_pond' or waterway='riverbank' or landuse='reservoir' or landuse='water' or landuse='basin' or "natural"='water' or "natural"='lake') as water_areas</Parameter>
+      <Parameter name="type">postgis</Parameter>
+      <Parameter name="dbname">osm</Parameter>
+      <Parameter name="user"></Parameter>
+      <Parameter name="password"></Parameter>
+      <Parameter name="extent">-20037508,-19929239,20037508,19929239</Parameter>
+      <Parameter name="estimate_extent">false</Parameter>
+    </Datasource>
+  </Layer>
+  
+</Map>

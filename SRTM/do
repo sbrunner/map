@@ -1,0 +1,125 @@
+#!/usr/bin/python
+# ionice -c3 nice -n 19 ../do *.hgt.zip
+
+import sys
+import os
+import string
+from multiprocessing import Pool
+from subprocess import call
+from mapnik import *
+import osgeo.gdal
+from osgeo.gdalconst import *
+from math import floor
+
+script_path = "/media/Mapnik/scriptes"
+hgt_path = "/media/Mapnik/SRTM/hgt"
+warped_path = "/media/Mapnik/SRTM/warped/1"
+colorshade_path = "/media/Mapnik/SRTM/colorshade/1"
+contour_path = "/media/Mapnik/SRTM/contour"
+contour100_path = "/media/Mapnik/SRTM/contour/100"
+contour50_path = "/media/Mapnik/SRTM/contour/50"
+contour10_path = "/media/Mapnik/SRTM/contour/10"
+
+prj = Projection("+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs +over")
+
+
+def rm(file):
+  if os.path.exists(file):
+    os.remove(file)
+
+def job(file):
+  file = file.replace(".hgt.zip", "")
+  rm("%s.hgt" % file)
+  rm("%s.shp" % file)
+  rm("%s.shx" % file)
+  rm("%s.dbf" % file)
+  rm("%s.bil" % file)
+  rm("%s.hdr" % file)
+  rm("%s.prj" % file)
+  rm("%s.tif" % file)
+
+#  print(file)
+#  print(not os.path.exists("%s/%s-color-shade.tif" % (colorshade_path, file)))
+
+  if not os.path.exists("%s/%sc50.shp" % (contour50_path, file)) or not os.path.exists("%s/%s-color-shade.tif" % (colorshade_path, file)):
+
+    call("sh %s/srtm_generate_hdr.sh %s.hgt.zip" % (script_path, file), shell=True)
+
+    # Import 10m contours
+   #call("gdal_translate -of GTiff -co TILED=YES -a_srs +proj=latlong %s.tif %s-adapted.tif" % (file, file), shell=True)
+   #call("gdal_contour -i 10 -snodata 32767 -a height %s.tif %s.shp" % (file, file), shell=True)
+   #[ "$PREP_TABLE" ] && shp2pgsql -p -I -g way %s contours | psql -q gis
+   #call("shp2pgsql -a -g way %s contours | psql -q gis" % file, shell=True)
+
+  if not os.path.exists("%s/%sc50.shp" % (contour50_path, file)):
+    rm("%s/%sc10.shp" % (contour10_path, file))
+    rm("%s/%sc50.shp" % (contour50_path, file))
+    rm("%s/%sc100.shp" % (contour100_path, file))
+    call("gdal_contour -i 10 -snodata 32767 -a height %s.tif %s/%sc10.shp" % (file, contour10_path, file), shell=True)
+    call("gdal_contour -i 50 -snodata 32767 -a height %s.tif %s/%sc50.shp" % (file, contour50_path, file), shell=True)
+    call("gdal_contour -i 100 -snodata 32767 -a height %s.tif %s/%sc100.shp" % (file, contour100_path, file), shell=True)
+    call("shapeindex %s/%sc10.shp" % (contour10_path, file), shell=True)
+    call("shapeindex %s/%sc50.shp" % (contour50_path, file), shell=True)
+    call("shapeindex %s/%sc100.shp" % (contour100_path, file), shell=True)
+
+  if not os.path.exists("%s/%s.tif" % (colorshade_path, file)):
+    rm("%s-void-filled.tif" % file)
+    call("/media/Mapnik/demtools/void-filling %s.tif %s-void-filled.tif" % (file, file), shell=True)
+
+    rm("%s-adapted.tif" % file)
+    call("gdal_translate -of GTiff -co TILED=YES -a_srs +proj=latlong %s-void-filled.tif %s-adapted.tif" % (file, file), shell=True)
+
+    rm("%s-crop.tif" % file)
+    dataset = osgeo.gdal.Open("%s-adapted.tif" % (file), GA_ReadOnly)
+    geotransform = dataset.GetGeoTransform()
+    if not geotransform is None:
+        coord1p = Coord(geotransform[0], geotransform[3])
+        coord2p = Coord(geotransform[0] + geotransform[1] * dataset.RasterXSize, geotransform[3] + geotransform[5] * dataset.RasterYSize)
+        if coord1p.x < -180:
+            coord1p.x = -180
+            x = floor((coord2p.x - coord1p.x) / geotransform[1])
+            call("gdal_translate -of GTiff -srcwin %i 0 %i %i %s-adapted.tif %s-crop.tif" % (dataset.RasterXSize - x, x, dataset.RasterYSize, file, file), shell=True)
+            call("mv %s-crop.tif %s-adapted.tif" % (file, file), shell=True)
+        if coord2p.x > 180:
+            coord2p.x = 180
+            x = floor((coord2p.x - coord1p.x) / geotransform[1])
+            call("gdal_translate -of GTiff -srcwin 0 0 %i %i %s-adapted.tif %s-crop.tif" % (x, dataset.RasterYSize, file, file), shell=True)
+            call("mv %s-crop.tif %s-adapted.tif" % (file, file), shell=True)
+    
+    rm("%s-warped.tif" % file)
+    # tr = 6378137*2*Pi/2^n = 38.219 for n = 20 (theorical value for SRTM is about 30 - 6378137*2*math.pi/360/60/60 = 30.922080775909325).
+    call("gdalwarp -of GTiff -co TILED=YES -srcnodata 32767 -dstnodata 32767 -t_srs \"+proj=merc +ellps=sphere +R=6378137 +a=6378137 +units=m\" -rcs -order 3 -tr 38.219 38.219 %s-adapted.tif %s-warped.tif" % (file, file), shell=True)
+
+    rm("%s-color-shade.tif" % file)
+    call("/media/Mapnik/demtools/color-shade %s-warped.tif %s/scale2.txt %s-color-shade.tif -z 2 -s 1.8 -a 0.2" % (file, script_path, file), shell=True)
+    
+    
+    rm("%s/%s.tif" % (colorshade_path, file))
+#    call("gdal_translate -ot Byte -of GTiff -co BLOCKYSIZE=8 %s-color-shade-t.tif %s/%s-color-shade.tif" % (file, colorshade_path, file), shell=True)
+    call("gdal_translate -ot Byte -of GTiff -co COMPRESS=JPEG -co JPEG_QUALITY=90 -co BLOCKYSIZE=8 %s-color-shade.tif %s/%s.tif" % (file, colorshade_path, file), shell=True)
+
+    rm("%s/%s.tif" % (warped_path, file))
+#    call("cp %s*.tif new" % (file), shell=True)
+#    call("cp %s/%s-color-shade.tif new" % (colorshade_path, file), shell=True)
+    call("gdal_translate -of GTiff -co COMPRESS=LZW %s-warped.tif %s/%s.tif" % (file, warped_path, file), shell=True)
+
+
+  rm("%s.hgt" % file)
+  rm("%s.shp" % file)
+  rm("%s.shx" % file)
+  rm("%s.dbf" % file)
+  rm("%s.bil" % file)
+  rm("%s.hdr" % file)
+  rm("%s.prj" % file)
+  rm("%s.tif" % file)
+  rm("%s-void-filled.tif" % file)
+  rm("%s-adapted.tif" % file)
+  rm("%s-warped.tif" % file)
+  rm("%s-color-shade.tif" % file)
+
+
+#pool = Pool(processes=3)
+#pool.map(job, sys.argv[1:])
+
+for i in sys.argv[1:]:
+  job(i)

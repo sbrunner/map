@@ -1,0 +1,34 @@
+#!/usr/bin/python3
+# ionice -c3 -p0 nice -n 19 ../do *.hgt.zip
+
+import sys
+import os
+import string
+from multiprocessing import Pool
+from subprocess import call
+
+script_path = sys.argv[0].replace("do.py", "")
+hgt_path = "/media/Mapnik/SRTM/hgt"
+colorshade_path = "/media/Mapnik/SRTM/colorshade"
+contour_path = "/media/Mapnik/SRTM/contour"
+contour100_path = "/media/Mapnik/SRTM/contour/100"
+contour50_path = "/media/Mapnik/SRTM/contour/50"
+contour10_path = "/media/Mapnik/SRTM/contour/10"
+
+
+def rm(file):
+  if os.path.exists(file):
+    os.remove(file)
+
+def job(file):
+  file = file.replace(".hgt.zip", "")
+  file = file.replace("c10.shp", "")
+  #[ "$PREP_TABLE" ] && shp2pgsql -p -I -g way %s contours | psql -q gis
+  call("shp2pgsql -a -g way %s/%sc10 contours | psql -q gis" % (contour10_path, file), shell=True)
+
+
+#pool = Pool(processes=3)
+#pool.map(job, sys.argv[1:])
+
+for i in sys.argv[1:]:
+  job(i)

@@ -1,0 +1,24 @@
+#!/bin/bash
+
+rm test.tif
+rm adapted.tif
+rm warped.tif
+rm color-shade-t.tif
+rm color-shade.tif
+
+/media/Mapnik/demtools/gebco2tif GEBCO_08.nc test.tif
+gdal_translate -of GTiff -co TILED=YES -a_srs +proj=latlong test.tif adapted.tif
+gdalwarp -of GTiff -co TILED=YES -srcnodata -9999 -dstnodata -9999 -t_srs "+proj=merc +ellps=sphere +R=6378137 +a=6378137 +units=m" -rcs -order 3 -tr 10000 10000 -multi adapted.tif warped.tif
+
+/media/Mapnik/demtools/color-shade warped.tif /media/Mapnik/scale2.txt color-shade.tif -z 2 -s 1.8 -a 0.2
+#/media/Mapnik/demtools/color-shade warped.tif /media/Mapnik/scale-test.txt color-shade.tif -z 2 -s 1.8 -a 0.2
+#gdal_translate -ot Byte -of GTiff -co BLOCKYSIZE=8 color-shade-t.tif color-shade.tif
+
+
+#/media/Mapnik/demtools/gebco2tif GEBCO_08.nc test2.tif
+#gdal_translate -of GTiff -co TILED=YES -a_srs +proj=latlong test2.tif adapted2.tif
+#gdalwarp -of GTiff -co TILED=YES -srcnodata -9999 -dstnodata -9999 -t_srs "+proj=merc +ellps=sphere +R=6378137 +a=6378137 +units=m" -rcs -order 3 -tr 10000 10000 -multi adapted2.tif warped2.tif
+
+#/media/Mapnik/demtools/color-shade warped.tif /media/Mapnik/scale2.txt color-shade-t2.tif -z 2 -s 1.8 -a 0.2
+#gdal_translate -ot Byte -of GTiff -co BLOCKYSIZE=8 color-shade-t2.tif color-shade2.tif
+

@@ -1,0 +1,30 @@
+ls #sudo apt-get install libgdal1-dev cimg-dev libmagick++-dev libgraphicsmagick++1-dev
+
+
+g++ -O2 hillshade.cpp -lgdal1.6.0 -L/usr/lib/ -I/usr/include/gdal/ -o hillshade
+g++ -O2 color-relief.cpp -lgdal1.6.0 -L/usr/lib/ -I/usr/include/gdal/ -o color-relief
+g++ -O2 aspect.cpp -lgdal1.6.0 -L/usr/lib/ -I/usr/include/gdal/ -o aspect
+g++ -O2 slope.cpp -lgdal1.6.0 -L/usr/lib/ -I/usr/include/gdal/ -o slope
+#ln -s "`pwd`/hillshade" ~/bin
+#ln -s "`pwd`/color-relief" ~/bin
+#ln -s "`pwd`/aspect" ~/bin
+#ln -s "`pwd`/slope" ~/bin
+
+g++ -O2 color-shade.cpp -lMagick++ -lX11  -lgdal1.6.0 -L/usr/lib/ -I/usr/include/gdal/ -I/usr/include/GraphicsMagick/ -o color-shade
+#ln -s "`pwd`/color-shade" ~/bin
+
+g++ -O2 void-filling.cpp -lMagick++ -lX11  -lgdal1.6.0 -L/usr/lib/ -I/usr/include/gdal/ -I/usr/include/GraphicsMagick/ -o void-filling
+#ln -s "`pwd`/void-filling" ~/bin
+
+g++ -O2 void-filling-color.cpp -lMagick++ -lX11  -lgdal1.6.0 -L/usr/lib/ -I/usr/include/gdal/ -I/usr/include/GraphicsMagick/ -o void-filling-color
+#ln -s "`pwd`/void-filling-color" ~/bin
+
+#cd contour_interpolate-0.3
+#g++ -O2 DemProc.cpp contour_interpolate.cpp -lMagick++ -lX11 -lgdal1.6.0 -L/usr/lib/ -I/usr/include/gdal/ -I/usr/include/CImg/plugins/ -I/usr/include/GraphicsMagick/ -o contour_interpolate
+#ln -s "`pwd`/contour_interpolate" ~/bin
+
+
+
+g++ -O2 gebco2tif.cpp -lgdal1.6.0 -L/usr/lib/ -I/usr/include/gdal/ -o gebco2tif
+g++ -O2 gebco2tif-multi.cpp -lgdal1.6.0 -L/usr/lib/ -I/usr/include/gdal/ -o gebco2tif-multi
+g++ -O2 gebco2tif-single.cpp -lgdal1.6.0 -L/usr/lib/ -I/usr/include/gdal/ -o gebco2tif-single

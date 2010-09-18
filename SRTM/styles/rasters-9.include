@@ -1,0 +1,12 @@
+<Layer name="raster_9_0" status="on">
+  <StyleName>raster9</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/all.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">-20037508.3428</Parameter>
+    <Parameter name="loy">23412334.3471</Parameter>
+    <Parameter name="hix">20042491.6572</Parameter>
+    <Parameter name="hiy">-23419665.6529</Parameter>
+  </Datasource>
+</Layer>

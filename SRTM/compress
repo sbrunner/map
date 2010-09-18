@@ -1,0 +1,62 @@
+#!/usr/bin/python
+
+"""
+cd /media/Mapnik/scryptes;ionice -c3 nice -n 19 ./compress
+"""
+
+import glob
+import ftplib
+import os
+import sys
+from subprocess import call
+
+LOCAL_DIR = "/media/Mapnik/OSM-swiss-history/tiles/lausanne-20080926/"
+#LOCAL_DIR = "/media/Mapnik/OSM-swiss-history/tiles/lausanne-20090606/"
+#LOCAL_DIR = "/media/Mapnik/OSM-swiss-history/tiles/lausanne-20100622/"
+FTP_DIR = "/web/map/lausanne/lausanne-20080926/"
+#FTP_DIR = "/web/map/lausanne/lausanne-20090606/"
+#FTP_DIR = "/web/map/lausanne/lausanne-20100622/"
+
+def ftp_connect():
+    ftp_to_connect = ftplib.FTP('stephane-brunner.ch')
+    ftp_to_connect.login('sys_stephane', 'UusheeN5')
+    ftp_to_connect.set_pasv(True)
+    print "Connected - " + ftp_to_connect.getwelcome()
+    return ftp_to_connect
+
+ftp = ftp_connect()
+
+#for z in glob.glob(LOCAL_DIR+"*"):
+for z in glob.glob(LOCAL_DIR+"*"):
+  for x in glob.glob(z+"/*"):
+    for tile_uri in glob.glob(x+"/*"):
+      tile_ftp_uri = tile_uri.replace(LOCAL_DIR, FTP_DIR)
+
+      bytes=os.path.getsize(tile_uri)
+      date=os.path.getmtime(tile_uri)
+      if bytes != 0 and date < 1283185800.0:
+        call("ls -l %s"%tile_uri, shell=True);
+        call("optipng -q -o7 %s"%tile_uri, shell=True);
+#                    call("advpng -q -z4 %s"%file, shell=True);
+        if bytes == 103: # 103 / 116 / 334
+          empty = " Empty Tile "
+          call("rm %s"%tile_uri, shell=True);
+          call("touch %s"%tile_uri, shell=True);
+          try:
+            self.ftp.delete(tile_ftp_uri)
+          except:
+            pass
+        elif os.path.getsize(tile_uri) < bytes:
+
+          f = file(tile_uri, 'rb')
+          try:
+            print("do %s (%io)."%(tile_uri, bytes))
+            ftp.storbinary("STOR %s"%tile_ftp_uri, f)
+          except Exception as error:
+            print error
+            ftp = ftp_connect()
+            ftp.storbinary("STOR %s"%tile_ftp_uri, f)
+
+          print("send %s with %io from %io"%(tile_uri, os.path.getsize(tile_uri), bytes))
+        else:
+          print("not compress %s (%io)."%(tile_uri, bytes))

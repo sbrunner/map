@@ -1,0 +1,76 @@
+#!/bin/bash
+
+#RM=`find /media/Mapnik/SRTM/contour/100/ -name *.shp -size 0 -print`
+#rm `echo $RM|sed s/shp/\*/g`
+
+#RM=`find /media/Mapnik/SRTM/contour/50/ -name *.shp -size 0 -print`
+#rm `echo $RM|sed s/shp/\*/g`
+
+#RM=`find /media/Mapnik/SRTM/contour/10/ -name *.shp -size 0 -print`
+#rm `echo $RM|sed s/shp/\*/g`
+
+find /media/Mapnik/SRTM/contour/100/ -name *.shp -size 0 -print | while read f; 
+do
+  echo ${f%%.shp}
+  rm ${f%%.shp}*
+done
+
+find /media/Mapnik/SRTM/contour/50/ -name *.shp -size 0 -print | while read f; 
+do
+  echo ${f%%.shp}
+  rm ${f%%.shp}*
+done
+
+find /media/Mapnik/SRTM/contour/10/ -name *.shp -size 0 -print | while read f; 
+do
+  echo ${f%%.shp}
+  rm ${f%%.shp}*
+done
+
+find /media/Mapnik/SRTM/contour/100/ -name *.shx -size 0 -print | while read f; 
+do
+  echo ${f%%.shx}
+  rm $f
+  rm ${f%%.shx}.dbf
+  shapeindex ${f%%.shx}.shp
+done
+
+find /media/Mapnik/SRTM/contour/50/ -name *.shx -size 0 -print | while read f; 
+do
+  echo ${f%%.shx}
+  rm $f
+  rm ${f%%.shx}.dbf
+  shapeindex ${f%%.shx}.shp
+done
+
+find /media/Mapnik/SRTM/contour/10/ -name *.shx -size 0 -print | while read f; 
+do
+  echo ${f%%.shx}
+  rm $f
+  rm ${f%%.shx}.shx
+  shapeindex ${f%%.shx}.shp
+done
+
+find /media/Mapnik/SRTM/contour/100/ -name *.dbf -size 0 -print | while read f; 
+do
+  echo ${f%%.dbf}
+  rm $f
+  rm ${f%%.dbf}.shx
+  shapeindex ${f%%.dbf}.shp
+done
+
+find /media/Mapnik/SRTM/contour/50/ -name *.dbf -size 0 -print | while read f; 
+do
+  echo ${f%%.dbf}
+  rm $f
+  rm ${f%%.dbf}.shx
+  shapeindex ${f%%.dbf}.shp
+done
+
+find /media/Mapnik/SRTM/contour/10/ -name *.dbf -size 0 -print | while read f; 
+do
+  echo ${f%%.dbf}
+  rm $f
+  rm ${f%%.dbf}.shx
+  shapeindex ${f%%.dbf}.shp
+done

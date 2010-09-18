@@ -1,0 +1,720 @@
+<Layer name="raster_6_0" status="on">
+  <StyleName>raster6</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/2/NW_2_096.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">-10695947.7404</Parameter>
+    <Parameter name="loy">23412334.3471</Parameter>
+    <Parameter name="hix">-9341947.74039</Parameter>
+    <Parameter name="hiy">-9665.65291332</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_6_1" status="on">
+  <StyleName>raster6</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/2/NW_2_156.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">-17375117.188</Parameter>
+    <Parameter name="loy">23412334.3471</Parameter>
+    <Parameter name="hix">-16021117.188</Parameter>
+    <Parameter name="hiy">-9665.65291332</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_6_2" status="on">
+  <StyleName>raster6</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/2/SE_2_096.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">10677394.4919</Parameter>
+    <Parameter name="loy">9276.6275034</Parameter>
+    <Parameter name="hix">12031394.4919</Parameter>
+    <Parameter name="hiy">-23412723.3725</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_6_3" status="on">
+  <StyleName>raster6</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/2/SE_2_024.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">2662391.15481</Parameter>
+    <Parameter name="loy">9276.6275034</Parameter>
+    <Parameter name="hix">4016391.15481</Parameter>
+    <Parameter name="hiy">-23412723.3725</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_6_4" status="on">
+  <StyleName>raster6</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/2/NW_2_060.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">-6688446.07183</Parameter>
+    <Parameter name="loy">23412334.3471</Parameter>
+    <Parameter name="hix">-5334446.07183</Parameter>
+    <Parameter name="hiy">-9665.65291332</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_6_5" status="on">
+  <StyleName>raster6</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/2/NW_2_120.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">-13367615.5194</Parameter>
+    <Parameter name="loy">23412334.3471</Parameter>
+    <Parameter name="hix">-12013615.5194</Parameter>
+    <Parameter name="hiy">-9665.65291332</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_6_6" status="on">
+  <StyleName>raster6</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/2/SW_2_072.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">-8024279.96135</Parameter>
+    <Parameter name="loy">9276.6275034</Parameter>
+    <Parameter name="hix">-6670279.96135</Parameter>
+    <Parameter name="hiy">-23412723.3725</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_6_7" status="on">
+  <StyleName>raster6</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/2/SE_2_072.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">8005726.71288</Parameter>
+    <Parameter name="loy">9276.6275034</Parameter>
+    <Parameter name="hix">9359726.71288</Parameter>
+    <Parameter name="hiy">-23412723.3725</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_6_8" status="on">
+  <StyleName>raster6</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/2/SE_2_036.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">3998225.04433</Parameter>
+    <Parameter name="loy">9276.6275034</Parameter>
+    <Parameter name="hix">5352225.04433</Parameter>
+    <Parameter name="hiy">-23412723.3725</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_6_9" status="on">
+  <StyleName>raster6</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/2/NE_2_132.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">14684896.1605</Parameter>
+    <Parameter name="loy">23412334.3471</Parameter>
+    <Parameter name="hix">16038896.1605</Parameter>
+    <Parameter name="hiy">-9665.65291332</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_6_10" status="on">
+  <StyleName>raster6</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/2/NE_2_096.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">10677394.4919</Parameter>
+    <Parameter name="loy">23412334.3471</Parameter>
+    <Parameter name="hix">12031394.4919</Parameter>
+    <Parameter name="hiy">-9665.65291332</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_6_11" status="on">
+  <StyleName>raster6</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/2/NE_2_012.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">1326557.26529</Parameter>
+    <Parameter name="loy">23412334.3471</Parameter>
+    <Parameter name="hix">2680557.26529</Parameter>
+    <Parameter name="hiy">-9665.65291332</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_6_12" status="on">
+  <StyleName>raster6</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/2/NW_2_168.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">-18710951.0775</Parameter>
+    <Parameter name="loy">23412334.3471</Parameter>
+    <Parameter name="hix">-17356951.0775</Parameter>
+    <Parameter name="hiy">-9665.65291332</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_6_13" status="on">
+  <StyleName>raster6</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/2/NE_2_072.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">8005726.71288</Parameter>
+    <Parameter name="loy">23412334.3471</Parameter>
+    <Parameter name="hix">9359726.71288</Parameter>
+    <Parameter name="hiy">-9665.65291332</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_6_14" status="on">
+  <StyleName>raster6</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/2/SW_2_060.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">-6688446.07183</Parameter>
+    <Parameter name="loy">9276.6275034</Parameter>
+    <Parameter name="hix">-5334446.07183</Parameter>
+    <Parameter name="hiy">-23412723.3725</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_6_15" status="on">
+  <StyleName>raster6</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/2/SE_2_048.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">5334058.93384</Parameter>
+    <Parameter name="loy">9276.6275034</Parameter>
+    <Parameter name="hix">6688058.93384</Parameter>
+    <Parameter name="hiy">-23412723.3725</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_6_16" status="on">
+  <StyleName>raster6</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/2/NW_2_036.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">-4016778.29279</Parameter>
+    <Parameter name="loy">23412334.3471</Parameter>
+    <Parameter name="hix">-2662778.29279</Parameter>
+    <Parameter name="hiy">-9665.65291332</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_6_17" status="on">
+  <StyleName>raster6</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/2/NE_2_060.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">6669892.82336</Parameter>
+    <Parameter name="loy">23412334.3471</Parameter>
+    <Parameter name="hix">8023892.82336</Parameter>
+    <Parameter name="hiy">-9665.65291332</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_6_18" status="on">
+  <StyleName>raster6</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/2/SW_2_096.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">-10695947.7404</Parameter>
+    <Parameter name="loy">9276.6275034</Parameter>
+    <Parameter name="hix">-9341947.74039</Parameter>
+    <Parameter name="hiy">-23412723.3725</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_6_19" status="on">
+  <StyleName>raster6</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/2/NE_2_024.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">2662391.15481</Parameter>
+    <Parameter name="loy">23412334.3471</Parameter>
+    <Parameter name="hix">4016391.15481</Parameter>
+    <Parameter name="hiy">-9665.65291332</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_6_20" status="on">
+  <StyleName>raster6</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/2/NW_2_144.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">-16039283.2985</Parameter>
+    <Parameter name="loy">23412334.3471</Parameter>
+    <Parameter name="hix">-14685283.2985</Parameter>
+    <Parameter name="hiy">-9665.65291332</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_6_21" status="on">
+  <StyleName>raster6</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/2/SE_2_168.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">18692397.829</Parameter>
+    <Parameter name="loy">9276.6275034</Parameter>
+    <Parameter name="hix">20036397.829</Parameter>
+    <Parameter name="hiy">-23412723.3725</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_6_22" status="on">
+  <StyleName>raster6</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/2/SW_2_012.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">-1345110.51375</Parameter>
+    <Parameter name="loy">9276.6275034</Parameter>
+    <Parameter name="hix">8889.48624794</Parameter>
+    <Parameter name="hiy">-23412723.3725</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_6_23" status="on">
+  <StyleName>raster6</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/2/SW_2_048.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">-5352612.18231</Parameter>
+    <Parameter name="loy">9276.6275034</Parameter>
+    <Parameter name="hix">-3998612.18231</Parameter>
+    <Parameter name="hiy">-23412723.3725</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_6_24" status="on">
+  <StyleName>raster6</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/2/SE_2_000.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">-9276.62423277</Parameter>
+    <Parameter name="loy">9276.6275034</Parameter>
+    <Parameter name="hix">1344723.37577</Parameter>
+    <Parameter name="hiy">-23412723.3725</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_6_25" status="on">
+  <StyleName>raster6</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/2/NE_2_168.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">18692397.829</Parameter>
+    <Parameter name="loy">23412334.3471</Parameter>
+    <Parameter name="hix">20036397.829</Parameter>
+    <Parameter name="hiy">-9665.65291332</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_6_26" status="on">
+  <StyleName>raster6</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/2/SE_2_156.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">17356563.9395</Parameter>
+    <Parameter name="loy">9276.6275034</Parameter>
+    <Parameter name="hix">18710563.9395</Parameter>
+    <Parameter name="hiy">-23412723.3725</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_6_27" status="on">
+  <StyleName>raster6</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/2/SW_2_108.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">-12031781.6299</Parameter>
+    <Parameter name="loy">9276.6275034</Parameter>
+    <Parameter name="hix">-10677781.6299</Parameter>
+    <Parameter name="hiy">-23412723.3725</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_6_28" status="on">
+  <StyleName>raster6</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/2/NE_2_036.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">3998225.04433</Parameter>
+    <Parameter name="loy">23412334.3471</Parameter>
+    <Parameter name="hix">5352225.04433</Parameter>
+    <Parameter name="hiy">-9665.65291332</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_6_29" status="on">
+  <StyleName>raster6</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/2/SW_2_144.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">-16039283.2985</Parameter>
+    <Parameter name="loy">9276.6275034</Parameter>
+    <Parameter name="hix">-14685283.2985</Parameter>
+    <Parameter name="hiy">-23412723.3725</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_6_30" status="on">
+  <StyleName>raster6</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/2/NE_2_084.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">9341560.6024</Parameter>
+    <Parameter name="loy">23412334.3471</Parameter>
+    <Parameter name="hix">10695560.6024</Parameter>
+    <Parameter name="hiy">-9665.65291332</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_6_31" status="on">
+  <StyleName>raster6</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/2/SW_2_084.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">-9360113.85087</Parameter>
+    <Parameter name="loy">9276.6275034</Parameter>
+    <Parameter name="hix">-8006113.85087</Parameter>
+    <Parameter name="hiy">-23412723.3725</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_6_32" status="on">
+  <StyleName>raster6</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/2/SE_2_120.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">13349062.271</Parameter>
+    <Parameter name="loy">9276.6275034</Parameter>
+    <Parameter name="hix">14703062.271</Parameter>
+    <Parameter name="hiy">-23412723.3725</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_6_33" status="on">
+  <StyleName>raster6</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/2/SE_2_108.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">12013228.3814</Parameter>
+    <Parameter name="loy">9276.6275034</Parameter>
+    <Parameter name="hix">13367228.3814</Parameter>
+    <Parameter name="hiy">-23412723.3725</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_6_34" status="on">
+  <StyleName>raster6</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/2/NW_2_072.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">-8024279.96135</Parameter>
+    <Parameter name="loy">23412334.3471</Parameter>
+    <Parameter name="hix">-6670279.96135</Parameter>
+    <Parameter name="hiy">-9665.65291332</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_6_35" status="on">
+  <StyleName>raster6</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/2/SE_2_060.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">6669892.82336</Parameter>
+    <Parameter name="loy">9276.6275034</Parameter>
+    <Parameter name="hix">8023892.82336</Parameter>
+    <Parameter name="hiy">-23412723.3725</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_6_36" status="on">
+  <StyleName>raster6</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/2/NE_2_108.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">12013228.3814</Parameter>
+    <Parameter name="loy">23412334.3471</Parameter>
+    <Parameter name="hix">13367228.3814</Parameter>
+    <Parameter name="hiy">-9665.65291332</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_6_37" status="on">
+  <StyleName>raster6</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/2/NE_2_120.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">13349062.271</Parameter>
+    <Parameter name="loy">23412334.3471</Parameter>
+    <Parameter name="hix">14703062.271</Parameter>
+    <Parameter name="hiy">-9665.65291332</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_6_38" status="on">
+  <StyleName>raster6</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/2/NW_2_048.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">-5352612.18231</Parameter>
+    <Parameter name="loy">23412334.3471</Parameter>
+    <Parameter name="hix">-3998612.18231</Parameter>
+    <Parameter name="hiy">-9665.65291332</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_6_39" status="on">
+  <StyleName>raster6</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/2/NW_2_180.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">-20037508.3428</Parameter>
+    <Parameter name="loy">23412334.3471</Parameter>
+    <Parameter name="hix">-18693508.3428</Parameter>
+    <Parameter name="hiy">-9665.65291332</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_6_40" status="on">
+  <StyleName>raster6</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/2/SE_2_144.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">16020730.05</Parameter>
+    <Parameter name="loy">9276.6275034</Parameter>
+    <Parameter name="hix">17374730.05</Parameter>
+    <Parameter name="hiy">-23412723.3725</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_6_41" status="on">
+  <StyleName>raster6</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/2/NW_2_024.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">-2680944.40327</Parameter>
+    <Parameter name="loy">23412334.3471</Parameter>
+    <Parameter name="hix">-1326944.40327</Parameter>
+    <Parameter name="hiy">-9665.65291332</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_6_42" status="on">
+  <StyleName>raster6</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/2/SW_2_024.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">-2680944.40327</Parameter>
+    <Parameter name="loy">9276.6275034</Parameter>
+    <Parameter name="hix">-1326944.40327</Parameter>
+    <Parameter name="hiy">-23412723.3725</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_6_43" status="on">
+  <StyleName>raster6</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/2/NW_2_132.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">-14703449.4089</Parameter>
+    <Parameter name="loy">23412334.3471</Parameter>
+    <Parameter name="hix">-13349449.4089</Parameter>
+    <Parameter name="hiy">-9665.65291332</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_6_44" status="on">
+  <StyleName>raster6</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/2/NW_2_108.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">-12031781.6299</Parameter>
+    <Parameter name="loy">23412334.3471</Parameter>
+    <Parameter name="hix">-10677781.6299</Parameter>
+    <Parameter name="hiy">-9665.65291332</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_6_45" status="on">
+  <StyleName>raster6</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/2/SW_2_120.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">-13367615.5194</Parameter>
+    <Parameter name="loy">9276.6275034</Parameter>
+    <Parameter name="hix">-12013615.5194</Parameter>
+    <Parameter name="hiy">-23412723.3725</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_6_46" status="on">
+  <StyleName>raster6</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/2/SE_2_132.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">14684896.1605</Parameter>
+    <Parameter name="loy">9276.6275034</Parameter>
+    <Parameter name="hix">16038896.1605</Parameter>
+    <Parameter name="hiy">-23412723.3725</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_6_47" status="on">
+  <StyleName>raster6</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/2/NW_2_012.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">-1345110.51375</Parameter>
+    <Parameter name="loy">23412334.3471</Parameter>
+    <Parameter name="hix">8889.48624794</Parameter>
+    <Parameter name="hiy">-9665.65291332</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_6_48" status="on">
+  <StyleName>raster6</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/2/SW_2_132.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">-14703449.4089</Parameter>
+    <Parameter name="loy">9276.6275034</Parameter>
+    <Parameter name="hix">-13349449.4089</Parameter>
+    <Parameter name="hiy">-23412723.3725</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_6_49" status="on">
+  <StyleName>raster6</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/2/SW_2_180.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">-20037508.3428</Parameter>
+    <Parameter name="loy">9276.6275034</Parameter>
+    <Parameter name="hix">-18693508.3428</Parameter>
+    <Parameter name="hiy">-23412723.3725</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_6_50" status="on">
+  <StyleName>raster6</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/2/SE_2_012.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">1326557.26529</Parameter>
+    <Parameter name="loy">9276.6275034</Parameter>
+    <Parameter name="hix">2680557.26529</Parameter>
+    <Parameter name="hiy">-23412723.3725</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_6_51" status="on">
+  <StyleName>raster6</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/2/NE_2_000.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">-9276.62423277</Parameter>
+    <Parameter name="loy">23412334.3471</Parameter>
+    <Parameter name="hix">1344723.37577</Parameter>
+    <Parameter name="hiy">-9665.65291332</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_6_52" status="on">
+  <StyleName>raster6</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/2/SW_2_156.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">-17375117.188</Parameter>
+    <Parameter name="loy">9276.6275034</Parameter>
+    <Parameter name="hix">-16021117.188</Parameter>
+    <Parameter name="hiy">-23412723.3725</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_6_53" status="on">
+  <StyleName>raster6</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/2/NE_2_048.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">5334058.93384</Parameter>
+    <Parameter name="loy">23412334.3471</Parameter>
+    <Parameter name="hix">6688058.93384</Parameter>
+    <Parameter name="hiy">-9665.65291332</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_6_54" status="on">
+  <StyleName>raster6</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/2/SE_2_084.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">9341560.6024</Parameter>
+    <Parameter name="loy">9276.6275034</Parameter>
+    <Parameter name="hix">10695560.6024</Parameter>
+    <Parameter name="hiy">-23412723.3725</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_6_55" status="on">
+  <StyleName>raster6</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/2/SW_2_036.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">-4016778.29279</Parameter>
+    <Parameter name="loy">9276.6275034</Parameter>
+    <Parameter name="hix">-2662778.29279</Parameter>
+    <Parameter name="hiy">-23412723.3725</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_6_56" status="on">
+  <StyleName>raster6</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/2/NE_2_156.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">17356563.9395</Parameter>
+    <Parameter name="loy">23412334.3471</Parameter>
+    <Parameter name="hix">18710563.9395</Parameter>
+    <Parameter name="hiy">-9665.65291332</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_6_57" status="on">
+  <StyleName>raster6</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/2/NE_2_144.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">16020730.05</Parameter>
+    <Parameter name="loy">23412334.3471</Parameter>
+    <Parameter name="hix">17374730.05</Parameter>
+    <Parameter name="hiy">-9665.65291332</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_6_58" status="on">
+  <StyleName>raster6</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/2/NW_2_084.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">-9360113.85087</Parameter>
+    <Parameter name="loy">23412334.3471</Parameter>
+    <Parameter name="hix">-8006113.85087</Parameter>
+    <Parameter name="hiy">-9665.65291332</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="raster_6_59" status="on">
+  <StyleName>raster6</StyleName>
+  <Datasource>
+    <Parameter name="type">raster</Parameter>
+    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/2/SW_2_168.tif</Parameter>
+    <Parameter name="format">tiff</Parameter>
+    <Parameter name="lox">-18710951.0775</Parameter>
+    <Parameter name="loy">9276.6275034</Parameter>
+    <Parameter name="hix">-17356951.0775</Parameter>
+    <Parameter name="hiy">-23412723.3725</Parameter>
+  </Datasource>
+</Layer>

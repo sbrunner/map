@@ -1,0 +1,112 @@
+#!/usr/bin/python
+#
+# Copyright David Stubbs & Andy Allan
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+from mapnik import *
+from PIL import Image, ImageFilter
+import glob, os
+import osgeo.gdal
+from osgeo.gdalconst import *
+
+cleanup = True
+shaded = False
+
+prj_str = "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs +over"
+prj = Projection(prj_str)
+
+#storagedir = '/media/Mapnik/SWBD/colorshade'
+#storagedir = '/media/Mapnik/SRTM/colorshade'
+
+
+def level(dir, level):
+    f = open('/media/Mapnik/scriptes/styles/rasters-%d.include'%(level), 'w')
+    y = 0
+    
+    for X in glob.glob(dir+'/*.tif'):
+    #  print X
+ #     try:
+        """
+        sub=0
+        ew = int(X[-7-sub:-4-sub])
+        if X[-8-sub] == 'W':
+          ew = 0 - ew
+        ns = int(X[-10-sub:-8-sub])
+        if X[-11-sub] == 'S':
+          ns = 0 - ns
+
+        merc = prj.forward(Coord(ew, ns))
+        lox = merc.x
+        loy = merc.y
+        merc = prj.forward(Coord(ew + 1, ns + 1))
+        hix = merc.x
+        hiy = merc.y
+        """
+        dataset = osgeo.gdal.Open(X, GA_ReadOnly)
+        geotransform = dataset.GetGeoTransform()
+        if not geotransform is None:
+    #      lox = min(lox, geotransform[0])
+    #      loy = min(loy, geotransform[3])
+    #      hix = max(hix, geotransform[0] + dataset.RasterXSize*geotransform[1])
+    #      hiy = max(hiy, geotransform[3] + dataset.RasterYSize*geotransform[5])
+          lox = geotransform[0]
+          loy = geotransform[3]
+          hix = geotransform[0] + dataset.RasterXSize*geotransform[1]
+          hiy = geotransform[3] + dataset.RasterYSize*geotransform[5]
+
+
+
+
+        f.write("<Layer name=\"raster_%d_%d\" status=\"on\">\n"%(level, y))
+        f.write("  <StyleName>raster%d</StyleName>\n"%(level))
+        f.write("  <Datasource>\n")
+        f.write("    <Parameter name=\"type\">raster</Parameter>\n")
+        f.write("    <Parameter name=\"file\">%s</Parameter>\n" % (X))
+        f.write("    <Parameter name=\"format\">tiff</Parameter>\n")
+        f.write('    <Parameter name="lox">%s</Parameter>\n' % lox)
+        f.write('    <Parameter name="loy">%s</Parameter>\n' % loy)
+        f.write('    <Parameter name="hix">%s</Parameter>\n' % hix)
+        f.write('    <Parameter name="hiy">%s</Parameter>\n' % hiy)
+        f.write("  </Datasource>\n")
+        f.write("</Layer>\n")
+
+        y = y + 1
+#      except:
+#        print X
+#        print "Aille! (0)"
+    f.close
+
+level('/media/Mapnik/SRTM/colorshade/1', 0)
+level('/media/Mapnik/SRTM/colorshade/2', 1)
+level('/media/Mapnik/SRTM/colorshade/3', 2)
+level('/media/Mapnik/SRTM/colorshade/4', 3)
+level('/media/Mapnik/SRTM/colorshade/5', 4)
+#level('/media/Mapnik/Fond-marin/GEBCO_08/multi/1', 5)
+#level('/media/Mapnik/Fond-marin/GEBCO_08/multi/2', 6)
+#level('/media/Mapnik/Fond-marin/GEBCO_08/multi/3', 7)
+#level('/media/Mapnik/Fond-marin/GEBCO_08/multi/4', 8)
+#level('/media/Mapnik/Fond-marin/GEBCO_08/multi', 9)
+
+"""    
+coord = ["NW", "NE", "SW", "SE"]
+coord_add = {"NW": 1, "NE": 0, "SW": 1, "SE": 0}
+coord_ns1 = {"NW": 0, "NE": 0, "SW": -85, "SE": -85}
+coord_ns2 = {"NW": 85, "NE": 85, "SW": 0, "SE": 0}
+coord_ew_signe = {"NW": -1, "NE": 1, "SW": -1, "SE": 1}
+coord_ew_fix = {"NW": 1, "NE": 0, "SW": 1, "SE": 0}
+"""
+
+
