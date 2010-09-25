@@ -108,6 +108,15 @@ function getOSMStyle() {
       'wood': { fillColor: '#73c182', fillOpacity: 0.5, stroke: false }
     });
     addStrokeArea(styleMap, 'building', '.+', '#bca9a9', 1);
+
+    styleMap.styles["default"].addRules([new OpenLayers.Rule({
+        symbolizer: { fill: false },
+        filter: new OpenLayers.Filter.Comparison({
+            type: OpenLayers.Filter.Comparison.LIKE,
+            property: 'admin_level',
+            value: '.+'
+        })
+    })]);
     
     addStroke(styleMap, 'waterway', 'river', 'blue', 15);
     addStroke(styleMap, 'waterway', 'stream', 'blue', 6);

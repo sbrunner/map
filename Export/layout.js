@@ -1,5 +1,8 @@
 
-OpenLayers.ProxyHost= "proxy.php?url="; // proxy is required here
+
+if (!OpenLayers.OSM_URL) {
+    OpenLayers.ProxyHost = "proxy.php?url="; // proxy is required here
+}
 
 var epsg900913 = new OpenLayers.Projection("EPSG:900913");
 var epsg4326 = new OpenLayers.Projection("EPSG:4326");
@@ -20,7 +23,11 @@ function getEventListener() {
               else {
                 html += '<br />'
               }
-              if (a == 'url') {
+              if (a == 'website') {
+                var href = o.feature.attributes[a];
+                html += a + ': <a href="' + href + '">' + href + '</a>';
+              }
+              else if (a == 'url') {
                 var href = o.feature.attributes[a];
                 html += a + ': <a href="' + href + '">' + href + '</a>';
               }
@@ -33,11 +40,10 @@ function getEventListener() {
                 var href = 'http://' + lang + '.wikipedia.org/wiki/' + o.feature.attributes[a];
                 html += a + ': <a href="' + href + '">' + o.feature.attributes[a] + '</a>';
               }
-              if (a == 'OSM user') {
+              else if (a == 'OSM user') {
                 var href = "http://www.openstreetmap.org/user/" + o.feature.attributes[a];
                 html += '<a href="' + href + '">Last edit by ' + o.feature.attributes[a] + '</a>';
               }
-              
               else {                  
                 html += a + ": " + o.feature.attributes[a];
               }
@@ -52,18 +58,33 @@ function getEventListener() {
     }
 }
 function addXapiStyleLayer(map, name, styleMap, type, id, element, predicate) {
+    var format = new OpenLayers.Format.OSM({ 
+        checkTags: true,
+        externalProjection: epsg4326
+    });
+    var protocol;
+    var strategies = null;
+    if (OpenLayers.OSM_URL) {
+        protocol = new OpenLayers.Protocol.HTTP({
+            url: OpenLayers.OSM_URL,
+            format: format
+        });
+        strategies = [ new OpenLayers.Strategy.Fixed({ preload: false }) ]
+    }
+    else {
+        protocol = new OpenLayers.Protocol.XAPI({
+            element: element,
+            predicate: predicate,
+            format: format
+        });
+        strategies = [ new OpenLayers.Strategy.BBOX({ ratio: 1.2 }) ]
+    }
+
     layer = new OpenLayers.Layer.Vector(name, {
         id: id,
         projection: epsg4326,
-        strategies: [ new OpenLayers.Strategy.BBOX({ ratio: 1.2 }) ], 
-        protocol: new OpenLayers.Protocol.XAPI({
-            element: element,
-            predicate: predicate,
-            format: new OpenLayers.Format.OSM({ 
-                checkTags: true,
-                externalProjection: epsg4326
-            })
-        }),
+        strategies: strategies, 
+        protocol: protocol,
         eventListeners: getEventListener(),
         styleMap: styleMap,
         visibility: false,
@@ -79,14 +100,23 @@ function addXapiStyleLayer(map, name, styleMap, type, id, element, predicate) {
     map.addControl(sf);
 }
 function addOsmStyleLayer(map, name, styleMap, type, id) {
+    var url = "http://api.openstreetmap.org/api/0.6/map?";
+    var strategies = [];
+    if (OpenLayers.OSM_URL) {
+        url = OpenLayers.OSM_URL;
+        strategies = [ new OpenLayers.Strategy.Fixed({ preload: false }) ]
+    }
+    else {
+        strategies = [ new OpenLayers.Strategy.BBOX({ ratio: 1.2 }) ];
+    }
     layer = new OpenLayers.Layer.Vector(name, {
         id: id,
         projection: epsg4326,
         maxResolution: 1.5,
-        strategies: [ new OpenLayers.Strategy.BBOX({ ratio: 1.2 }) ],
+        strategies: strategies,
         protocol: new OpenLayers.Protocol.HTTP({
 //            url: "http://localhost/ol/osm.osm",
-            url: "http://api.openstreetmap.org/api/0.6/map?",
+            url: url,
             format: new OpenLayers.Format.OSM({ 
                 checkTags: true,
                 externalProjection: epsg4326

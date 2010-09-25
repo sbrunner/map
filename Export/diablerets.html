@@ -17,20 +17,27 @@
     <meta HTTP-EQUIV="Content-Language" CONTENT="fr" />
     <meta name="verify-v1" content="syP8XFMkXjlqcZAwWi+v+943YidZzaCgRsAWI1leDQE=" />
 
+
     <script type="text/javascript" src="http://extjs.cachefly.net/ext-3.2.1/adapter/ext/ext-base.js"></script>
     <script type="text/javascript" src="http://extjs.cachefly.net/ext-3.2.1/ext-all.js"></script>
     <link rel="stylesheet" type="text/css" href="http://extjs.cachefly.net/ext-3.2.1/resources/css/ext-all.css" />
     <link rel="stylesheet" type="text/css" href="http://extjs.cachefly.net/ext-3.2.1/examples/shared/examples.css" />
-    <script src="OpenLayers.js"></script>
+    <script type="text/javascript" src="OpenLayers.js"></script>
+    <script type="text/javascript" src="../openlayers/lib/OpenLayers.js"></script>
     <!-- should be build -->
     <script type="text/javascript" src="http://dev.geoext.org/trunk/geoext/lib/GeoExt.js"></script>
-    <script type="text/javascript" src="https://getfirebug.com/firebug-lite.js"></script>
 
-    <script src="layout.js"></script>
-    <script src="commonstyle.js"></script>
-    <script src="josmstyle.js"></script>
-    <script src="osmstyle.js"></script>
-    <script src="style.js"></script>
+    <script type="text/javascript">
+        OpenLayers.OSM_URL = "http://map.stephane-brunner.ch/diablerets.osm";
+        OpenLayers.OSM_URL = "http://localhost/map/Export/diablerets.osm";
+    </script>
+
+
+    <script type="text/javascript" src="layout.js"></script>
+    <script type="text/javascript" src="commonstyle.js"></script>
+    <script type="text/javascript" src="josmstyle.js"></script>
+    <script type="text/javascript" src="osmstyle.js"></script>
+    <script type="text/javascript" src="style.js"></script>
 
     <link type="text/css" rel="stylesheet" media="screen" href="theme/default/style.css">
 
