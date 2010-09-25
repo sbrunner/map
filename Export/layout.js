@@ -1,8 +1,56 @@
+/**
+ * @requires commonstyle.js
+ * @requires josmstyle.js
+ * @requires osmstyle.js
+ * @requires style.js
+ * @requires protocole.js
+ * 
+ * @requires OpenLayers/Util.js
+ * @requires OpenLayers/Lang.js
+ * @requires OpenLayers/Map.js
+ * @requires OpenLayers/Control/SelectFeature.js
+ * @requires OpenLayers/Control/PanZoomBar.js
+ * @requires OpenLayers/Control/MousePosition.js
+ * @requires OpenLayers/Control/KeyboardDefaults.js
+ * @requires OpenLayers/Control/Attribution.js
+ * @requires OpenLayers/Control/ScaleLine.js
+ * @requires OpenLayers/Control/Permalink.js
+ * @requires OpenLayers/Control/ArgParser.js
+ * @requires OpenLayers/Strategy/Fixed.js
+ * @requires OpenLayers/Strategy/BBOX.js
+ * @requires OpenLayers/Protocol/HTTP.js
+ * @requires OpenLayers/Format/JSON.js
+ * @requires OpenLayers/Format/OSM.js
+ * @requires OpenLayers/Layer/Vector.js
+ * @requires OpenLayers/Layer/XYZ.js
+ * 
+ * @requires GeoExt/widgets/MapPanel.js
+ * @requires GeoExt/widgets/tree/LayerContainer.js
+ * @requires GeoExt/widgets/tree/LayerLoader.js
+ * @requires GeoExt/state/PermalinkProvider.js
+ */
 
 
 if (!OpenLayers.OSM_URL) {
     OpenLayers.ProxyHost = "proxy.php?url="; // proxy is required here
 }
+OpenLayers.IMAGE_RELOAD_ATTEMPTS = 2;
+
+Array.prototype.contains = function (needle) {
+   for (i in this) {
+       if (this[i] == needle) return true;
+   }
+   return false;
+}
+var lang = 'en';
+if (navigator.language) {
+    lang = navigator.language.substring(0, 2);
+}
+if (['en', 'fr'].contains(lang)) {
+    document.write("<script type=\"text/javascript\" src=\"" + lang + ".js\"></script>");
+}
+OpenLayers.Lang.defaultCode = lang;
+OpenLayers.Lang.setCode(lang);
 
 var epsg900913 = new OpenLayers.Projection("EPSG:900913");
 var epsg4326 = new OpenLayers.Projection("EPSG:4326");
@@ -139,6 +187,8 @@ function addOsmStyleLayer(map, name, styleMap, type, id) {
 
 Ext.onReady(function() {
 
+    document.title = OpenLayers.i18n("Various OSM map");
+    
     // set a permalink provider
     var index = window.location.href.indexOf("#");
     if (index > 0) {
@@ -175,15 +225,6 @@ Ext.onReady(function() {
 //            map.addControl(new OpenLayers.Control.MouseDefaults());
     map.addControl(new OpenLayers.Control.ScaleLine({geodesic: true}));
 
-    map.addControl(new OpenLayers.Control.PermalinkLayer("permalink.potlatch", "http://www.openstreetmap.org/edit"));
-    map.addControl(new OpenLayers.Control.PermalinkLayer("permalink.amenity.editor", " http://ae.osmsurround.org/"));
-    map.addControl(new OpenLayers.Control.PermalinkLayer("permalink.keepright", "http://keepright.ipax.at/report_map.php"));
-    map.addControl(new OpenLayers.Control.PermalinkLayer("permalink.restrictions", "http://osm.virtuelle-loipe.de/restrictions/"));
-    map.addControl(new OpenLayers.Control.PermalinkLayer("permalink.maxspeed", "http://maxspeed.osm.lab.rfc822.org/", "B0TF"));
-    map.addControl(new OpenLayers.Control.PermalinkLayer("permalink.refuges", "http://refuges.info/nav.php?choix_layer=OSM"));
-    map.addControl(new OpenLayers.Control.PermalinkLayer("permalink.letuffe", "http://beta.letuffe.org/"));
-    map.addControl(new OpenLayers.Control.PermalinkLayer("permalink.browser", "http://www.openstreetbrowser.org/"));
-
     typeBase = "base";
     typeSrtm = "srtm";
     typeExternals = "ext";
@@ -194,72 +235,72 @@ Ext.onReady(function() {
     typeBrutWays = "way";
     typeBrutRels = "relation";
 
-    map.addLayer(new OpenLayers.Layer.XYZ("Mapnik", "http://c.tile.openstreetmap.org/${z}/${x}/${y}.png", { numZoomLevels: 18, type: typeBase, attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", id: "mk" }));
-    map.addLayer(new OpenLayers.Layer.XYZ("Fond blanc", "http://map.stephane-brunner.ch/white.png", { numZoomLevels: 22, type: typeDebugs, visibility: false, id: "w" }));
-    map.addLayer(new OpenLayers.Layer.XYZ("Fond noire", "http://map.stephane-brunner.ch/black.png", { numZoomLevels: 22, type: typeDebugs, visibility: false, id: "b" }));
-    map.addLayer(new OpenLayers.Layer.XYZ("TopoMap*", "http://map.stephane-brunner.ch/topo/${z}/${x}/${y}.png", 
+    map.addLayer(new OpenLayers.Layer.XYZ(OpenLayers.i18n("Mapnik"), "http://c.tile.openstreetmap.org/${z}/${x}/${y}.png", { numZoomLevels: 18, type: typeBase, attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", id: "mk" }));
+    map.addLayer(new OpenLayers.Layer.XYZ(OpenLayers.i18n("White background"), "http://map.stephane-brunner.ch/white.png", { numZoomLevels: 22, type: typeDebugs, visibility: false, id: "w" }));
+    map.addLayer(new OpenLayers.Layer.XYZ(OpenLayers.i18n("Black background"), "http://map.stephane-brunner.ch/black.png", { numZoomLevels: 22, type: typeDebugs, visibility: false, id: "b" }));
+    map.addLayer(new OpenLayers.Layer.XYZ(OpenLayers.i18n("TopoMap"), "http://map.stephane-brunner.ch/topo/${z}/${x}/${y}.png", 
             { numZoomLevels: 18, type: typeSrtm, visibility: false, buffer:1, attribution: "Data by <a href='ftp://e0srp01u.ecs.nasa.gov/srtm/version2/SRTM3/'>NASA</a>, <a href='http://asterweb.jpl.nasa.gov/gdem.asp'>ASTER</a>, <a href='http://www.gebco.net/'>GEBCO</a> and <a href='http://www.osm.org/'>OSM</a>", id: "topo" }));
-    map.addLayer(new OpenLayers.Layer.XYZ("Osmarender", "http://b.tah.openstreetmap.org/Tiles/tile/${z}/${x}/${y}.png", { numZoomLevels: 18, type: typeBase, visibility: false, attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", id: "osma" }));
-    map.addLayer(new OpenLayers.Layer.XYZ("Cycliste", "http://b.tile.opencyclemap.org/cycle/${z}/${x}/${y}.png", { numZoomLevels: 18, type: typeBase, visibility: false, attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", id: "bike" }));
-    map.addLayer(new OpenLayers.Layer.XYZ("Piste", "http://tiles.openpistemap.org/contours/${z}/${x}/${y}.png", { numZoomLevels: 18, type: typeBase, visibility: false, attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", id: "sky" }));
-    map.addLayer(new OpenLayers.Layer.XYZ("Transport public", "http://tile.xn--pnvkarte-m4a.de/tilegen/${z}/${x}/${y}.png", { numZoomLevels: 19, type: typeBase, visibility: false, attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", id: "pt" }));
-    map.addLayer(new OpenLayers.Layer.XYZ("CloudMade Nonames", "http://tile.cloudmade.com/D563D910896D4B67B22BC1088920C483/3/256/${z}/${x}/${y}.png",
+    map.addLayer(new OpenLayers.Layer.XYZ(OpenLayers.i18n("Osmarender"), "http://b.tah.openstreetmap.org/Tiles/tile/${z}/${x}/${y}.png", { numZoomLevels: 18, type: typeBase, visibility: false, attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", id: "osma" }));
+    map.addLayer(new OpenLayers.Layer.XYZ(OpenLayers.i18n("OpenCycleMap"), "http://b.tile.opencyclemap.org/cycle/${z}/${x}/${y}.png", { numZoomLevels: 18, type: typeBase, visibility: false, attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", id: "bike" }));
+    map.addLayer(new OpenLayers.Layer.XYZ(OpenLayers.i18n("OpenPisteMap"), "http://tiles.openpistemap.org/contours/${z}/${x}/${y}.png", { numZoomLevels: 18, type: typeBase, visibility: false, attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", id: "sky" }));
+    map.addLayer(new OpenLayers.Layer.XYZ(OpenLayers.i18n("Public transport"), "http://tile.xn--pnvkarte-m4a.de/tilegen/${z}/${x}/${y}.png", { numZoomLevels: 19, type: typeBase, visibility: false, attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", id: "pt" }));
+    map.addLayer(new OpenLayers.Layer.XYZ(OpenLayers.i18n("CloudMade nonames"), "http://tile.cloudmade.com/D563D910896D4B67B22BC1088920C483/3/256/${z}/${x}/${y}.png",
             {displayOutsideMaxExtent: true, numZoomLevels: 18, attribution: "<a href='http://www.openstreetmap.org/'>CC-BY-SA OpenStreetMap &amp; Contributors</a> -- tiles from <a href='http://www.cloudmade.com/'>CloudMade</a>", type: typeDebugs, visibility: false, id: "non" }));
 
     //map.addLayer(new OpenLayers.Layer.OSM("OpenAerialMap","http://tile.openaerialmap.org/tiles/1.0.0/openaerialmap-900913/${z}/${x}/${y}.png"));
     //map.addLayer(new OpenLayers.Layer.XYZ("OSM (semitransparent)", "http://c.tile.openstreetmap.org/${z}/${x}/${y}.png", { isBaseLayer: false, visibility: false, opacity: 0.4}));
     //map.addLayer(new OpenLayers.Layer.XYZ("OPM (semitransparent)", "http://openpistemap.org/tiles/nocontours/${z}/${x}/${y}.png", { isBaseLayer: false, visibility: false, opacity: 0.4}));
 
-    map.addLayer(new OpenLayers.Layer.XYZ("Septembre 2008", "lausanne-20080926/${z}/${x}/${y}.png", {numZoomLevels: 18, isBaseLayer: false, type: typeHist, attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", id: "20080926", visibility: false, opacity: 0.5 }));
+    map.addLayer(new OpenLayers.Layer.XYZ(OpenLayers.i18n("September 2008"), "lausanne-20080926/${z}/${x}/${y}.png", {numZoomLevels: 18, isBaseLayer: false, type: typeHist, attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", id: "20080926", visibility: false, opacity: 0.5 }));
     /*map.addLayer(new OpenLayers.Layer.XYZ("Lausanne mai 2009", "lausanne-20090515/${z}/${x}/${y}.png", null));*/
-    map.addLayer(new OpenLayers.Layer.XYZ("Juin 2009", "lausanne-20090606/${z}/${x}/${y}.png", {numZoomLevels: 18, isBaseLayer: false, type: typeHist, attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", id: "20090606", visibility: false, opacity: 0.5 }));
-    map.addLayer(new OpenLayers.Layer.XYZ("Juin 2010", "lausanne-20100622/${z}/${x}/${y}.png", {numZoomLevels: 18, isBaseLayer: false, type: typeHist, attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", id: "20100622", visibility: false, opacity: 0.5 }));
+    map.addLayer(new OpenLayers.Layer.XYZ(OpenLayers.i18n("June 2009"), "lausanne-20090606/${z}/${x}/${y}.png", {numZoomLevels: 18, isBaseLayer: false, type: typeHist, attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", id: "20090606", visibility: false, opacity: 0.5 }));
+    map.addLayer(new OpenLayers.Layer.XYZ(OpenLayers.i18n("June 2010"), "lausanne-20100622/${z}/${x}/${y}.png", {numZoomLevels: 18, isBaseLayer: false, type: typeHist, attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", id: "20100622", visibility: false, opacity: 0.5 }));
 
 
-    map.addLayer(new OpenLayers.Layer.XYZ("Contours*", "http://map.stephane-brunner.ch/contours/${z}/${x}/${y}.png", 
+    map.addLayer(new OpenLayers.Layer.XYZ(OpenLayers.i18n("Contours"), "http://map.stephane-brunner.ch/contours/${z}/${x}/${y}.png", 
             { numZoomLevels: 18, type: typeSrtm, visibility: false, buffer: 1, isBaseLayer: false, attribution: "Data by <a href='ftp://e0srp01u.ecs.nasa.gov/srtm/version2/SRTM3/'>NASA</a>, <a href='http://asterweb.jpl.nasa.gov/gdem.asp'>ASTER</a>", id: "cont" }));
     //map.addLayer(new OpenLayers.Layer.Error("Adresses incomplettes*"));
 
-    addXapiStyleLayer(map, "Vitesses maximales", getMaxSpeedStyle(), typeUtils, "speed", "way", "maxspeed=*");
-    addXapiStyleLayer(map, "Poid maximum", null, typeUtils, "weight", "way", "maxweight=*");
-    addXapiStyleLayer(map, "Hauteur maximale", null, typeUtils, "height", "way", "maxheight=*");
-    addXapiStyleLayer(map, "Largeur maximale", null, typeUtils, "width", "way", "maxwidth=*");
-    addXapiStyleLayer(map, "Longueur maximale", null, typeUtils, "length", "way", "maxlength=*");
+    addXapiStyleLayer(map, OpenLayers.i18n("Speed"), getMaxSpeedStyle(), typeUtils, "speed", "way", "maxspeed=*");
+    addXapiStyleLayer(map, OpenLayers.i18n("Weight"), null, typeUtils, "weight", "way", "maxweight=*");
+    addXapiStyleLayer(map, OpenLayers.i18n("Height"), null, typeUtils, "height", "way", "maxheight=*");
+    addXapiStyleLayer(map, OpenLayers.i18n("Width"), null, typeUtils, "width", "way", "maxwidth=*");
+    addXapiStyleLayer(map, OpenLayers.i18n("Length"), null, typeUtils, "length", "way", "maxlength=*");
 
     //addOsmStyleLayer(map, "Randonnée", getHikkingStyle(), typeExternals);
-    addXapiStyleLayer(map, "Randonnée (Ways)", getHikkingStyle(), typeExternals, "sac.w", "way", "natural=peak|mountain_pass=yes");
-    addXapiStyleLayer(map, "Randonnée (Nodes)", getHikkingStyle(), typeExternals, "sac.n", "node", "sac_scale|highway=path");
+    addXapiStyleLayer(map, OpenLayers.i18n("Hiking (Ways)"), getHikkingStyle(), typeExternals, "sac.w", "way", "natural=peak|mountain_pass=yes");
+    addXapiStyleLayer(map, OpenLayers.i18n("Hiking (Nodes)"), getHikkingStyle(), typeExternals, "sac.n", "node", "sac_scale|highway=path");
 
-    addXapiStyleLayer(map, "MTB", getMTBStyle(), typeExternals, "mtb", "way", "mtb:scale=*|route=mtb|route=bicycle");
-    addXapiStyleLayer(map, "Luge", getSledStyle(), typeExternals, "sled", "way", "piste:type=sled");
-    addXapiStyleLayer(map, "Raquette", getSnowShoeStyle(), typeExternals, "ss", "relation", "route=snowshoe");
-    addXapiStyleLayer(map, "Fond", getNordicStyle(), typeExternals, "nordic", "way", "piste:type=nordic");
-    addXapiStyleLayer(map, "Sky", getSkyStyle(), "dh", "way", "piste:type=downhill");
-    addXapiStyleLayer(map, "Winter Walks", typeExternals, getWinterWalksStyle(), "ww", "relation", "route=winterwalks");
-    addXapiStyleLayer(map, "Pourcours santé / PisteVita", getVitaStyle(), typeExternals, "ft", "relation", "route=fitness_trail");
+    addXapiStyleLayer(map, OpenLayers.i18n("MTB"), getMTBStyle(), typeExternals, "mtb", "way", "mtb:scale=*|route=mtb|route=bicycle");
+    addXapiStyleLayer(map, OpenLayers.i18n("Sled"), getSledStyle(), typeExternals, "sled", "way", "piste:type=sled");
+    addXapiStyleLayer(map, OpenLayers.i18n("Snows shoe"), getSnowShoeStyle(), typeExternals, "ss", "relation", "route=snowshoe");
+    addXapiStyleLayer(map, OpenLayers.i18n("Nordic"), getNordicStyle(), typeExternals, "nordic", "way", "piste:type=nordic");
+    addXapiStyleLayer(map, OpenLayers.i18n("Down hill"), getSkyStyle(), "dh", "way", "piste:type=downhill");
+    addXapiStyleLayer(map, OpenLayers.i18n("Winter Walks"), typeExternals, getWinterWalksStyle(), "ww", "relation", "route=winterwalks");
+    addXapiStyleLayer(map, OpenLayers.i18n("Fitness trail"), getVitaStyle(), typeExternals, "ft", "relation", "route=fitness_trail");
 
-    map.addLayer(new OpenLayers.Layer.XYZ("Text of fixme and note", "http://beta.letuffe.org/tiles/renderer.py/fixme-text/${z}/${x}/${y}.png",
+    map.addLayer(new OpenLayers.Layer.XYZ(OpenLayers.i18n("Text of fixme and note"), "http://beta.letuffe.org/tiles/renderer.py/fixme-text/${z}/${x}/${y}.png",
               { displayOutsideMaxExtent: true , buffer:1, isBaseLayer: false, visibility: false, type: typeDebugs, attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", id: "fn" }));
 
     //map.addLayer(new OpenLayers.Layer.TM("TopoMap* (semitransparent)", { isBaseLayer: false, visibility: false, opacity: 0.6, numZoomLevels: 17 }));
 
-    map.addLayer(new OpenLayers.Layer.XYZ("Nœud dupliqué", "http://matt.dev.openstreetmap.org/dupe_nodes/tiles/renderer.py/1.0.0/dupe_nodes/${z}/${x}/${y}.png", { isBaseLayer: false, visibility: false, numZoomLevels: 18, type: typeDebugs, attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", id: "dbl" }));
-    map.addLayer(new OpenLayers.Layer.XYZ("Itinéraires de randonnées", "http://osm.lonvia.de/hiking/${z}/${x}/${y}.png", { isBaseLayer: true, visibility: false, numZoomLevels: 17, type: typeBase, attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", id: "hiking" }));
+    map.addLayer(new OpenLayers.Layer.XYZ(OpenLayers.i18n("Duplicates nodes"), "http://matt.dev.openstreetmap.org/dupe_nodes/tiles/renderer.py/1.0.0/dupe_nodes/${z}/${x}/${y}.png", { isBaseLayer: false, visibility: false, numZoomLevels: 18, type: typeDebugs, attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", id: "dbl" }));
+    map.addLayer(new OpenLayers.Layer.XYZ(OpenLayers.i18n("Hiking Tails"), "http://osm.lonvia.de/hiking/${z}/${x}/${y}.png", { isBaseLayer: true, visibility: false, numZoomLevels: 17, type: typeBase, attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", id: "hiking" }));
 
     
     var types = [typeBrutNodes, typeBrutWays, typeBrutRels];
     var cats = ["leisure", "amenity", "shop", "office", "tourism", "historic", "highway", "barrier", "cycleway", "tracktype", "railway", "aeroway", "power", "man_made", "landuse", "military", "natural", "route", "boundary", "sport", "abutters", "accessories", "place"];
     for (var i in types) {
         type = types[i];
-        for (var j in cats) {
+        for (var j = 0 ; j < cats.length ; j++) {
             cat = cats[j];
             addXapiStyleLayer(map, cat, null, type, type + "." + cat, type, cat + "=*");
         }
     }
     
 
-    addOsmStyleLayer(map, "All features", getOSMStyle(), typeBase, "osm");
-    addOsmStyleLayer(map, "Brut", null, typeDebugs, "brut");
+    addOsmStyleLayer(map, OpenLayers.i18n("All features"), getOSMStyle(), typeBase, "osm");
+    addOsmStyleLayer(map, OpenLayers.i18n("Raw"), null, typeDebugs, "brut");
 
     if (map.getZoom() == 0) {
       if (navigator.geolocation) {
@@ -287,7 +328,7 @@ Ext.onReady(function() {
     var onStatechange = function(provider) {
         var l = provider.getLink(permalinkBase);
         l = l.replace("#\?", "#");
-        Ext.get("permalink").update("<a href=" + l + ">Permalink</a>");
+        Ext.get("permalink").update("<a href=" + l + ">" + OpenLayers.i18n("Permalink") + "</a>");
         
         var l = provider.getLink(permalinkTitleBase);
         l = l.replace("#\?", "#");
@@ -312,7 +353,7 @@ Ext.onReady(function() {
         if (bounds) {
             Ext.get("josm").update("<a href='http://127.0.0.1:8111/load_and_zoom?"
                 + "left=" + bounds.left + "&right=" + bounds.right
-                + "&top=" + bounds.top + "&bottom=" + bounds.bottom + "'>Edit with JOSM</a>");
+                + "&top=" + bounds.top + "&bottom=" + bounds.bottom + "'>" + OpenLayers.i18n("Edit with JOSM") + "</a>");
         }
         
     };
@@ -345,23 +386,28 @@ Ext.onReady(function() {
     }
 
     layerContainerList = [
-        createLayerContainer("Base Layers", typeBase, true),
-        createLayerContainer("Altitude", typeSrtm, true),
-        createLayerContainer("Outdoor", typeExternals, true),
-        createLayerContainer("Utils", typeUtils, true),
+        createLayerContainer(OpenLayers.i18n("Base Layers"), typeBase, true),
+        createLayerContainer(OpenLayers.i18n("Dem"), typeSrtm, true),
+        createLayerContainer(OpenLayers.i18n("Outdoor"), typeExternals, true),
         new Ext.tree.TreeLoader({
-            text: "Debug",
+            text: OpenLayers.i18n("Utils"),
             children: [
-                createLayerContainer("Swiss history", typeHist, false),
-                createLayerContainer("Autre", typeDebugs, false)
+                createLayerContainer(OpenLayers.i18n("Max"), typeUtils, true)
             ]
         }),
         new Ext.tree.TreeLoader({
-            text: "Affichage brut",
+            text: OpenLayers.i18n("Debug"),
             children: [
-                createLayerContainer("Nodes", typeBrutNodes, false),
-                createLayerContainer("Ways", typeBrutWays, false),
-                createLayerContainer("Relations", typeBrutRels, false)
+                createLayerContainer(OpenLayers.i18n("Swiss history"), typeHist, false),
+                createLayerContainer(OpenLayers.i18n("Other"), typeDebugs, false)
+            ]
+        }),
+        new Ext.tree.TreeLoader({
+            text: OpenLayers.i18n("Raw"),
+            children: [
+                createLayerContainer(OpenLayers.i18n("Nodes"), typeBrutNodes, false),
+                createLayerContainer(OpenLayers.i18n("Ways"), typeBrutWays, false),
+                createLayerContainer(OpenLayers.i18n("Relations"), typeBrutRels, false)
             ]
         })
     ];
@@ -371,7 +417,7 @@ Ext.onReady(function() {
     var tree = new Ext.tree.TreePanel({
         border: true,
         region: "top",
-        title: "Layers",
+        title: OpenLayers.i18n("Layers"),
         width: 200,
         split: true,
         collapsible: true,
@@ -403,13 +449,48 @@ Ext.onReady(function() {
                 split: true,
                 width: 200,
                 items: [tree, {
-                        contentEl: "desc",
+                        baseCls: "x-plane",
                         region: "top",
-                        title: "Infos"
+                        title: "Infos",
+                        html: "<div id='desc'>"
+                            + "<h2>" + OpenLayers.i18n("Selected feature") + "</h2>"
+                            + "<div id='featureData'></div>"
+                            + "<h2>" + OpenLayers.i18n("Permalink") + "</h2>"
+                            + "<div>"
+                            + "<ul>"
+                            + "<li><div id='permalink'><a href=''>" + OpenLayers.i18n("Permalink") + "</a></div></li>"
+                            + "<li><a id='permalink.potlatch' href=''>" + OpenLayers.i18n("Edit on Potlatch") + "</a></li>"
+                            + "<li><div id='josm'><a href=''>" + OpenLayers.i18n("Edit with JOSM") + "</a></div></li>"
+                            + "</ul>"
+                            + "</div>"
+                            + "<h2>" + OpenLayers.i18n("Utilities links") + "</h2>"
+                            + "<div>"
+                            + "<ul>"
+                            + "<li><a id='permalink.amenity.editor' href='http://ae.osmsurround.org/'>" + OpenLayers.i18n("Amenity (POI) Editor") + "</a></li>"
+                            + "<li><a id='permalink.keepright' href='http://keepright.ipax.at/report_map.php'>" + OpenLayers.i18n("Keep right!") + "</a></li>"
+                            + "<li><a id='permalink.restrictions' href='http://osm.virtuelle-loipe.de/restrictions/'>" + OpenLayers.i18n("Restrictions") + "</a></li>"
+                            + "<li><a id='permalink.maxspeed' href='http://maxspeed.osm.lab.rfc822.org/?layers=B0TF'>" + OpenLayers.i18n("Max speed") + "</a></li>"
+                            + "<li><a id='permalink.refuges' href='http://refuges.info/nav.php?choix_layer=OSM'>" + OpenLayers.i18n("Refuges.info") + "</a></li>"
+                            + "<li><a id='permalink.browser' href='http://www.openstreetbrowser.org/'>" + OpenLayers.i18n("OpenStreetBrowser") + "</a></li>"
+                            + "<li><a id='permalink.letuffe' href='http://beta.letuffe.org/'>" + OpenLayers.i18n("Other test site") + "</a></li>"
+                            + "</ul>"
+                            + "</div>"
+                            + "<h2>" + OpenLayers.i18n("Credits") + "</h2>"
+                            + "<p><a href='http://www.stephane-brunner.ch/mediawiki/index.php/Map'>" + OpenLayers.i18n("Info") + "</a></p>"
                 }]
             }]
         }]
     });
+
+    map.addControl(new OpenLayers.Control.PermalinkLayer("permalink.potlatch", "http://www.openstreetmap.org/edit"));
+    map.addControl(new OpenLayers.Control.PermalinkLayer("permalink.amenity.editor", " http://ae.osmsurround.org/"));
+    map.addControl(new OpenLayers.Control.PermalinkLayer("permalink.keepright", "http://keepright.ipax.at/report_map.php"));
+    map.addControl(new OpenLayers.Control.PermalinkLayer("permalink.restrictions", "http://osm.virtuelle-loipe.de/restrictions/"));
+    map.addControl(new OpenLayers.Control.PermalinkLayer("permalink.maxspeed", "http://maxspeed.osm.lab.rfc822.org/", "B0TF"));
+    map.addControl(new OpenLayers.Control.PermalinkLayer("permalink.refuges", "http://refuges.info/nav.php?choix_layer=OSM"));
+    map.addControl(new OpenLayers.Control.PermalinkLayer("permalink.letuffe", "http://beta.letuffe.org/"));
+    map.addControl(new OpenLayers.Control.PermalinkLayer("permalink.browser", "http://www.openstreetbrowser.org/"));
+
 });
 
 

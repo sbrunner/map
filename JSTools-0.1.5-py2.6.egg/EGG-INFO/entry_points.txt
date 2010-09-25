@@ -1,0 +1,15 @@
+
+    [zc.buildout]
+    default=jstools.bo:BuildJS
+    buildjs=jstools.bo:BuildJS
+    [console_scripts]
+    jsbuild=jstools.build:build
+    jsmin = jstools.jsmin:minify
+    [jstools.jsbuild_command]
+    default=jstools.build:default_merge
+    [jstools.compressor]
+    default=jstools.jsmin:compressor_plugin
+    yui=jstools.yuicompressor:compress [yuicompressor]
+    [jstools.docs]
+    default=jstools.jst [sphinx]
+    

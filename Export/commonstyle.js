@@ -1,3 +1,8 @@
+/**
+ * @requires OpenLayers/Filter/Comparison.js
+ * @requires OpenLayers/Rule.js
+ */
+
 function addPoint(styleMap, property, value, image, width, height) {
     styleMap.styles["default"].addRules([new OpenLayers.Rule({
         symbolizer: { externalGraphic: image, graphicWidth: width ? width : 16, graphicHeight: height ? height : 16, graphicOpacity: 1 },

@@ -1,3 +1,7 @@
+/*
+ * @requires OpenLayers/Protocol.js
+ */
+
 OpenLayers.Protocol.XAPI = OpenLayers.Class(OpenLayers.Protocol, {
 
     /**

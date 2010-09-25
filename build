@@ -1,0 +1,5 @@
+#! /bin/bash
+
+jsbuild $* jsbuild/app.cfg 
+cp Export/index.html .
+cp Export/style.css .
