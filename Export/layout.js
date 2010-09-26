@@ -4,6 +4,7 @@
  * @requires osmstyle.js
  * @requires style.js
  * @requires protocole.js
+ * @requires utils.js
  * 
  * @requires OpenLayers/Util.js
  * @requires OpenLayers/Lang.js
@@ -28,6 +29,15 @@
  * @requires GeoExt/widgets/tree/LayerContainer.js
  * @requires GeoExt/widgets/tree/LayerLoader.js
  * @requires GeoExt/state/PermalinkProvider.js
+ * 
+ * @requires OpenLayers/Control/Measure.js
+ * @requires OpenLayers/Handler/Path.js
+ * @requires OpenLayers/Handler/Polygon.js
+ * @requires GeoExt.ux/MeasureLength.js
+ * @requires GeoExt.ux/MeasureArea.js
+ * 
+ * @requires GeoExt.ux/GeoNamesSearchCombo.js
+ * @requires widgets/RoutingPanel.js
  */
 
 
@@ -36,158 +46,30 @@ if (!OpenLayers.OSM_URL) {
 }
 OpenLayers.IMAGE_RELOAD_ATTEMPTS = 2;
 
-Array.prototype.contains = function (needle) {
-   for (i in this) {
-       if (this[i] == needle) return true;
-   }
-   return false;
-}
 var lang = 'en';
 if (navigator.language) {
     lang = navigator.language.substring(0, 2);
 }
 if (['en', 'fr'].contains(lang)) {
     document.write("<script type=\"text/javascript\" src=\"" + lang + ".js\"></script>");
+    document.write("<meta HTTP-EQUIV=\"Content-Language\" CONTENT=\"" + lang + "\" />");
+
 }
 OpenLayers.Lang.defaultCode = lang;
 OpenLayers.Lang.setCode(lang);
-
-var epsg900913 = new OpenLayers.Projection("EPSG:900913");
-var epsg4326 = new OpenLayers.Projection("EPSG:4326");
 
 var mapPanel;
 var permalinkProvider;
 var permalinkBase;
 var permalinkTitleBase;
 
-function getEventListener() {
-    return {
-        "featureselected": function(o) {
-            var html = null;
-            for (a in o.feature.attributes) {
-              if (html == null) {
-                html = '';
-              }
-              else {
-                html += '<br />'
-              }
-              if (a == 'website') {
-                var href = o.feature.attributes[a];
-                html += a + ': <a href="' + href + '">' + href + '</a>';
-              }
-              else if (a == 'url') {
-                var href = o.feature.attributes[a];
-                html += a + ': <a href="' + href + '">' + href + '</a>';
-              }
-              else if (a == 'wikipedia') {
-                var href = 'http://en.wikipedia.org/wiki/' + o.feature.attributes[a];
-                html += a + ': <a href="' + href + '">' + o.feature.attributes[a] + '</a>';
-              }
-              else if (a.match('^wikipedia:')) {
-                var lang = a.substring('wikipedia:'.length, a.length);
-                var href = 'http://' + lang + '.wikipedia.org/wiki/' + o.feature.attributes[a];
-                html += a + ': <a href="' + href + '">' + o.feature.attributes[a] + '</a>';
-              }
-              else if (a == 'OSM user') {
-                var href = "http://www.openstreetmap.org/user/" + o.feature.attributes[a];
-                html += '<a href="' + href + '">Last edit by ' + o.feature.attributes[a] + '</a>';
-              }
-              else {                  
-                html += a + ": " + o.feature.attributes[a];
-              }
-
-            }
-            var href = "http://www.openstreetmap.org/browse/" + o.feature.type + "/" + o.feature.osm_id + "/history";
-            html += '<br /><a href="' + href + '">History</a>';
-            
-            OpenLayers.Util.getElement('featureData').innerHTML = "<p>" + html + "</p>";
-        },
-        scope: this
-    }
-}
-function addXapiStyleLayer(map, name, styleMap, type, id, element, predicate) {
-    var format = new OpenLayers.Format.OSM({ 
-        checkTags: true,
-        externalProjection: epsg4326
-    });
-    var protocol;
-    var strategies = null;
-    if (OpenLayers.OSM_URL) {
-        protocol = new OpenLayers.Protocol.HTTP({
-            url: OpenLayers.OSM_URL,
-            format: format
-        });
-        strategies = [ new OpenLayers.Strategy.Fixed({ preload: false }) ]
-    }
-    else {
-        protocol = new OpenLayers.Protocol.XAPI({
-            element: element,
-            predicate: predicate,
-            format: format
-        });
-        strategies = [ new OpenLayers.Strategy.BBOX({ ratio: 1.2 }) ]
-    }
-
-    layer = new OpenLayers.Layer.Vector(name, {
-        id: id,
-        projection: epsg4326,
-        strategies: strategies, 
-        protocol: protocol,
-        eventListeners: getEventListener(),
-        styleMap: styleMap,
-        visibility: false,
-        type: type,
-        numZoomLevels: 22,
-        attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>"
-    });
-    map.addLayer(layer);
-    var sf = new OpenLayers.Control.SelectFeature(layer, {
-      autoActivate: true,
-      hover: true
-    });
-    map.addControl(sf);
-}
-function addOsmStyleLayer(map, name, styleMap, type, id) {
-    var url = "http://api.openstreetmap.org/api/0.6/map?";
-    var strategies = [];
-    if (OpenLayers.OSM_URL) {
-        url = OpenLayers.OSM_URL;
-        strategies = [ new OpenLayers.Strategy.Fixed({ preload: false }) ]
-    }
-    else {
-        strategies = [ new OpenLayers.Strategy.BBOX({ ratio: 1.2 }) ];
-    }
-    layer = new OpenLayers.Layer.Vector(name, {
-        id: id,
-        projection: epsg4326,
-        maxResolution: 1.5,
-        strategies: strategies,
-        protocol: new OpenLayers.Protocol.HTTP({
-//            url: "http://localhost/ol/osm.osm",
-            url: url,
-            format: new OpenLayers.Format.OSM({ 
-                checkTags: true,
-                externalProjection: epsg4326
-            })
-        }),
-        eventListeners: getEventListener(),
-        styleMap: styleMap,
-        visibility: false,
-        type: type,
-        numZoomLevels: 22,
-        attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>"
-    });
-    map.addLayer(layer);
-    var sf = new OpenLayers.Control.SelectFeature(layer, {
-      autoActivate: true,
-      hover: true
-    });
-    map.addControl(sf);
-}
 
 Ext.onReady(function() {
+    
+    var width = 300;
 
-    document.title = OpenLayers.i18n("Various OSM map");
+    document.title += " " + OpenLayers.i18n("Various OSM map");
+    Ext.QuickTips.init();
     
     // set a permalink provider
     var index = window.location.href.indexOf("#");
@@ -222,7 +104,6 @@ Ext.onReady(function() {
     map.addControl(new OpenLayers.Control.MousePosition());
     map.addControl(new OpenLayers.Control.KeyboardDefaults());
     map.addControl(new OpenLayers.Control.Attribution());
-//            map.addControl(new OpenLayers.Control.MouseDefaults());
     map.addControl(new OpenLayers.Control.ScaleLine({geodesic: true}));
 
     typeBase = "base";
@@ -380,7 +261,8 @@ Ext.onReady(function() {
                     var layer = record.data.layer;
 //                    var layer = record.getLayer();
                     return layer.type === type;
-                }
+                },
+                onStoreAdd: function(store, records, index, node) {} 
             })
         });
     }
@@ -447,13 +329,45 @@ Ext.onReady(function() {
                 region: "east",
                 collapseMode: "mini",
                 split: true,
-                width: 200,
+                width: width,
+                minWidth: width,
+                maxWidth: width,
+                tbar: [
+                    new GeoExt.Action({
+                        control: new OpenLayers.Control.DragPan(), 
+                        toggleGroup: 'tools', 
+                        iconCls: 'drag-icon', 
+                        tooltip: OpenLayers.i18n("Drag the map"),
+                        pressed: true,
+                        enableToggle: true
+                    }),
+                    new GeoExt.ux.MeasureLength({
+                        map: map,
+                        controlOptions: {
+                            geodesic: true
+                        },
+                        toggleGroup: 'tools'
+                    }), 
+                    new GeoExt.ux.MeasureArea({
+                        map: map,
+                        decimals: 0,
+                        toggleGroup: 'tools'
+                    }),
+                    new GeoExt.ux.GeoNamesSearchCombo({
+                        map: map, 
+                        zoom: 14,
+                        loadingText: OpenLayers.i18n('Search in Geonames...'),
+                        emptyText: OpenLayers.i18n('Search location in Geonames')
+                    })
+                ],
                 items: [tree, {
+                    baseCls: "x-panel",
+                    region: "top",
+                    title: "Infos",
+                    layout: "vbox",
+                    items: [{
                         baseCls: "x-plane",
-                        region: "top",
-                        title: "Infos",
-                        html: "<div id='desc'>"
-                            + "<h2>" + OpenLayers.i18n("Selected feature") + "</h2>"
+                        html: "<h2>" + OpenLayers.i18n("Selected feature") + "</h2>"
                             + "<div id='featureData'></div>"
                             + "<h2>" + OpenLayers.i18n("Permalink") + "</h2>"
                             + "<div>"
@@ -475,8 +389,48 @@ Ext.onReady(function() {
                             + "<li><a id='permalink.letuffe' href='http://beta.letuffe.org/'>" + OpenLayers.i18n("Other test site") + "</a></li>"
                             + "</ul>"
                             + "</div>"
-                            + "<h2>" + OpenLayers.i18n("Credits") + "</h2>"
-                            + "<p><a href='http://www.stephane-brunner.ch/mediawiki/index.php/Map'>" + OpenLayers.i18n("Info") + "</a></p>"
+                    },
+                    {
+                        baseCls: "x-plane",
+                        html: "<h2>" + OpenLayers.i18n("Routing") + "</h2>"
+                    },
+                    {
+                        baseCls: "x-panel",
+                        tbar: [
+                        {
+                            xtype: 'tbfill'
+                        },
+                        {
+                            text: OpenLayers.i18n('Clear'),
+                            enableToggle: false,
+                            handler: function() {
+                                var routingPanelItem = Ext.getCmp("routingPanelItem");
+                                if (routingPanelItem) {
+                                    routingPanelItem.clearItinerary();
+                                }
+                            }
+                        }],
+                        items: [{
+                            xtype: 'gxux_routingpanel',
+                            id: 'routingPanelItem',
+                            border: false,
+                            width: width,
+                            map: map,
+                            // Key for dev.geoext.org: 187a9f341f70406a8064d07a30e5695c
+                            // Key for localhost: BC9A493B41014CAABB98F0471D759707
+                            // KEY for map.stephane-brunner.ch: 60a6b92afa824cc985331da088d3225c
+                            cloudmadeKey: cloudmadeKey,
+                            geocodingType: 'geonames',
+                            listeners: {
+                                routingcomputed: function() {
+                                    //alert('Computation done');
+                                },
+                                beforeroutingcomputed: function() {
+                                    //alert('Before computation');
+                                }
+                            }
+                        }]
+                    }]
                 }]
             }]
         }]
@@ -491,55 +445,7 @@ Ext.onReady(function() {
     map.addControl(new OpenLayers.Control.PermalinkLayer("permalink.letuffe", "http://beta.letuffe.org/"));
     map.addControl(new OpenLayers.Control.PermalinkLayer("permalink.browser", "http://www.openstreetbrowser.org/"));
 
-});
+    routingPanel = Ext.getCmp("routingPanelItem");
+    routingPanel.doLayout();
 
-
-OpenLayers.Control.PermalinkLayer = OpenLayers.Class(OpenLayers.Control.Permalink, {
-    my_layers: null,
-    initialize: function(element, base, my_layers) {
-        this.my_layers = my_layers;
-        this.element = OpenLayers.Util.getElement(element);
-        this.base = base || document.location.href;
-    },
-    /**
-     * Method: updateLink
-     */
-    updateLink: function() {
-        var center = this.map.getCenter();
-
-        // Map not initialized yet. Break out of this function.
-        if (!center) {
-            return;
-        }
-
-        var params = OpenLayers.Util.getParameters(this.base);
-
-        params.zoom = this.map.getZoom();
-
-        var lat = center.lat;
-        var lon = center.lon;
-        if (this.displayProjection) {
-            var mapPosition = OpenLayers.Projection.transform(
-              { x: lon, y: lat },
-              this.map.getProjectionObject(),
-              this.displayProjection );
-            lon = mapPosition.x;
-            lat = mapPosition.y;
-        }
-        params.lat = Math.round(lat*100000)/100000;
-        params.lon = Math.round(lon*100000)/100000;
-
-        if (this.my_layers) {
-            params.layers = this.my_layers;
-        }
-
-        var href = this.base;
-        if( href.indexOf('?') != -1 ){
-            href = href.substring( 0, href.indexOf('?') );
-        }
-
-        href += '?' + OpenLayers.Util.getParameterString(params);
-        this.element.href = href;
-    },
-    CLASS_NAME: "OpenLayers.Control.PermalinkLayer"
 });

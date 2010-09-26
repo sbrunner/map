@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html debug="true">
+<head>
+
+    <script type="text/javascript" src="http://extjs.cachefly.net/builds/ext-cdn-771.js"></script>
+    <!-- Google Maps API for "localhost"
+    <script type="text/javascript" src='http://maps.google.com/maps?file=api&amp;key=ABQIAAAAjpkAC9ePGem0lIq5XcMiuhR_wWLPFku8Ix9i2SXYRVK3e45q1BQUd_beF8dtzKET_EteAjPdGDwqpQ'></script>
+    <script type="text/javascript" src="http://www.google.com/jsapi?key=ABQIAAAAjpkAC9ePGem0lIq5XcMiuhR_wWLPFku8Ix9i2SXYRVK3e45q1BQUd_beF8dtzKET_EteAjPdGDwqpQ"></script>
+    -->
+    <!-- 192.168.1.44 -->
+    <!--
+    <script src='http://maps.google.com/maps?file=api&amp;key=ABQIAAAAY-I0w1WyNCVHbxpuwQWMpRSIMweZSjbRtcUk2F5YNqLnri0MahTrQJRaRPWFP0OUB1b6unv37Jg7vQ'></script>
+    <script type="text/javascript" src="http://www.google.com/jsapi?key=ABQIAAAAY-I0w1WyNCVHbxpuwQWMpRSIMweZSjbRtcUk2F5YNqLnri0MahTrQJRaRPWFP0OUB1b6unv37Jg7vQ"></script>
+    -->
+    <!-- 10.27.10.44  -->
+    <!--
+    <script src='http://maps.google.com/maps?file=api&amp;key=ABQIAAAAY-I0w1WyNCVHbxpuwQWMpRQg15vMUgV9rqK5U3tGsPdx8x_OsBTeBHQ0wK75MLc8dB7yu0cRx36VJQ'></script>
+    <script type="text/javascript" src="http://www.google.com/jsapi?key=ABQIAAAAY-I0w1WyNCVHbxpuwQWMpRQg15vMUgV9rqK5U3tGsPdx8x_OsBTeBHQ0wK75MLc8dB7yu0cRx36VJQ"></script>
+    -->
+
+    <!-- Google Maps API for "dev.geoext.org" -->
+    <script type="text/javascript"
+            src='http://maps.google.com/maps?file=api&amp;key=ABQIAAAAY-I0w1WyNCVHbxpuwQWMpRTv_-xvSZ6KJmWSkQfCJoxbiB7tyBQ1ey_kgwA_p7sbTQSTOBeMyXtXkA'></script>
+    <script type="text/javascript"
+            src="http://www.google.com/jsapi?key=ABQIAAAAY-I0w1WyNCVHbxpuwQWMpRTv_-xvSZ6KJmWSkQfCJoxbiB7tyBQ1ey_kgwA_p7sbTQSTOBeMyXtXkA"></script>
+
+
+    <script type="text/javascript" src="http://openlayers.org/api/2.8/OpenLayers.js"></script>
+    <script type="text/javascript" src="../../../../../trunk/geoext/lib/GeoExt.js"></script>
+    <script type="text/javascript" src="../../../ux/control/GoogleEarthClick.js"></script>
+    <script type="text/javascript" src="../../../ux/widgets/GoogleEarthPanel.js"></script>
+
+    <script type="text/javascript">
+        var ge;
+        google.load("earth", "1");
+
+        function init() {
+            google.earth.createInstance('map3d', initCB, failureCB);
+        }
+
+        function initCB(instance) {
+            ge = instance;
+            ge.getWindow().setVisibility(true);
+        }
+
+        function failureCB(errorCode) {
+        }
+
+        google.setOnLoadCallback(init);
+    </script>
+
+</head>
+<body>
+<div id="map3d" style="height: 400px; width: 600px;"></div>
+</body>
+</html>

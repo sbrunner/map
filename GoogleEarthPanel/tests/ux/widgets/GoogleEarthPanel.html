@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html debug="true">
+<head>
+
+    <script type="text/javascript" src="http://extjs.cachefly.net/builds/ext-cdn-771.js"></script>
+    <!-- Google Maps API for "localhost"
+    <script type="text/javascript" src='http://maps.google.com/maps?file=api&amp;key=ABQIAAAAjpkAC9ePGem0lIq5XcMiuhR_wWLPFku8Ix9i2SXYRVK3e45q1BQUd_beF8dtzKET_EteAjPdGDwqpQ'></script>
+    <script type="text/javascript" src="http://www.google.com/jsapi?key=ABQIAAAAjpkAC9ePGem0lIq5XcMiuhR_wWLPFku8Ix9i2SXYRVK3e45q1BQUd_beF8dtzKET_EteAjPdGDwqpQ"></script>
+    -->
+    <!-- 192.168.1.44 -->
+    <!--
+    <script src='http://maps.google.com/maps?file=api&amp;key=ABQIAAAAY-I0w1WyNCVHbxpuwQWMpRSIMweZSjbRtcUk2F5YNqLnri0MahTrQJRaRPWFP0OUB1b6unv37Jg7vQ'></script>
+    <script type="text/javascript" src="http://www.google.com/jsapi?key=ABQIAAAAY-I0w1WyNCVHbxpuwQWMpRSIMweZSjbRtcUk2F5YNqLnri0MahTrQJRaRPWFP0OUB1b6unv37Jg7vQ"></script>
+    -->
+    <!-- 10.27.10.44  -->
+    <!--
+    <script src='http://maps.google.com/maps?file=api&amp;key=ABQIAAAAY-I0w1WyNCVHbxpuwQWMpRQg15vMUgV9rqK5U3tGsPdx8x_OsBTeBHQ0wK75MLc8dB7yu0cRx36VJQ'></script>
+    <script type="text/javascript" src="http://www.google.com/jsapi?key=ABQIAAAAY-I0w1WyNCVHbxpuwQWMpRQg15vMUgV9rqK5U3tGsPdx8x_OsBTeBHQ0wK75MLc8dB7yu0cRx36VJQ"></script>
+    -->
+
+    <!-- Google Maps API for "dev.geoext.org" -->
+    <script type="text/javascript"
+            src='http://maps.google.com/maps?file=api&amp;key=ABQIAAAAY-I0w1WyNCVHbxpuwQWMpRTv_-xvSZ6KJmWSkQfCJoxbiB7tyBQ1ey_kgwA_p7sbTQSTOBeMyXtXkA'></script>
+    <script type="text/javascript"
+            src="http://www.google.com/jsapi?key=ABQIAAAAY-I0w1WyNCVHbxpuwQWMpRTv_-xvSZ6KJmWSkQfCJoxbiB7tyBQ1ey_kgwA_p7sbTQSTOBeMyXtXkA"></script>
+
+
+    <script type="text/javascript" src="http://openlayers.org/api/2.8/OpenLayers.js"></script>
+    <script type="text/javascript" src="../../../../../trunk/geoext/lib/GeoExt.js"></script>
+    <script type="text/javascript" src="../../../ux/control/GoogleEarthClick.js"></script>
+    <script type="text/javascript" src="../../../ux/widgets/GoogleEarthPanel.js"></script>
+
+    <script type="text/javascript">
+        google.load("earth", "1");
+
+        function test_ctor(t) {
+            t.plan(10);
+            var options = {
+                projection: new OpenLayers.Projection("EPSG:900913"),
+                units: "m",
+                numZoomLevels: 18,
+                maxResolution: 156543.0339,
+                maxExtent: new OpenLayers.Bounds(-20037508, -20037508,
+                        20037508, 20037508.34)
+            };
+            var map = new OpenLayers.Map('map', options);
+            // Add a layer in map
+            var layer = new OpenLayers.Layer.Google(
+                    "Google Street", {sphericalMercator: true});
+            map.addLayer(layer);
+            var center = new OpenLayers.LonLat(-13625995.09, 4550849.74);
+            map.setCenter(center, 14);
+
+            var gePanel = new GeoExt.ux.GoogleEarthPanel({
+                map: map,
+                renderTo: 'map3d'
+            });
+
+            t.ok(gePanel instanceof GeoExt.ux.GoogleEarthPanel,
+                    "ctor creates a GeoExt.ux.GoogleEarthPanel object");
+            t.ok(gePanel instanceof Ext.Panel,
+                    "ctor creates an Ext.Panel object");
+
+            t.eq(gePanel.getTerrainLayer(), true, "showTerrainLayer is true per default");
+            t.eq(gePanel.getBuildingsLayer(), true, "showBuildingsLayer is true per default");
+            t.eq(gePanel.show2DNavigationTool, true, "show2DNavigationTool is true per default");
+            t.eq(gePanel.clickMode, true, "clickMode is true per default");
+            t.eq(gePanel.range, 100, "range is 100 per default");
+            t.eq(gePanel.readPermalink, true, "read permalink is true per default");
+            t.eq(map.getCenter().toString(), "lon=-13625995.09,lat=4550849.74", "map center set correctly");
+            t.eq(map.getZoom(), 14, "zoom set correctly");
+
+            gePanel.destroy();
+        }
+
+    </script>
+<body>
+<div id="map"></div>
+<div id="map3d" style="height: 400px; width: 600px;"></div>
+</body>
+</html>
