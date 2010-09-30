@@ -106,21 +106,21 @@ function getPisteStyle() {
 function getSledStyle() {
     var styleMap = getPisteStyle();
     styleMap.addUniqueValueRules("default", "piste:type", {
-      'sled': { strokeWidth: 4 },
+      'sled': { strokeWidth: 4 }
     });
     return styleMap;
 }
 function getNordicStyle() {
     var styleMap = getPisteStyle();
     styleMap.addUniqueValueRules("default", "piste:type", {
-      'nordic': { strokeWidth: 4 },
+      'nordic': { strokeWidth: 4 }
     });
     return styleMap;
 }
 function getSkyStyle() {
     var styleMap = getPisteStyle();
     styleMap.addUniqueValueRules("default", "piste:type", {
-      'downhill': { strokeWidth: 4 },
+      'downhill': { strokeWidth: 4 }
     });
     return styleMap;
 }
@@ -134,17 +134,17 @@ function getSnowShoeStyle() {
 function getWinterWalksStyle() {
     var styleMap = getMountainStyle();
     styleMap.addUniqueValueRules("default", "route", {
-      'winterwalks': { strokeColor: 'blue', strokeWidth: 3 },
+      'winterwalks': { strokeColor: 'blue', strokeWidth: 3 }
     });
     return styleMap;
 }
 function getVitaStyle() {
     var styleMap = new OpenLayers.StyleMap();
     styleMap.addUniqueValueRules("default", "route", {
-      'fitness_trail': { strokeColor: 'red', strokeWidth: 2 },
+      'fitness_trail': { strokeColor: 'red', strokeWidth: 2 }
     });
     styleMap.addUniqueValueRules("default", "leisure", {
-      'fitness_station': { pointRadius: 3, fillColor: 'orange' },
+      'fitness_station': { pointRadius: 3, fillColor: 'orange' }
     });
     return styleMap;
 }

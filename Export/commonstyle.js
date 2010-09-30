@@ -21,9 +21,30 @@ function addPoint(styleMap, property, value, image, width, height) {
         })
     })]);
 }
-function addStroke(styleMap, property, value, strokeColor, strokeWidth, strokeDashstyle) {
+function addPointNoImg(styleMap, property, value, color, radius, opacity) {
     styleMap.styles["default"].addRules([new OpenLayers.Rule({
-        symbolizer: { strokeColor: strokeColor, strokeWidth: strokeWidth, strokeDashstyle: strokeDashstyle ? strokeDashstyle : "solid" },
+        symbolizer: { fillColor: color, pointRadius: radius, fillOpacity: opacity },
+        filter: new OpenLayers.Filter.Comparison({
+            type: OpenLayers.Filter.Comparison.LIKE,
+            property: property,
+            value: value
+        })
+    })]);
+    styleMap.styles["select"].addRules([new OpenLayers.Rule({
+        symbolizer: { pointRadius: radius, fillOpacity: opacity },
+        filter: new OpenLayers.Filter.Comparison({
+            type: OpenLayers.Filter.Comparison.LIKE,
+            property: property,
+            value: value
+        })
+    })]);
+}
+function addStroke(styleMap, property, value, strokeColor, strokeWidth, strokeDashstyle, strokeOpacity) {
+    styleMap.styles["default"].addRules([new OpenLayers.Rule({
+        symbolizer: { strokeColor: strokeColor, strokeWidth: strokeWidth, 
+            strokeDashstyle: strokeDashstyle ? strokeDashstyle : "solid" ,
+            strokeOpacity: strokeOpacity ? strokeOpacity : 1 
+        },
         filter: new OpenLayers.Filter.Comparison({
             type: OpenLayers.Filter.Comparison.LIKE,
             property: property,

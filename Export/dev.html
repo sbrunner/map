@@ -4,9 +4,6 @@
   <head>
     <!--
     TODO:
-    - retry to use border layout
-    - unable to desable mesure
-    - addresses
     - add trancparency per layer
     - add layer store, organyse order, ...
     - add google street view
@@ -85,6 +82,12 @@ probleme on share geometre between feature.
     <link type="text/css" rel="stylesheet" media="screen" href="style.css">
   </head>
   <body>
+    <div style="position: absolute; left: 40%; top: 45%;" id="waiting">
+      <div style="padding-left: 50px; background: url('images/waiting.gif') no-repeat scroll left center transparent;">
+        <p style="font: bold 13px;  padding: 20px; margin: 0">Please wait, the map is loading<br />Thanks for your patience (especially in internet explorer).</p>
+      </div>
+    </div>
+
       <!-- phpmyvisites -->
       <a href="http://www.phpmyvisites.net/" title="Free web analytics, website statistics"
       onclick="window.open(this.href);return(false);"><script type="text/javascript">

@@ -1,4 +1,7 @@
-﻿
+﻿/**
+ * @requires OpenLayers/Lang.js
+ */
+
 OpenLayers.Util.extend(OpenLayers.Lang.fr, {
     "Various OSM map": "Diverses cartes OSM",
     "Mapnik": "Mapnik",
@@ -79,5 +82,6 @@ OpenLayers.Util.extend(OpenLayers.Lang.fr, {
     "Google Itinerary by public transport": "Itineraire Google en transports publics",
     "Google Itinerary on foot": "Itineraire Google à pieds",
     "Total length: ": "Longueur totale : ",
-    "Drag the map": "Glisse la carte"
+    "Drag the map": "Glisse la carte",
+    "Infos": "Infos"
 });

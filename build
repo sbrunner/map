@@ -14,6 +14,8 @@ then
     ln -s ../Export/white.png up
     ln -s ../Export/class_http.php up
     ln -s ../Export/proxy.php up
+    ln -s ../Export/trace.html up
+    ln -s ../Export/SportLaMargelle.osm up
 fi
 jsbuild $* jsbuild/app.cfg 
-mv fr.js en.js app.js up
+mv fr.js en.js app.js trace.js up

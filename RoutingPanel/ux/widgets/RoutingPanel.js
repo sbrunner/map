@@ -626,8 +626,7 @@ GeoExt.ux.RoutingPanel = Ext.extend(Ext.form.FormPanel, {
             var parameters = OpenLayers.Util.getParameters();
             this.setPermalink(parameters);
         }
-    }
-    ,
+    },
 
     /** method[getPermalink]
      *  Create the permalink
@@ -674,8 +673,7 @@ GeoExt.ux.RoutingPanel = Ext.extend(Ext.form.FormPanel, {
             permalink = permalink + "&routingzoom=" + this.map.getZoom();
         }
         return permalink;
-    }
-    ,
+    },
 
     /** private: method[setPermalink]
      *  Set the permalink according to the url parameters

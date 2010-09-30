@@ -58,6 +58,7 @@ if (['en', 'fr'].contains(lang)) {
 OpenLayers.Lang.defaultCode = lang;
 OpenLayers.Lang.setCode(lang);
 
+var mainPanel;
 var mapPanel;
 var permalinkProvider;
 var permalinkBase;
@@ -104,7 +105,7 @@ Ext.onReady(function() {
     map.addControl(new OpenLayers.Control.MousePosition());
     map.addControl(new OpenLayers.Control.KeyboardDefaults());
     map.addControl(new OpenLayers.Control.Attribution());
-    map.addControl(new OpenLayers.Control.ScaleLine({geodesic: true}));
+    map.addControl(new OpenLayers.Control.ScaleLine({geodesic: true, maxWidth: 120}));
 
     typeBase = "base";
     typeSrtm = "srtm";
@@ -149,8 +150,8 @@ Ext.onReady(function() {
     addXapiStyleLayer(map, OpenLayers.i18n("Length"), null, typeUtils, "length", "way", "maxlength=*");
 
     //addOsmStyleLayer(map, "Randonnée", getHikkingStyle(), typeExternals);
-    addXapiStyleLayer(map, OpenLayers.i18n("Hiking (Ways)"), getHikkingStyle(), typeExternals, "sac.w", "way", "natural=peak|mountain_pass=yes");
-    addXapiStyleLayer(map, OpenLayers.i18n("Hiking (Nodes)"), getHikkingStyle(), typeExternals, "sac.n", "node", "sac_scale|highway=path");
+    addXapiStyleLayer(map, OpenLayers.i18n("Hiking (Ways)"), getHikkingStyle(), typeExternals, "sac.w", "node", "natural=peak|mountain_pass=yes|tourism");
+    addXapiStyleLayer(map, OpenLayers.i18n("Hiking (Nodes)"), getHikkingStyle(), typeExternals, "sac.n", "way", "sac_scale|highway=path");
 
     addXapiStyleLayer(map, OpenLayers.i18n("MTB"), getMTBStyle(), typeExternals, "mtb", "way", "mtb:scale=*|route=mtb|route=bicycle");
     addXapiStyleLayer(map, OpenLayers.i18n("Sled"), getSledStyle(), typeExternals, "sled", "way", "piste:type=sled");
@@ -297,13 +298,6 @@ Ext.onReady(function() {
 
     // create the tree with the configuration from above
     var tree = new Ext.tree.TreePanel({
-        border: true,
-        region: "top",
-        title: OpenLayers.i18n("Layers"),
-        width: 200,
-        split: true,
-        collapsible: true,
-        collapseMode: "mini",
         autoScroll: true,
         loader: new Ext.tree.TreeLoader({
             // applyLoader has to be set to false to not interfer with loaders
@@ -318,20 +312,21 @@ Ext.onReady(function() {
         lines: false
     });
     
-    new Ext.Viewport({
+    mainPanel = new Ext.Viewport({
         layout: "fit",
         hideBorders: true,
         items: [{
             layout: "border",
             deferredRender: false,
             items: [mapPanel, {
-                layout: "accordion",
+                layout: "fit",
                 region: "east",
                 collapseMode: "mini",
                 split: true,
                 width: width,
                 minWidth: width,
                 maxWidth: width,
+                autoScroll: true,
                 tbar: [
                     new GeoExt.Action({
                         control: new OpenLayers.Control.DragPan(), 
@@ -360,25 +355,34 @@ Ext.onReady(function() {
                         emptyText: OpenLayers.i18n('Search location in Geonames')
                     })
                 ],
-                items: [tree, {
-                    baseCls: "x-panel",
-                    region: "top",
-                    title: "Infos",
-                    layout: "vbox",
-                    items: [{
+                items: [getEllements([{
                         baseCls: "x-plane",
-                        html: "<h2>" + OpenLayers.i18n("Selected feature") + "</h2>"
-                            + "<div id='featureData'></div>"
-                            + "<h2>" + OpenLayers.i18n("Permalink") + "</h2>"
-                            + "<div>"
+                        title: OpenLayers.i18n("Selected feature"),
+                        autoScroll: true,
+                        height: 150,
+                        html: "<div id='featureData'></div>"
+                    },
+                    {
+                        title: OpenLayers.i18n("Layers"),
+                        layout: 'fit',
+                        height: 250,
+                        items: [tree]
+                    },
+                    {
+                        baseCls: "x-plane",
+                        title: OpenLayers.i18n("Permalink"),
+                        html: "<div>"
                             + "<ul>"
                             + "<li><div id='permalink'><a href=''>" + OpenLayers.i18n("Permalink") + "</a></div></li>"
                             + "<li><a id='permalink.potlatch' href=''>" + OpenLayers.i18n("Edit on Potlatch") + "</a></li>"
                             + "<li><div id='josm'><a href=''>" + OpenLayers.i18n("Edit with JOSM") + "</a></div></li>"
                             + "</ul>"
                             + "</div>"
-                            + "<h2>" + OpenLayers.i18n("Utilities links") + "</h2>"
-                            + "<div>"
+                    },
+                    {
+                        baseCls: "x-plane",
+                        title: OpenLayers.i18n("Utilities links"),
+                        html: "<div>"
                             + "<ul>"
                             + "<li><a id='permalink.amenity.editor' href='http://ae.osmsurround.org/'>" + OpenLayers.i18n("Amenity (POI) Editor") + "</a></li>"
                             + "<li><a id='permalink.keepright' href='http://keepright.ipax.at/report_map.php'>" + OpenLayers.i18n("Keep right!") + "</a></li>"
@@ -391,11 +395,8 @@ Ext.onReady(function() {
                             + "</div>"
                     },
                     {
-                        baseCls: "x-plane",
-                        html: "<h2>" + OpenLayers.i18n("Routing") + "</h2>"
-                    },
-                    {
                         baseCls: "x-panel",
+                        title: OpenLayers.i18n("Routing"),
                         tbar: [
                         {
                             xtype: 'tbfill'
@@ -418,20 +419,12 @@ Ext.onReady(function() {
                             map: map,
                             // Key for dev.geoext.org: 187a9f341f70406a8064d07a30e5695c
                             // Key for localhost: BC9A493B41014CAABB98F0471D759707
-                            // KEY for map.stephane-brunner.ch: 60a6b92afa824cc985331da088d3225c
+                            // Key for map.stephane-brunner.ch: 60a6b92afa824cc985331da088d3225c
                             cloudmadeKey: cloudmadeKey,
-                            geocodingType: 'geonames',
-                            listeners: {
-                                routingcomputed: function() {
-                                    //alert('Computation done');
-                                },
-                                beforeroutingcomputed: function() {
-                                    //alert('Before computation');
-                                }
-                            }
+                            geocodingType: 'geonames'
                         }]
-                    }]
-                }]
+                    }], {html: ""})]
+                //}]
             }]
         }]
     });
@@ -444,8 +437,7 @@ Ext.onReady(function() {
     map.addControl(new OpenLayers.Control.PermalinkLayer("permalink.refuges", "http://refuges.info/nav.php?choix_layer=OSM"));
     map.addControl(new OpenLayers.Control.PermalinkLayer("permalink.letuffe", "http://beta.letuffe.org/"));
     map.addControl(new OpenLayers.Control.PermalinkLayer("permalink.browser", "http://www.openstreetbrowser.org/"));
-
-    routingPanel = Ext.getCmp("routingPanelItem");
-    routingPanel.doLayout();
+    
+    Ext.get("waiting").hide();
 
 });

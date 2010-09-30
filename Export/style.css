@@ -9,6 +9,10 @@
   bottom: 1.25em !important;
 }
 
+body {
+  padding: 0;
+  margin: 0;
+}
 a {
     text-decoration: none;
 }

@@ -1,4 +1,6 @@
 /**
+ * @requires OpenLayers/Projection.js
+ * @requires OpenLayers/Control.js
  */
 
 Array.prototype.contains = function (needle) {
@@ -50,11 +52,13 @@ function displayFeature(o)
     html += '<br /><a href="' + href + '">History</a>';
     
     OpenLayers.Util.getElement('featureData').innerHTML = "<p>" + html + "</p>";
+//    mainPanel.doLayout();
 }
+
 function getEventListener() {
     return {
         "featureselected": function(o) {
-            //displayFeature(o);
+            displayFeature(o);
         },
         scope: this
     }
@@ -190,3 +194,39 @@ OpenLayers.Control.PermalinkLayer = OpenLayers.Class(OpenLayers.Control.Permalin
     },
     CLASS_NAME: "OpenLayers.Control.PermalinkLayer"
 });
+
+function getEllements(list, end) {
+    if (list.length == 0) {
+        end.region = "center";
+        end.border = false;
+        return end;
+    }
+    else {
+        element = list[0];
+        element.layout = 'fit';
+        element.region = 'north';
+        element.animCollapse = false;
+        element.border = false;
+        element.collapsible = true;
+        element.collapseMode = "mini";
+        title = element.title;
+        delete element.title;
+        list.shift();
+        
+        return {
+            region: 'center',
+            layout: 'border',
+            border: false,
+            items: [{
+                region: 'north',
+                html: '<h3>' + title + '</h3>'
+            },
+            {
+                region: 'center',
+                layout: 'border',
+                border: false,
+                items: [element, getEllements(list, end)]
+            }]
+        }
+    }
+};
