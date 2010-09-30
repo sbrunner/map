@@ -104,7 +104,6 @@ Ext.onReady(function() {
     map.addControl(new OpenLayers.Control.PanZoomBar());
     map.addControl(new OpenLayers.Control.MousePosition());
     map.addControl(new OpenLayers.Control.KeyboardDefaults());
-    map.addControl(new OpenLayers.Control.Attribution());
     map.addControl(new OpenLayers.Control.ScaleLine({geodesic: true, maxWidth: 120}));
 
     typeBase = "base";
@@ -150,10 +149,15 @@ Ext.onReady(function() {
     addXapiStyleLayer(map, OpenLayers.i18n("Length"), null, typeUtils, "length", "way", "maxlength=*");
 
     //addOsmStyleLayer(map, "Randonnée", getHikkingStyle(), typeExternals);
-    addXapiStyleLayer(map, OpenLayers.i18n("Hiking (Ways)"), getHikkingStyle(), typeExternals, "sac.w", "node", "natural=peak|mountain_pass=yes|tourism");
-    addXapiStyleLayer(map, OpenLayers.i18n("Hiking (Nodes)"), getHikkingStyle(), typeExternals, "sac.n", "way", "sac_scale|highway=path");
+    addXapiStyleLayer(map, OpenLayers.i18n("Peak"), getHikkingStyle(), typeExternals, "peak", "node", "natural=peak");
+    addXapiStyleLayer(map, OpenLayers.i18n("Mountain pass"), getHikkingStyle(), typeExternals, "pass", "node", "mountain_pass=yes");
+    addXapiStyleLayer(map, OpenLayers.i18n("Informations"), getHikkingStyle(), typeExternals, "info", "node", "tourism");
+    addXapiStyleLayer(map, OpenLayers.i18n("Hiking (scale)"), getHikkingStyle(), typeExternals, "sac.n", "way", "sac_scale");
+    addXapiStyleLayer(map, OpenLayers.i18n("Hiking (path)"), getHikkingStyle(), typeExternals, "sac.n", "way", "highway=path");
 
-    addXapiStyleLayer(map, OpenLayers.i18n("MTB"), getMTBStyle(), typeExternals, "mtb", "way", "mtb:scale=*|route=mtb|route=bicycle");
+    addXapiStyleLayer(map, OpenLayers.i18n("MTB (scale)"), getMTBStyle(), typeExternals, "mtbs", "way", "mtb:scale=*");
+    addXapiStyleLayer(map, OpenLayers.i18n("MTB (route)"), getMTBStyle(), typeExternals, "mtbr", "relation", "route=mtb");
+    addXapiStyleLayer(map, OpenLayers.i18n("Bicycle"), getMTBStyle(), typeExternals, "velo", "relation", "route=bicycle");
     addXapiStyleLayer(map, OpenLayers.i18n("Sled"), getSledStyle(), typeExternals, "sled", "way", "piste:type=sled");
     addXapiStyleLayer(map, OpenLayers.i18n("Snows shoe"), getSnowShoeStyle(), typeExternals, "ss", "relation", "route=snowshoe");
     addXapiStyleLayer(map, OpenLayers.i18n("Nordic"), getNordicStyle(), typeExternals, "nordic", "way", "piste:type=nordic");
@@ -176,7 +180,7 @@ Ext.onReady(function() {
         type = types[i];
         for (var j = 0 ; j < cats.length ; j++) {
             cat = cats[j];
-            addXapiStyleLayer(map, cat, null, type, type + "." + cat, type, cat + "=*");
+//            addXapiStyleLayer(map, cat, null, type, type + "." + cat, type, cat + "=*");
         }
     }
     
@@ -311,6 +315,8 @@ Ext.onReady(function() {
         rootVisible: false,
         lines: false
     });
+
+    Ext.get("waiting").hide();
     
     mainPanel = new Ext.Viewport({
         layout: "fit",
@@ -437,7 +443,5 @@ Ext.onReady(function() {
     map.addControl(new OpenLayers.Control.PermalinkLayer("permalink.refuges", "http://refuges.info/nav.php?choix_layer=OSM"));
     map.addControl(new OpenLayers.Control.PermalinkLayer("permalink.letuffe", "http://beta.letuffe.org/"));
     map.addControl(new OpenLayers.Control.PermalinkLayer("permalink.browser", "http://www.openstreetbrowser.org/"));
-    
-    Ext.get("waiting").hide();
 
 });

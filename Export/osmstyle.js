@@ -1,6 +1,7 @@
 
 function getOSMStyle() {
     var styleMap = getJOSMLikeStyleMap();
+    /*
     addPoint(styleMap, 'religion', 'bahai', 'josm/religion/bahai.png');
     addPoint(styleMap, 'religion', 'buddhist', 'josm/religion/buddhism.png');
     addPoint(styleMap, 'religion', 'christian', 'josm/religion/church.png');
@@ -14,7 +15,7 @@ function getOSMStyle() {
     addPoint(styleMap, 'religion', 'taoist', 'josm/religion/taoism.png');
     addPoint(styleMap, 'religion', 'unitarian', 'josm/misc/no_icon.png');
     addPoint(styleMap, 'religion', 'zoroastrian', 'josm/misc/no_icon.png');
-
+*/
     styleMap.addUniqueValueRules("default", "tunnel", {
         'yes': { strokeDashstyle: 'dash' }
     });

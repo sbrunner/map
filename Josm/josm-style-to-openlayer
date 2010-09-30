@@ -3,6 +3,11 @@
 import xml.dom.minidom
 import string
 
+from PIL import Image
+
+icon_source = "../Export/"
+icon_path = "josm/"
+
 #dom = xml.dom.minidom.parse("...josm-svn/styles/standard/elemstyles.xml")
 dom = xml.dom.minidom.parse("elemstyles.xml")
 
@@ -26,7 +31,17 @@ for rule in rules:
     area = rule.getElementsByTagName("area")
     if icon:
         src = icon[0].getAttribute("src")
-        val = "    addPoint(styleMap, '" + k + "', '" + v + "', 'josm/" + src + "');\n"
+        
+        size = ""
+        try:
+            im = Image.open(icon_source + icon_path + src)
+        except IOError:
+            pass
+#            print "failed to identify", src
+        else:
+            size = ", %i, %i"%(im.size[0], im.size[1]);
+
+        val = "    addPoint(styleMap, '" + k + "', '" + v + "', '" + icon_path + src + "'" + size + ");\n"
         if src == "misc/deprecated.png":
             deprecated = val + deprecated
         elif src == "fixme.png":

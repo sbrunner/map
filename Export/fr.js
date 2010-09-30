@@ -22,9 +22,20 @@ OpenLayers.Util.extend(OpenLayers.Lang.fr, {
     "Height": "Hauteur",
     "Width": "Largeur",
     "Length": "Longueur",
+
     "Hiking (Ways)": "Excursion (chemin)",
     "Hiking (Nodes)": "Excursion (POI)",
     "MTB": "MTB",
+
+    "Peak": "Sommets",
+    "Mountain pass": "Col de montagne",
+    "Informations": "Informations",
+    "Hiking (scale)": "Chemins dificulté",
+    "Hiking (path)": "Chemin tracé",
+    "MTB (scale)": "MTB dificulté",
+    "MTB (route)": "MTB routes",
+    "Bicycle": "Vélo",
+
     "Sled": "Luge",
     "Snows shoe": "Raquette",
     "Nordic": "Ski de fond",
