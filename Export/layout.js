@@ -119,7 +119,7 @@ Ext.onReady(function() {
     };
     var types = ['node', 'way', 'relation'];
     var cats = ["leisure", "amenity", "shop", "office", "tourism", "historic", "highway", "barrier", "cycleway", "tracktype", "railway", "aeroway", "power", "man_made", "landuse", "military", "natural", "route", "boundary", "sport", "abutters", "accessories", "place"];
-    for (var i in types) {
+    for (var i ; i < types.length ; i++) {
         type = types[i];
         var typeNode = {
             text: OpenLayers.i18n(toTitleCase(type + 's')),
