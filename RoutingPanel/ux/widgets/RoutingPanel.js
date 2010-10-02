@@ -25,6 +25,44 @@
 
 Ext.namespace('GeoExt.ux');
 
+
+GeoExt.ux.CloudmadeSearchCombo = function(options) {
+    var geocodingUrl = 'http://geocoding.cloudmade.com/' + this.cloudmadeKey + '/geocoding/v2/find.js?results=' + this.geocodingMaxRows + '&return_geometry=false';
+    
+    options = Ext.apply({
+        emptyText: OpenLayers.i18n('Search location in Cloudmade'),
+        loadingText: OpenLayers.i18n('Search in Cloudmade...'),
+        minChars: 1,
+        queryDelay: 50,
+        hideTrigger: true,
+        charset: 'UTF8',
+        forceSelection: true,
+        displayField: 'name',
+        queryParam: 'query',
+        tpl: '<tpl for="."><div class="x-combo-list-item"><h1>{name}</h1></div></tpl>',
+        store: new Ext.data.Store({
+            proxy: new Ext.data.ScriptTagProxy({
+                url: geocodingUrl,
+                method: 'GET'
+            }),
+            reader: new Ext.data.JsonReader({
+                totalProperty: "found",
+                root: "features",
+                fields: [
+                    {
+                        name: 'name',
+                        mapping: 'properties.name'
+                    },
+                    {
+                        name: 'centroid'
+                    }
+                ]
+            })
+        })
+    }, options);
+    return new Ext.form.ComboBox(options);
+}
+
 GeoExt.ux.RoutingPanel = Ext.extend(Ext.form.FormPanel, {
 
     /** api: config[map]
@@ -255,37 +293,10 @@ GeoExt.ux.RoutingPanel = Ext.extend(Ext.form.FormPanel, {
         // Create cloudmade geocoding serach combo
         if (this.geocodingType == 'cloudmade') {
             this.geocodingUrl = 'http://geocoding.cloudmade.com/' + this.cloudmadeKey + '/geocoding/v2/find.js?results=' + this.geocodingMaxRows + '&return_geometry=false';
-            this.startLocationCombo = new Ext.form.ComboBox({
+            this.startLocationCombo = GeoExt.ux.CloudmadeSearchCombo({
                 fieldLabel: OpenLayers.i18n('A'),
                 name: 'startLocationCombo',
                 emptyText: OpenLayers.i18n('Search start...'),
-                minChars: 1,
-                queryDelay: 50,
-                hideTrigger: true,
-                charset: 'UTF8',
-                forceSelection: true,
-                displayField: 'name',
-                queryParam: this.geocodingQueryParam,
-                tpl: '<tpl for="."><div class="x-combo-list-item"><h1>{name}</h1></div></tpl>',
-                store: new Ext.data.Store({
-                    proxy: new Ext.data.ScriptTagProxy({
-                        url: this.geocodingUrl,
-                        method: 'GET'
-                    }),
-                    reader: new Ext.data.JsonReader({
-                        totalProperty: "found",
-                        root: "features",
-                        fields: [
-                            {
-                                name: 'name',
-                                mapping: 'properties.name'
-                            },
-                            {
-                                name: 'centroid'
-                            }
-                        ]
-                    })
-                }),
                 listeners: {
                     "select": function(combo, record, index) {
                         if (this.routingStartFeature) {
@@ -297,37 +308,10 @@ GeoExt.ux.RoutingPanel = Ext.extend(Ext.form.FormPanel, {
                 }
             });
 
-            this.endLocationCombo = new Ext.form.ComboBox({
+            this.endLocationCombo = GeoExt.ux.CloudmadeSearchCombo({
                 fieldLabel: OpenLayers.i18n('B'),
                 name: 'endLocationCombo',
                 emptyText: OpenLayers.i18n('Search end...'),
-                minChars: 1,
-                queryDelay: 50,
-                hideTrigger: true,
-                charset: 'UTF8',
-                forceSelection: true,
-                displayField: 'name',
-                queryParam: this.geocodingQueryParam,
-                tpl: '<tpl for="."><div class="x-combo-list-item"><h1>{name}</h1></div></tpl>',
-                store: new Ext.data.Store({
-                    proxy: new Ext.data.ScriptTagProxy({
-                        url: this.geocodingUrl,
-                        method: 'GET'
-                    }),
-                    reader: new Ext.data.JsonReader({
-                        totalProperty: "found",
-                        root: "features",
-                        fields: [
-                            {
-                                name: 'name',
-                                mapping: 'properties.name'
-                            },
-                            {
-                                name: 'centroid'
-                            }
-                        ]
-                    })
-                }),
                 listeners: {
                     "select": function(combo, record, index) {
                         if (this.routingEndFeature) {
@@ -584,7 +568,7 @@ GeoExt.ux.RoutingPanel = Ext.extend(Ext.form.FormPanel, {
 
         // Create routing layer
         if (!this.routingLayer) {
-            this.routingLayer = new OpenLayers.Layer.Vector("Routing", {styleMap: this.vectorStyle});
+            this.routingLayer = new OpenLayers.Layer.Vector("Routing", {styleMap: this.vectorStyle, displayInLayerSwitcher: false, id: 'routing'});
         }
         this.map.addLayer(this.routingLayer);
 

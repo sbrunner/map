@@ -10,6 +10,30 @@ Array.prototype.contains = function (needle) {
    return false;
 }
 
+function toTitleCase(toTransform) {
+  return toTransform.replace(/\b([a-z])/g, function (_, initial) {
+      return initial.toUpperCase();
+  });
+}
+
+function getValue(value, defaultValue) {
+    if (typeof(value) == "undefined") {
+        return defaultValue;
+    } 
+    else {
+        return value;
+    }
+}
+
+function getBooleanValue(value, defaultValue) {
+    if (typeof(value) == "undefined") {
+        return defaultValue;
+    } 
+    else {
+        return value == 'true';
+    }
+}
+
 var epsg900913 = new OpenLayers.Projection("EPSG:900913");
 var epsg4326 = new OpenLayers.Projection("EPSG:4326");
 
@@ -63,7 +87,17 @@ function getEventListener() {
         scope: this
     }
 }
-function addXapiStyleLayer(map, name, styleMap, type, id, element, predicate) {
+function addLayer(map, options) {
+    options.isBaseLayer = false;
+    map.addLayer(new OpenLayers.Layer.XYZ(options.text, options.url, options));
+}
+function addXapiStyleLayer(map, options) {
+    var name = options.text;
+    var styleMap = options.style;
+    var id = options.id;
+    var element = options.element;
+    var predicate = options.predicate;
+
     var format = new OpenLayers.Format.OSM({ 
         checkTags: true,
         externalProjection: epsg4326
@@ -93,8 +127,6 @@ function addXapiStyleLayer(map, name, styleMap, type, id, element, predicate) {
         protocol: protocol,
         eventListeners: getEventListener(),
         styleMap: styleMap,
-        visibility: false,
-        type: type,
         numZoomLevels: 22,
         attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>"
     });
@@ -105,7 +137,11 @@ function addXapiStyleLayer(map, name, styleMap, type, id, element, predicate) {
     });
     map.addControl(sf);
 }
-function addOsmStyleLayer(map, name, styleMap, type, id) {
+function addOsmStyleLayer(map, options) {
+    var name = options.text;
+    var styleMap = options.style;
+    var id = options.id;
+
     var url = "http://api.openstreetmap.org/api/0.6/map?";
     var strategies = [];
     if (OpenLayers.OSM_URL) {
@@ -130,8 +166,6 @@ function addOsmStyleLayer(map, name, styleMap, type, id) {
         }),
         eventListeners: getEventListener(),
         styleMap: styleMap,
-        visibility: false,
-        type: type,
         numZoomLevels: 22,
         attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>"
     });
@@ -195,6 +229,27 @@ OpenLayers.Control.PermalinkLayer = OpenLayers.Class(OpenLayers.Control.Permalin
     CLASS_NAME: "OpenLayers.Control.PermalinkLayer"
 });
 
+function onStatechange(provider) {
+    var l = provider.getLink(permalinkBase);
+    l = l.replace("#\?", "#");
+    if (Ext.get("permalink")) {
+        Ext.get("permalink").update("<a href=" + l + ">" + OpenLayers.i18n("Permalink") + "</a>");
+    
+        var l = provider.getLink(permalinkTitleBase);
+        l = l.replace("#\?", "#");
+        window.location.href = l;
+        
+        var bounds = mapPanel.map.getExtent();
+        bounds = bounds.transform(mapPanel.map.getProjectionObject(), mapPanel.map.displayProjection);
+
+        if (bounds) {
+            Ext.get("josm").update("<a href='http://127.0.0.1:8111/load_and_zoom?"
+                + "left=" + bounds.left + "&right=" + bounds.right
+                + "&top=" + bounds.top + "&bottom=" + bounds.bottom + "'>" + OpenLayers.i18n("Edit with JOSM") + "</a>");
+        }
+    }    
+};
+
 function getEllements(list, end) {
     if (list.length == 0) {
         end.region = "center";
@@ -207,25 +262,48 @@ function getEllements(list, end) {
         element.region = 'north';
         element.animCollapse = false;
         element.border = false;
-        element.collapsible = true;
+        element.hideCollapseTool = true;
         element.collapseMode = "mini";
         title = element.title;
         delete element.title;
         list.shift();
         
+        var content = new Ext.Panel(element);
+        content.addListener('collapse', function() { 
+            permalinkProvider.state.m['open_' + this.name] = false; 
+            onStatechange(permalinkProvider); 
+        }, element);
+        content.addListener('expand', function() { 
+            permalinkProvider.state.m['open_' + this.name] = true; 
+            onStatechange(permalinkProvider); 
+        }, element);
+        var title = new Ext.Button({
+            region: 'north',
+            html: '<h2>' + title + '</h2>',
+            style: "padding: 0 8px;",
+            enableToggle: true,
+            handler: function() {
+                if (this.collapsed) {
+                    this.expand();
+                }
+                else {
+                    this.collapse();
+                }
+            },
+            scope: content
+        });
+        
         return {
             region: 'center',
             layout: 'border',
             border: false,
-            items: [{
-                region: 'north',
-                html: '<h3>' + title + '</h3>'
-            },
+            style: "border-top: solid 1px #99BBE8;",
+            items: [title,
             {
                 region: 'center',
                 layout: 'border',
                 border: false,
-                items: [element, getEllements(list, end)]
+                items: [content, getEllements(list, end)]
             }]
         }
     }

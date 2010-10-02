@@ -16,6 +16,7 @@ then
     ln -s ../Export/proxy.php up
     ln -s ../Export/trace.html up
     ln -s ../Export/SportLaMargelle.osm up
+    ln -s ../Export/.htaccess up
 fi
 jsbuild $* jsbuild/app.cfg 
 mv fr.js en.js app.js trace.js up
