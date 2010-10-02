@@ -703,6 +703,7 @@ Ext.onReady(function() {
                         toggleGroup: 'tools'
                     }),
                     GeoExt.ux.CloudmadeSearchCombo({
+                        cloudmadeKey: cloudmadeKey,
                         map: map, 
                         zoom: 14
                     })

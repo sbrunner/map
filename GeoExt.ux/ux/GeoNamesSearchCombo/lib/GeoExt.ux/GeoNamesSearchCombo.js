@@ -84,7 +84,7 @@ GeoExt.ux.GeoNamesSearchCombo = Ext.extend(Ext.form.ComboBox, {
      *  list (see http://www.dev.sencha.com/deploy/dev/docs/output/Ext.XTemplate.html),
      *  if not set a default value is provided.
      */
-    tpl: '<tpl for="."><div class="x-combo-list-item"><h1>{name}<br></h1>{fcodeName} - {countryName}</div></tpl>',
+    tpl: '<tpl for="."><div class="x-combo-list-item"><h1>{name}</h1>{fcodeName} - {countryName}</div></tpl>',
 
     /** api: config[lang]
      *  ``String`` Place name and country name will be returned in the specified
