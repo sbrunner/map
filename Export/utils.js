@@ -280,7 +280,7 @@ function getEllements(list, end) {
         var title = new Ext.Button({
             region: 'north',
             html: '<h2>' + title + '</h2>',
-            style: "padding: 0 8px;",
+            style: "padding: 4px 8px;",
             enableToggle: true,
             handler: function() {
                 if (this.collapsed) {

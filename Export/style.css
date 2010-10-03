@@ -10,8 +10,18 @@
 }
 
 body {
-  padding: 0;
-  margin: 0;
+    font-family:helvetica,tahoma,verdana,sans-serif;
+    padding: 0;
+    margin: 0;
+    font-size: 13px;
+}
+h1 {
+	font-size: large;
+}
+h2 {
+	font-size: 14px;
+    color: #333;
+    font-weight: bold;
 }
 a {
     text-decoration: none;

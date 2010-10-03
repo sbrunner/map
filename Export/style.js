@@ -1,3 +1,8 @@
+/**
+ * @requires commonstyle.js
+ * @requires josmstyle.js
+ * @requires osmstyle.js
+ */
 
 function getMaxSpeedStyle() {
     var styleMap = new OpenLayers.StyleMap();
@@ -29,7 +34,7 @@ function getMountainStyle() {
     'intermediate': { strokeOpacity: .7 },
     'bad': { strokeOpacity: .55 },
     'horrible': { strokeOpacity: .4 },
-    'no': { strokeOpacity: .25 },
+    'no': { strokeOpacity: .25 }
   });
   styleMap.addUniqueValueRules("default", "tourism", {
     'alpine_hut': { externalGraphic: 'symbols/alpinehut.p.16.png', graphicWidth: 16, graphicHeight: 16, graphicOpacity: 1 },
