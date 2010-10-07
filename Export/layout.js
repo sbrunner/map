@@ -79,6 +79,7 @@ Ext.onReady(function() {
     var indexQ = window.location.href.indexOf("?");
     var indexS = window.location.href.indexOf("#");
     if (indexQ > 0) {
+        window.alert(window.location.href.replace("#", "&").replace("?", "#"));
         window.location.href = window.location.href.replace("#", "&").replace("?", "#");
     }
     if (indexS > 0) {
@@ -128,11 +129,11 @@ Ext.onReady(function() {
     }
     fill(rootNode);
 
-    if (!permalinkProvider.state.m) {
-        permalinkProvider.state.m = {};
+    if (!permalinkProvider.state.a) {
+        permalinkProvider.state.a = {};
     }
-    if (permalinkProvider.state.m.layers) {
-        var layers = permalinkProvider.state.m.layers;
+    if (permalinkProvider.state.a.layers) {
+        var layers = permalinkProvider.state.a.layers;
         if (layers instanceof Array) {
             for(var i = 0 ; i < layers.length ; ++i) {
                 var layer = layersList[layers[i]];
@@ -184,7 +185,7 @@ Ext.onReady(function() {
 
     function addLayerFull(options) {
         if (options.handler) {
-            var layers = permalinkProvider.state.m.layers;
+            var layers = permalinkProvider.state.a.layers;
             if (layers) {
                 if (layers instanceof Array) {
                     layers.push(options.id);
@@ -196,7 +197,7 @@ Ext.onReady(function() {
             else {
                 layers = [options.id];
             }
-            permalinkProvider.state.m.layers = layers;
+            permalinkProvider.state.a.layers = layers;
             onStatechange(permalinkProvider);
             
             var handler = options.handler;
@@ -309,7 +310,6 @@ Ext.onReady(function() {
                 items: [getEllements([{
                         baseCls: "x-plane",
                         title: OpenLayers.i18n("Selected feature"),
-                        collapsed: !getBooleanValue(permalinkProvider.state.m.open_sf, false),
                         name: 'sf',
                         autoScroll: true,
                         height: 150,
@@ -319,7 +319,6 @@ Ext.onReady(function() {
                     {
                         title: OpenLayers.i18n("Selected layers"),
                         layout: 'fit',
-                        collapsed: !getBooleanValue(permalinkProvider.state.m.open_sl, false),
                         name: 'sl',
                         height: 80,
                         items: [layerTree]
@@ -327,14 +326,12 @@ Ext.onReady(function() {
                     {
                         title: OpenLayers.i18n("Available layers"),
                         layout: 'fit',
-                        collapsed: !getBooleanValue(permalinkProvider.state.m.open_al, true),
                         name: 'al',
                         height: 200,
                         items: [tree]
                     },
                     {
                         baseCls: "x-plane",
-                        collapsed: !getBooleanValue(permalinkProvider.state.m.open_pl, false),
                         name: 'pl',
                         title: OpenLayers.i18n("Permalink"),
                         style: "padding: 0 0 8px 8px;",
@@ -346,7 +343,6 @@ Ext.onReady(function() {
                     },
                     {
                         baseCls: "x-plane",
-                        collapsed: !getBooleanValue(permalinkProvider.state.m.open_ul, false),
                         name: 'ul',
                         title: OpenLayers.i18n("Utilities links"),
                         style: "padding: 0 0 8px 8px;",
@@ -363,7 +359,6 @@ Ext.onReady(function() {
                     {
                         baseCls: "x-panel",
                         title: OpenLayers.i18n("Routing"),
-                        collapsed: !getBooleanValue(permalinkProvider.state.m.open_r, false),
                         name: 'r',
                         tbar: [
                         {

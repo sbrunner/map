@@ -264,17 +264,19 @@ function getEllements(list, end) {
         element.border = false;
         element.hideCollapseTool = true;
         element.collapseMode = "mini";
+        element.collapsed = !getBooleanValue(permalinkProvider.state.a['open_' + element.name], false);
+
         title = element.title;
         delete element.title;
         list.shift();
         
         var content = new Ext.Panel(element);
         content.addListener('collapse', function() { 
-            permalinkProvider.state.m['open_' + this.name] = false; 
+            permalinkProvider.state.a['open_' + this.name] = false; 
             onStatechange(permalinkProvider); 
         }, element);
         content.addListener('expand', function() { 
-            permalinkProvider.state.m['open_' + this.name] = true; 
+            permalinkProvider.state.a['open_' + this.name] = true; 
             onStatechange(permalinkProvider); 
         }, element);
         var title = new Ext.Button({

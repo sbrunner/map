@@ -388,7 +388,7 @@ function getLayersTree(map) {
                     url: "lausanne-20090606/${z}/${x}/${y}.png",
                     numZoomLevels: 18,
                     attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", 
-                    id: "20080926"
+                    id: "20090606"
                 },
                 {
                     text: OpenLayers.i18n("June 2010"),
@@ -398,7 +398,7 @@ function getLayersTree(map) {
                     url: "lausanne-20100622/${z}/${x}/${y}.png",
                     numZoomLevels: 18,
                     attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", 
-                    id: "20080926"
+                    id: "20100622"
                 }]
             }]
         },
