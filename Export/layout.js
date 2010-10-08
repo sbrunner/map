@@ -79,16 +79,23 @@ Ext.onReady(function() {
     var indexQ = window.location.href.indexOf("?");
     var indexS = window.location.href.indexOf("#");
     if (indexQ > 0) {
-        window.alert(window.location.href.replace("#", "&").replace("?", "#"));
-        window.location.href = window.location.href.replace("#", "&").replace("?", "#");
+//        window.alert(window.location.href);
+//        window.alert(window.location.href.replace("#", "&").replace("?", "#"));
+//        window.location.href = window.location.href.replace("#", "&").replace("?", "#");
+        if (indexS > 0) {
+            permalinkTitleBase = window.location.href.substring(0, indexS + 1);
+        } else {
+            permalinkTitleBase = window.location.href;
+        }
+        permalinkBase = permalinkTitleBase.substring(0, indexQ) + "#";
     }
-    if (indexS > 0) {
+    else if (indexS > 0) {
         permalinkTitleBase = window.location.href.substring(0, indexS + 1);
-        permalinkBase = permalinkTitleBase.substring(0, indexS);
+        permalinkBase = permalinkTitleBase.substring(0, indexS + 1);
     }
     else {
         permalinkTitleBase = window.location.href + "#";
-        permalinkBase = permalinkTitleBase;
+        permalinkBase = permalinkTitleBase + "#";
     }
     permalinkProvider = new GeoExt.state.PermalinkProvider({encodeType: false });
     Ext.state.Manager.setProvider(permalinkProvider);
@@ -108,8 +115,10 @@ Ext.onReady(function() {
     map.addControl(new OpenLayers.Control.KeyboardDefaults());
     map.addControl(new OpenLayers.Control.ScaleLine({geodesic: true, maxWidth: 120}));
 
-    map.addLayer(new OpenLayers.Layer.XYZ(OpenLayers.i18n("White background"), "http://map.stephane-brunner.ch/white.png", { numZoomLevels: 22, id: "w", displayInLayerSwitcher: false, id: "white" }));
-    map.addLayer(new OpenLayers.Layer.XYZ(OpenLayers.i18n("Mapnik"), "http://c.tile.openstreetmap.org/${z}/${x}/${y}.png", { numZoomLevels: 18, isBaseLayer: false, attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", id: "mk" }));
+    map.addLayer(new OpenLayers.Layer.XYZ(OpenLayers.i18n("White background"), "http://map.stephane-brunner.ch/white.png", { 
+        numZoomLevels: 22, id: "w", displayInLayerSwitcher: false, id: "white" }));
+    map.addLayer(new OpenLayers.Layer.XYZ(OpenLayers.i18n("Mapnik"), "http://c.tile.openstreetmap.org/${z}/${x}/${y}.png", { 
+        numZoomLevels: 18, isBaseLayer: false, attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", id: "mk" }));
     //map.addLayer(new OpenLayers.Layer.XYZ(OpenLayers.i18n("Black background"), "http://map.stephane-brunner.ch/black.png", { numZoomLevels: 22, type: typeDebugs, visibility: false, id: "b" }));
     //map.addLayer(new OpenLayers.Layer.OSM("OpenAerialMap","http://tile.openaerialmap.org/tiles/1.0.0/openaerialmap-900913/${z}/${x}/${y}.png"));
 
@@ -139,7 +148,6 @@ Ext.onReady(function() {
                 var layer = layersList[layers[i]];
                 if (layer.handler) {
                     var handler = layer.handler;
-                    var map = layer.map;
                     delete layer.handler;
                     delete layer.map;
                     handler(map, layer);
@@ -150,7 +158,6 @@ Ext.onReady(function() {
             var layer = layersList[layers];
             if (layer && layer.handler) {
                 var handler = layer.handler;
-                var map = layer.map;
                 delete layer.handler;
                 delete layer.map;
                 handler(map, layer);
@@ -159,7 +166,7 @@ Ext.onReady(function() {
     }
     
 
-    if (map.getZoom() == 0) {
+    if (map.getZoom() === 0) {
       if (navigator.geolocation) {
         try {
           navigator.geolocation.getCurrentPosition(usePosition);
@@ -220,7 +227,7 @@ Ext.onReady(function() {
             }
         })],
         loader: new Ext.tree.TreeLoader({
-            applyLoader: false,
+            applyLoader: false
         }),
         root: new Ext.tree.AsyncTreeNode(rootNode),
         rootVisible: false,
@@ -252,9 +259,10 @@ Ext.onReady(function() {
         }
     }*/
     var layerTree = new Ext.tree.TreePanel({
+        autoScroll: true,
         rootVisible: false,
         lines: false,
-        root: layerList,
+        root: layerList
 //        listeners: {
 //            append: registerRadio,
 //            insert: registerRadio

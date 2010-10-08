@@ -30,11 +30,11 @@ function getMountainStyle() {
   });*/
   styleMap.addUniqueValueRules("default", "trail_visibility", {
     'excellent': { strokeOpacity: 1 },
-    'good': { strokeOpacity: .85 },
-    'intermediate': { strokeOpacity: .7 },
-    'bad': { strokeOpacity: .55 },
-    'horrible': { strokeOpacity: .4 },
-    'no': { strokeOpacity: .25 }
+    'good': { strokeOpacity: 0.85 },
+    'intermediate': { strokeOpacity: 0.7 },
+    'bad': { strokeOpacity: 0.55 },
+    'horrible': { strokeOpacity: 0.4 },
+    'no': { strokeOpacity: 0.25 }
   });
   styleMap.addUniqueValueRules("default", "tourism", {
     'alpine_hut': { externalGraphic: 'symbols/alpinehut.p.16.png', graphicWidth: 16, graphicHeight: 16, graphicOpacity: 1 },

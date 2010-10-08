@@ -26,7 +26,7 @@ function getLayersTree(map) {
                 id: type + "." + cat,
                 element: type,
                 predicate: cat
-            }
+            };
             typeNode.children.push(catNode);
         }
     }
@@ -375,7 +375,7 @@ function getLayersTree(map) {
                     map: map,
                     leaf: true,
                     handler: addLayer,
-                    url: "lausanne-20080926/${z}/${x}/${y}.png",
+                    url: "lausanne/lausanne-20080926/${z}/${x}/${y}.png",
                     numZoomLevels: 18,
                     attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", 
                     id: "20080926"
@@ -385,7 +385,7 @@ function getLayersTree(map) {
                     map: map,
                     leaf: true,
                     handler: addLayer,
-                    url: "lausanne-20090606/${z}/${x}/${y}.png",
+                    url: "lausanne/lausanne-20090606/${z}/${x}/${y}.png",
                     numZoomLevels: 18,
                     attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", 
                     id: "20090606"
@@ -395,7 +395,7 @@ function getLayersTree(map) {
                     map: map,
                     leaf: true,
                     handler: addLayer,
-                    url: "lausanne-20100622/${z}/${x}/${y}.png",
+                    url: "lausanne/lausanne-20100622/${z}/${x}/${y}.png",
                     numZoomLevels: 18,
                     attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", 
                     id: "20100622"
