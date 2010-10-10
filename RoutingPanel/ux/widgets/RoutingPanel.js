@@ -274,7 +274,7 @@ GeoExt.ux.RoutingPanel = Ext.extend(Ext.Panel, {
                         this.routingLayer.removeFeatures([this.routingStartFeature]);
                         this.routingStartFeature = null;
                     }
-                    var geometry = new OpenLayers.Geometry.Point(record.data.centroid.coordinates[0], record.data.centroid.coordinates[1]);
+                    var geometry = new OpenLayers.Geometry.Point(record.data.centroid.coordinates[1], record.data.centroid.coordinates[0]);
                     geometry = geometry.transform(this.routingProjection, this.map.getProjectionObject());
                     this.routingStartFeature = new OpenLayers.Feature.Vector(geometry);
                     this.routingLayer.addFeatures([this.routingStartFeature]);
@@ -296,7 +296,7 @@ GeoExt.ux.RoutingPanel = Ext.extend(Ext.Panel, {
                     if (this.routingEndFeature) {
                         this.routingLayer.removeFeatures([this.routingEndFeature]);
                     }
-                    var geometry = new OpenLayers.Geometry.Point(record.data.centroid.coordinates[0], record.data.centroid.coordinates[1]);
+                    var geometry = new OpenLayers.Geometry.Point(record.data.centroid.coordinates[1], record.data.centroid.coordinates[0]);
                     geometry = geometry.transform(this.routingProjection, this.map.getProjectionObject());
                     this.routingEndFeature = new OpenLayers.Feature.Vector(geometry);
                     this.routingLayer.addFeatures([this.routingEndFeature]);
