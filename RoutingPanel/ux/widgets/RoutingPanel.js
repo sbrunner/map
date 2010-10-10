@@ -500,7 +500,7 @@ GeoExt.ux.RoutingPanel = Ext.extend(Ext.Panel, {
             this.endLocationCombo.clearValue();
         }
         if (this.permalinkState.start_lon && this.permalinkState.start_lat && this.permalinkState.end_lon && this.permalinkState.end_lat) {
-            this.getItinerary();
+            this.getItinerary('cat'); // should be stored in permalink
         }
         if (this.permalinkState.start_text) {
             this.startLocationCombo.setValue(this.permalinkState.start_text);
