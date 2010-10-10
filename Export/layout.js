@@ -241,35 +241,43 @@ Ext.onReady(function() {
         }
     });
     
-    var layerList = new GeoExt.tree.LayerContainer({
-//        text: 'All Layers',
-//        layerStore: mapPanel.layers,
-//        leaf: false,
-//        expanded: true
-//        loader: {
-//            baseAttrs: {
-//                radioGroup: "active"
-//            }
-//        }
-    });
-/*    var registerRadio = function(node)
-        if(!node.hasListener("radiochange")) {
-            node.on("radiochange", function(node){
-            });
-        }
-    }*/
+    var layerList = new GeoExt.tree.LayerContainer();
     var layerTree = new Ext.tree.TreePanel({
         autoScroll: true,
         rootVisible: false,
         lines: false,
         root: layerList
-//        listeners: {
-//            append: registerRadio,
-//            insert: registerRadio
-//        }
     });
 
-
+    var routingPanel = new GeoExt.ux.RoutingPanel({
+        border: false,
+        map: map,
+        // Key for dev.geoext.org: 187a9f341f70406a8064d07a30e5695c
+        // Key for localhost: BC9A493B41014CAABB98F0471D759707
+        // Key for map.stephane-brunner.ch: 60a6b92afa824cc985331da088d3225c
+        routingOptions: {
+            cloudmadeKey: cloudmadeKey
+        },
+        geocodingBuilder: cloudmadeSearchCombo,
+        geocodingOptions: {
+            cloudmadeKey: cloudmadeKey,
+            maxRows: 20,
+            queryParam: 'query'
+        },
+        tbar: [
+        {
+            xtype: 'tbfill'
+        },
+        {
+            text: OpenLayers.i18n('Clear'),
+            enableToggle: false,
+            handler: function() {
+                if (routingPanel) {
+                    routingPanel.clearItinerary();
+                }
+            }
+        }]
+    });
 
     Ext.get("waiting").hide();
     
@@ -309,7 +317,7 @@ Ext.onReady(function() {
                         decimals: 0,
                         toggleGroup: 'tools'
                     }),
-                    GeoExt.ux.CloudmadeSearchCombo({
+                    cloudmadeSearchCombo({
                         cloudmadeKey: cloudmadeKey,
                         map: map, 
                         zoom: 14
@@ -365,39 +373,12 @@ Ext.onReady(function() {
                             + "</ul>"
                     },
                     {
-                        baseCls: "x-panel",
                         title: OpenLayers.i18n("Routing"),
                         name: 'r',
-                        tbar: [
-                        {
-                            xtype: 'tbfill'
-                        },
-                        {
-                            text: OpenLayers.i18n('Clear'),
-                            enableToggle: false,
-                            handler: function() {
-                                var routingPanelItem = Ext.getCmp("routingPanelItem");
-                                if (routingPanelItem) {
-                                    routingPanelItem.clearItinerary();
-                                }
-                            }
-                        }],
-                        items: [{
-                            xtype: 'gxux_routingpanel',
-                            id: 'routingPanelItem',
-                            border: false,
-                            width: width,
-                            height: 500,
-                            autoScroll: true,
-                            map: map,
-                            // Key for dev.geoext.org: 187a9f341f70406a8064d07a30e5695c
-                            // Key for localhost: BC9A493B41014CAABB98F0471D759707
-                            // Key for map.stephane-brunner.ch: 60a6b92afa824cc985331da088d3225c
-                            cloudmadeKey: cloudmadeKey,
-                            geocodingType: 'cloudmade'
-                        }]
+                        layout: 'fit',
+                        height: 520,
+                        items: [routingPanel]
                     }], {html: ""})]
-                //}]
             }]
         }]
     });
