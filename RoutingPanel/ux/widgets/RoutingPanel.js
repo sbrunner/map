@@ -221,7 +221,7 @@ GeoExt.ux.RoutingPanel = Ext.extend(Ext.Panel, {
      *  ``OpenLayers.StyleMap`` Vector style of routing layer
      */
     vectorStyle: new OpenLayers.StyleMap({
-        default: new OpenLayers.Style({
+        'default': new OpenLayers.Style({
             pointRadius: "8",
             fillColor: "#FF0000",
             fillOpacity: 0.5,
