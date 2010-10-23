@@ -1,0 +1,15 @@
+osmosis --read-xml file=switzerland.osm  --bounding-box top=47 left=6 bottom=46 right=8 --write-xml file=Lausanne-Diablerets.osm
+osmosis --read-xml file=Lausanne-Diablerets.osm  --bounding-box top=46.55 left=6.55 bottom=46.5 right=6.7 --write-xml file=Lausanne.osm
+python addEle Lausanne.osm > Lausanne-ele.osm
+
+SET LOG 0 # (disabling the transaction log)
+SET CACHE_SIZE # (a large cache is faster)
+SET LOCK_MODE 0 # (disable locking)
+SET UNDO_LOG 0 # (disable the session undo log) 
+osm2pgrouting/osm2pgrouting -file Lausanne-ele.osm -dbname pgrouting -user pgrouting -passwd pgrouting -conf osm2pgrouting/bike.xml -clean
+
+valgrind --tool=callgrind osm2pgrouting/osm2pgrouting -file Lausanne-ele.osm -dbname pgrouting -user pgrouting -passwd pgrouting -conf osm2pgrouting/bike.xml
+
+source mapfish/env/bin/activate
+cd MapFishApp
+paster serve development.ini --reload

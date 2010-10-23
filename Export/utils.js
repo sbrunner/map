@@ -81,9 +81,7 @@ function displayFeature(o)
 
 function getEventListener() {
     return {
-        "featureselected": function(o) {
-            displayFeature(o);
-        },
+        "featureselected": displayFeature,
         scope: this
     }
 }

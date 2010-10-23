@@ -36,11 +36,11 @@ if (!$h = new http()) {
     exit();
 }
 
-$h->url = $proxy_url;
+$h->url = str_replace(" ", "%20", $proxy_url);
 $h->postvars = $_POST;
 if (!$h->fetch($h->url)) {
     header("HTTP/1.0 501 Script Error");
-    echo "proxy.php had an error attempting to query the url";
+    echo "proxy.php had an error attempting to query the url (1)";
     exit();
 }
 
@@ -48,7 +48,7 @@ $ary_headers = split("\n", $h->header);
 
 // detect redirect
 
-if ($ary_headers[0] == "TTP/1.1 302 Found") {
+if ($ary_headers[0] == "HTTP/1.1 302 Found") {
   foreach($ary_headers as $hdr) { 
     $hdrs = split(" ", $hdr);
     if ($hdrs[0] == "Location:") {
@@ -56,7 +56,7 @@ if ($ary_headers[0] == "TTP/1.1 302 Found") {
       $h->postvars = $_POST;
       if (!$h->fetch($h->url)) {
           header("HTTP/1.0 501 Script Error");
-          echo "proxy.php had an error attempting to query the url";
+          echo "proxy.php had an error attempting to query the url (2)";
           exit();
       }
     }

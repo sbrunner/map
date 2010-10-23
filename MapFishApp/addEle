@@ -1,0 +1,51 @@
+#!/bin/python
+# -*- coding: utf-8 -*-
+
+from dem import GeoRaster
+import sys
+
+from xml.sax import make_parser, handler, saxutils
+
+class OsmHandler(handler.ContentHandler):
+
+    def __init__(self, out = sys.stdout):
+        handler.ContentHandler.__init__(self)
+        self._out = out
+        self._demModel = GeoRaster.TIFTile("dem-4326.tif")
+
+
+    def startDocument(self):
+        self._out.write('<?xml version="1.0" encoding="utf-8"?>\n')
+
+    def startElement(self, name, attrs):
+        ele = -99999
+        if name == "node" and not attrs.has_key("ele") :
+            lon = float(attrs.getValue("lon"))
+            lat = float(attrs.getValue("lat"))
+            ele = self._demModel.getVal(lon, lat)
+        
+        self._out.write('<' + name)
+        if ele != -99999:
+            self._out.write(' %s="%f"' % ("ele", ele))
+        for (name, value) in attrs.items():
+            self._out.write((u' %s=%s' % (name, saxutils.quoteattr(saxutils.escape(value)))).encode('utf-8'))
+        self._out.write('>')
+
+    def endElement(self, name):
+        self._out.write('</%s>' % name)
+
+    def characters(self, content):
+        self._out.write(saxutils.escape(content))
+
+    def ignorableWhitespace(self, content):
+        self._out.write(content)
+        
+    def processingInstruction(self, target, data):
+        self._out.write('<?%s %s?>' % (target, data))
+
+
+parser = make_parser()
+parser.setContentHandler(OsmHandler())
+parser.parse(sys.argv[1])
+
+

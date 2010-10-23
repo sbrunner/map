@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <edge k="name" />
+    <edge k="highway" />
+    <edge k="oneway" />
+    <edge k="access" />
+    <edge k="bicycle" />
+    <edge k="cycleway" />
+    <edge k="tracktype" />
+    <edge k="mtb:scale" >
+    <edge k="sac_scale" />
+    <edge k="trail_visibility" />
+    <!--vertex k="ele" /-->
+    <vertex k="highway" />
+</configuration>

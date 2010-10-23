@@ -252,6 +252,7 @@ Ext.onReady(function() {
     var routingPanel = new GeoExt.ux.RoutingPanel({
         border: false,
         map: map,
+        routingService: GeoExt.ux.cyclingRoutingService,
         // Key for dev.geoext.org: 187a9f341f70406a8064d07a30e5695c
         // Key for localhost: BC9A493B41014CAABB98F0471D759707
         // Key for map.stephane-brunner.ch: 60a6b92afa824cc985331da088d3225c
@@ -278,6 +279,14 @@ Ext.onReady(function() {
             }
         }]
     });
+    routingPanel.routingLayer.events.register("featureselected", this, displayFeature);
+    map.addControl(new OpenLayers.Control.SelectFeature(routingPanel.routingLayer, {
+        autoActivate: true,
+        hover: true,
+        clickout: true,
+        toggle: true
+    }));
+
 
     Ext.get("waiting").hide();
     

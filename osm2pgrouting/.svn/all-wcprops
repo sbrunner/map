@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/pgrouting/!svn/ver/357/tools/osm2pgrouting/trunk
+END
+mapconfig.xml
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/pgrouting/!svn/ver/350/tools/osm2pgrouting/trunk/mapconfig.xml
+END
+AUTHORS.txt
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/pgrouting/!svn/ver/336/tools/osm2pgrouting/trunk/AUTHORS.txt
+END
+COPYING
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/pgrouting/!svn/ver/209/tools/osm2pgrouting/trunk/COPYING
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/pgrouting/!svn/ver/215/tools/osm2pgrouting/trunk/Makefile
+END
+README
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/pgrouting/!svn/ver/216/tools/osm2pgrouting/trunk/README
+END
