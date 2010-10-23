@@ -249,21 +249,78 @@ Ext.onReady(function() {
         root: layerList
     });
 
+    var routingStyle = new OpenLayers.StyleMap();
+    routingStyle.createSymbolizer = function(feature) {
+        var symbolizer = OpenLayers.StyleMap.prototype.createSymbolizer.apply(this, arguments);
+        if (feature.attributes.speed) {
+            rgb = hslToRgb(feature.attributes.speed / 50, 1, 0.5);
+//                symbolizer.strokeColor = "rgb("+rgb[0]+", "+rgb[1]+", "+rgb[2]+")";
+            symbolizer.strokeColor = toHexColor(rgb);
+        }
+        return symbolizer;
+    };
+    
+    routingStyle.styles["default"].addRules([new OpenLayers.Rule({
+        symbolizer: {
+            pointRadius: "8",
+            fillColor: "#FF0000",
+            fillOpacity: 0.5,
+            strokeColor: "#FF0000",
+            strokeOpacity: 1,
+            strokeWidth: 1
+        },
+        filter: new OpenLayers.Filter.Comparison({ type: "==", property: 'type', value: 'point' })
+    })]);
+    routingStyle.styles["default"].addRules([new OpenLayers.Rule({
+        symbolizer: {
+            strokeColor: "#0000FF",
+            strokeOpacity: .8,
+            strokeWidth: 3
+        },
+        filter: new OpenLayers.Filter.Comparison({ type: "==", property: 'type', value: 'route' })
+    })]);
+    routingStyle.styles["select"].addRules([new OpenLayers.Rule({
+        symbolizer: {
+            pointRadius: "8",
+            fillColor: "yellow",
+            fillOpacity: 0.5,
+            strokeColor: "yellow",
+            strokeOpacity: 1,
+            strokeWidth: 1
+        },
+        filter: new OpenLayers.Filter.Comparison({ type: "==", property: 'type', value: 'point' })
+    })]);
+    routingStyle.styles["select"].addRules([new OpenLayers.Rule({
+        symbolizer: {
+            strokeColor: "yellow",
+            strokeOpacity: .6,
+            strokeWidth: 5
+        },
+        filter: new OpenLayers.Filter.Comparison({ type: "==", property: 'type', value: 'route' })
+    })]);
     var routingPanel = new GeoExt.ux.RoutingPanel({
         border: false,
         map: map,
-        routingService: GeoExt.ux.cyclingRoutingService,
+        style: routingStyle,
         // Key for dev.geoext.org: 187a9f341f70406a8064d07a30e5695c
         // Key for localhost: BC9A493B41014CAABB98F0471D759707
         // Key for map.stephane-brunner.ch: 60a6b92afa824cc985331da088d3225c
-        routingOptions: {
-            cloudmadeKey: cloudmadeKey
-        },
-        geocodingBuilder: cloudmadeSearchCombo,
-        geocodingOptions: {
-            cloudmadeKey: cloudmadeKey,
-            maxRows: 20,
-            queryParam: 'query'
+        routingProviders: { 
+            cloudmade : {
+                service: GeoExt.ux.cloudmadeRoutingService,
+                cloudmadeKey: cloudmadeKey,
+                projection: new OpenLayers.Projection("EPSG:4326"),
+                types: {
+                    car: { name: OpenLayers.i18n('By car') },
+                    foot: { name: OpenLayers.i18n('By foot') },
+                    bicycle: { name: OpenLayers.i18n('By bicycle') }
+                }
+            },
+            sbrunner: {
+                service : GeoExt.ux.cyclingRoutingService,
+                projection: new OpenLayers.Projection("EPSG:4326"),
+                types: {citybike : { name: OpenLayers.i18n('Bike (ele)') } }
+            }
         },
         tbar: [
         {
@@ -279,14 +336,13 @@ Ext.onReady(function() {
             }
         }]
     });
-    routingPanel.routingLayer.events.register("featureselected", this, displayFeature);
-    map.addControl(new OpenLayers.Control.SelectFeature(routingPanel.routingLayer, {
+    routingPanel.layer.events.register("featureselected", this, displayFeature);
+    map.addControl(new OpenLayers.Control.SelectFeature(routingPanel.layer, {
         autoActivate: true,
         hover: true,
         clickout: true,
         toggle: true
     }));
-
 
     Ext.get("waiting").hide();
     

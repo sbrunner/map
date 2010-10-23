@@ -309,56 +309,177 @@ function getEllements(list, end) {
     }
 };
 
-cloudmadeSearchCombo = function (options) {
-    var maxRows = options.maxRows ? options.maxRows : 10; 
-    var url = 'http://geocoding.cloudmade.com/' + options.cloudmadeKey + '/geocoding/v2/find.js?results=' + maxRows + '&return_geometry=false';
-    
-    options = Ext.apply({
-        emptyText: OpenLayers.i18n('Search location in Cloudmade'),
-        loadingText: OpenLayers.i18n('Search in Cloudmade...'),
-        minChars: 1,
-        queryDelay: 50,
-        hideTrigger: true,
-        charset: 'UTF8',
-        forceSelection: true,
-        displayField: 'name',
-        queryParam: 'query',
-        tpl: '<tpl for="."><div class="x-combo-list-item"><h3>{name}</h3>{is_in}</div></tpl>',
-        store: new Ext.data.Store({
-            proxy: new Ext.data.ScriptTagProxy({
-                url: url,
-                method: 'GET'
-            }),
-            reader: new Ext.data.JsonReader({
-                totalProperty: "found",
-                root: "features",
-                fields: [{
-                    name: 'is_in',
-                    mapping: 'properties.is_in'
-                },
-                {
-                    name: 'name',
-                    mapping: 'properties.name'
-                },
-                {
-                    name: 'centroid'
-                }]
-            })
-        })
-    }, options);
-    var box =  new Ext.form.ComboBox(options);
-    
-    if (box.zoom > 0) {
-        box.on("select", function (combo, record, index) {
-            var coordinates = record.data.centroid.coordinates;
-            var position = new OpenLayers.LonLat(coordinates[1], coordinates[0]);
-            position.transform(
-                new OpenLayers.Projection("EPSG:4326"),
-                this.map.getProjectionObject()
-            );
-            this.map.setCenter(position, this.zoom);
-        }, box);
+
+/**
+ * Converts an RGB color value to HSL. Conversion formula
+ * adapted from http://en.wikipedia.org/wiki/HSL_color_space.
+ * Assumes r, g, and b are contained in the set [0, 255] and
+ * returns h, s, and l in the set [0, 1].
+ *
+ * @param   Number  r       The red color value
+ * @param   Number  g       The green color value
+ * @param   Number  b       The blue color value
+ * @return  Array           The HSL representation
+ */
+function rgbToHsl(r, g, b){
+    r /= 255, g /= 255, b /= 255;
+    var max = Math.max(r, g, b), min = Math.min(r, g, b);
+    var h, s, l = (max + min) / 2;
+
+    if(max == min){
+        h = s = 0; // achromatic
+    }else{
+        var d = max - min;
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+        switch(max){
+            case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+            case g: h = (b - r) / d + 2; break;
+            case b: h = (r - g) / d + 4; break;
+        }
+        h /= 6;
     }
+
+    return [h, s, l];
+}
+
+/**
+ * Converts an HSL color value to RGB. Conversion formula
+ * adapted from http://en.wikipedia.org/wiki/HSL_color_space.
+ * Assumes h, s, and l are contained in the set [0, 1] and
+ * returns r, g, and b in the set [0, 255].
+ *
+ * @param   Number  h       The hue
+ * @param   Number  s       The saturation
+ * @param   Number  l       The lightness
+ * @return  Array           The RGB representation
+ */
+function hslToRgb(h, s, l){
+    var r, g, b;
+
+    if(s == 0){
+        r = g = b = l; // achromatic
+    }else{
+        function hue2rgb(p, q, t){
+            if(t < 0) t += 1;
+            if(t > 1) t -= 1;
+            if(t < 1/6) return p + (q - p) * 6 * t;
+            if(t < 1/2) return q;
+            if(t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+            return p;
+        }
+
+        var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+        var p = 2 * l - q;
+        r = hue2rgb(p, q, h + 1/3);
+        g = hue2rgb(p, q, h);
+        b = hue2rgb(p, q, h - 1/3);
+    }
+
+    return [r * 255, g * 255, b * 255];
+}
+
+function toHexColor(rgb) {
+    hr = Math.round(rgb[0]).toString(16);
+    hg = Math.round(rgb[1]).toString(16);
+    hb = Math.round(rgb[2]).toString(16);
+    if (hr.length < 2) {
+        hr = '0' + hr;
+    }
+    if (hg.length < 2) {
+        hg = '0' + hg;
+    }
+    if (hb.length < 2) {
+        hb = '0' + hb;
+    }
+    return '#'+hr+hg+hb;
+}
+
+function urlencode(str) {
+    str = encodeURIComponent(str);
+    str = str.replace(/!/g, '%21');
+    str = str.replace(/'/g, '%27');
+    str = str.replace(/\(/g, '%28');
+    str = str.replace(/\)/g, '%29');
+    str = str.replace(/\*/g, '%2A');  
+    return str;
+}
+
+GeoExt.ux.cyclingRoutingService = function (options, type, start, end, catchResult, scope) {
+    //Ext.decode(json)
+    var newUrl = "source=" + start + "&target=" + end + "&lang=" + OpenLayers.Lang.getCode();
+    var proxy = new Ext.data.ScriptTagProxy({
+//    var proxy = new Ext.data.HttpProxy({
+        url: "http://localhost:5000/routing?" + newUrl,
+//        url: "http://localhost/map/Export/proxy.php?url=" + urlencode("http://localhost:5000/routing?" + newUrl),
+        nocache: false
+    });
     
-    return box;
-};
+    var reader = new Ext.data.DataReader();
+    reader.geojsonReader = new OpenLayers.Format.GeoJSON();
+    reader.readResponse = function(action, response) {
+        var data = this.geojsonReader.read(response);
+        
+        var distance = null;
+        var time = null;
+        var hours = null;
+        var minutes = null;
+        var instructions = '';
+        var features = data.pop().data
+        
+        if (features.distance) {
+            distance = features.distance;
+        }
+        var first = true;
+        for (var i = 0 ; i < data.length ; i++) {
+            var d = data[i].attributes;
+            if (first) { 
+                first = false;
+//                instructions += '<hr /><p>';
+            }
+            else { 
+//                instructions += '<br />';
+            }
+            d.speed = d.waylength / d.time * 3600;
+            d.elevation = Math.abs(d.elevation);
+            d.decinivite = Math.round(d.elevation / d.waylength / 10) + "&nbsp;%";
+            d.elevation = Math.round(d.elevation) + "&nbsp;m";
+            d.waylength = (Math.round(d.waylength * 100) / 100) + "&nbsp;km";
+            
+            time = d.time;
+            minutes = Math.floor(time / 60);
+            seg = Math.round(time % 60);
+            if (seg < 10) {
+                seg = '0'+seg;
+            }
+            d.time = minutes+'.'+seg+'&nbsp;min.s';
+
+//            d.denivele = d.elevation / d.waylength / 10;
+            var instruction = d.name + ' (' + /*d.time + ', ' 
+                    + d.waylength + ', ' 
+                    + d.elevation + ', ' */
+                    + Math.round(d.speed) + "&nbsp;km/h" + ')';
+            d.instruction = instruction;
+//            instructions += instruction;
+        }
+//        instructions += '</p>';
+
+        if (features.time) {
+            time = features.time;
+            hours = Math.floor(time / 3600);
+            minutes = Math.round((time / 60) % 60);
+            if (minutes < 10) {
+                minutes = '0'+minutes;
+            }
+        }
+        
+        var html = '<p>' + OpenLayers.i18n('Total length: ') + Math.round(distance * 100) / 100 + ' km</p>'
+                + '<p>' + OpenLayers.i18n('Total time: ') + hours + 'h' + minutes + '</p>'
+                + instructions + '<hr />';
+
+        catchResult.call(scope, true, html, data);
+    }
+
+
+    proxy.doRequest('', null, {}, reader);
+}
+
