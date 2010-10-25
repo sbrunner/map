@@ -111,7 +111,7 @@ class RoutingController(BaseController):
 when 'yes' then 1
 when 'designated' then 1
 when 'official' then 1
-when 'destination' then 9999
+when 'destination' then 50
 when 'agricultural' then 9999 
 when 'forestry' then 9999
 when 'delivery' then 9999
@@ -122,7 +122,7 @@ else (case access
 when 'yes' then 1
 when 'designated' then 1
 when 'official' then 1
-when 'destination' then 9999
+when 'destination' then 50
 when 'agricultural' then 9999
 when 'forestry' then 9999
 when 'delivery' then 9999

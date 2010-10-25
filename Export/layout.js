@@ -43,6 +43,7 @@ if (!OpenLayers.OSM_URL) {
     OpenLayers.ProxyHost = "proxy.php?url="; // proxy is required here
 }
 OpenLayers.IMAGE_RELOAD_ATTEMPTS = 2;
+OpenLayers._getScriptLocation = function() {return ""};
 
 var lang = 'en';
 if (navigator.language) {
@@ -317,7 +318,7 @@ Ext.onReady(function() {
                 }
             },
             sbrunner: {
-                service : GeoExt.ux.cyclingRoutingService,
+                service : cyclingRoutingService,
                 projection: new OpenLayers.Projection("EPSG:4326"),
                 types: {citybike : { name: OpenLayers.i18n('Bike (ele)') } }
             }

@@ -1,9 +1,9 @@
 <?php
 //          FILE: proxy.php
 //
-// LAST MODIFIED: 2006-03-23
+// LAST MODIFIED: 2006-03-23, 2010-10-24
 //
-//        AUTHOR: Troy Wolf <troy@troywolf.com>
+//        AUTHOR: Troy Wolf <troy@troywolf.com>, Stéphane Brunner <courriel@stephane-brunner.ch>
 //
 //   DESCRIPTION: Allow scripts to request content they otherwise may not be
 //                able to. For example, AJAX (XmlHttpRequest) requests from a
@@ -13,8 +13,8 @@
 //                client can pass the requested URL in and get back the
 //                response from the external server.
 //
-//         USAGE: "proxy_url" required parameter. For example:
-//                http://www.mydomain.com/proxy.php?proxy_url=http://www.yahoo.com
+//         USAGE: "url" required parameter. For example:
+//                http://www.mydomain.com/proxy.php?url=http://www.yahoo.com
 //
 
 // proxy.php requires Troy's class_http. http://www.troywolf.com/articles
@@ -40,7 +40,7 @@ $h->url = str_replace(" ", "%20", $proxy_url);
 $h->postvars = $_POST;
 if (!$h->fetch($h->url)) {
     header("HTTP/1.0 501 Script Error");
-    echo "proxy.php had an error attempting to query the url (1)";
+    echo "proxy.php had an error attempting to query the url (1) " . $h->url;
     exit();
 }
 
@@ -56,7 +56,7 @@ if ($ary_headers[0] == "HTTP/1.1 302 Found") {
       $h->postvars = $_POST;
       if (!$h->fetch($h->url)) {
           header("HTTP/1.0 501 Script Error");
-          echo "proxy.php had an error attempting to query the url (2)";
+          echo "proxy.php had an error attempting to query the url (2) " . $h->url;
           exit();
       }
     }

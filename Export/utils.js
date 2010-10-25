@@ -1,6 +1,8 @@
 /**
  * @requires OpenLayers/Projection.js
  * @requires OpenLayers/Control.js
+ * @requires OpenLayers/Format/GeoJSON.js
+ * @requires OpenLayers/Control/Permalink.js
  */
 
 Array.prototype.contains = function (needle) {
@@ -179,9 +181,8 @@ OpenLayers.Control.PermalinkLayer = OpenLayers.Class(OpenLayers.Control.Permalin
     my_layers: null,
     
     initialize: function(element, base, my_layers) {
+        OpenLayers.Control.Permalink.prototype.initialize.apply(this, arguments);
         this.my_layers = my_layers;
-        this.element = OpenLayers.Util.getElement(element);
-        this.base = base || document.location.href;
     },
     
     /**
@@ -404,13 +405,11 @@ function urlencode(str) {
     return str;
 }
 
-GeoExt.ux.cyclingRoutingService = function (options, type, start, end, catchResult, scope) {
-    //Ext.decode(json)
+function cyclingRoutingService(options, type, start, end, catchResult, scope) {
     var newUrl = "source=" + start + "&target=" + end + "&lang=" + OpenLayers.Lang.getCode();
     var proxy = new Ext.data.ScriptTagProxy({
-//    var proxy = new Ext.data.HttpProxy({
-        url: "http://localhost:5000/routing?" + newUrl,
-//        url: "http://localhost/map/Export/proxy.php?url=" + urlencode("http://localhost:5000/routing?" + newUrl),
+        url: isDev ? ("http://192.168.1.4/wsgi/routing?" + newUrl) : 
+                ("http://stephanebrunner.dyndns.org:5000/wsgi/routing?" + newUrl),
         nocache: false
     });
     

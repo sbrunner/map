@@ -185,18 +185,7 @@ GeoExt.ux.RoutingPanel = Ext.extend(Ext.Panel, {
      */
     // Key for dev.geoext.org: 187a9f341f70406a8064d07a30e5695c
     // Key for localhost: BC9A493B41014CAABB98F0471D759707
-    routingProviders: { 
-        cloudmade : {
-            service: GeoExt.ux.cloudmadeRoutingService,
-            projection: new OpenLayers.Projection("EPSG:4326"),
-            cloudmadeKey: cloudmadeKey,
-            types: {
-                car: { name: OpenLayers.i18n('By car') },
-                foot: { name: OpenLayers.i18n('By foot') },
-                bicycle: { name: OpenLayers.i18n('By bicycle') }
-            }
-        }
-    },
+    routingProviders: null,
 
 
     /** api: config[layer]
@@ -307,6 +296,20 @@ GeoExt.ux.RoutingPanel = Ext.extend(Ext.Panel, {
             this.permalinkState = permalinkProvider.state.r;
         }
 
+        if (!this.routingProviders) {
+            this.routingProviders = { 
+                cloudmade : {
+                    service: GeoExt.ux.cloudmadeRoutingService,
+                    projection: new OpenLayers.Projection("EPSG:4326"),
+                    cloudmadeKey: cloudmadeKey,
+                    types: {
+                        car: { name: OpenLayers.i18n('By car') },
+                        foot: { name: OpenLayers.i18n('By foot') },
+                        bicycle: { name: OpenLayers.i18n('By bicycle') }
+                    }
+                }
+            }
+        }
         this.startLocationCombo = this.geocodingProviders.builder(Ext.apply({
             name: 'startLocationCombo',
             emptyText: OpenLayers.i18n('Search start...'),
