@@ -19,22 +19,10 @@ def make_map(config):
     map.connect('/error/{action}/{id}', controller='error')
 
     # CUSTOM ROUTES HERE
-    map.connect("/users/count", controller="users", action="count")
-    map.resource("user", "users")
-
-    map.connect("/cyclerouting/count", controller="cycle-routing", action="count")
-    map.resource("routing", "cyclerouting")
-
-#mapper = mapper(Way, ways_table)
-#mapper = mapper(Node, nodes_table)
     map.connect('/{controller}/{action}')
     map.connect('/{controller}/{action}/{id}')
 
     map.connect('/:controller', action='index')
     map.connect('/:controller/', action='index')
-#    map.connect('/:controller/:action')
-#    map.connect('/:controller/:action/')
-
-#    map.connect('/:controller/:action/:id')
     
     return map

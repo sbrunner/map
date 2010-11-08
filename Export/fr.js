@@ -48,6 +48,7 @@ OpenLayers.Util.extend(OpenLayers.Lang.fr, {
     "All features": "Toutes les fonctionnalités",
     "Raw": "Brut",
     "Permalink": "Permalien",
+    "Links": "Liens",
     "Edit with JOSM": "Éditer avec JOSM",
     "Base Layers": "Couches de base",
     "Dem": "Altitude",

@@ -1,3 +1,0 @@
-#!/bin/bash
-
-sudo ionice -c3 nice -n 19 rsync --archive --recursive --human-readable --progress --stats --delete /media/Mapnik /media/MapnikBackup # --delete-after

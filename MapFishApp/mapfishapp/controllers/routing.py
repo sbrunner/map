@@ -80,6 +80,7 @@ class RoutingController(BaseController):
             distance += float(edge.length)
             time += float(costs[i-1])
 
+#            name = edge.highway
             if edge.name == None:
                 name = edge.highway
             else:
@@ -143,7 +144,7 @@ when 'unclassified' then 1
 when 'service' then 1.015
 when 'pedestrian' then 1.01
 when 'cycleway' then 0.9
-when 'footway' then 1.025
+when 'footway' then 2
 when 'path' then 1.05
 when 'steps' then 7
 when 'track' then 
@@ -240,10 +241,10 @@ end)
         diffSpeed = "case when altitude_diff > 0 then exp(altitude_diff / length * 0.012) else exp(altitude_diff / length * 0.009) end * length * 200 * "
         reversediffSpeed = "case when altitude_diff < 0 then exp(-altitude_diff / length * 0.012) else exp(-altitude_diff / length * 0.009) end * length * 200 * "
 
-        cost = diffSpeed + "case when (" + speed + ") > 100 then -1 else (" + speed + ") end" + booth_fixed
-        reversecost = reversediffSpeed + "case when (" + reversespeed + ") > 100 then -1 else (" + reversespeed + ") end" + booth_fixed
+        cost = diffSpeed + "replaceOverMax(" + speed + ", 100, -1)" + booth_fixed
+        reversecost = reversediffSpeed + "replaceOverMax(" + reversespeed + ", 100, -1)" + booth_fixed
 
-        steps = shortest_path_astar(Session,
+        """steps = shortest_path_astar(Session,
                               "SELECT gid AS id,              \
                                       source,       \
                                       target,       \
@@ -252,6 +253,8 @@ end)
                                       x1, y1, x2, y2              \
                                       FROM ways"%{'cost': cost, 'reversecost': reversecost},
                               start, end, True, True)
+                              """
+        steps = shortest_path_astar(Session, "SELECT * FROM edges", start, end, True, True)
 
 
         edge_ids = []
@@ -260,8 +263,23 @@ end)
             edge_ids.append(step.edge_id)
             costs.append(step.cost)
             
-        edges = Session.query(RoutingEdge).filter(RoutingEdge.gid.in_(edge_ids)).all()
-
+        # gets only name highway altitide diff length
+        edges = Session.query(RoutingEdge.gid, RoutingEdge.name, RoutingEdge.highway, RoutingEdge.length, RoutingEdge.altitude_diff, RoutingEdge.the_geom).filter(RoutingEdge.gid.in_(edge_ids)).all()
+        """
+                    if edge.name == None:
+                name = edge.highway
+            else:
+                name = edge.name
+            features.append(Feature(
+                id = edge.gid,
+                geometry = wkb.loads(str(edge.the_geom.geom_wkb)),
+                properties = {
+                    "name": name,
+                    "time": costs[i-1],
+                    "waylength": float(edge.length),
+                    "elevation": edge.altitude_diff
+                }
+"""
         # reorder edges list according to edge_ids
         order_map = dict([(v,k) for (k,v) in enumerate(edge_ids)])
         edges.sort(key=lambda v: order_map[v.gid])

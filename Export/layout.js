@@ -147,10 +147,8 @@ Ext.onReady(function() {
         if (layers instanceof Array) {
             for(var i = 0 ; i < layers.length ; ++i) {
                 var layer = layersList[layers[i]];
-                if (layer.handler) {
+                if (layer && layer.handler) {
                     var handler = layer.handler;
-                    delete layer.handler;
-                    delete layer.map;
                     handler(map, layer);
                 }
             }
@@ -159,8 +157,6 @@ Ext.onReady(function() {
             var layer = layersList[layers];
             if (layer && layer.handler) {
                 var handler = layer.handler;
-                delete layer.handler;
-                delete layer.map;
                 handler(map, layer);
             }
         }
@@ -209,10 +205,9 @@ Ext.onReady(function() {
             onStatechange(permalinkProvider);
             
             var handler = options.handler;
-            var map = options.map;
-            delete options.handler;
-            delete options.map;
-            handler(map, options);
+            if (!mapPanel.map.getLayer(options.id)) {
+                handler(mapPanel.map, options);
+            }
         }
     }
     
@@ -241,13 +236,20 @@ Ext.onReady(function() {
             }
         }
     });
-    
-    var layerList = new GeoExt.tree.LayerContainer();
+
+    var loader = new GeoExt.tree.LayerLoader({ baseAttrs: {
+        uiProvider: StephaneNodesUI,
+        deleteAction: true,
+        upAction: true,
+        downAction: true,
+        opacitySlider: true
+    } });
     var layerTree = new Ext.tree.TreePanel({
         autoScroll: true,
         rootVisible: false,
         lines: false,
-        root: layerList
+//        loader: loader,
+        root: new GeoExt.tree.LayerContainer({ loader:loader })
     });
 
     var routingStyle = new OpenLayers.StyleMap();
@@ -255,7 +257,6 @@ Ext.onReady(function() {
         var symbolizer = OpenLayers.StyleMap.prototype.createSymbolizer.apply(this, arguments);
         if (feature.attributes.speed) {
             rgb = hslToRgb(feature.attributes.speed / 50, 1, 0.5);
-//                symbolizer.strokeColor = "rgb("+rgb[0]+", "+rgb[1]+", "+rgb[2]+")";
             symbolizer.strokeColor = toHexColor(rgb);
         }
         return symbolizer;
@@ -402,7 +403,7 @@ Ext.onReady(function() {
                         title: OpenLayers.i18n("Selected layers"),
                         layout: 'fit',
                         name: 'sl',
-                        height: 80,
+                        height: 150,
                         items: [layerTree]
                     },
                     {
@@ -415,20 +416,14 @@ Ext.onReady(function() {
                     {
                         baseCls: "x-plane",
                         name: 'pl',
-                        title: OpenLayers.i18n("Permalink"),
+                        title: OpenLayers.i18n("Links"),
                         style: "padding: 0 0 8px 8px;",
                         html: "<ul>"
                             + "<li><div id='permalink'><a href=''>" + OpenLayers.i18n("Permalink") + "</a></div></li>"
                             + "<li><a id='permalink.potlatch' href=''>" + OpenLayers.i18n("Edit on Potlatch") + "</a></li>"
                             + "<li><div id='josm'><a href=''>" + OpenLayers.i18n("Edit with JOSM") + "</a></div></li>"
                             + "</ul>"
-                    },
-                    {
-                        baseCls: "x-plane",
-                        name: 'ul',
-                        title: OpenLayers.i18n("Utilities links"),
-                        style: "padding: 0 0 8px 8px;",
-                        html: "<ul>"
+                            + "<hr /><ul>"
                             + "<li><a id='permalink.amenity.editor' href='http://ae.osmsurround.org/'>" + OpenLayers.i18n("Amenity (POI) Editor") + "</a></li>"
                             + "<li><a id='permalink.keepright' href='http://keepright.ipax.at/report_map.php'>" + OpenLayers.i18n("Keep right!") + "</a></li>"
                             + "<li><a id='permalink.restrictions' href='http://osm.virtuelle-loipe.de/restrictions/'>" + OpenLayers.i18n("Restrictions") + "</a></li>"

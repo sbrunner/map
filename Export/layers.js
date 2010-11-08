@@ -39,7 +39,6 @@ function getLayersTree(map) {
             expanded: true,
             children: [{
                 text: OpenLayers.i18n("All features"),
-                map: map,
                 leaf: true,
                 handler: addOsmStyleLayer,
                 style: getOSMStyle(),
@@ -47,7 +46,6 @@ function getLayersTree(map) {
             },
             {
                 text: OpenLayers.i18n("Raw"),
-                map: map,
                 leaf: true,
                 handler: addOsmStyleLayer,
                 style: null,
@@ -55,7 +53,6 @@ function getLayersTree(map) {
             },
             {
                 text: OpenLayers.i18n("Osmarender"),
-                map: map,
                 leaf: true,
                 handler: addLayer,
                 url: "http://b.tah.openstreetmap.org/Tiles/tile/${z}/${x}/${y}.png",
@@ -65,7 +62,6 @@ function getLayersTree(map) {
             },
             {
                 text: OpenLayers.i18n("OpenCycleMap"),
-                map: map,
                 leaf: true,
                 handler: addLayer,
                 url: "http://b.tile.opencyclemap.org/cycle/${z}/${x}/${y}.png",
@@ -75,7 +71,6 @@ function getLayersTree(map) {
             },
             {
                 text: OpenLayers.i18n("OpenPisteMap"),
-                map: map,
                 leaf: true,
                 handler: addLayer,
                 url: "http://tiles.openpistemap.org/contours/${z}/${x}/${y}.png",
@@ -85,7 +80,6 @@ function getLayersTree(map) {
             },
             {
                 text: OpenLayers.i18n("Public transport"),
-                map: map,
                 leaf: true,
                 handler: addLayer,
                 url: "http://tile.xn--pnvkarte-m4a.de/tilegen/${z}/${x}/${y}.png",
@@ -95,7 +89,6 @@ function getLayersTree(map) {
             },
             {
                 text: OpenLayers.i18n("Hiking Tails"),
-                map: map,
                 leaf: true,
                 handler: addLayer,
                 url: "http://osm.lonvia.de/hiking/${z}/${x}/${y}.png",
@@ -110,7 +103,6 @@ function getLayersTree(map) {
             expanded: true,
             children: [{
                 text: OpenLayers.i18n("Hill shade"),
-                map: map,
                 leaf: true,
                 handler: addLayer,
                 url: "http://map.stephane-brunner.ch/topo/${z}/${x}/${y}.png",
@@ -120,7 +112,6 @@ function getLayersTree(map) {
             },
             {
                 text: OpenLayers.i18n("Contours"),
-                map: map,
                 leaf: true,
                 handler: addLayer,
                 url: "http://map.stephane-brunner.ch/contours/${z}/${x}/${y}.png",
@@ -135,7 +126,6 @@ function getLayersTree(map) {
             leaf: false,
             children: [{
                 text: OpenLayers.i18n("Peak"),
-                map: map,
                 leaf: true,
                 handler: addXapiStyleLayer,
                 style: getHikkingStyle(),
@@ -145,7 +135,6 @@ function getLayersTree(map) {
             },
             {
                 text: OpenLayers.i18n("Mountain pass"),
-                map: map,
                 leaf: true,
                 handler: addXapiStyleLayer,
                 style: getHikkingStyle(),
@@ -155,7 +144,6 @@ function getLayersTree(map) {
             },
             {
                 text: OpenLayers.i18n("Informations"),
-                map: map,
                 leaf: true,
                 handler: addXapiStyleLayer,
                 style: getHikkingStyle(),
@@ -165,7 +153,6 @@ function getLayersTree(map) {
             },
             {
                 text: OpenLayers.i18n("Hiking (scale)"),
-                map: map,
                 leaf: true,
                 handler: addXapiStyleLayer,
                 style: getHikkingStyle(),
@@ -175,7 +162,6 @@ function getLayersTree(map) {
             },
             {
                 text: OpenLayers.i18n("Hiking (path)"),
-                map: map,
                 leaf: true,
                 handler: addXapiStyleLayer,
                 style: getHikkingStyle(),
@@ -185,7 +171,6 @@ function getLayersTree(map) {
             },
             {
                 text: OpenLayers.i18n("MTB (scale)"),
-                map: map,
                 leaf: true,
                 handler: addXapiStyleLayer,
                 style: getMTBStyle(),
@@ -195,7 +180,6 @@ function getLayersTree(map) {
             },
             {
                 text: OpenLayers.i18n("MTB (route)"),
-                map: map,
                 leaf: true,
                 handler: addXapiStyleLayer,
                 style: getMTBStyle(),
@@ -205,7 +189,6 @@ function getLayersTree(map) {
             },
             {
                 text: OpenLayers.i18n("Bicycle"),
-                map: map,
                 leaf: true,
                 handler: addXapiStyleLayer,
                 style: getMTBStyle(),
@@ -215,7 +198,6 @@ function getLayersTree(map) {
             },
             {
                 text: OpenLayers.i18n("Sled"),
-                map: map,
                 leaf: true,
                 handler: addXapiStyleLayer,
                 style: getSledStyle(),
@@ -225,7 +207,6 @@ function getLayersTree(map) {
             },
             {
                 text: OpenLayers.i18n("Snows shoe"),
-                map: map,
                 leaf: true,
                 handler: addXapiStyleLayer,
                 style: getSnowShoeStyle(),
@@ -235,7 +216,6 @@ function getLayersTree(map) {
             },
             {
                 text: OpenLayers.i18n("Nordic"),
-                map: map,
                 leaf: true,
                 handler: addXapiStyleLayer,
                 style: getNordicStyle(),
@@ -245,7 +225,6 @@ function getLayersTree(map) {
             },
             {
                 text: OpenLayers.i18n("Down hill"),
-                map: map,
                 leaf: true,
                 handler: addXapiStyleLayer,
                 style: getSkyStyle(),
@@ -255,7 +234,6 @@ function getLayersTree(map) {
             },
             {
                 text: OpenLayers.i18n("Winter Walks"),
-                map: map,
                 leaf: true,
                 handler: addXapiStyleLayer,
                 style: getWinterWalksStyle(),
@@ -265,7 +243,6 @@ function getLayersTree(map) {
             },
             {
                 text: OpenLayers.i18n("Fitness trail"),
-                map: map,
                 leaf: true,
                 handler: addXapiStyleLayer,
                 style: getHikkingStyle(),
@@ -282,7 +259,6 @@ function getLayersTree(map) {
                 leaf: false,
                 children: [{
                     text: OpenLayers.i18n("Speed"),
-                    map: map,
                     leaf: true,
                     handler: addXapiStyleLayer,
                     style: getMaxSpeedStyle(),
@@ -292,7 +268,6 @@ function getLayersTree(map) {
                 },
                 {
                     text: OpenLayers.i18n("Weight"),
-                    map: map,
                     leaf: true,
                     handler: addXapiStyleLayer,
                     style: null,
@@ -302,7 +277,6 @@ function getLayersTree(map) {
                 },
                 {
                     text: OpenLayers.i18n("Height"),
-                    map: map,
                     leaf: true,
                     handler: addXapiStyleLayer,
                     style: null,
@@ -312,7 +286,6 @@ function getLayersTree(map) {
                 },
                 {
                     text: OpenLayers.i18n("Width"),
-                    map: map,
                     leaf: true,
                     handler: addXapiStyleLayer,
                     style: null,
@@ -322,7 +295,6 @@ function getLayersTree(map) {
                 },
                 {
                     text: OpenLayers.i18n("Length"),
-                    map: map,
                     leaf: true,
                     handler: addXapiStyleLayer,
                     style: null,
@@ -337,7 +309,6 @@ function getLayersTree(map) {
             leaf: false,
             children: [{
                 text: OpenLayers.i18n("CloudMade nonames"),
-                map: map,
                 leaf: true,
                 handler: addLayer,
                 url: "http://tile.cloudmade.com/D563D910896D4B67B22BC1088920C483/3/256/${z}/${x}/${y}.png",
@@ -348,7 +319,6 @@ function getLayersTree(map) {
             },
             {
                 text: OpenLayers.i18n("Text of fixme and note"),
-                map: map,
                 leaf: true,
                 handler: addLayer,
                 url: "http://beta.letuffe.org/tiles/renderer.py/fixme-text/${z}/${x}/${y}.png",
@@ -359,7 +329,6 @@ function getLayersTree(map) {
             },
             {
                 text: OpenLayers.i18n("Duplicates nodes"),
-                map: map,
                 leaf: true,
                 handler: addLayer,
                 url: "http://matt.dev.openstreetmap.org/dupe_nodes/tiles/renderer.py/1.0.0/dupe_nodes/${z}/${x}/${y}.png",
@@ -372,7 +341,6 @@ function getLayersTree(map) {
                 leaf: false,
                 children: [{
                     text: OpenLayers.i18n("September 2008"),
-                    map: map,
                     leaf: true,
                     handler: addLayer,
                     url: "lausanne/lausanne-20080926/${z}/${x}/${y}.png",
@@ -382,7 +350,6 @@ function getLayersTree(map) {
                 },
                 {
                     text: OpenLayers.i18n("June 2009"),
-                    map: map,
                     leaf: true,
                     handler: addLayer,
                     url: "lausanne/lausanne-20090606/${z}/${x}/${y}.png",
@@ -392,7 +359,6 @@ function getLayersTree(map) {
                 },
                 {
                     text: OpenLayers.i18n("June 2010"),
-                    map: map,
                     leaf: true,
                     handler: addLayer,
                     url: "lausanne/lausanne-20100622/${z}/${x}/${y}.png",

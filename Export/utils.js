@@ -171,8 +171,8 @@ function addOsmStyleLayer(map, options) {
     });
     map.addLayer(layer);
     var sf = new OpenLayers.Control.SelectFeature(layer, {
-      autoActivate: true,
-      hover: true
+        autoActivate: true,
+        hover: true
     });
     map.addControl(sf);
 }
@@ -236,7 +236,9 @@ function onStatechange(provider) {
     
         var l = provider.getLink(permalinkTitleBase);
         l = l.replace("#\?", "#");
-        window.location.href = l;
+        if (window.location.href.indexOf("?") < 0) {
+            window.location.href = l;
+        }
         
         var bounds = mapPanel.map.getExtent();
         bounds = bounds.transform(mapPanel.map.getProjectionObject(), mapPanel.map.displayProjection);
@@ -246,7 +248,7 @@ function onStatechange(provider) {
                 + "left=" + bounds.left + "&right=" + bounds.right
                 + "&top=" + bounds.top + "&bottom=" + bounds.bottom + "'>" + OpenLayers.i18n("Edit with JOSM") + "</a>");
         }
-    }    
+    }
 };
 
 function getEllements(list, end) {
@@ -408,8 +410,8 @@ function urlencode(str) {
 function cyclingRoutingService(options, type, start, end, catchResult, scope) {
     var newUrl = "source=" + start + "&target=" + end + "&lang=" + OpenLayers.Lang.getCode();
     var proxy = new Ext.data.ScriptTagProxy({
-        url: isDev ? ("http://192.168.1.4/wsgi/routing?" + newUrl) : 
-                ("http://stephanebrunner.dyndns.org:5000/wsgi/routing?" + newUrl),
+        url: "http://localhost:5000/routing?" + newUrl,
+//        url: isDev ? ("http://192.168.1.4/wsgi/routing?" + newUrl) : ("http://stephanebrunner.dyndns.org:5000/wsgi/routing?" + newUrl),
         nocache: false
     });
     
@@ -439,6 +441,7 @@ function cyclingRoutingService(options, type, start, end, catchResult, scope) {
 //                instructions += '<br />';
             }
             d.speed = d.waylength / d.time * 3600;
+            d.speed = Math.round(d.speed * 10) / 10;
             d.elevation = Math.abs(d.elevation);
             d.decinivite = Math.round(d.elevation / d.waylength / 10) + "&nbsp;%";
             d.elevation = Math.round(d.elevation) + "&nbsp;m";
@@ -456,7 +459,7 @@ function cyclingRoutingService(options, type, start, end, catchResult, scope) {
             var instruction = d.name + ' (' + /*d.time + ', ' 
                     + d.waylength + ', ' 
                     + d.elevation + ', ' */
-                    + Math.round(d.speed) + "&nbsp;km/h" + ')';
+                    + d.speed + "&nbsp;km/h" + ')';
             d.instruction = instruction;
 //            instructions += instruction;
         }
@@ -478,7 +481,166 @@ function cyclingRoutingService(options, type, start, end, catchResult, scope) {
         catchResult.call(scope, true, html, data);
     }
 
-
     proxy.doRequest('', null, {}, reader);
 }
 
+function stripHTML(text) {
+    return text.replace(/<[^>]*>/g, "");  
+}
+
+StephaneNodesUI = Ext.extend(GeoExt.tree.LayerNodeUI, {
+  render: function(bulkRender) {
+    var a = this.node.attributes;
+    if (a.checked === undefined) {
+        a.checked = this.node.layer.getVisibility();
+    }
+    var rendered = this.rendered;
+    GeoExt.tree.LayerNodeUI.superclass.render.apply(this, arguments);
+    if(!rendered) {
+        this.elNode.tooltip = layer.attribution;
+      
+        // add div in the node
+        var elt = Ext.DomHelper.append(this.elNode, [
+            {"tag": "div"}//, "style": "position:relative;left:20"}
+        ]);
+        var buttons = [];
+
+        var cb = this.node.attributes.checkbox;
+        var rg = a.radioGroup || this.radioGroup;
+        var cg = a.checkedGroup || this.checkedGroup;
+
+        if (rg && this.radio === null) {
+            this.radio = Ext.DomHelper.insertAfter(cb,
+                ['<input type="radio" class="gx-tree-layer-radio" name="',
+                rg, '_radio"></input>'].join(""));
+        }
+        if(cg) {
+            // replace the checkbox with a radio button
+            var radio = Ext.DomHelper.insertAfter(cb,
+                ['<input type="radio" name="', cg,
+                '_checkbox" class="', cb.className,
+                cb.checked ? '" checked="checked"' : '',
+                '"></input>'].join(""));
+            radio.defaultChecked = cb.defaultChecked;
+            Ext.get(cb).remove();
+            this.checkbox = radio;
+        }
+        this.enforceOneVisible();
+
+        var component = a.component || this.component;
+        var opacitySlider = a.opacitySlider || this.opacitySlider;
+        if (opacitySlider) {
+            var slider = new GeoExt.LayerOpacitySlider({
+                layer: this.node.layer,
+                width: 200,
+                value: this.node.layer.opacity * 255,
+                maxValue: 255
+            });
+            buttons.push(slider)
+        }
+
+        buttons.push('->');
+
+        var intoAction = true; //a.upAction || this.upAction;
+        if (intoAction) {
+            buttons.push(new Ext.Action({
+                text: "?",
+                handler: function() {
+                    var text = "";
+                    text += "Title: " + this.text + "\n";
+                    text += "ID: " + this.id + "\n";
+                    text += "Copyright: " + stripHTML(this.attribution) + "\n";
+                    var index = this.url.indexOf("/${z}/${x}/${y}.png");
+                    if (index > 0) {
+                        text += "Get from: " + this.url.substring(0, index);
+                    }
+                    else {
+                        text += "Get from: " + this.url;
+                    }
+                    window.alert(text);
+                },
+                scope: this.node.layer
+            }));
+        }
+        var upAction = a.upAction || this.upAction;
+        if (upAction) {
+            buttons.push(new Ext.Action({
+                text: "^",
+                tooltip: OpenLayers.i18n("Move the layer to the front"),
+                handler: function() {
+                    var index = this.map.getLayerIndex(this);
+                    if (index == this.map.layers.length - 1) {
+                        return;
+                    }
+                    this.map.setLayerIndex(this, index + 1)
+                    var layers = [];
+                    for (var i = 1, len = this.map.layers.length ; i < len - 1 ; i++) {
+                        layers.push(this.map.layers[i].id);
+                    }
+                    permalinkProvider.state.a.layers = layers;
+                    onStatechange(permalinkProvider);
+                },
+                scope: this.node.layer
+            }));
+        }
+        var downAction = a.downAction || this.downAction;
+        if (downAction) {
+            buttons.push(new Ext.Action({
+                text: "v",
+                tooltip: OpenLayers.i18n("Move the layer to the back"),
+                handler: function() {
+                    var index = this.map.getLayerIndex(this);
+                    if (index == 0) {
+                        return;
+                    }
+                    this.map.setLayerIndex(this, index - 1)
+                    var layers = [];
+                    for (var i = 1, len = this.map.layers.length ; i < len - 1 ; i++) {
+                        layers.push(this.map.layers[i].id);
+                    }
+                    permalinkProvider.state.a.layers = layers;
+                    onStatechange(permalinkProvider);
+                },
+                scope: this.node.layer
+            }));
+        }
+
+        var deleteAction = a.deleteAction || this.deleteAction;
+        if (deleteAction) {
+            buttons.push(new Ext.Action({
+                text: "X",
+                tooltip: OpenLayers.i18n("Remove the layer from the map"),
+                handler: function() {
+                    this.map.removeLayer(this);
+                    var layers = permalinkProvider.state.a.layers;
+                    if (layers) {
+                        if (layers instanceof Array) {
+                            for (var i = 0, len = layers.length ; i < len ; i++) {
+                                if (layers[i] == this.id) {
+                                    layers.splice(i, 1);
+                                    break;
+                                }
+                            }
+                        }
+                        else {
+                            layers = [];
+                        }
+                    }
+                    else {
+                        layers = [];
+                    }
+                    permalinkProvider.state.a.layers = layers;
+                    onStatechange(permalinkProvider);
+                },
+                scope: this.node.layer
+            }));
+        }
+
+        new Ext.Toolbar({
+            renderTo: elt,
+            cls: "gx-toolbar",
+            buttons: buttons
+        });
+    }
+  }
+});

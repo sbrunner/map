@@ -1,15 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <edge k="name" />
-    <edge k="highway" />
-    <edge k="oneway" />
-    <edge k="access" />
-    <edge k="bicycle" />
-    <edge k="cycleway" />
-    <edge k="tracktype" />
-    <edge k="mtb:scale" >
-    <edge k="sac_scale" />
-    <edge k="trail_visibility" />
+    <edge k="name" length="200" />
+    <edge k="highway" length="20" />
+    <edge k="junction" length="20" />
+    <edge k="oneway" length="10" />
+    <edge k="tracktype" length="10" />
+
+    <edge k="surface" length="20" />
+    <edge k="maxspeed" length="10" />
+
+    <edge k="cycleway" length="20" />
+    <edge k="bicycle:backward" length="10" />
+    <edge k="mtb:scale" length="10" />
+
+    <edge k="sac_scale" length="20" />
+    <edge k="trail_visibility" length="20" />
+    
+    <edge k="access" length="20" />
+    <edge k="bicycle" length="20" />
+    <edge k="foot" length="20" />
+    <edge k="motorcar" length="20" />
+    <edge k="vehicle" length="20" />
+    
     <!--vertex k="ele" /-->
-    <vertex k="highway" />
+    <vertex k="highway" length="20" />
 </configuration>

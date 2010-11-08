@@ -5,7 +5,21 @@ python addEle Lausanne.osm > Lausanne-ele.osm
 SET LOG 0 # (disabling the transaction log)
 SET CACHE_SIZE # (a large cache is faster)
 SET LOCK_MODE 0 # (disable locking)
-SET UNDO_LOG 0 # (disable the session undo log) 
+SET UNDO_LOG 0 # (disable the session undo log)
+
+DB=pgrouting
+PORT=5432
+dropdb $DB
+createdb -p $PORT -E UTF8 $DB
+createlang -p $PORT plpgsql $DB
+createuser pgrouting
+psql -p $PORT -d $DB -f /usr/share/postgresql/8.4/contrib/postgis-1.5/postgis.sql
+psql -p $PORT -d $DB -f /usr/share/postgresql/8.4/contrib/postgis-1.5/spatial_ref_sys.sql
+psql -p $PORT -d $DB -f /usr/share/postgresql/8.4/contrib/_int.sql
+psql -p $PORT -d $DB -f /usr/share/postlbs/routing_core.sql
+psql -p $PORT -d $DB -f /usr/share/postlbs/routing_core_wrappers.sql
+echo "GRANT CREATE ON DATABASE pgrouting TO pgrouting;" | psql -p $PORT -d $DB
+
 osm2pgrouting/osm2pgrouting -file Lausanne-ele.osm -dbname pgrouting -user pgrouting -passwd pgrouting -conf osm2pgrouting/bike.xml -clean
 
 valgrind --tool=callgrind osm2pgrouting/osm2pgrouting -file Lausanne-ele.osm -dbname pgrouting -user pgrouting -passwd pgrouting -conf osm2pgrouting/bike.xml
@@ -13,3 +27,4 @@ valgrind --tool=callgrind osm2pgrouting/osm2pgrouting -file Lausanne-ele.osm -db
 source mapfish/env/bin/activate
 cd MapFishApp
 paster serve development.ini --reload
+
