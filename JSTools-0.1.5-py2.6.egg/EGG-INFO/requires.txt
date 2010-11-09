@@ -1,7 +1,0 @@
-
-
-[sphinx]
-Jinja2
-
-[yuicompressor]
-Paver
