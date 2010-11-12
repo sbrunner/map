@@ -4,3 +4,6 @@
 [submodule "Proj4js"]
 	path = Proj4js
 	url = http://github.com/ideol/proj4js.git
+[submodule "map/public/lib/openlayers"]
+	path = map/public/lib/openlayers
+	url = https://github.com/sbrunner/openlayers.git

@@ -497,7 +497,7 @@ StephaneNodesUI = Ext.extend(GeoExt.tree.LayerNodeUI, {
     var rendered = this.rendered;
     GeoExt.tree.LayerNodeUI.superclass.render.apply(this, arguments);
     if(!rendered) {
-        this.elNode.tooltip = layer.attribution;
+        this.elNode.tooltip = this.node.layer.attribution;
       
         // add div in the node
         var elt = Ext.DomHelper.append(this.elNode, [
@@ -533,8 +533,8 @@ StephaneNodesUI = Ext.extend(GeoExt.tree.LayerNodeUI, {
             var slider = new GeoExt.LayerOpacitySlider({
                 layer: this.node.layer,
                 width: 200,
-                value: this.node.layer.opacity * 255,
-                maxValue: 255
+                value: this.node.layer.opacity * 100,
+                maxValue: 100
             });
             buttons.push(slider)
         }
