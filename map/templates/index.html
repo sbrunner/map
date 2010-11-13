@@ -48,6 +48,7 @@ probleme on share geometre between feature.
         var cloudmadeKey = 'BC9A493B41014CAABB98F0471D759707';
     </script>
     
+% if c.debug:
     <!--script type="text/javascript" src="https://getfirebug.com/firebug-lite.js"></script-->
     <script type="text/javascript" src="${url('/lib/ext/Ext/adapter/ext/ext-base.js')}"></script>
     <script type="text/javascript" src="${url('/lib/ext/Ext/ext-all-debug.js')}"></script>
@@ -81,11 +82,29 @@ probleme on share geometre between feature.
     <script type="text/javascript" src="${url('/app/lib/App/layout.js')}"></script>
 
     <link rel="stylesheet" type="text/css" href="${url('/lib/ext/Ext/resources/css/ext-all.css')}" />
-    <!--link rel="stylesheet" type="text/css" href="${url('/lib/ext/Ext/resources/css/xtheme-gray.css')}" /-->
+        <!--link rel="stylesheet" type="text/css" href="${url('/lib/ext/Ext/resources/css/xtheme-gray.css')}" /-->
     <link rel="stylesheet" type="text/css" href="${url('/lib/openlayers/theme/default/style.css')}" />
     <link rel="stylesheet" type="text/css" href="${url('/lib/geoext.ux/ux/Measure/resources/css/measure.css')}" />
     <link rel="stylesheet" type="text/css" href="${url('/app/css/main.css')}" />
+% else:
+    <script type="text/javascript">
+        window.OpenLayers = {};
+    </script>
+    <script type="text/javascript" src="${url('/build/app.js')}"></script>
+    <script type="text/javascript" src="${url('/build/fr.js')}"></script>
+    <script type="text/javascript" src="${url('/build/en.js')}"></script>
+    <script type="text/javascript" src="${url('/build/lang-%s.js' % c.lang)}"></script>
+    <link rel="stylesheet" type="text/css" href="${url('/build/app.css')}" />
+% endif
+  
+    <script type="text/javascript">
+        OpenLayers.ImgPath = "${url('app/images/')}";
 
+        // uncomment this line if you use the OGC proxy
+        //OpenLayers.ProxyHost = "${url(controller='ogcproxy', action='index', url='')}";
+
+        Ext.BLANK_IMAGE_URL = "${url('/lib/ext/Ext/resources/images/default/s.gif')}";
+    </script>
   </head>
   <body>
     <div style="position: absolute; left: 40%; top: 45%;" id="waiting">

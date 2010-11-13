@@ -1,19 +1,11 @@
 [app.js]
-root =
-    Export
-    Ext
-    openlayers/lib
-    GeoExt/lib
-    GeoExt.ux/ux/Measure/lib
-    GeoExt.ux/ux/GeoNamesSearchCombo/lib
-    Proj4js/lib
-    RoutingPanel/ux
+root = ${vars:jsbuild-root}
 first =
-    adapter/ext/ext-base.js
-    ext-all.js
-    proj4js.js
-    projCode/merc.js
-    defs/EPSG900913.js
+    Ext/adapter/ext/ext-base.js
+    Ext/ext-all.js
+    proj4js/lib/proj4js.js
+    proj4js/lib/projCode/merc.js
+    proj4js/lib/defs/EPSG900913.js
     OpenLayers/Util.js
     OpenLayers/BaseTypes.js
     OpenLayers/BaseTypes/Class.js
@@ -29,12 +21,11 @@ exclude =
     OpenLayers/Lang/en.js
 
 [trace.js]
-root =
-    Export
-    openlayers/lib
-    Proj4js/lib
+root = ${vars:jsbuild-root}
 first =
-    proj4js-combined.js
+    proj4js/lib/proj4js.js
+    proj4js/lib/projCode/merc.js
+    proj4js/lib/defs/EPSG900913.js
     OpenLayers/Util.js
     OpenLayers/BaseTypes.js
     OpenLayers/BaseTypes/Class.js
@@ -44,39 +35,27 @@ include =
     OpenLayers/Control/Navigation.js
     OpenLayers/Location.js
     lamargelle.js
-    fr.js
+    Lang/fr.js
 exclude =
     OpenLayers.js
 
 [en.js]
-root =
-    Export
-    Ext
-    proj4js
-    openlayers/lib
-    GeoExt/lib
-    GeoExt.ux/ux
+root = ${vars:jsbuild-root}
 first =
     OpenLayers/Lang/en.js
 include =
-    src/locale/ext-lang-en.js
-    en.js
+    Ext/src/locale/ext-lang-en.js
+    Lang/en.js
 exclude =
     OpenLayers/Lang.js
 
 [fr.js]
-root =
-    Export
-    Ext
-    proj4js
-    openlayers/lib
-    GeoExt/lib
-    GeoExt.ux/ux
+root = ${vars:jsbuild-root}
 first =
     OpenLayers/Lang/fr.js
 include =
-    src/locale/ext-lang-fr.js
-    fr.js
+    Ext/src/locale/ext-lang-fr.js
+    Lang/fr.js
 exclude =
     OpenLayers/Lang.js
 

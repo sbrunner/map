@@ -10,7 +10,7 @@
 }
 
 body {
-    font-family:helvetica,tahoma,verdana,sans-serif;
+    font-family: helvetica,tahoma,verdana,sans-serif;
     padding: 0;
     margin: 0;
     font-size: 13px;
@@ -31,12 +31,12 @@ a:hover {
 }
 
 .x-toolbar .drag-icon {
-    background-image: url(img/panning-hand-on.png);
+    background-image: url(../images/panning-hand-on.png);
 }
 
 .x-toolbar .gx-map-measurelength,
 .x-toolbar .gx-map-measurearea {
-    background-image: url(images/measure.png);
+    background-image: url(../images/measure.png);
 }
 .x-toolbar .gx-map-measurelength {
     background-position: 0 0;

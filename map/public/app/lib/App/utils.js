@@ -3,6 +3,8 @@
  * @requires OpenLayers/Control.js
  * @requires OpenLayers/Format/GeoJSON.js
  * @requires OpenLayers/Control/Permalink.js
+ * @requires GeoExt/widgets/tree/LayerNode.js
+ * @requires GeoExt/widgets/LayerOpacitySlider.js
  */
 
 Array.prototype.contains = function (needle) {

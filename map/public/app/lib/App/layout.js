@@ -38,7 +38,6 @@
  * @requires widgets/RoutingPanel.js
  */
 
-
 if (!OpenLayers.OSM_URL) {
     OpenLayers.ProxyHost = "proxy.php?url="; // proxy is required here
 }
