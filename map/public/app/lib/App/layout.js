@@ -38,21 +38,13 @@
  * @requires widgets/RoutingPanel.js
  */
 
-if (!OpenLayers.OSM_URL) {
-    OpenLayers.ProxyHost = "proxy.php?url="; // proxy is required here
+code = (OpenLayers.Util.getBrowserName() == "msie") ? navigator.userLanguage : navigator.language
+lang = code.substring(0, 2);
+if (!['en', 'fr'].contains(lang)) {
+    lang = "en";
 }
-OpenLayers.IMAGE_RELOAD_ATTEMPTS = 2;
-OpenLayers._getScriptLocation = function() {return ""};
-
-var lang = 'en';
-if (navigator.language) {
-    lang = navigator.language.substring(0, 2);
-}
-if (['en', 'fr'].contains(lang)) {
-    document.write("<script type=\"text/javascript\" src=\"" + lang + ".js\"></script>");
-    document.write("<meta HTTP-EQUIV=\"Content-Language\" CONTENT=\"" + lang + "\" />");
-
-}
+document.write("<script type=\"text/javascript\" src=\"" + lang + ".js\"></script>");
+document.write('<meta HTTP-EQUIV="Content-Language" CONTENT="' + lang + '" />');
 OpenLayers.Lang.defaultCode = lang;
 OpenLayers.Lang.setCode(lang);
 

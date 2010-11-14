@@ -93,17 +93,20 @@ probleme on share geometre between feature.
     <script type="text/javascript" src="${url('/build/app.js')}"></script>
     <script type="text/javascript" src="${url('/build/fr.js')}"></script>
     <script type="text/javascript" src="${url('/build/en.js')}"></script>
-    <script type="text/javascript" src="${url('/build/lang-%s.js' % c.lang)}"></script>
+    <script type="text/javascript" src="${url('/build/%s.js' % c.lang)}"></script>
     <link rel="stylesheet" type="text/css" href="${url('/build/app.css')}" />
 % endif
   
     <script type="text/javascript">
-        OpenLayers.ImgPath = "${url('app/images/')}";
+        OpenLayers.ImgPath = "${url('/app/images/')}";
 
         // uncomment this line if you use the OGC proxy
         //OpenLayers.ProxyHost = "${url(controller='ogcproxy', action='index', url='')}";
 
         Ext.BLANK_IMAGE_URL = "${url('/lib/ext/Ext/resources/images/default/s.gif')}";
+
+        OpenLayers.IMAGE_RELOAD_ATTEMPTS = 2;
+        OpenLayers._getScriptLocation = function() {return ""};
     </script>
   </head>
   <body>

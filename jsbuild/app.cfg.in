@@ -11,6 +11,7 @@ first =
     OpenLayers/BaseTypes/Class.js
     OpenLayers/Lang.js
 include =
+    OpenLayers/Renderer/VML.js
     OpenLayers/Renderer/SVG.js
     OpenLayers/Control/Navigation.js
     OpenLayers/Location.js
