@@ -12,9 +12,8 @@
         <script type="text/javascript" src="LayerCatalogue.js"></script>
         
         <script type="text/javascript">
-        var mapPanel;
 Ext.onReady(function() {
-    mapPanel = new GeoExt.MapPanel({
+    var mapPanel = new GeoExt.MapPanel({
         title: "Map",
         renderTo: "map",
         height: 400,
@@ -30,7 +29,8 @@ Ext.onReady(function() {
         renderTo: "tree",
         root: new GeoExt.tree.LayerContainer({ expanded: true }),
         width: 170,
-        height: 200
+        height: 200,
+        rootVisible: false
     });
     var catalogue = new GeoExt.LayerCatalogue({
         title: "Layers catalogue",
