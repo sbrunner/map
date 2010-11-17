@@ -1,8 +1,8 @@
 [app.js]
 root = ${vars:jsbuild-root}
 first =
-    Ext/adapter/ext/ext-base.js
-    Ext/ext-all.js
+    Ext/adapter/ext/ext-base${vars:extdebug}.js
+    Ext/ext-all${vars:extdebug}.js
     proj4js/lib/proj4js.js
     proj4js/lib/projCode/merc.js
     proj4js/lib/defs/EPSG900913.js

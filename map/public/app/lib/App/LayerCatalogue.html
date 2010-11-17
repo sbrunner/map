@@ -1,0 +1,71 @@
+<html>
+    <head>
+        <title>GeoExt LayerCatalogue</title>
+
+        <script type="text/javascript" src="http://extjs.cachefly.net/ext-3.2.1/adapter/ext/ext-base.js"></script>
+        <script type="text/javascript" src="http://extjs.cachefly.net/ext-3.2.1/ext-all.js"></script>
+        <link rel="stylesheet" type="text/css" href="http://extjs.cachefly.net/ext-3.2.1/resources/css/ext-all.css" />
+        <link rel="stylesheet" type="text/css" href="http://extjs.cachefly.net/ext-3.2.1/examples/shared/examples.css" />
+
+        <script type="text/javascript" src="http://www.openlayers.org/api/2.10/OpenLayers.js"></script>
+        <script type="text/javascript" src="http://api.geoext.org/1.0/script/GeoExt.js"></script>
+        <script type="text/javascript" src="LayerCatalogue.js"></script>
+        
+        <script type="text/javascript">
+        var mapPanel;
+Ext.onReady(function() {
+    mapPanel = new GeoExt.MapPanel({
+        renderTo: "map",
+        title: "Map",
+        height: 400,
+        width: 600,
+        map: new OpenLayers.Map({
+            center: new OpenLayers.LonLat(736265, 5862765),
+            zoom: 4
+        })
+    });
+
+    var tree = new Ext.tree.TreePanel({
+        renderTo: "tree",
+        root: new GeoExt.tree.LayerContainer({ expanded: true }),
+        width: 170,
+        height: 200
+    });
+    var catalogue = new GeoExt.LayerCatalogue({
+        renderTo: "store",
+        mapPanel: mapPanel,
+        root: {
+            text: "All the store",
+            expanded: true,
+            children: [{
+                text: "Mapnik",
+                ref: 'mapnik',
+                leaf: true,
+                builder: OpenLayers.Layer.OSM,
+                url: "http://c.tile.openstreetmap.org/${z}/${x}/${y}.png",
+                layerOptions: {}
+            }, {
+                text: "Osmarender",
+                ref: 'osmarender',
+                leaf: true,
+                handler: function(layerNode) {
+                    return new OpenLayers.Layer.OSM(layerNode.text, "http://b.tah.openstreetmap.org/Tiles/tile/${z}/${x}/${y}.png");
+                }
+            }]
+        },
+        width: 170,
+        height: 200
+    });
+});
+        </script>
+
+    </head>
+    <body>
+        <h1>Layer Catalogue Panel</h1>
+
+        <div style="width: 770; margin-left:auto; margin-right:auto; ">
+        <div style="float:right;"><div id="tree"></div><div id="store"></div></div>
+        <div id="map"></div>
+        </div>
+    </body>
+</html>

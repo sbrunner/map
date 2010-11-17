@@ -43,10 +43,8 @@ lang = code.substring(0, 2);
 if (!['en', 'fr'].contains(lang)) {
     lang = "en";
 }
-document.write("<script type=\"text/javascript\" src=\"" + lang + ".js\"></script>");
+document.write("<script type=\"text/javascript\" src=\"build/" + lang + ".js\"></script>");
 document.write('<meta HTTP-EQUIV="Content-Language" CONTENT="' + lang + '" />');
-OpenLayers.Lang.defaultCode = lang;
-OpenLayers.Lang.setCode(lang);
 
 var mainPanel;
 var mapPanel;
@@ -56,6 +54,10 @@ var permalinkTitleBase;
 var tree;
 
 Ext.onReady(function() {
+    if (!OpenLayers.Lang[lang]) {
+        OpenLayers.Lang[lang] = OpenLayers.Util.applyDefaults({});
+    }
+    OpenLayers.Lang.setCode(lang);
     
     var width = 300;
 
@@ -177,55 +179,35 @@ Ext.onReady(function() {
     });
     
     permalinkProvider.on({statechange: onStatechange});
-
-    function addLayerFull(options) {
-        if (options.handler) {
-            var layers = permalinkProvider.state.a.layers;
-            if (layers) {
-                if (layers instanceof Array) {
-                    layers.push(options.id);
-                }
-                else {
-                    layers = [layers, options.id];
-                }
-            }
-            else {
-                layers = [options.id];
-            }
-            permalinkProvider.state.a.layers = layers;
-            onStatechange(permalinkProvider);
-            
-            var handler = options.handler;
-            if (!mapPanel.map.getLayer(options.id)) {
-                handler(mapPanel.map, options);
-            }
-        }
-    }
     
-    tree = new Ext.tree.TreePanel({
-        autoScroll: true,
+    tree = new GeoExt.LayerCatalogue({
+        mapPanel: mapPanel,
+        root: new Ext.tree.AsyncTreeNode(rootNode),
         tbar: [{
             xtype: 'tbfill'
         }, new Ext.Action({
             text: 'Add',
             handler: function() {
-                var options = tree.getSelectionModel().getSelectedNode().attributes;
-                addLayerFull(options);
-            }
+                tree.addLayer(this.getSelectionModel().getSelectedNode().attributes);
+            },
+            scope: this
         })],
-        loader: new Ext.tree.TreeLoader({
-            applyLoader: false
-        }),
-        root: new Ext.tree.AsyncTreeNode(rootNode),
-        rootVisible: false,
-        lines: false,
-        listeners: {
-            dblclick: {
-                fn: function(node) {
-                    addLayerFull(node.attributes);
-                }
+    });
+    tree.on("afterlayervisibilitychange", function() {
+        var layers = permalinkProvider.state.a.layers;
+        if (layers) {
+            if (layers instanceof Array) {
+                layers.push(options.id);
+            }
+            else {
+                layers = [layers, options.id];
             }
         }
+        else {
+            layers = [options.id];
+        }
+        permalinkProvider.state.a.layers = layers;
+        onStatechange(permalinkProvider);
     });
 
     var loader = new GeoExt.tree.LayerLoader({ baseAttrs: {
