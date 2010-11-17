@@ -1,7 +1,6 @@
 /*
  * @include App/Map.js
  * @include App/LayerTree.js
- * @include App/Print.js
  * @include App/layers.js
  * @include App/style.js
  * @include App/protocole.js
@@ -40,7 +39,7 @@
  * @include GeoExt.ux/GeoNamesSearchCombo.js
  * 
  * @include LayerCatalogue/lib/LayerCatalogue.js
- * @include widgets/RoutingPanel.js
+ * @include RoutingPanel/lib/RoutingPanel.js
  */
 
 /*

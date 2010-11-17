@@ -1,6 +1,6 @@
 /**
- * @requires commonstyle.js
- * @requires utils.js
+ * @requires App/commonstyle.js
+ * @requires App/utils.js
  * 
  * @requires OpenLayers/Util.js
  * @requires OpenLayers/Lang.js

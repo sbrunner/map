@@ -1,7 +1,7 @@
 /**
- * @requires commonstyle.js
- * @requires josmstyle.js
- * @requires osmstyle.js
+ * @requires App/commonstyle.js
+ * @requires App/josmstyle.js
+ * @requires App/osmstyle.js
  */
 
 function getMaxSpeedStyle() {

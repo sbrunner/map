@@ -17,7 +17,6 @@
  * @include GeoExt.ux/MeasureLength.js
  * @include GeoExt.ux/MeasureArea.js
  * @include App/Locator.js
- * @include App/Permalink.js
  */
 
 Ext.namespace('App');

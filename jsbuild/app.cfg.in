@@ -15,7 +15,7 @@ include =
     OpenLayers/Renderer/SVG.js
     OpenLayers/Control/Navigation.js
     OpenLayers/Location.js
-    layout.js
+    App/main.js
 exclude =
     OpenLayers.js
     OpenLayers/Lang/fr.js
@@ -35,8 +35,8 @@ include =
     OpenLayers/Renderer/SVG.js
     OpenLayers/Control/Navigation.js
     OpenLayers/Location.js
-    lamargelle.js
-    Lang/fr.js
+    App/lamargelle.js
+    App/Lang/fr.js
 exclude =
     OpenLayers.js
 
@@ -46,7 +46,7 @@ first =
     OpenLayers/Lang/en.js
 include =
     Ext/src/locale/ext-lang-en.js
-    Lang/en.js
+    App/Lang/en.js
 exclude =
     OpenLayers/Lang.js
 
@@ -56,7 +56,7 @@ first =
     OpenLayers/Lang/fr.js
 include =
     Ext/src/locale/ext-lang-fr.js
-    Lang/fr.js
+    App/Lang/fr.js
 exclude =
     OpenLayers/Lang.js
 
