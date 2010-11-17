@@ -7,11 +7,11 @@
     # Remove etags to enable better client-side caching
     # (potential proxy problems)
     # Also instruct proxys that these files are cacheable.
-    Header unset ETag
+    #Header unset ETag
     FileETag None
-    Header merge Cache-Control "public"
+    #Header merge Cache-Control "public"
 
     # Short term cache, before OpenLayers images (and others) are "CSS-Sprited"
-    ExpiresActive On
-    ExpiresDefault "access plus 1 hour"
+    #ExpiresActive On
+    #ExpiresDefault "access plus 1 hour"
 </LocationMatch>

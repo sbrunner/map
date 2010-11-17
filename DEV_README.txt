@@ -1,6 +1,11 @@
 Installation
 ============
 
+Get git submodules
+
+ git submodule init
+ git submodule update
+
 Install the buildout environment:
 
   python bootstrap.py --distribute --version 1.5.2

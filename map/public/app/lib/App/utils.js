@@ -89,11 +89,12 @@ function getEventListener() {
         scope: this
     }
 }
-function addLayer(map, options) {
+function addLayer(options) {
     options.isBaseLayer = false;
-    map.addLayer(new OpenLayers.Layer.XYZ(options.text, options.url, options));
+//    map.addLayer(new OpenLayers.Layer.XYZ(options.text, options.url, options));
+    return new OpenLayers.Layer.XYZ(options.text, options.url, options);
 }
-function addXapiStyleLayer(map, options) {
+function addXapiStyleLayer(options) {
     var name = options.text;
     var styleMap = options.style;
     var id = options.id;
@@ -132,14 +133,15 @@ function addXapiStyleLayer(map, options) {
         numZoomLevels: 22,
         attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>"
     });
-    map.addLayer(layer);
+//    map.addLayer(layer);
     var sf = new OpenLayers.Control.SelectFeature(layer, {
       autoActivate: true,
       hover: true
     });
-    map.addControl(sf);
+    mapPanel.map.addControl(sf);
+    return layer;
 }
-function addOsmStyleLayer(map, options) {
+function addOsmStyleLayer(options) {
     var name = options.text;
     var styleMap = options.style;
     var id = options.id;
@@ -171,12 +173,13 @@ function addOsmStyleLayer(map, options) {
         numZoomLevels: 22,
         attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>"
     });
-    map.addLayer(layer);
+//    map.addLayer(layer);
     var sf = new OpenLayers.Control.SelectFeature(layer, {
         autoActivate: true,
         hover: true
     });
-    map.addControl(sf);
+    mapPanel.map.addControl(sf);
+    return layer;
 }
 
 OpenLayers.Control.PermalinkLayer = OpenLayers.Class(OpenLayers.Control.Permalink, {

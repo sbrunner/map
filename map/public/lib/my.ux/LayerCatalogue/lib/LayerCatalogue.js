@@ -41,7 +41,7 @@ GeoExt.LayerCatalogue = Ext.extend(Ext.tree.TreePanel, {
         config = Ext.apply({
             autoScroll: true,
             loader: new Ext.tree.TreeLoader({
-                applyLoader: false
+               	preloadChildren: true
             }),
             rootVisible: false,
             lines: false,
@@ -62,6 +62,7 @@ GeoExt.LayerCatalogue = Ext.extend(Ext.tree.TreePanel, {
         )
 
         GeoExt.LayerCatalogue.superclass.constructor.call(this, config);
+        this.loader.load(this.root);
     },
     
     /** private: method[initComponent]
@@ -75,6 +76,9 @@ GeoExt.LayerCatalogue = Ext.extend(Ext.tree.TreePanel, {
      *  add a layer to the map.
      */
     addLayer: function (options) {
+		if (!options) {
+			return;
+		}
         var allreadyAdded = this.mapPanel.map.getLayersBy('ref', options.ref);
         if (allreadyAdded.length > 0) {
             this.mapPanel.map.setBaseLayer(allreadyAdded[0]);
@@ -106,14 +110,20 @@ GeoExt.LayerCatalogue = Ext.extend(Ext.tree.TreePanel, {
      *  get a layer by a attribute.
      */
     getLayerNodeBy: function (attribute, value) {
-        this.root.findChild(attribute, value).attributes;
+        var node = this.root.findChild(attribute, value, true);
+        if (node) {
+			return node.attributes;
+		}
+		else {
+			return null;
+		}
     },
     
     /** public: method[getLayerNodeByRef]
      *  get a layer by his ref.
      */
     getLayerNodeByRef: function (ref) {
-        this.getLayerNodeBy('ref', ref);
+        return this.getLayerNodeBy('ref', ref);
     }
 });
 

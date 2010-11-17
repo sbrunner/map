@@ -57,9 +57,10 @@ if (!['en', 'fr'].contains(lang)) {
 document.write("<script type=\"text/javascript\" src=\"build/" + lang + ".js\"></script>");
 document.write('<meta HTTP-EQUIV="Content-Language" CONTENT="' + lang + '" />');
 
+var mapPanel;
+
 /*
 var mainPanel;
-var mapPanel;
 var permalinkProvider;
 var permalinkBase;
 var permalinkTitleBase;
@@ -120,7 +121,7 @@ window.onload = function() {
     /*
      * Initialize the application.
      */
-    var mapPanel = (new App.Map({
+    mapPanel = (new App.Map({
         region: "center"
     })).mapPanel;
 
@@ -159,9 +160,9 @@ window.onload = function() {
     /*
      * init the catalogue 
      */
-    tree = new GeoExt.LayerCatalogue({
+    var tree = new GeoExt.LayerCatalogue({
         mapPanel: mapPanel,
-        root: new Ext.tree.AsyncTreeNode(rootNode),
+        root: new Ext.tree.AsyncTreeNode(getLayersTree()),
         tbar: [{
             xtype: 'tbfill'
         }, new Ext.Action({
@@ -175,7 +176,7 @@ window.onload = function() {
     if (!permalinkProvider.state.a) {
         permalinkProvider.state.a = {};
     }
-    tree.on("afterlayervisibilitychange", function() {
+    tree.on("afterlayervisibilitychange", function(options) {
         var layers = permalinkProvider.state.a.layers;
         if (layers) {
             if (layers instanceof Array) {
@@ -259,7 +260,7 @@ window.onload = function() {
     })]);
     var routingPanel = new GeoExt.ux.RoutingPanel({
         border: false,
-        map: map,
+        map: mapPanel.map,
         style: routingStyle,
         // Key for dev.geoext.org: 187a9f341f70406a8064d07a30e5695c
         // Key for localhost: BC9A493B41014CAABB98F0471D759707
@@ -296,7 +297,7 @@ window.onload = function() {
         }]
     });
     routingPanel.layer.events.register("featureselected", this, displayFeature);
-    map.addControl(new OpenLayers.Control.SelectFeature(routingPanel.layer, {
+    mapPanel.map.addControl(new OpenLayers.Control.SelectFeature(routingPanel.layer, {
         autoActivate: true,
         hover: true,
         clickout: true,
@@ -332,20 +333,20 @@ window.onload = function() {
                         enableToggle: true
                     }),
                     new GeoExt.ux.MeasureLength({
-                        map: map,
+                        map: mapPanel.map,
                         controlOptions: {
                             geodesic: true
                         },
                         toggleGroup: 'tools'
                     }), 
                     new GeoExt.ux.MeasureArea({
-                        map: map,
+                        map: mapPanel.map,
                         decimals: 0,
                         toggleGroup: 'tools'
                     }),
                     cloudmadeSearchCombo({
                         cloudmadeKey: cloudmadeKey,
-                        map: map, 
+                        map: mapPanel.map, 
                         zoom: 14
                     })
                 ],
@@ -403,12 +404,12 @@ window.onload = function() {
         }]
     });
 
-    map.addControl(new OpenLayers.Control.PermalinkLayer("permalink.potlatch", "http://www.openstreetmap.org/edit"));
-    map.addControl(new OpenLayers.Control.PermalinkLayer("permalink.amenity.editor", " http://ae.osmsurround.org/"));
-    map.addControl(new OpenLayers.Control.PermalinkLayer("permalink.keepright", "http://keepright.ipax.at/report_map.php"));
-    map.addControl(new OpenLayers.Control.PermalinkLayer("permalink.restrictions", "http://osm.virtuelle-loipe.de/restrictions/"));
-    map.addControl(new OpenLayers.Control.PermalinkLayer("permalink.maxspeed", "http://maxspeed.osm.lab.rfc822.org/", "B0TF"));
-    map.addControl(new OpenLayers.Control.PermalinkLayer("permalink.refuges", "http://refuges.info/nav.php?choix_layer=OSM"));
-    map.addControl(new OpenLayers.Control.PermalinkLayer("permalink.letuffe", "http://beta.letuffe.org/"));
-    map.addControl(new OpenLayers.Control.PermalinkLayer("permalink.browser", "http://www.openstreetbrowser.org/"));
+    mapPanel.map.addControl(new OpenLayers.Control.PermalinkLayer("permalink.potlatch", "http://www.openstreetmap.org/edit"));
+    mapPanel.map.addControl(new OpenLayers.Control.PermalinkLayer("permalink.amenity.editor", " http://ae.osmsurround.org/"));
+    mapPanel.map.addControl(new OpenLayers.Control.PermalinkLayer("permalink.keepright", "http://keepright.ipax.at/report_map.php"));
+    mapPanel.map.addControl(new OpenLayers.Control.PermalinkLayer("permalink.restrictions", "http://osm.virtuelle-loipe.de/restrictions/"));
+    mapPanel.map.addControl(new OpenLayers.Control.PermalinkLayer("permalink.maxspeed", "http://maxspeed.osm.lab.rfc822.org/", "B0TF"));
+    mapPanel.map.addControl(new OpenLayers.Control.PermalinkLayer("permalink.refuges", "http://refuges.info/nav.php?choix_layer=OSM"));
+    mapPanel.map.addControl(new OpenLayers.Control.PermalinkLayer("permalink.letuffe", "http://beta.letuffe.org/"));
+    mapPanel.map.addControl(new OpenLayers.Control.PermalinkLayer("permalink.browser", "http://www.openstreetbrowser.org/"));
 };

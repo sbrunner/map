@@ -67,6 +67,9 @@ App.Map = function(options) {
         controls: [
             new OpenLayers.Control.PanZoomBar(),
             new OpenLayers.Control.MousePosition(),
+            new OpenLayers.Control.Navigation(),
+            new OpenLayers.Control.ArgParser(),
+            new OpenLayers.Control.Attribution(),
             new OpenLayers.Control.KeyboardDefaults(),
             new OpenLayers.Control.ScaleLine({geodesic: true, maxWidth: 120}),
         ]
@@ -79,10 +82,11 @@ App.Map = function(options) {
     var tools = new App.Tools(map);
     options = Ext.apply({
         map: map,
-        tbar: tools.tbar,
+//        tbar: tools.tbar,
         border: true,
-        stateId: "m"
+        stateId: "m",
         prettyStateKeys: true
     }, options);
 
+	this.mapPanel = new GeoExt.MapPanel(options);
 };

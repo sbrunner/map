@@ -32,7 +32,9 @@ function getLayersTree(map) {
     }
 
     var root = {
+		text: OpenLayers.i18n("All layers"),
         expanded: true,
+        ref: 'allLayers',
         children: [{
             text: OpenLayers.i18n("Base Layers"),
             leaf: false,

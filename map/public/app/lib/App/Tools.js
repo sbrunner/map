@@ -16,7 +16,6 @@
  * @include GeoExt/widgets/Action.js
  * @include GeoExt.ux/MeasureLength.js
  * @include GeoExt.ux/MeasureArea.js
- * @include App/Locator.js
  */
 
 Ext.namespace('App');
@@ -76,8 +75,6 @@ App.Tools = function(map) {
             iconCls: 'mapHistoryNext'
         });
 
-        var permalink = (new App.Permalink()).action;
-
         var measureLength = new GeoExt.ux.MeasureLength({
             map: map,
             toggleGroup: map.id + '_tools',
@@ -89,16 +86,10 @@ App.Tools = function(map) {
             tooltip: OpenLayers.i18n("Tools.measureareaactiontooltip")
         });
 
-        var locator = (new App.Locator(map, {
-            toggleGroup: map.id + '_tools',
-            tooltip: OpenLayers.i18n("Tools.measurepositionactiontooltip"),
-            iconCls: 'mapMeasurePosition'
-        })).action;
-
         return [
             zoomToMaxExtent, zoomIn, zoomOut, '-',
-            historyPrevious, historyNext, permalink, '-',
-            measureLength, measureArea, locator
+            historyPrevious, historyNext, '-',
+            measureLength, measureArea
         ];
     };
     
