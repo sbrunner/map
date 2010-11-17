@@ -180,14 +180,14 @@ window.onload = function() {
         var layers = permalinkProvider.state.a.layers;
         if (layers) {
             if (layers instanceof Array) {
-                layers.push(options.id);
+                layers.push(options.ref);
             }
             else {
-                layers = [layers, options.id];
+                layers = [layers, options.ref];
             }
         }
         else {
-            layers = [options.id];
+            layers = [options.ref];
         }
         permalinkProvider.state.a.layers = layers;
         onStatechange(permalinkProvider);
