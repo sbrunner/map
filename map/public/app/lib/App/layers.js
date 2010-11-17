@@ -42,23 +42,32 @@ function getLayersTree(map) {
                 leaf: true,
                 handler: addOsmStyleLayer,
                 style: getOSMStyle(),
-                id: 'all'
+                ref: 'all'
             },
             {
                 text: OpenLayers.i18n("Raw"),
                 leaf: true,
                 handler: addOsmStyleLayer,
                 style: null,
-                id: 'raw'
+                ref: 'raw'
+            },
+            {
+                text: OpenLayers.i18n("Mapnik"),
+                leaf: true,
+                handler: addLayer,
+                url: "http://c.tile.openstreetmap.org/${z}/${x}/${y}.png",
+                numZoomLevels: 18,
+                attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", 
+                ref: "mk" 
             },
             {
                 text: OpenLayers.i18n("Osmarender"),
                 leaf: true,
                 handler: addLayer,
                 url: "http://b.tah.openstreetmap.org/Tiles/tile/${z}/${x}/${y}.png",
-                numZoomLevels: 18,
+                numZoomLevels: 17,
                 attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", 
-                id: "osma" 
+                ref: "osma" 
             },
             {
                 text: OpenLayers.i18n("OpenCycleMap"),
@@ -67,7 +76,7 @@ function getLayersTree(map) {
                 url: "http://b.tile.opencyclemap.org/cycle/${z}/${x}/${y}.png",
                 numZoomLevels: 17,
                 attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", 
-                id: "bike" 
+                ref: "bike" 
             },
             {
                 text: OpenLayers.i18n("OpenPisteMap"),
@@ -76,7 +85,7 @@ function getLayersTree(map) {
                 url: "http://tiles.openpistemap.org/contours/${z}/${x}/${y}.png",
                 numZoomLevels: 18,
                 attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", 
-                id: "sky" 
+                ref: "sky" 
             },
             {
                 text: OpenLayers.i18n("Public transport"),
@@ -85,7 +94,7 @@ function getLayersTree(map) {
                 url: "http://tile.xn--pnvkarte-m4a.de/tilegen/${z}/${x}/${y}.png",
                 numZoomLevels: 17,
                 attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", 
-                id: "pt" 
+                ref: "pt" 
             },
             {
                 text: OpenLayers.i18n("Hiking Tails"),
@@ -94,7 +103,7 @@ function getLayersTree(map) {
                 url: "http://osm.lonvia.de/hiking/${z}/${x}/${y}.png",
                 numZoomLevels: 15,
                 attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", 
-                id: "hiking" 
+                ref: "hiking" 
             }]
         },
         {
@@ -108,7 +117,7 @@ function getLayersTree(map) {
                 url: "http://map.stephane-brunner.ch/topo/${z}/${x}/${y}.png",
                 numZoomLevels: 18,
                 attribution: "Data by <a href='ftp://e0srp01u.ecs.nasa.gov/srtm/version2/SRTM3/'>NASA</a>, <a href='http://asterweb.jpl.nasa.gov/gdem.asp'>ASTER</a>, <a href='http://www.gebco.net/'>GEBCO</a> and <a href='http://www.osm.org/'>OSM</a>", 
-                id: "topo" 
+                ref: "topo" 
             },
             {
                 text: OpenLayers.i18n("Contours"),
@@ -117,7 +126,7 @@ function getLayersTree(map) {
                 url: "http://map.stephane-brunner.ch/contours/${z}/${x}/${y}.png",
                 numZoomLevels: 18,
                 attribution: "Data by <a href='ftp://e0srp01u.ecs.nasa.gov/srtm/version2/SRTM3/'>NASA</a>, <a href='http://asterweb.jpl.nasa.gov/gdem.asp'>ASTER</a>, <a href='http://www.gebco.net/'>GEBCO</a> and <a href='http://www.osm.org/'>OSM</a>", 
-                id: "cont" 
+                ref: "cont" 
             }]
         },
         {
@@ -129,7 +138,7 @@ function getLayersTree(map) {
                 leaf: true,
                 handler: addXapiStyleLayer,
                 style: getHikkingStyle(),
-                id: 'peak',
+                ref: 'peak',
                 element: 'node',
                 predicate: "natural=peak"
             },
@@ -138,7 +147,7 @@ function getLayersTree(map) {
                 leaf: true,
                 handler: addXapiStyleLayer,
                 style: getHikkingStyle(),
-                id: 'pass',
+                ref: 'pass',
                 element: 'node',
                 predicate: "mountain_pass=yes"
             },
@@ -147,7 +156,7 @@ function getLayersTree(map) {
                 leaf: true,
                 handler: addXapiStyleLayer,
                 style: getHikkingStyle(),
-                id: 'info',
+                ref: 'info',
                 element: 'node',
                 predicate: "tourism"
             },
@@ -156,7 +165,7 @@ function getLayersTree(map) {
                 leaf: true,
                 handler: addXapiStyleLayer,
                 style: getHikkingStyle(),
-                id: 'sac',
+                ref: 'sac',
                 element: 'way',
                 predicate: "sac_scale"
             },
@@ -165,7 +174,7 @@ function getLayersTree(map) {
                 leaf: true,
                 handler: addXapiStyleLayer,
                 style: getHikkingStyle(),
-                id: 'path',
+                ref: 'path',
                 element: 'way',
                 predicate: "highway=path"
             },
@@ -174,7 +183,7 @@ function getLayersTree(map) {
                 leaf: true,
                 handler: addXapiStyleLayer,
                 style: getMTBStyle(),
-                id: 'mtbs',
+                ref: 'mtbs',
                 element: 'way',
                 predicate: "mtb:scale=*"
             },
@@ -183,7 +192,7 @@ function getLayersTree(map) {
                 leaf: true,
                 handler: addXapiStyleLayer,
                 style: getMTBStyle(),
-                id: 'mtbr',
+                ref: 'mtbr',
                 element: 'relation',
                 predicate: "route=mtb"
             },
@@ -192,7 +201,7 @@ function getLayersTree(map) {
                 leaf: true,
                 handler: addXapiStyleLayer,
                 style: getMTBStyle(),
-                id: 'velo',
+                ref: 'velo',
                 element: 'relation',
                 predicate: "route=bicycle"
             },
@@ -201,7 +210,7 @@ function getLayersTree(map) {
                 leaf: true,
                 handler: addXapiStyleLayer,
                 style: getSledStyle(),
-                id: 'sled',
+                ref: 'sled',
                 element: 'way',
                 predicate: "piste:type=sled"
             },
@@ -210,7 +219,7 @@ function getLayersTree(map) {
                 leaf: true,
                 handler: addXapiStyleLayer,
                 style: getSnowShoeStyle(),
-                id: 'xx',
+                ref: 'xx',
                 element: 'relation',
                 predicate: "route=snowshoe"
             },
@@ -219,7 +228,7 @@ function getLayersTree(map) {
                 leaf: true,
                 handler: addXapiStyleLayer,
                 style: getNordicStyle(),
-                id: 'nordic',
+                ref: 'nordic',
                 element: 'way',
                 predicate: "piste:type=nordic"
             },
@@ -228,7 +237,7 @@ function getLayersTree(map) {
                 leaf: true,
                 handler: addXapiStyleLayer,
                 style: getSkyStyle(),
-                id: 'dh',
+                ref: 'dh',
                 element: 'way',
                 predicate: "piste:type=downhill"
             },
@@ -237,7 +246,7 @@ function getLayersTree(map) {
                 leaf: true,
                 handler: addXapiStyleLayer,
                 style: getWinterWalksStyle(),
-                id: 'ww',
+                ref: 'ww',
                 element: 'relation',
                 predicate: "route=winterwalks"
             },
@@ -246,7 +255,7 @@ function getLayersTree(map) {
                 leaf: true,
                 handler: addXapiStyleLayer,
                 style: getHikkingStyle(),
-                id: 'ft',
+                ref: 'ft',
                 element: 'relation',
                 predicate: "route=fitness_trail"
             }]
@@ -262,7 +271,7 @@ function getLayersTree(map) {
                     leaf: true,
                     handler: addXapiStyleLayer,
                     style: getMaxSpeedStyle(),
-                    id: 'speed',
+                    ref: 'speed',
                     element: 'way',
                     predicate: "maxspeed"
                 },
@@ -271,7 +280,7 @@ function getLayersTree(map) {
                     leaf: true,
                     handler: addXapiStyleLayer,
                     style: null,
-                    id: 'weight',
+                    ref: 'weight',
                     element: 'way',
                     predicate: "maxweight"
                 },
@@ -280,7 +289,7 @@ function getLayersTree(map) {
                     leaf: true,
                     handler: addXapiStyleLayer,
                     style: null,
-                    id: 'height',
+                    ref: 'height',
                     element: 'way',
                     predicate: "maxheight"
                 },
@@ -289,7 +298,7 @@ function getLayersTree(map) {
                     leaf: true,
                     handler: addXapiStyleLayer,
                     style: null,
-                    id: 'width',
+                    ref: 'width',
                     element: 'way',
                     predicate: "maxwidth"
                 },
@@ -298,7 +307,7 @@ function getLayersTree(map) {
                     leaf: true,
                     handler: addXapiStyleLayer,
                     style: null,
-                    id: 'length',
+                    ref: 'length',
                     element: 'way',
                     predicate: "maxlength"
                 }]
@@ -315,7 +324,7 @@ function getLayersTree(map) {
                 displayOutsideMaxExtent: true,
                 numZoomLevels: 18,
                 attribution: "<a href='http://www.openstreetmap.org/'>CC-BY-SA OpenStreetMap &amp; Contributors</a> -- tiles from <a href='http://www.cloudmade.com/'>CloudMade</a>",
-                id: "non"
+                ref: "non"
             },
             {
                 text: OpenLayers.i18n("Text of fixme and note"),
@@ -325,7 +334,7 @@ function getLayersTree(map) {
                 displayOutsideMaxExtent: true, 
                 buffer: 1, 
                 attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", 
-                id: "fn"
+                ref: "fn"
             },
             {
                 text: OpenLayers.i18n("Duplicates nodes"),
@@ -334,7 +343,7 @@ function getLayersTree(map) {
                 url: "http://matt.dev.openstreetmap.org/dupe_nodes/tiles/renderer.py/1.0.0/dupe_nodes/${z}/${x}/${y}.png",
                 numZoomLevels: 18,
                 attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", 
-                id: "dbl"
+                ref: "dbl"
             },
             {
                 text: OpenLayers.i18n("Swiss history"),
@@ -346,7 +355,7 @@ function getLayersTree(map) {
                     url: "lausanne/lausanne-20080926/${z}/${x}/${y}.png",
                     numZoomLevels: 18,
                     attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", 
-                    id: "20080926"
+                    ref: "20080926"
                 },
                 {
                     text: OpenLayers.i18n("June 2009"),
@@ -355,7 +364,7 @@ function getLayersTree(map) {
                     url: "lausanne/lausanne-20090606/${z}/${x}/${y}.png",
                     numZoomLevels: 18,
                     attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", 
-                    id: "20090606"
+                    ref: "20090606"
                 },
                 {
                     text: OpenLayers.i18n("June 2010"),
@@ -364,7 +373,7 @@ function getLayersTree(map) {
                     url: "lausanne/lausanne-20100622/${z}/${x}/${y}.png",
                     numZoomLevels: 18,
                     attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", 
-                    id: "20100622"
+                    ref: "20100622"
                 }]
             }]
         },

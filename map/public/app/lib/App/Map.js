@@ -35,8 +35,11 @@ App.Map = function(options) {
      * {Array({OpenLayers.Layer})} An array of OpenLayers.Layer objects.
      */
     var getLayers = function() {
-        var osm = new OpenLayers.Layer.OSM();
-        return [osm];
+        return [new OpenLayers.Layer.OSM(OpenLayers.i18n("White background"), "http://map.stephane-brunner.ch/white.png", { 
+            numZoomLevels: 22, 
+            ref: "w", 
+            displayInLayerSwitcher: false
+        })];
     };
 
     // Public
@@ -55,30 +58,20 @@ App.Map = function(options) {
     // create map
     var mapOptions = {
         projection: new OpenLayers.Projection("EPSG:900913"),
-        maxExtent: new OpenLayers.Bounds(
-            -20037508.34, 
-            -20037508.34,
-            20037508.34, 
-            20037508.34
-        ),
-        restrictedExtent: new OpenLayers.Bounds(
-            275784,
-            5444704,
-            972278,
-            5939405
-        ),
+        displayProjection: new OpenLayers.Projection("EPSG:4326"),
         units: "m",
-        theme: null, // or OpenLayers will attempt to load it default theme
+        theme: null,
+        numZoomLevels: 18,
+        maxResolution: 156543.0339,
+        maxExtent: new OpenLayers.Bounds(-20037508, -20037508, 20037508, 20037508.34),
         controls: [
-            new OpenLayers.Control.Navigation(),
-            new OpenLayers.Control.PanPanel(),
-            new OpenLayers.Control.ZoomPanel(),
-            new OpenLayers.Control.ArgParser(),
-            new OpenLayers.Control.Attribution(),
-            new OpenLayers.Control.ScaleLine(),
-            new OpenLayers.Control.OverviewMap({mapOptions: {theme: null}})
+            new OpenLayers.Control.PanZoomBar(),
+            new OpenLayers.Control.MousePosition(),
+            new OpenLayers.Control.KeyboardDefaults(),
+            new OpenLayers.Control.ScaleLine({geodesic: true, maxWidth: 120}),
         ]
-    };
+    }
+    
     var map = new OpenLayers.Map(mapOptions);
     map.addLayers(getLayers());
 
@@ -87,9 +80,9 @@ App.Map = function(options) {
     options = Ext.apply({
         map: map,
         tbar: tools.tbar,
-        bbar: tools.bbar,
-        stateId: "map",
+        border: true,
+        stateId: "m"
         prettyStateKeys: true
     }, options);
-    this.mapPanel = new GeoExt.MapPanel(options);
+
 };

@@ -75,28 +75,45 @@ GeoExt.LayerCatalogue = Ext.extend(Ext.tree.TreePanel, {
      *  add a layer to the map.
      */
     addLayer: function (options) {
-        if ((options.builder || options.handler) && this.mapPanel.map.getLayersBy('ref', options.ref).length == 0) {
+        var allreadyAdded = this.mapPanel.map.getLayersBy('ref', options.ref);
+        if (allreadyAdded.length > 0) {
+            this.mapPanel.map.setBaseLayer(allreadyAdded[0]);
+        }
+        else if (options.builder || options.handler) {
+            var olLayer = null;
             if (options.handler) {
                 var handler = options.handler;
                 olLayer = handler.call(options.scope, options);
-                olLayer.ref = options.ref;
-                this.mapPanel.map.addLayer(olLayer);
-                this.fireEvent("afterlayervisibilitychange");
             }
-            else if (options.builder) {                
+            else {                
                 var builder = options.builder;
                 olLayer = null;
                 if (options.url) {
-                    olLayer = new builder(options.text, options.url, options.LayerOptions);
+                    olLayer = new builder(options.text, options.url, options.layerOptions);
                 }
                 else {
-                    olLayer = new builder(options.text, options.LayerOptions);
+                    olLayer = new builder(options.text, options.layerOptions);
                 }
-                olLayer.ref = options.ref;
-                this.mapPanel.map.addLayer(olLayer);
-                this.fireEvent("afterlayervisibilitychange");
             }
+            olLayer.ref = options.ref;
+            options.layer = olLayer;
+            this.mapPanel.map.addLayer(olLayer);
+            this.fireEvent("afterlayervisibilitychange", options);
         }
+    },
+    
+    /** public: method[getLayerNodeBy]
+     *  get a layer by a attribute.
+     */
+    getLayerNodeBy: function (attribute, value) {
+        this.root.findChild(attribute, value).attributes;
+    },
+    
+    /** public: method[getLayerNodeByRef]
+     *  get a layer by his ref.
+     */
+    getLayerNodeByRef: function (ref) {
+        this.getLayerNodeBy('ref', ref);
     }
 });
 
