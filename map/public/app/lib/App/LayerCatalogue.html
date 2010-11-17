@@ -15,8 +15,8 @@
         var mapPanel;
 Ext.onReady(function() {
     mapPanel = new GeoExt.MapPanel({
-        renderTo: "map",
         title: "Map",
+        renderTo: "map",
         height: 400,
         width: 600,
         map: new OpenLayers.Map({
@@ -26,12 +26,14 @@ Ext.onReady(function() {
     });
 
     var tree = new Ext.tree.TreePanel({
+        title: "Layers tree",
         renderTo: "tree",
         root: new GeoExt.tree.LayerContainer({ expanded: true }),
         width: 170,
         height: 200
     });
     var catalogue = new GeoExt.LayerCatalogue({
+        title: "Layers catalogue",
         renderTo: "store",
         mapPanel: mapPanel,
         root: {
