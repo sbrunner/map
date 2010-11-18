@@ -127,7 +127,7 @@ window.onload = function() {
 
     permalinkProvider.on({statechange: onStatechange});
     if (!permalinkProvider.state.a) {
-        permalinkProvider.state.a is undefined = {};
+        permalinkProvider.state.a = {};
     }
 
     
@@ -187,6 +187,9 @@ window.onload = function() {
             scope: this
         })],
     });
+    if (mapPanel.map.layers.length == 1) { // only the blank background
+        tree.addLayerByRef('mk');
+    }
 
 
     /*

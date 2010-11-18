@@ -126,7 +126,11 @@ GeoExt.LayerCatalogue = Ext.extend(Ext.tree.TreePanel, {
             this.fireEvent("afterlayeradd", options);
         }
     },
-    
+
+	addLayerByRef: function (ref) {
+		this.addLayer(this.getLayerNodeByRef(ref));
+	},
+
     /** public: method[getLayerNodeBy]
      *  get a layer by a attribute.
      */
@@ -157,15 +161,12 @@ GeoExt.LayerCatalogue = Ext.extend(Ext.tree.TreePanel, {
             if (state.layers) {
                 if (state.layers instanceof Array) {
                     for(var i = 0 ; i < state.layers.length ; ++i) {
-                        this.addLayer(this.getLayerNodeByRef(state.layers[i]));
+                        this.addLayerByRef(state.layers[i]);
                     }
                 }
                 else {
-                    this.addLayer(this.getLayerNodeByRef(state.layers));
+                    this.addLayerByRef(state.layers);
                 }
-            }
-            else {
-                this.addLayer(this.getLayerNodeByRef('mk'));
             }
         }
     },
