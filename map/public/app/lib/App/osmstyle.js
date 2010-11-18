@@ -2,19 +2,19 @@
 function getOSMStyle() {
     var styleMap = getJOSMLikeStyleMap();
     /*
-    addPoint(styleMap, 'religion', 'bahai', 'josm/religion/bahai.png');
-    addPoint(styleMap, 'religion', 'buddhist', 'josm/religion/buddhism.png');
-    addPoint(styleMap, 'religion', 'christian', 'josm/religion/church.png');
-    addPoint(styleMap, 'religion', 'hindu', 'josm/religion/hinduism.png');
-    addPoint(styleMap, 'religion', 'jain', 'josm/religion/jainism.png');
-    addPoint(styleMap, 'religion', 'jewish', 'josm/religion/jewish.png');
-    addPoint(styleMap, 'religion', 'muslim', 'josm/religion/muslim.png');
-    addPoint(styleMap, 'religion', 'sikh', 'josm/religion/sikhism.png');
-    addPoint(styleMap, 'religion', 'shinto', 'josm/religion/shinto.png');
-    addPoint(styleMap, 'religion', 'spiritualist', 'josm/misc/no_icon.png');
-    addPoint(styleMap, 'religion', 'taoist', 'josm/religion/taoism.png');
-    addPoint(styleMap, 'religion', 'unitarian', 'josm/misc/no_icon.png');
-    addPoint(styleMap, 'religion', 'zoroastrian', 'josm/misc/no_icon.png');
+    addPoint(styleMap, 'religion', 'bahai', 'app/images/josm/religion/bahai.png');
+    addPoint(styleMap, 'religion', 'buddhist', 'app/images/josm/religion/buddhism.png');
+    addPoint(styleMap, 'religion', 'christian', 'app/images/josm/religion/church.png');
+    addPoint(styleMap, 'religion', 'hindu', 'app/images/josm/religion/hinduism.png');
+    addPoint(styleMap, 'religion', 'jain', 'app/images/josm/religion/jainism.png');
+    addPoint(styleMap, 'religion', 'jewish', 'app/images/josm/religion/jewish.png');
+    addPoint(styleMap, 'religion', 'muslim', 'app/images/josm/religion/muslim.png');
+    addPoint(styleMap, 'religion', 'sikh', 'app/images/josm/religion/sikhism.png');
+    addPoint(styleMap, 'religion', 'shinto', 'app/images/josm/religion/shinto.png');
+    addPoint(styleMap, 'religion', 'spiritualist', 'app/images/josm/misc/no_icon.png');
+    addPoint(styleMap, 'religion', 'taoist', 'app/images/josm/religion/taoism.png');
+    addPoint(styleMap, 'religion', 'unitarian', 'app/images/josm/misc/no_icon.png');
+    addPoint(styleMap, 'religion', 'zoroastrian', 'app/images/josm/misc/no_icon.png');
 */
     styleMap.addUniqueValueRules("default", "tunnel", {
         'yes': { strokeDashstyle: 'dash' }

@@ -37,18 +37,18 @@ function getMountainStyle() {
     'no': { strokeOpacity: 0.25 }
   });
   styleMap.addUniqueValueRules("default", "tourism", {
-    'alpine_hut': { externalGraphic: 'symbols/alpinehut.p.16.png', graphicWidth: 16, graphicHeight: 16, graphicOpacity: 1 },
-    'information': { externalGraphic: 'symbols/information.png', graphicWidth: 16, graphicHeight: 16, graphicOpacity: 1 },
-    'viewpoint': { externalGraphic: 'symbols/view_point.p.16.png', graphicWidth: 16, graphicHeight: 16, graphicOpacity: 1 }
+    'alpine_hut': { externalGraphic: 'app/images/symbols/alpinehut.p.16.png', graphicWidth: 16, graphicHeight: 16, graphicOpacity: 1 },
+    'information': { externalGraphic: 'app/images/symbols/information.png', graphicWidth: 16, graphicHeight: 16, graphicOpacity: 1 },
+    'viewpoint': { externalGraphic: 'app/images/symbols/view_point.p.16.png', graphicWidth: 16, graphicHeight: 16, graphicOpacity: 1 }
   });
   styleMap.addUniqueValueRules("default", "information", {
-    'guidepost': { externalGraphic: 'symbols/guidepost.png', graphicWidth: 16, graphicHeight: 16, graphicOpacity: 1 }
+    'guidepost': { externalGraphic: 'app/images/symbols/guidepost.png', graphicWidth: 16, graphicHeight: 16, graphicOpacity: 1 }
   });
   styleMap.addUniqueValueRules("default", "natural", {
-    'peak': { externalGraphic: 'symbols/peak.png', graphicWidth: 8, graphicHeight: 8, graphicOpacity: 1 }
+    'peak': { externalGraphic: 'app/images/symbols/peak.png', graphicWidth: 8, graphicHeight: 8, graphicOpacity: 1 }
   });
   styleMap.addUniqueValueRules("default", "mountain_pass", {
-    'yes': { externalGraphic: 'symbols/pass.png', graphicWidth: 16, graphicHeight: 16, graphicOpacity: 1 }
+    'yes': { externalGraphic: 'app/images/symbols/pass.png', graphicWidth: 16, graphicHeight: 16, graphicOpacity: 1 }
   });
   styleMap.addUniqueValueRules("default", "aerialway", {
       'cable_car': { strokeColor: 'black', strokeWidth: 1.5, strokeDashstyle: 'longdashdot' },

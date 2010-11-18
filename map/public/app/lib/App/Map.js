@@ -36,7 +36,7 @@ App.Map = function(options) {
      */
     var getLayers = function() {
         return [new OpenLayers.Layer.OSM(OpenLayers.i18n("White background"), "http://map.stephane-brunner.ch/white.png", { 
-            numZoomLevels: 22, 
+            numZoomLevels: 20, 
             ref: "w", 
             displayInLayerSwitcher: false
         })];

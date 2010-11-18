@@ -360,14 +360,14 @@ window.onload = function() {
                         html: "<div id='featureData'></div>"
                     },
                     {
-                        title: OpenLayers.i18n("Selected layers"),
+                        title: OpenLayers.i18n("Layers"),
                         layout: 'fit',
                         name: 'sl',
                         height: 150,
                         items: [layerTree]
                     },
                     {
-                        title: OpenLayers.i18n("Available layers"),
+                        title: OpenLayers.i18n("Catalogue"),
                         layout: 'fit',
                         name: 'al',
                         height: 200,
@@ -392,6 +392,7 @@ window.onload = function() {
                             + "<li><a id='permalink.browser' href='http://www.openstreetbrowser.org/'>" + OpenLayers.i18n("OpenStreetBrowser") + "</a></li>"
                             + "<li><a id='permalink.letuffe' href='http://beta.letuffe.org/'>" + OpenLayers.i18n("Other test site") + "</a></li>"
                             + "</ul>"
+                            + '<p><b>Sources du site: <a href="https://github.com/sbrunner/map">https://github.com/sbrunner/map</a></p>'
                     },
                     {
                         title: OpenLayers.i18n("Routing"),

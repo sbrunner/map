@@ -43,7 +43,7 @@ function getLayersTree(map) {
                 text: OpenLayers.i18n("All features"),
                 leaf: true,
                 handler: addOsmStyleLayer,
-                style: getOSMStyle(),
+                style: getOSMStyle,
                 ref: 'all'
             },
             {
@@ -139,7 +139,7 @@ function getLayersTree(map) {
                 text: OpenLayers.i18n("Peak"),
                 leaf: true,
                 handler: addXapiStyleLayer,
-                style: getHikkingStyle(),
+                style: getHikkingStyle,
                 ref: 'peak',
                 element: 'node',
                 predicate: "natural=peak"
@@ -148,7 +148,7 @@ function getLayersTree(map) {
                 text: OpenLayers.i18n("Mountain pass"),
                 leaf: true,
                 handler: addXapiStyleLayer,
-                style: getHikkingStyle(),
+                style: getHikkingStyle,
                 ref: 'pass',
                 element: 'node',
                 predicate: "mountain_pass=yes"
@@ -157,7 +157,7 @@ function getLayersTree(map) {
                 text: OpenLayers.i18n("Informations"),
                 leaf: true,
                 handler: addXapiStyleLayer,
-                style: getHikkingStyle(),
+                style: getHikkingStyle,
                 ref: 'info',
                 element: 'node',
                 predicate: "tourism"
@@ -166,7 +166,7 @@ function getLayersTree(map) {
                 text: OpenLayers.i18n("Hiking (scale)"),
                 leaf: true,
                 handler: addXapiStyleLayer,
-                style: getHikkingStyle(),
+                style: getHikkingStyle,
                 ref: 'sac',
                 element: 'way',
                 predicate: "sac_scale"
@@ -175,7 +175,7 @@ function getLayersTree(map) {
                 text: OpenLayers.i18n("Hiking (path)"),
                 leaf: true,
                 handler: addXapiStyleLayer,
-                style: getHikkingStyle(),
+                style: getHikkingStyle,
                 ref: 'path',
                 element: 'way',
                 predicate: "highway=path"
@@ -184,7 +184,7 @@ function getLayersTree(map) {
                 text: OpenLayers.i18n("MTB (scale)"),
                 leaf: true,
                 handler: addXapiStyleLayer,
-                style: getMTBStyle(),
+                style: getMTBStyle,
                 ref: 'mtbs',
                 element: 'way',
                 predicate: "mtb:scale=*"
@@ -193,7 +193,7 @@ function getLayersTree(map) {
                 text: OpenLayers.i18n("MTB (route)"),
                 leaf: true,
                 handler: addXapiStyleLayer,
-                style: getMTBStyle(),
+                style: getMTBStyle,
                 ref: 'mtbr',
                 element: 'relation',
                 predicate: "route=mtb"
@@ -202,7 +202,7 @@ function getLayersTree(map) {
                 text: OpenLayers.i18n("Bicycle"),
                 leaf: true,
                 handler: addXapiStyleLayer,
-                style: getMTBStyle(),
+                style: getMTBStyle,
                 ref: 'velo',
                 element: 'relation',
                 predicate: "route=bicycle"
@@ -211,7 +211,7 @@ function getLayersTree(map) {
                 text: OpenLayers.i18n("Sled"),
                 leaf: true,
                 handler: addXapiStyleLayer,
-                style: getSledStyle(),
+                style: getSledStyle,
                 ref: 'sled',
                 element: 'way',
                 predicate: "piste:type=sled"
@@ -220,7 +220,7 @@ function getLayersTree(map) {
                 text: OpenLayers.i18n("Snows shoe"),
                 leaf: true,
                 handler: addXapiStyleLayer,
-                style: getSnowShoeStyle(),
+                style: getSnowShoeStyle,
                 ref: 'xx',
                 element: 'relation',
                 predicate: "route=snowshoe"
@@ -229,7 +229,7 @@ function getLayersTree(map) {
                 text: OpenLayers.i18n("Nordic"),
                 leaf: true,
                 handler: addXapiStyleLayer,
-                style: getNordicStyle(),
+                style: getNordicStyle,
                 ref: 'nordic',
                 element: 'way',
                 predicate: "piste:type=nordic"
@@ -238,7 +238,7 @@ function getLayersTree(map) {
                 text: OpenLayers.i18n("Down hill"),
                 leaf: true,
                 handler: addXapiStyleLayer,
-                style: getSkyStyle(),
+                style: getSkyStyle,
                 ref: 'dh',
                 element: 'way',
                 predicate: "piste:type=downhill"
@@ -247,7 +247,7 @@ function getLayersTree(map) {
                 text: OpenLayers.i18n("Winter Walks"),
                 leaf: true,
                 handler: addXapiStyleLayer,
-                style: getWinterWalksStyle(),
+                style: getWinterWalksStyle,
                 ref: 'ww',
                 element: 'relation',
                 predicate: "route=winterwalks"
@@ -256,7 +256,7 @@ function getLayersTree(map) {
                 text: OpenLayers.i18n("Fitness trail"),
                 leaf: true,
                 handler: addXapiStyleLayer,
-                style: getHikkingStyle(),
+                style: getHikkingStyle,
                 ref: 'ft',
                 element: 'relation',
                 predicate: "route=fitness_trail"
@@ -272,7 +272,7 @@ function getLayersTree(map) {
                     text: OpenLayers.i18n("Speed"),
                     leaf: true,
                     handler: addXapiStyleLayer,
-                    style: getMaxSpeedStyle(),
+                    style: getMaxSpeedStyle,
                     ref: 'speed',
                     element: 'way',
                     predicate: "maxspeed"

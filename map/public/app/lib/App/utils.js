@@ -96,7 +96,10 @@ function addLayer(options) {
 }
 function addXapiStyleLayer(options) {
     var name = options.text;
-    var styleMap = options.style;
+    var styleMap = null;
+    if (options.style) {
+        styleMap = options.style();
+    }
     var id = options.id;
     var element = options.element;
     var predicate = options.predicate;
@@ -143,7 +146,10 @@ function addXapiStyleLayer(options) {
 }
 function addOsmStyleLayer(options) {
     var name = options.text;
-    var styleMap = options.style;
+    var styleMap = null;
+    if (options.style) {
+        styleMap = options.style();
+    }
     var id = options.id;
 
     var url = "http://api.openstreetmap.org/api/0.6/map?";
