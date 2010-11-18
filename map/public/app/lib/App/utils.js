@@ -414,7 +414,7 @@ StephaneNodesUI = Ext.extend(GeoExt.tree.LayerNodeUI, {
             var slider = new GeoExt.LayerOpacitySlider({
                 layer: this.node.layer,
                 width: 200,
-                value: this.node.layer.opacity * 100,
+                value: this.node.layer.opacity === null ? 100 : this.node.layer.opacity * 100,
                 maxValue: 100
             });
             buttons.push(slider)
