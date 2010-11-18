@@ -126,6 +126,9 @@ window.onload = function() {
     Ext.state.Manager.setProvider(permalinkProvider);
 
     permalinkProvider.on({statechange: onStatechange});
+    if (!permalinkProvider.state.a) {
+        permalinkProvider.state.a is undefined = {};
+    }
 
     
     /*
@@ -173,7 +176,7 @@ window.onload = function() {
     var tree = new GeoExt.LayerCatalogue({
         mapPanel: mapPanel,
         root: new Ext.tree.AsyncTreeNode(getLayersTree()),
-		stateId: "c",
+        stateId: "c",
         tbar: [{
             xtype: 'tbfill'
         }, new Ext.Action({
