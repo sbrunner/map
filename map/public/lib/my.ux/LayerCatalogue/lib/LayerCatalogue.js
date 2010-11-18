@@ -32,16 +32,17 @@ GeoExt.LayerCatalogue = Ext.extend(Ext.tree.TreePanel, {
     /** private: property[stateEvents]
      *  ``Array(String)`` Array of state events
      */
-    stateEvents: ["afterlayeradd"],
+    stateEvents: ["afterlayeradd", "layerOrder"],
 
     /** private: method[constructor]
      *  Construct the component.
      */
     constructor: function(config) {
         config = Ext.apply({
+            stateId: "catalogue",
             autoScroll: true,
             loader: new Ext.tree.TreeLoader({
-               	preloadChildren: true
+                   preloadChildren: true
             }),
             rootVisible: false,
             lines: false,
@@ -58,11 +59,31 @@ GeoExt.LayerCatalogue = Ext.extend(Ext.tree.TreePanel, {
             /** private: event[afterlayeradd]
              *  Fires after a layer is added.
              */
-            "afterlayeradd"
+            "afterlayeradd",
+            
+            /** private: event[afterlayeradd]
+             *  Fires after the layer order has changed.
+             */
+            "layerOrder"
         )
 
         GeoExt.LayerCatalogue.superclass.constructor.call(this, config);
         this.loader.load(this.root);
+        
+        var state = Ext.state.Manager.get(this.getStateId());
+        if (state) {
+            this.applyState(state);
+        }
+        state = Ext.state.Manager.get(mapPanel.getStateId());
+        if (state) {
+            mapPanel.applyState(state);
+        }
+        
+        mapPanel.map.events.register("changelayer", this, function(arguments) {
+			if (arguments.property == "order") {
+				this.fireEvent("layerOrder", arguments.layer);
+			}
+		});
     },
     
     /** private: method[initComponent]
@@ -76,9 +97,9 @@ GeoExt.LayerCatalogue = Ext.extend(Ext.tree.TreePanel, {
      *  add a layer to the map.
      */
     addLayer: function (options) {
-		if (!options) {
-			return;
-		}
+        if (!options) {
+            return;
+        }
         var allreadyAdded = this.mapPanel.map.getLayersBy('ref', options.ref);
         if (allreadyAdded.length > 0) {
             this.mapPanel.map.setBaseLayer(allreadyAdded[0]);
@@ -102,7 +123,7 @@ GeoExt.LayerCatalogue = Ext.extend(Ext.tree.TreePanel, {
             olLayer.ref = options.ref;
             options.layer = olLayer;
             this.mapPanel.map.addLayer(olLayer);
-            this.fireEvent("afterlayervisibilitychange", options);
+            this.fireEvent("afterlayeradd", options);
         }
     },
     
@@ -112,11 +133,11 @@ GeoExt.LayerCatalogue = Ext.extend(Ext.tree.TreePanel, {
     getLayerNodeBy: function (attribute, value) {
         var node = this.root.findChild(attribute, value, true);
         if (node) {
-			return node.attributes;
-		}
-		else {
-			return null;
-		}
+            return node.attributes;
+        }
+        else {
+            return null;
+        }
     },
     
     /** public: method[getLayerNodeByRef]
@@ -124,7 +145,56 @@ GeoExt.LayerCatalogue = Ext.extend(Ext.tree.TreePanel, {
      */
     getLayerNodeByRef: function (ref) {
         return this.getLayerNodeBy('ref', ref);
-    }
+    },
+
+    /** private: method[applyState]
+     *  :param state: ``Object`` The state to apply.
+     *
+     *  Apply the state provided as an argument.
+     */
+    applyState: function(state) {
+        if (this.root.childNodes.length > 0) { // initialysed ?
+            if (state.layers) {
+                if (state.layers instanceof Array) {
+                    for(var i = 0 ; i < state.layers.length ; ++i) {
+                        this.addLayer(this.getLayerNodeByRef(state.layers[i]));
+                    }
+                }
+                else {
+                    this.addLayer(this.getLayerNodeByRef(state.layers));
+                }
+            }
+            else {
+                this.addLayer(this.getLayerNodeByRef('mk'));
+            }
+        }
+    },
+
+    /** private: method[getState]
+     *  :return:  ``Object`` The state.
+     *
+     *  Returns the current state for the map panel.
+     */
+    getState: function() {
+        var state;
+
+        if (!this.mapPanel) {
+            return;
+        }
+
+        state = {
+            layers: []
+        };
+
+        for (i = 0, l = this.mapPanel.map.layers.length ; i < l ; i++) {
+            layer = this.mapPanel.map.layers[i];
+            if (layer.ref) {
+                state.layers.push(layer.ref);
+            }
+        }
+
+        return state;
+    },
 });
 
 /** api: xtype = gx_layercatalogue */

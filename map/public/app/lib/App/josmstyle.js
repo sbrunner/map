@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) 2008-2010 The Open Source Geospatial Foundation
+ * 
+ * Published under the BSD license.
+ * See http://svn.geoext.org/core/trunk/geoext/license.txt for the full text
+ * of the license.
+ */
+
 function getJOSMLikeStyleMap() {
     var styleMap = new OpenLayers.StyleMap();
     addPoint(styleMap, 'boundary', 'national_park', 'app/images/josm/misc/deprecated.png', 16, 16);

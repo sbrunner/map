@@ -1,4 +1,12 @@
 /**
+ * Copyright (c) 2008-2010 The Open Source Geospatial Foundation
+ * 
+ * Published under the BSD license.
+ * See http://svn.geoext.org/core/trunk/geoext/license.txt for the full text
+ * of the license.
+ */
+
+/*
  * @requires OpenLayers/Projection.js
  * @requires OpenLayers/Control.js
  * @requires OpenLayers/Format/GeoJSON.js
@@ -262,67 +270,6 @@ function onStatechange(provider) {
     }
 };
 
-function getEllements(list, end) {
-    if (list.length === 0) {
-        end.region = "center";
-        end.border = false;
-        return end;
-    }
-    else {
-        element = list[0];
-        element.layout = 'fit';
-        element.region = 'north';
-        element.animCollapse = false;
-        element.border = false;
-        element.hideCollapseTool = true;
-        element.collapseMode = "mini";
-        element.collapsed = !getBooleanValue(permalinkProvider.state.a['open_' + element.name], false);
-
-        title = element.title;
-        delete element.title;
-        list.shift();
-        
-        var content = new Ext.Panel(element);
-        content.addListener('collapse', function() { 
-            permalinkProvider.state.a['open_' + this.name] = false; 
-            onStatechange(permalinkProvider); 
-        }, element);
-        content.addListener('expand', function() { 
-            permalinkProvider.state.a['open_' + this.name] = true; 
-            onStatechange(permalinkProvider); 
-        }, element);
-        var title = new Ext.Button({
-            region: 'north',
-            html: '<h2>' + title + '</h2>',
-            style: "padding: 4px 8px;",
-            enableToggle: true,
-            handler: function() {
-                if (this.collapsed) {
-                    this.expand();
-                }
-                else {
-                    this.collapse();
-                }
-            },
-            scope: content
-        });
-        
-        return {
-            region: 'center',
-            layout: 'border',
-            border: false,
-            style: "border-top: solid 1px #99BBE8;",
-            items: [title,
-            {
-                region: 'center',
-                layout: 'border',
-                border: false,
-                items: [content, getEllements(list, end)]
-            }]
-        }
-    }
-};
-
 
 /**
  * Converts an RGB color value to HSL. Conversion formula
@@ -416,83 +363,6 @@ function urlencode(str) {
     str = str.replace(/\)/g, '%29');
     str = str.replace(/\*/g, '%2A');  
     return str;
-}
-
-function cyclingRoutingService(options, type, start, end, catchResult, scope) {
-    var newUrl = "source=" + start + "&target=" + end + "&lang=" + OpenLayers.Lang.getCode();
-    var proxy = new Ext.data.ScriptTagProxy({
-        url: "http://localhost:5000/routing?" + newUrl,
-//        url: isDev ? ("http://192.168.1.4/wsgi/routing?" + newUrl) : ("http://stephanebrunner.dyndns.org:5000/wsgi/routing?" + newUrl),
-        nocache: false
-    });
-    
-    var reader = new Ext.data.DataReader();
-    reader.geojsonReader = new OpenLayers.Format.GeoJSON();
-    reader.readResponse = function(action, response) {
-        var data = this.geojsonReader.read(response);
-        
-        var distance = null;
-        var time = null;
-        var hours = null;
-        var minutes = null;
-        var instructions = '';
-        var features = data.pop().data
-        
-        if (features.distance) {
-            distance = features.distance;
-        }
-        var first = true;
-        for (var i = 0 ; i < data.length ; i++) {
-            var d = data[i].attributes;
-            if (first) { 
-                first = false;
-//                instructions += '<hr /><p>';
-            }
-            else { 
-//                instructions += '<br />';
-            }
-            d.speed = d.waylength / d.time * 3600;
-            d.speed = Math.round(d.speed * 10) / 10;
-            d.elevation = Math.abs(d.elevation);
-            d.decinivite = Math.round(d.elevation / d.waylength / 10) + "&nbsp;%";
-            d.elevation = Math.round(d.elevation) + "&nbsp;m";
-            d.waylength = (Math.round(d.waylength * 100) / 100) + "&nbsp;km";
-            
-            time = d.time;
-            minutes = Math.floor(time / 60);
-            seg = Math.round(time % 60);
-            if (seg < 10) {
-                seg = '0'+seg;
-            }
-            d.time = minutes+'.'+seg+'&nbsp;min.s';
-
-//            d.denivele = d.elevation / d.waylength / 10;
-            var instruction = d.name + ' (' + /*d.time + ', ' 
-                    + d.waylength + ', ' 
-                    + d.elevation + ', ' */
-                    + d.speed + "&nbsp;km/h" + ')';
-            d.instruction = instruction;
-//            instructions += instruction;
-        }
-//        instructions += '</p>';
-
-        if (features.time) {
-            time = features.time;
-            hours = Math.floor(time / 3600);
-            minutes = Math.round((time / 60) % 60);
-            if (minutes < 10) {
-                minutes = '0'+minutes;
-            }
-        }
-        
-        var html = '<p>' + OpenLayers.i18n('Total length: ') + Math.round(distance * 100) / 100 + ' km</p>'
-                + '<p>' + OpenLayers.i18n('Total time: ') + hours + 'h' + minutes + '</p>'
-                + instructions + '<hr />';
-
-        catchResult.call(scope, true, html, data);
-    }
-
-    proxy.doRequest('', null, {}, reader);
 }
 
 function stripHTML(text) {

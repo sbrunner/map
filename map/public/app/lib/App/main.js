@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) 2008-2010 The Open Source Geospatial Foundation
+ * 
+ * Published under the BSD license.
+ * See http://svn.geoext.org/core/trunk/geoext/license.txt for the full text
+ * of the license.
+ */
+
 /*
  * @include App/Map.js
  * @include App/LayerTree.js
@@ -40,6 +48,8 @@
  * 
  * @include LayerCatalogue/lib/LayerCatalogue.js
  * @include RoutingPanel/lib/RoutingPanel.js
+ * @include RoutingPanel/lib/Providers.js
+ * @include BubblePanel/lib/BubblePanel.js
  */
 
 /*
@@ -123,7 +133,7 @@ window.onload = function() {
      */
     mapPanel = (new App.Map({
         region: "center"
-    })).mapPanel;
+    }));
 
     if (mapPanel.map.getZoom() === 0) {
         if (navigator.geolocation) {
@@ -163,6 +173,7 @@ window.onload = function() {
     var tree = new GeoExt.LayerCatalogue({
         mapPanel: mapPanel,
         root: new Ext.tree.AsyncTreeNode(getLayersTree()),
+		stateId: "c",
         tbar: [{
             xtype: 'tbfill'
         }, new Ext.Action({
@@ -173,40 +184,8 @@ window.onload = function() {
             scope: this
         })],
     });
-    if (!permalinkProvider.state.a) {
-        permalinkProvider.state.a = {};
-    }
-    tree.on("afterlayervisibilitychange", function(options) {
-        var layers = permalinkProvider.state.a.layers;
-        if (layers) {
-            if (layers instanceof Array) {
-                layers.push(options.ref);
-            }
-            else {
-                layers = [layers, options.ref];
-            }
-        }
-        else {
-            layers = [options.ref];
-        }
-        permalinkProvider.state.a.layers = layers;
-        onStatechange(permalinkProvider);
-    });
-    if (permalinkProvider.state.a.layers) {
-        var layers = permalinkProvider.state.a.layers;
-        if (layers instanceof Array) {
-            for(var i = 0 ; i < layers.length ; ++i) {
-                tree.addLayer(tree.getLayerNodeByRef(layers[i]));
-            }
-        }
-        else {
-            tree.addLayer(tree.getLayerNodeByRef(layers));
-        }
-    }
-    else {
-        tree.addLayer(tree.getLayerNodeByRef('mk'));
-    }
-   
+
+
     /*
      * init the routing panel
      */
@@ -266,21 +245,8 @@ window.onload = function() {
         // Key for localhost: BC9A493B41014CAABB98F0471D759707
         // Key for map.stephane-brunner.ch: 60a6b92afa824cc985331da088d3225c
         routingProviders: { 
-            cloudmade : {
-                service: GeoExt.ux.cloudmadeRoutingService,
-                cloudmadeKey: cloudmadeKey,
-                projection: new OpenLayers.Projection("EPSG:4326"),
-                types: {
-                    car: { name: OpenLayers.i18n('By car') },
-                    foot: { name: OpenLayers.i18n('By foot') },
-                    bicycle: { name: OpenLayers.i18n('By bicycle') }
-                }
-            },
-            sbrunner: {
-                service : cyclingRoutingService,
-                projection: new OpenLayers.Projection("EPSG:4326"),
-                types: {citybike : { name: OpenLayers.i18n('Bike (ele)') } }
-            }
+            cloudmade : GeoExt.ux.RoutingProviders.getCloudmadeRoutingProvider(cloudmadeKey),
+            sbrunner: GeoExt.ux.RoutingProviders.getSbrunnerRoutingProvider()
         },
         tbar: [
         {
@@ -344,13 +310,13 @@ window.onload = function() {
                         decimals: 0,
                         toggleGroup: 'tools'
                     }),
-                    cloudmadeSearchCombo({
+                    GeoExt.ux.RoutingProviders.cloudmadeSearchCombo({
                         cloudmadeKey: cloudmadeKey,
                         map: mapPanel.map, 
                         zoom: 14
                     })
                 ],
-                items: [getEllements([{
+                items: [new My.ux.BubblePanel([{
                         baseCls: "x-plane",
                         title: OpenLayers.i18n("Selected feature"),
                         name: 'sf',
@@ -392,7 +358,7 @@ window.onload = function() {
                             + "<li><a id='permalink.browser' href='http://www.openstreetbrowser.org/'>" + OpenLayers.i18n("OpenStreetBrowser") + "</a></li>"
                             + "<li><a id='permalink.letuffe' href='http://beta.letuffe.org/'>" + OpenLayers.i18n("Other test site") + "</a></li>"
                             + "</ul>"
-                            + '<p><b>Sources du site: <a href="https://github.com/sbrunner/map">https://github.com/sbrunner/map</a></p>'
+                            + '<hr /><p><b><a href="https://github.com/sbrunner/map">Sources du site</a></b></p>'
                     },
                     {
                         title: OpenLayers.i18n("Routing"),

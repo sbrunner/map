@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) 2008-2010 The Open Source Geospatial Foundation
+ * 
+ * Published under the BSD license.
+ * See http://svn.geoext.org/core/trunk/geoext/license.txt for the full text
+ * of the license.
+ */
+
 /*
  * @include OpenLayers/Projection.js
  * @include OpenLayers/Map.js
@@ -23,70 +31,123 @@ Ext.namespace('App');
  * Parameters:
  * options - {Object} Options passed to the {GeoExt.MapPanel}.
  */
-App.Map = function(options) {
+App.Map = Ext.extend(GeoExt.MapPanel, {
 
-    // Private
-
-    /**
-     * Method: getLayers
-     * Returns the list of layers.
-     *
-     * Returns:
-     * {Array({OpenLayers.Layer})} An array of OpenLayers.Layer objects.
+    /** private: method[constructor]
+     *  Construct the component.
      */
-    var getLayers = function() {
-        return [new OpenLayers.Layer.OSM(OpenLayers.i18n("White background"), "http://map.stephane-brunner.ch/white.png", { 
+    constructor: function(options) {
+
+		// create map
+		var mapOptions = {
+			projection: new OpenLayers.Projection("EPSG:900913"),
+			displayProjection: new OpenLayers.Projection("EPSG:4326"),
+			units: "m",
+			theme: null,
+			numZoomLevels: 18,
+			maxResolution: 156543.0339,
+			maxExtent: new OpenLayers.Bounds(-20037508, -20037508, 20037508, 20037508.34),
+			controls: [
+				new OpenLayers.Control.PanZoomBar(),
+				new OpenLayers.Control.MousePosition(),
+				new OpenLayers.Control.Navigation(),
+				new OpenLayers.Control.ArgParser(),
+				new OpenLayers.Control.Attribution(),
+				new OpenLayers.Control.KeyboardDefaults(),
+				new OpenLayers.Control.ScaleLine({geodesic: true, maxWidth: 120}),
+			]
+		}
+		
+		var map = new OpenLayers.Map(mapOptions);
+		map.addLayers([new OpenLayers.Layer.OSM(OpenLayers.i18n("White background"), "http://map.stephane-brunner.ch/white.png", { 
             numZoomLevels: 20, 
-            ref: "w", 
             displayInLayerSwitcher: false
-        })];
-    };
+        })]);
 
-    // Public
+		// create map panel
+		var tools = new App.Tools(map);
+		options = Ext.apply({
+			map: map,
+	//        tbar: tools.tbar,
+			border: true,
+			stateId: "m",
+			prettyStateKeys: true
+		}, options);
 
-    Ext.apply(this, {
+        GeoExt.LayerCatalogue.superclass.constructor.call(this, options);
+	},
+	
+	applyState: function(state) {
 
-        /**
-         * APIProperty: mapPanel
-         * The {GeoExt.MapPanel} instance. Read-only.
-         */
-        mapPanel: null
-    });
+        // if we get strings for state.x, state.y or state.zoom
+        // OpenLayers will take care of converting them to the
+        // appropriate types so we don't bother with that
+        this.center = new OpenLayers.LonLat(state.x, state.y);
+        this.zoom = state.z;
 
-    // Main
+        // set layer visibility and opacity
+        var i, l, layer, layerId, visibility, opacity;
+        var layers = this.map.layers;
+        for(i=0, l=layers.length; i<l; i++) {
+            layer = layers[i];
+            if (layer.ref) {
+				layerId = layer.ref;
+				visibility = state["v_" + layerId];
+				if(visibility !== undefined) {
+					// convert to boolean
+					visibility = (/^true$/i).test(visibility);
+					if(layer.isBaseLayer) {
+						if(visibility) {
+							this.map.setBaseLayer(layer);
+						}
+					} else {
+						layer.setVisibility(visibility);
+					}
+				}
+				opacity = state["o_" + layerId];
+				if(opacity !== undefined) {
+					layer.setOpacity(opacity);
+				}
+			}
+        }
+    },
 
-    // create map
-    var mapOptions = {
-        projection: new OpenLayers.Projection("EPSG:900913"),
-        displayProjection: new OpenLayers.Projection("EPSG:4326"),
-        units: "m",
-        theme: null,
-        numZoomLevels: 18,
-        maxResolution: 156543.0339,
-        maxExtent: new OpenLayers.Bounds(-20037508, -20037508, 20037508, 20037508.34),
-        controls: [
-            new OpenLayers.Control.PanZoomBar(),
-            new OpenLayers.Control.MousePosition(),
-            new OpenLayers.Control.Navigation(),
-            new OpenLayers.Control.ArgParser(),
-            new OpenLayers.Control.Attribution(),
-            new OpenLayers.Control.KeyboardDefaults(),
-            new OpenLayers.Control.ScaleLine({geodesic: true, maxWidth: 120}),
-        ]
+    /** private: method[getState]
+     *  :return:  ``Object`` The state.
+     *
+     *  Returns the current state for the map panel.
+     */
+    getState: function() {
+        var state;
+
+        // Ext delays the call to getState when a state event
+        // occurs, so the MapPanel may have been destroyed
+        // between the time the event occurred and the time
+        // getState is called
+        if(!this.map) {
+            return;
+        }
+
+        // record location and zoom level
+        var center = this.map.getCenter();
+        state = {
+            x: Math.round(center.lon),
+            y: Math.round(center.lat),
+            z: this.map.getZoom()
+        };
+
+        // record layer visibility and opacity
+        var i, l, layer, layerId, layers = this.map.layers;
+        for(i=0, l=layers.length; i<l; i++) {
+            layer = layers[i];
+            if (layer.ref) {
+				layerId = layer.ref;
+				state["v_" + layerId] = layer.getVisibility();
+				state["o_" + layerId] = layer.opacity == null ?
+					1 : layer.opacity;
+			}
+        }
+
+        return state;
     }
-    
-    var map = new OpenLayers.Map(mapOptions);
-    map.addLayers(getLayers());
-
-    // create map panel
-    var tools = new App.Tools(map);
-    options = Ext.apply({
-        map: map,
-//        tbar: tools.tbar,
-        border: true,
-        stateId: "m",
-        prettyStateKeys: true
-    }, options);
-
-	this.mapPanel = new GeoExt.MapPanel(options);
-};
+});

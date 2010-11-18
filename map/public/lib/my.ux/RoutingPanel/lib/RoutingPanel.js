@@ -21,65 +21,11 @@
  * @include OpenLayers/Geometry/Point.js
  * @include OpenLayers/Geometry/LineString.js
  * @include OpenLayers/Handler/Point.js
+ * @requires RoutingPanel/lib/Providers.js
  */
 
 Ext.namespace('GeoExt.ux');
 
-
-
-cloudmadeSearchCombo = function (options) {
-    var maxRows = options.maxRows ? options.maxRows : 10; 
-    var url = 'http://geocoding.cloudmade.com/' + options.cloudmadeKey + '/geocoding/v2/find.js?results=' + maxRows + '&return_geometry=false';
-    
-    options = Ext.apply({
-        emptyText: OpenLayers.i18n('Search location in Cloudmade'),
-        loadingText: OpenLayers.i18n('Search in Cloudmade...'),
-        minChars: 1,
-        queryDelay: 50,
-        hideTrigger: true,
-        charset: 'UTF8',
-        forceSelection: true,
-        displayField: 'name',
-        queryParam: 'query',
-        tpl: '<tpl for="."><div class="x-combo-list-item"><h3>{name}</h3>{is_in}</div></tpl>',
-        store: new Ext.data.Store({
-            proxy: new Ext.data.ScriptTagProxy({
-                url: url,
-                method: 'GET'
-            }),
-            reader: new Ext.data.JsonReader({
-                totalProperty: "found",
-                root: "features",
-                fields: [{
-                    name: 'is_in',
-                    mapping: 'properties.is_in'
-                },
-                {
-                    name: 'name',
-                    mapping: 'properties.name'
-                },
-                {
-                    name: 'centroid'
-                }]
-            })
-        })
-    }, options);
-    var box =  new Ext.form.ComboBox(options);
-    
-    if (box.zoom > 0) {
-        box.on("select", function (combo, record, index) {
-            var coordinates = record.data.centroid.coordinates;
-            var position = new OpenLayers.LonLat(coordinates[1], coordinates[0]);
-            position.transform(
-                new OpenLayers.Projection("EPSG:4326"),
-                this.map.getProjectionObject()
-            );
-            this.map.setCenter(position, this.zoom);
-        }, box);
-    }
-    
-    return box;
-};
 
 GeoExt.ux.cloudmadeRoutingService = function (options, type, start, end, catchResult, scope) {
     var newUrl = start.y + ',' + start.x + ',' + end.y + ',' + end.x + "/" + type + ".js?lang=" + OpenLayers.Lang.getCode();
@@ -234,7 +180,7 @@ GeoExt.ux.RoutingPanel = Ext.extend(Ext.Panel, {
      * api: config[geocodingProvider]
      */
     geocodingProviders: {
-        builder: cloudmadeSearchCombo,
+        builder: GeoExt.ux.RoutingProviders.cloudmadeSearchCombo,
         projection: new OpenLayers.Projection("EPSG:4326"),
         cloudmadeKey: cloudmadeKey,
         maxRows: 20,
