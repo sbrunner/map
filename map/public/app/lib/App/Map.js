@@ -64,16 +64,59 @@ App.Map = Ext.extend(GeoExt.MapPanel, {
             displayInLayerSwitcher: false
         })]);
 
-	map.events.register('addlayer', this, function(layer) {
-	    if (layer instanceof OpenLayers.Layer.Vector) {
-		var sf = new OpenLayers.Control.SelectFeature(layer, {
-		    autoActivate: true,
-		    hover: true
-		});
-		map.addControl(sf);
-	    }
-	});
+        map.events.register('addlayer', map, function(arguments) {
+            if (arguments.layer instanceof OpenLayers.Layer.Vector) {
+                var sf = new OpenLayers.Control.SelectFeature(arguments.layer, {
+                    autoActivate: true,
+                    hover: true,
+                    clickout: true,
+                    toggle: true
+                });
+                this.addControl(sf);
 
+                arguments.layer.events.register('featureselected', this, function(o) {
+                    var html = null;
+                    for (a in o.feature.attributes) {
+                        if (html == null) {
+                            html = '';
+                        }
+                        else {
+                            html += '<br />'
+                        }
+                        if (a == 'website') {
+                            var href = o.feature.attributes[a];
+                            html += a + ': <a href="' + href + '">' + href + '</a>';
+                        }
+                        else if (a == 'url') {
+                            var href = o.feature.attributes[a];
+                            html += a + ': <a href="' + href + '">' + href + '</a>';
+                        }
+                        else if (a == 'wikipedia') {
+                            var href = 'http://en.wikipedia.org/wiki/' + o.feature.attributes[a];
+                            html += a + ': <a href="' + href + '">' + o.feature.attributes[a] + '</a>';
+                        }
+                        else if (a.match('^wikipedia:')) {
+                            var lang = a.substring('wikipedia:'.length, a.length);
+                            var href = 'http://' + lang + '.wikipedia.org/wiki/' + o.feature.attributes[a];
+                            html += a + ': <a href="' + href + '">' + o.feature.attributes[a] + '</a>';
+                        }
+                        else if (a == 'OSM user') {
+                            var href = "http://www.openstreetmap.org/user/" + o.feature.attributes[a];
+                            html += '<a href="' + href + '">Last edit by ' + o.feature.attributes[a] + '</a>';
+                        }
+                        else {                  
+                            html += a + ": " + o.feature.attributes[a];
+                        }
+                    }
+                    if (o.feature.osm_id) {
+                        var href = "http://www.openstreetmap.org/browse/" + o.feature.type + "/" + o.feature.osm_id + "/history";
+                        html += '<br /><a href="' + href + '">History</a>';
+                    }
+                    
+                    OpenLayers.Util.getElement('featureData').innerHTML = "<p>" + html + "</p>";
+                });
+            }
+        });
 
         // create map panel
         var tools = new App.Tools(map);

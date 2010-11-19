@@ -49,53 +49,6 @@ function getBooleanValue(value, defaultValue) {
 var epsg900913 = new OpenLayers.Projection("EPSG:900913");
 var epsg4326 = new OpenLayers.Projection("EPSG:4326");
 
-function displayFeature(o)
-{
-    var html = null;
-    for (a in o.feature.attributes) {
-        if (html == null) {
-            html = '';
-        }
-        else {
-            html += '<br />'
-        }
-        if (a == 'website') {
-            var href = o.feature.attributes[a];
-            html += a + ': <a href="' + href + '">' + href + '</a>';
-        }
-        else if (a == 'url') {
-            var href = o.feature.attributes[a];
-            html += a + ': <a href="' + href + '">' + href + '</a>';
-        }
-        else if (a == 'wikipedia') {
-            var href = 'http://en.wikipedia.org/wiki/' + o.feature.attributes[a];
-            html += a + ': <a href="' + href + '">' + o.feature.attributes[a] + '</a>';
-        }
-        else if (a.match('^wikipedia:')) {
-            var lang = a.substring('wikipedia:'.length, a.length);
-            var href = 'http://' + lang + '.wikipedia.org/wiki/' + o.feature.attributes[a];
-            html += a + ': <a href="' + href + '">' + o.feature.attributes[a] + '</a>';
-        }
-        else if (a == 'OSM user') {
-            var href = "http://www.openstreetmap.org/user/" + o.feature.attributes[a];
-            html += '<a href="' + href + '">Last edit by ' + o.feature.attributes[a] + '</a>';
-        }
-        else {                  
-            html += a + ": " + o.feature.attributes[a];
-        }
-    }
-    var href = "http://www.openstreetmap.org/browse/" + o.feature.type + "/" + o.feature.osm_id + "/history";
-    html += '<br /><a href="' + href + '">History</a>';
-    
-    OpenLayers.Util.getElement('featureData').innerHTML = "<p>" + html + "</p>";
-}
-
-function getEventListener() {
-    return {
-        "featureselected": displayFeature,
-        scope: this
-    }
-}
 function addLayer(options) {
     options.isBaseLayer = false;
     return new OpenLayers.Layer.XYZ(options.text, options.url, options);
@@ -137,7 +90,6 @@ function addXapiStyleLayer(options) {
         projection: epsg4326,
         strategies: strategies, 
         protocol: protocol,
-        eventListeners: getEventListener(),
         styleMap: styleMap,
         numZoomLevels: 22,
         attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>"
@@ -173,7 +125,6 @@ function addOsmStyleLayer(options) {
                 externalProjection: epsg4326
             })
         }),
-        eventListeners: getEventListener(),
         styleMap: styleMap,
         numZoomLevels: 22,
         attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>"
@@ -355,132 +306,176 @@ function stripHTML(text) {
 }
 
 StephaneNodesUI = Ext.extend(GeoExt.tree.LayerNodeUI, {
-  render: function(bulkRender) {
-    var a = this.node.attributes;
-    if (a.checked === undefined) {
-        a.checked = this.node.layer.getVisibility();
+    render: function(bulkRender) {
+		var a = this.node.attributes;
+		if (a.checked === undefined) {
+			a.checked = this.node.layer.getVisibility();
+		}
+		var rendered = this.rendered;
+		GeoExt.tree.LayerNodeUI.superclass.render.apply(this, arguments);
+		if(!rendered) {
+			this.elNode.tooltip = this.node.layer.attribution;
+		  
+			// add div in the node
+			var elt = Ext.DomHelper.append(this.elNode, [
+				{"tag": "div"}//, "style": "position:relative;left:20"}
+			]);
+			var buttons = [];
+
+			var cb = this.node.attributes.checkbox;
+			var rg = a.radioGroup || this.radioGroup;
+			var cg = a.checkedGroup || this.checkedGroup;
+
+			if (rg && this.radio === null) {
+				this.radio = Ext.DomHelper.insertAfter(cb,
+					['<input type="radio" class="gx-tree-layer-radio" name="',
+					rg, '_radio"></input>'].join(""));
+			}
+			if(cg) {
+				// replace the checkbox with a radio button
+				var radio = Ext.DomHelper.insertAfter(cb,
+					['<input type="radio" name="', cg,
+					'_checkbox" class="', cb.className,
+					cb.checked ? '" checked="checked"' : '',
+					'"></input>'].join(""));
+				radio.defaultChecked = cb.defaultChecked;
+				Ext.get(cb).remove();
+				this.checkbox = radio;
+			}
+			this.enforceOneVisible();
+
+			var component = a.component || this.component;
+			var opacitySlider = a.opacitySlider || this.opacitySlider;
+			if (opacitySlider) {
+				var slider = new GeoExt.LayerOpacitySlider({
+					layer: this.node.layer,
+					width: 200,
+					value: this.node.layer.opacity === null ? 100 : this.node.layer.opacity * 100,
+					maxValue: 100
+				});
+				buttons.push(slider)
+			}
+
+			buttons.push('->');
+
+			var intoAction = true; //a.upAction || this.upAction;
+			if (intoAction) {
+				buttons.push(new Ext.Action({
+					iconCls: 'info',
+					handler: function() {
+						var text = "";
+						text += "Title: " + this.text + "<br />";
+						text += "Reference: " + this.ref + "<br />";
+						text += "Copyright: " + stripHTML(this.attribution) + "<br />";
+						var index = this.url.indexOf("/${z}/${x}/${y}.png");
+						if (index > 0) {
+							text += "Get from: " + this.url.substring(0, index);
+						}
+						else {
+							text += "Get from: " + this.url;
+						}
+						new Ext.Window({
+							title: OpenLayers.i18n("Layer informations"),
+							items: [{
+								border: false,
+								style: "padding: 7px; font-size: 120%;",
+								cls: 'no-background',
+								html: text
+							}]
+						}).show();
+					},
+					scope: this.node.layer
+				}));
+			}
+			var upAction = a.upAction || this.upAction;
+			if (upAction) {
+				buttons.push(new Ext.Action({
+					iconCls: 'up',
+					tooltip: OpenLayers.i18n("Move the layer to the front"),
+					handler: function() {
+						var index = this.map.getLayerIndex(this);
+						if (index == this.map.layers.length - 1) {
+							return;
+						}
+						this.map.setLayerIndex(this, index + 1)
+					},
+					scope: this.node.layer
+				}));
+			}
+			var downAction = a.downAction || this.downAction;
+			if (downAction) {
+				buttons.push(new Ext.Action({
+					iconCls: 'down',
+					tooltip: OpenLayers.i18n("Move the layer to the background"),
+					handler: function() {
+						var index = this.map.getLayerIndex(this);
+						if (index == 0) {
+							return;
+						}
+						this.map.setLayerIndex(this, index - 1)
+					},
+					scope: this.node.layer
+				}));
+			}
+
+			var deleteAction = a.deleteAction || this.deleteAction;
+			if (deleteAction) {
+				buttons.push(new Ext.Button({
+					iconCls: 'close',
+					tooltip: OpenLayers.i18n("Remove the layer from the map"),
+					handler: function() {
+						this.map.removeLayer(this);
+					},
+					scope: this.node.layer
+				}));
+			}
+
+			new Ext.Toolbar({
+				renderTo: elt,
+				cls: "gx-toolbar no-over",
+				buttons: buttons,
+				style: "background-color: transparent; background-image: none;"
+			});
+		}
+    },
+
+    renderElements : function(n, a, targetNode, bulkRender){
+        
+        this.indentMarkup = n.parentNode ? n.parentNode.ui.getChildIndent() : '';
+
+        var cb = Ext.isBoolean(a.checked),
+            nel,
+            href = a.href ? a.href : Ext.isGecko ? "" : "#",
+            buf = ['<li class="x-tree-node"><div ext:tree-node-id="',n.id,'" class="x-tree-node-el x-tree-node-leaf x-unselectable ', a.cls,'" unselectable="on">',
+            '<span class="x-tree-node-indent">',this.indentMarkup,"</span>",
+            '<img style="display:none;" src="', this.emptyIcon, '" class="x-tree-ec-icon x-tree-elbow" />',
+            '<img style="display:none;" src="', a.icon || this.emptyIcon, '" class="x-tree-node-icon',(a.icon ? " x-tree-node-inline-icon" : ""),(a.iconCls ? " "+a.iconCls : ""),'" unselectable="on" />',
+            cb ? ('<input class="x-tree-node-cb" type="checkbox" ' + (a.checked ? 'checked="checked" />' : '/>')) : '',
+            '<a hidefocus="on" class="x-tree-node-anchor" href="',href,'" tabIndex="1" ',
+             a.hrefTarget ? ' target="'+a.hrefTarget+'"' : "", '><span unselectable="on">',n.text,"</span></a></div>",
+            '<ul class="x-tree-node-ct" style="display:none;"></ul>',
+            "</li>"].join('');
+
+        if(bulkRender !== true && n.nextSibling && (nel = n.nextSibling.ui.getEl())){
+            this.wrap = Ext.DomHelper.insertHtml("beforeBegin", nel, buf);
+        }else{
+            this.wrap = Ext.DomHelper.insertHtml("beforeEnd", targetNode, buf);
+        }
+
+        this.elNode = this.wrap.childNodes[0];
+        this.ctNode = this.wrap.childNodes[1];
+        var cs = this.elNode.childNodes;
+        this.indentNode = cs[0];
+        this.ecNode = cs[1];
+        this.iconNode = cs[2];
+        var index = 3;
+        if(cb){
+            this.checkbox = cs[3];
+            
+            this.checkbox.defaultChecked = this.checkbox.checked;
+            index++;
+        }
+        this.anchor = cs[index];
+        this.textNode = cs[index].firstChild;
     }
-    var rendered = this.rendered;
-    GeoExt.tree.LayerNodeUI.superclass.render.apply(this, arguments);
-    if(!rendered) {
-        this.elNode.tooltip = this.node.layer.attribution;
-      
-        // add div in the node
-        var elt = Ext.DomHelper.append(this.elNode, [
-            {"tag": "div"}//, "style": "position:relative;left:20"}
-        ]);
-        var buttons = [];
-
-        var cb = this.node.attributes.checkbox;
-        var rg = a.radioGroup || this.radioGroup;
-        var cg = a.checkedGroup || this.checkedGroup;
-
-        if (rg && this.radio === null) {
-            this.radio = Ext.DomHelper.insertAfter(cb,
-                ['<input type="radio" class="gx-tree-layer-radio" name="',
-                rg, '_radio"></input>'].join(""));
-        }
-        if(cg) {
-            // replace the checkbox with a radio button
-            var radio = Ext.DomHelper.insertAfter(cb,
-                ['<input type="radio" name="', cg,
-                '_checkbox" class="', cb.className,
-                cb.checked ? '" checked="checked"' : '',
-                '"></input>'].join(""));
-            radio.defaultChecked = cb.defaultChecked;
-            Ext.get(cb).remove();
-            this.checkbox = radio;
-        }
-        this.enforceOneVisible();
-
-        var component = a.component || this.component;
-        var opacitySlider = a.opacitySlider || this.opacitySlider;
-        if (opacitySlider) {
-            var slider = new GeoExt.LayerOpacitySlider({
-                layer: this.node.layer,
-                width: 200,
-                value: this.node.layer.opacity === null ? 100 : this.node.layer.opacity * 100,
-                maxValue: 100
-            });
-            buttons.push(slider)
-        }
-
-        buttons.push('->');
-
-        var intoAction = true; //a.upAction || this.upAction;
-        if (intoAction) {
-            buttons.push(new Ext.Action({
-//                text: "?",
-                iconCls: 'info',
-                handler: function() {
-                    var text = "";
-                    text += "Title: " + this.text + "<br />";
-                    text += "ID: " + this.id + "<br />";
-                    text += "Copyright: " + stripHTML(this.attribution) + "<br />";
-                    var index = this.url.indexOf("/${z}/${x}/${y}.png");
-                    if (index > 0) {
-                        text += "Get from: " + this.url.substring(0, index);
-                    }
-                    else {
-                        text += "Get from: " + this.url;
-                    }
-                    Ext.Window({
-						title: OpenLayers.i18n("Layer properties"),
-						html: text
-					}).show();
-                },
-                scope: this.node.layer
-            }));
-        }
-        var upAction = a.upAction || this.upAction;
-        if (upAction) {
-            buttons.push(new Ext.Action({
-//                text: "^",
-                iconCls: 'up',
-                tooltip: OpenLayers.i18n("Move the layer to the front"),
-                handler: function() {
-                    var index = this.map.getLayerIndex(this);
-                    if (index == this.map.layers.length - 1) {
-                        return;
-                    }
-                    this.map.setLayerIndex(this, index + 1)
-                },
-                scope: this.node.layer
-            }));
-        }
-        var downAction = a.downAction || this.downAction;
-        if (downAction) {
-            buttons.push(new Ext.Action({
-                iconCls: 'down',
-                tooltip: OpenLayers.i18n("Move the layer to the background"),
-                handler: function() {
-                    var index = this.map.getLayerIndex(this);
-                    if (index == 0) {
-                        return;
-                    }
-                    this.map.setLayerIndex(this, index - 1)
-                },
-                scope: this.node.layer
-            }));
-        }
-
-        var deleteAction = a.deleteAction || this.deleteAction;
-        if (deleteAction) {
-            buttons.push(new Ext.Button({
-                iconCls: 'close',
-                tooltip: OpenLayers.i18n("Remove the layer from the map"),
-                handler: function() {
-                    this.map.removeLayer(this);
-                },
-                scope: this.node.layer
-            }));
-        }
-
-        new Ext.Toolbar({
-            renderTo: elt,
-            cls: "gx-toolbar no-over",
-            buttons: buttons
-        });
-    }
-  }
 });

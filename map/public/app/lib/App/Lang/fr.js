@@ -62,7 +62,7 @@ OpenLayers.Util.extend(OpenLayers.Lang.fr, {
     "Relations": "Relations",
     "Layers": "Couches",
     "Catalogue": "Catalogue",
-    "Selected feature": "Donnée sélectionnée",
+    "Selection": "Sélection",
     "Edit on Potlatch": "Éditer avec Potlatch",
     "Utilities links": "Liens utiles",
     "Amenity (POI) Editor": "Amenity (POI) Editor",
@@ -98,5 +98,6 @@ OpenLayers.Util.extend(OpenLayers.Lang.fr, {
     "Google Itinerary on foot": "Itineraire Google à pieds",
     "Total length: ": "Longueur totale : ",
     "Drag the map": "Glisse la carte",
-    "Infos": "Infos"
+    "Infos": "Infos",
+    "Layer informations", "Informations du layer"
 });

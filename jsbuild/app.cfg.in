@@ -43,10 +43,13 @@ exclude =
 [proj.js]
 root = ${vars:jsbuild-root}
 first =
-    proj4js/lib/projCode/merc.js
-    proj4js/lib/projCode/merc.js
-include =
     proj4js/lib/proj4js.js
+include =
+    proj4js/lib/projCode/merc.js
+    proj4js/lib/projCode/somerc.js
+    proj4js/lib/projCode/tmerc.js
+    proj4js/lib/projCode/utm.js
+    proj4js/lib/projCode/lcc.js
 
 [en.js]
 root = ${vars:jsbuild-root}

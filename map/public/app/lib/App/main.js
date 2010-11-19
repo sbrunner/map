@@ -267,13 +267,6 @@ window.onload = function() {
             }
         }]
     });
-    routingPanel.layer.events.register("featureselected", this, displayFeature);
-    mapPanel.map.addControl(new OpenLayers.Control.SelectFeature(routingPanel.layer, {
-        autoActivate: true,
-        hover: true,
-        clickout: true,
-        toggle: true
-    }));
     
     
     // the viewport
@@ -323,7 +316,7 @@ window.onload = function() {
                 ],
                 items: [new My.ux.BubblePanel([{
                         baseCls: "x-plane",
-                        title: OpenLayers.i18n("Selected feature"),
+                        title: OpenLayers.i18n("Selection"),
                         name: 'sf',
                         collapsed: true,
                         autoScroll: true,

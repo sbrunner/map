@@ -68,3 +68,7 @@ div.no-over table.x-btn-over td {
 .x-toolbar .gx-map-measurearea {
     background-position: -16px 0;
 }
+
+.no-background div {
+    background-color: transparent;
+}
