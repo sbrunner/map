@@ -32,7 +32,7 @@ GeoExt.LayerCatalogue = Ext.extend(Ext.tree.TreePanel, {
     /** private: property[stateEvents]
      *  ``Array(String)`` Array of state events
      */
-    stateEvents: ["afterlayeradd", "layerOrder"],
+    stateEvents: ["addlayer", "ordererlayer", "removelayer"],
 
     /** private: method[constructor]
      *  Construct the component.
@@ -56,15 +56,21 @@ GeoExt.LayerCatalogue = Ext.extend(Ext.tree.TreePanel, {
         }, config);
 
         this.addEvents(
-            /** private: event[afterlayeradd]
+            /** private: event[addlayer]
              *  Fires after a layer is added.
              */
-            "afterlayeradd",
+            "addlayer",
             
-            /** private: event[afterlayeradd]
+            /** private: event[ordererlayer]
              *  Fires after the layer order has changed.
              */
-            "layerOrder"
+            "ordererlayer",
+            
+            /** private: event[removelayer]
+             *  Fires after a layer is removed.
+             */
+            "removelayer"
+            
         )
 
         GeoExt.LayerCatalogue.superclass.constructor.call(this, config);
@@ -81,8 +87,11 @@ GeoExt.LayerCatalogue = Ext.extend(Ext.tree.TreePanel, {
         
         mapPanel.map.events.register("changelayer", this, function(arguments) {
 			if (arguments.property == "order") {
-				this.fireEvent("layerOrder", arguments.layer);
+				this.fireEvent("ordererlayer", arguments.layer);
 			}
+		});
+        mapPanel.map.events.register("removelayer", this, function() {
+            this.fireEvent("removelayer", arguments.layer);
 		});
     },
     
@@ -195,7 +204,7 @@ GeoExt.LayerCatalogue = Ext.extend(Ext.tree.TreePanel, {
         }
 
         return state;
-    },
+    }
 });
 
 /** api: xtype = gx_layercatalogue */

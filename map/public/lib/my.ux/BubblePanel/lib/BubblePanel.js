@@ -16,11 +16,37 @@ Ext.namespace('My.ux');
  */
 My.ux.BubblePanel = Ext.extend(Ext.Panel, {
 
+    /** private: property[stateEvents]
+     *  ``Array(String)`` Array of state events
+     */
+    stateEvents: ["collapse", "expand"],
+    
+    /** private property[bubbleList]
+     *  ``Map(String, Panel)`` Map of bubble
+     */
+    bubbleList: {},
+
     /** private: method[constructor]
      *  Construct the component.
      */
-    constructor: function(list, end) {
-		My.ux.BubblePanel.superclass.constructor.call(this, this.buildElementsTree(list, end));
+    constructor: function(list, end, config) {
+        config = config ? config : {};
+		My.ux.BubblePanel.superclass.constructor.call(this, Ext.apply(Ext.apply(
+            this.buildElementsTree(list, end), 
+            {stateId: "bubble"}), 
+            config));
+
+        this.addEvents(
+            /** private: event[collapse]
+             *  Fires after child will be collapsed.
+             */
+            "collapse",
+
+            /** private: event[expand]
+             *  Fires after child will be expanded.
+             */
+            "expand"
+        );
 	},
 	
 	buildElementsTree: function(list, end) {
@@ -37,21 +63,19 @@ My.ux.BubblePanel = Ext.extend(Ext.Panel, {
 			element.border = false;
 			element.hideCollapseTool = true;
 			element.collapseMode = "mini";
-			element.collapsed = !getBooleanValue(permalinkProvider.state.a['o_' + element.name], false);
 
 			title = element.title;
 			delete element.title;
 			list.shift();
 			
 			var content = new Ext.Panel(element);
-			content.addListener('collapse', function() { 
-				permalinkProvider.state.a['o_' + this.name] = false; 
-				onStatechange(permalinkProvider); 
-			}, element);
-			content.addListener('expand', function() { 
-				permalinkProvider.state.a['o_' + this.name] = true; 
-				onStatechange(permalinkProvider); 
-			}, element);
+            this.bubbleList[element.name] = content;
+			content.addListener('collapse', function(panel) { 
+                this.fireEvent("collapse", panel);
+			}, this);
+			content.addListener('expand', function(panel) { 
+                this.fireEvent("expand", panel);
+			}, this);
 			var title = new Ext.Button({
 				region: 'north',
 				html: '<h2>' + title + '</h2>',
@@ -82,5 +106,43 @@ My.ux.BubblePanel = Ext.extend(Ext.Panel, {
 				}]
 			}
 		}
-	}
+	},
+
+    /** private: method[applyState]
+     *  :param state: ``Object`` The state to apply.
+     *
+     *  Apply the state provided as an argument.
+     */
+    applyState: function(state) {
+        for (var name in state.length) {
+            if (this.bubbleList[name]) {
+                this.bubbleList[name].expand();
+            }
+            else {
+                this.bubbleList[name].collapse();
+            }
+        }
+    },
+
+    /** private: method[getState]
+     *  :return:  ``Object`` The state.
+     *
+     *  Returns the current state for the map panel.
+     */
+    getState: function() {
+        var state;
+
+        if (!this.mapPanel) {
+            return;
+        }
+
+        state = {
+        };
+
+        for (var name in this.bubbleList) {
+            state[name] = !collapsed;
+        }
+
+        return state;
+    }
 });

@@ -15,9 +15,9 @@
  * @requires GeoExt/widgets/LayerOpacitySlider.js
  */
 
-Array.prototype.contains = function (needle) {
-   for (i in this) {
-       if (this[i] == needle) return true;
+function contains = function (array, needle) {
+   for (i in array) {
+       if (array[i] == needle) return true;
    }
    return false;
 }
@@ -88,7 +88,6 @@ function displayFeature(o)
     html += '<br /><a href="' + href + '">History</a>';
     
     OpenLayers.Util.getElement('featureData').innerHTML = "<p>" + html + "</p>";
-//    mainPanel.doLayout();
 }
 
 function getEventListener() {
@@ -99,7 +98,6 @@ function getEventListener() {
 }
 function addLayer(options) {
     options.isBaseLayer = false;
-//    map.addLayer(new OpenLayers.Layer.XYZ(options.text, options.url, options));
     return new OpenLayers.Layer.XYZ(options.text, options.url, options);
 }
 function addXapiStyleLayer(options) {
@@ -144,7 +142,6 @@ function addXapiStyleLayer(options) {
         numZoomLevels: 22,
         attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>"
     });
-//    map.addLayer(layer);
     var sf = new OpenLayers.Control.SelectFeature(layer, {
       autoActivate: true,
       hover: true
@@ -175,7 +172,6 @@ function addOsmStyleLayer(options) {
         maxResolution: 1.5,
         strategies: strategies,
         protocol: new OpenLayers.Protocol.HTTP({
-//            url: "http://localhost/ol/osm.osm",
             url: url,
             format: new OpenLayers.Format.OSM({ 
                 checkTags: true,
@@ -187,7 +183,6 @@ function addOsmStyleLayer(options) {
         numZoomLevels: 22,
         attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>"
     });
-//    map.addLayer(layer);
     var sf = new OpenLayers.Control.SelectFeature(layer, {
         autoActivate: true,
         hover: true
@@ -425,7 +420,8 @@ StephaneNodesUI = Ext.extend(GeoExt.tree.LayerNodeUI, {
         var intoAction = true; //a.upAction || this.upAction;
         if (intoAction) {
             buttons.push(new Ext.Action({
-                text: "?",
+//                text: "?",
+                iconCls: 'info',
                 handler: function() {
                     var text = "";
                     text += "Title: " + this.text + "\n";
@@ -446,7 +442,8 @@ StephaneNodesUI = Ext.extend(GeoExt.tree.LayerNodeUI, {
         var upAction = a.upAction || this.upAction;
         if (upAction) {
             buttons.push(new Ext.Action({
-                text: "^",
+//                text: "^",
+                iconCls: 'up',
                 tooltip: OpenLayers.i18n("Move the layer to the front"),
                 handler: function() {
                     var index = this.map.getLayerIndex(this);
@@ -454,12 +451,6 @@ StephaneNodesUI = Ext.extend(GeoExt.tree.LayerNodeUI, {
                         return;
                     }
                     this.map.setLayerIndex(this, index + 1)
-                    var layers = [];
-                    for (var i = 1, len = this.map.layers.length ; i < len - 1 ; i++) {
-                        layers.push(this.map.layers[i].id);
-                    }
-                    permalinkProvider.state.a.layers = layers;
-                    onStatechange(permalinkProvider);
                 },
                 scope: this.node.layer
             }));
@@ -467,20 +458,15 @@ StephaneNodesUI = Ext.extend(GeoExt.tree.LayerNodeUI, {
         var downAction = a.downAction || this.downAction;
         if (downAction) {
             buttons.push(new Ext.Action({
-                text: "v",
-                tooltip: OpenLayers.i18n("Move the layer to the back"),
+//                text: "v",
+                iconCls: 'down',
+                tooltip: OpenLayers.i18n("Move the layer to the background"),
                 handler: function() {
                     var index = this.map.getLayerIndex(this);
                     if (index == 0) {
                         return;
                     }
                     this.map.setLayerIndex(this, index - 1)
-                    var layers = [];
-                    for (var i = 1, len = this.map.layers.length ; i < len - 1 ; i++) {
-                        layers.push(this.map.layers[i].id);
-                    }
-                    permalinkProvider.state.a.layers = layers;
-                    onStatechange(permalinkProvider);
                 },
                 scope: this.node.layer
             }));
@@ -489,29 +475,11 @@ StephaneNodesUI = Ext.extend(GeoExt.tree.LayerNodeUI, {
         var deleteAction = a.deleteAction || this.deleteAction;
         if (deleteAction) {
             buttons.push(new Ext.Action({
-                text: "X",
+//                text: "X",
+                iconCls: 'close',
                 tooltip: OpenLayers.i18n("Remove the layer from the map"),
                 handler: function() {
                     this.map.removeLayer(this);
-                    var layers = permalinkProvider.state.a.layers;
-                    if (layers) {
-                        if (layers instanceof Array) {
-                            for (var i = 0, len = layers.length ; i < len ; i++) {
-                                if (layers[i] == this.id) {
-                                    layers.splice(i, 1);
-                                    break;
-                                }
-                            }
-                        }
-                        else {
-                            layers = [];
-                        }
-                    }
-                    else {
-                        layers = [];
-                    }
-                    permalinkProvider.state.a.layers = layers;
-                    onStatechange(permalinkProvider);
                 },
                 scope: this.node.layer
             }));

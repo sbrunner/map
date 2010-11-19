@@ -61,7 +61,7 @@
 var code = (OpenLayers.Util.getBrowserName() == "msie") ? navigator.userLanguage : navigator.language
 var lang = code.substring(0, 2);
 delete code;
-if (!['en', 'fr'].contains(lang)) {
+if (!contains(['en', 'fr'], lang)) {
     lang = "en";
 }
 document.write("<script type=\"text/javascript\" src=\"build/" + lang + ".js\"></script>");
@@ -372,7 +372,7 @@ window.onload = function() {
                         layout: 'fit',
                         height: 520,
                         items: [routingPanel]
-                    }], {html: ""})]
+                    }], {html: ""}), {stateId: "b"}]
             }]
         }]
     });

@@ -34,6 +34,25 @@ a:hover {
     background-image: url(../images/panning-hand-on.png);
 }
 
+.x-toolbar .info,
+.x-toolbar .up,
+.x-toolbar .down,
+.x-toolbar .close {
+    background-image: url(../images/tools.png);
+}
+.x-toolbar .info {
+    background-position: 0 0;
+}
+.x-toolbar .up {
+    background-position: -15px 0;
+}
+.x-toolbar .down {
+    background-position: -30px 0;
+}
+.x-toolbar .close {
+    background-position: -45px 0;
+}
+
 .x-toolbar .gx-map-measurelength,
 .x-toolbar .gx-map-measurearea {
     background-image: url(../images/measure.png);
