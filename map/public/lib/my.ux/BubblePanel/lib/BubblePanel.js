@@ -31,10 +31,9 @@ My.ux.BubblePanel = Ext.extend(Ext.Panel, {
      */
     constructor: function(list, end, config) {
         config = config ? config : {};
-		My.ux.BubblePanel.superclass.constructor.call(this, Ext.apply(Ext.apply(
-            this.buildElementsTree(list, end), 
-            {stateId: "bubble"}), 
-            config));
+        config = Ext.apply({stateId: "bubble"}, config);
+		My.ux.BubblePanel.superclass.constructor.call(this, Ext.apply(
+            this.buildElementsTree(list, end, config), config));
 
         this.addEvents(
             /** private: event[collapse]
@@ -48,21 +47,28 @@ My.ux.BubblePanel = Ext.extend(Ext.Panel, {
             "expand"
         );
 	},
-	
-	buildElementsTree: function(list, end) {
+    
+	buildElementsTree: function(list, end, config) {
 		if (list.length === 0) {
 			end.region = "center";
 			end.border = false;
 			return end;
 		}
 		else {
-			element = list[0];
-			element.layout = 'fit';
-			element.region = 'north';
-			element.animCollapse = false;
-			element.border = false;
-			element.hideCollapseTool = true;
-			element.collapseMode = "mini";
+			element = Ext.Apply({
+				layout: 'fit',
+				region: 'north',
+				animCollapse: false,
+				border: false,
+				hideCollapseTool: true,
+				collapseMode: "mini"
+			}, list[0]);
+			if (config.stateId && element.name) {
+				var state = Ext.state.Manager.get(config.stateId);
+				if (state && state[element.name]) {
+					element.collapsed = state[element.name] == 'false';
+				}
+			}
 
 			title = element.title;
 			delete element.title;
@@ -102,27 +108,11 @@ My.ux.BubblePanel = Ext.extend(Ext.Panel, {
 					region: 'center',
 					layout: 'border',
 					border: false,
-					items: [content, this.buildElementsTree(list, end)]
+					items: [content, this.buildElementsTree(list, end, config)]
 				}]
 			}
 		}
 	},
-
-    /** private: method[applyState]
-     *  :param state: ``Object`` The state to apply.
-     *
-     *  Apply the state provided as an argument.
-     */
-    applyState: function(state) {
-        for (var name in state.length) {
-            if (this.bubbleList[name]) {
-                this.bubbleList[name].expand();
-            }
-            else {
-                this.bubbleList[name].collapse();
-            }
-        }
-    },
 
     /** private: method[getState]
      *  :return:  ``Object`` The state.
@@ -130,17 +120,12 @@ My.ux.BubblePanel = Ext.extend(Ext.Panel, {
      *  Returns the current state for the map panel.
      */
     getState: function() {
-        var state;
+        var state = {};
 
-        if (!this.mapPanel) {
-            return;
-        }
-
-        state = {
-        };
-
-        for (var name in this.bubbleList) {
-            state[name] = !collapsed;
+        for (name in this.bubbleList) {
+			if (this.bubbleList[name]) {
+				state[name] = !this.bubbleList[name].collapsed;
+			}
         }
 
         return state;

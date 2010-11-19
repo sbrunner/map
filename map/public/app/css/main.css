@@ -39,6 +39,8 @@ a:hover {
 .x-toolbar .down,
 .x-toolbar .close {
     background-image: url(../images/tools.png);
+    width: 15px;
+    height: 15px;
 }
 .x-toolbar .info {
     background-position: 0 0;
@@ -52,7 +54,10 @@ a:hover {
 .x-toolbar .close {
     background-position: -45px 0;
 }
-
+div.no-over table.x-btn-over td {
+    background-image: none;
+}
+    
 .x-toolbar .gx-map-measurelength,
 .x-toolbar .gx-map-measurearea {
     background-image: url(../images/measure.png);

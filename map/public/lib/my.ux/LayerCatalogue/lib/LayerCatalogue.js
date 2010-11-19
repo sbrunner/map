@@ -132,7 +132,7 @@ GeoExt.LayerCatalogue = Ext.extend(Ext.tree.TreePanel, {
             olLayer.ref = options.ref;
             options.layer = olLayer;
             this.mapPanel.map.addLayer(olLayer);
-            this.fireEvent("afterlayeradd", options);
+            this.fireEvent("addlayer", options);
         }
     },
 

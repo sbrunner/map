@@ -38,46 +38,57 @@ App.Map = Ext.extend(GeoExt.MapPanel, {
      */
     constructor: function(options) {
 
-		// create map
-		var mapOptions = {
-			projection: new OpenLayers.Projection("EPSG:900913"),
-			displayProjection: new OpenLayers.Projection("EPSG:4326"),
-			units: "m",
-			theme: null,
-			numZoomLevels: 18,
-			maxResolution: 156543.0339,
-			maxExtent: new OpenLayers.Bounds(-20037508, -20037508, 20037508, 20037508.34),
-			controls: [
-				new OpenLayers.Control.PanZoomBar(),
-				new OpenLayers.Control.MousePosition(),
-				new OpenLayers.Control.Navigation(),
-				new OpenLayers.Control.ArgParser(),
-				new OpenLayers.Control.Attribution(),
-				new OpenLayers.Control.KeyboardDefaults(),
-				new OpenLayers.Control.ScaleLine({geodesic: true, maxWidth: 120}),
-			]
-		}
-		
-		var map = new OpenLayers.Map(mapOptions);
-		map.addLayers([new OpenLayers.Layer.OSM(OpenLayers.i18n("White background"), "http://map.stephane-brunner.ch/white.png", { 
+        // create map
+        var mapOptions = {
+            projection: new OpenLayers.Projection("EPSG:900913"),
+            displayProjection: new OpenLayers.Projection("EPSG:4326"),
+            units: "m",
+            theme: null,
+            numZoomLevels: 18,
+            maxResolution: 156543.0339,
+            maxExtent: new OpenLayers.Bounds(-20037508, -20037508, 20037508, 20037508.34),
+            controls: [
+                new OpenLayers.Control.PanZoomBar(),
+                new OpenLayers.Control.MousePosition(),
+                new OpenLayers.Control.Navigation(),
+                new OpenLayers.Control.ArgParser(),
+                new OpenLayers.Control.Attribution(),
+                new OpenLayers.Control.KeyboardDefaults(),
+                new OpenLayers.Control.ScaleLine({geodesic: true, maxWidth: 120}),
+            ]
+        }
+        
+        var map = new OpenLayers.Map(mapOptions);
+        map.addLayers([new OpenLayers.Layer.OSM(OpenLayers.i18n("White background"), "http://map.stephane-brunner.ch/white.png", { 
             numZoomLevels: 20, 
             displayInLayerSwitcher: false
         })]);
 
-		// create map panel
-		var tools = new App.Tools(map);
-		options = Ext.apply({
-			map: map,
-	//        tbar: tools.tbar,
-			border: true,
-			stateId: "m",
-			prettyStateKeys: true
-		}, options);
+	map.events.register('addlayer', this, function(layer) {
+	    if (layer instanceof OpenLayers.Layer.Vector) {
+		var sf = new OpenLayers.Control.SelectFeature(layer, {
+		    autoActivate: true,
+		    hover: true
+		});
+		map.addControl(sf);
+	    }
+	});
+
+
+        // create map panel
+        var tools = new App.Tools(map);
+        options = Ext.apply({
+            map: map,
+    //        tbar: tools.tbar,
+            border: true,
+            stateId: "m",
+            prettyStateKeys: true
+        }, options);
 
         GeoExt.LayerCatalogue.superclass.constructor.call(this, options);
-	},
-	
-	applyState: function(state) {
+    },
+    
+    applyState: function(state) {
 
         // if we get strings for state.x, state.y or state.zoom
         // OpenLayers will take care of converting them to the
@@ -91,24 +102,24 @@ App.Map = Ext.extend(GeoExt.MapPanel, {
         for(i=0, l=layers.length; i<l; i++) {
             layer = layers[i];
             if (layer.ref) {
-				layerId = layer.ref;
-				visibility = state["v_" + layerId];
-				if(visibility !== undefined) {
-					// convert to boolean
-					visibility = (/^true$/i).test(visibility);
-					if(layer.isBaseLayer) {
-						if(visibility) {
-							this.map.setBaseLayer(layer);
-						}
-					} else {
-						layer.setVisibility(visibility);
-					}
-				}
-				opacity = state["o_" + layerId];
-				if(opacity !== undefined) {
-					layer.setOpacity(opacity);
-				}
-			}
+                layerId = layer.ref;
+                visibility = state["v_" + layerId];
+                if(visibility !== undefined) {
+                    // convert to boolean
+                    visibility = (/^true$/i).test(visibility);
+                    if(layer.isBaseLayer) {
+                        if(visibility) {
+                            this.map.setBaseLayer(layer);
+                        }
+                    } else {
+                        layer.setVisibility(visibility);
+                    }
+                }
+                opacity = state["o_" + layerId];
+                if(opacity !== undefined) {
+                    layer.setOpacity(opacity);
+                }
+            }
         }
     },
 
@@ -141,11 +152,11 @@ App.Map = Ext.extend(GeoExt.MapPanel, {
         for(i=0, l=layers.length; i<l; i++) {
             layer = layers[i];
             if (layer.ref) {
-				layerId = layer.ref;
-				state["v_" + layerId] = layer.getVisibility();
-				state["o_" + layerId] = layer.opacity == null ?
-					1 : layer.opacity;
-			}
+                layerId = layer.ref;
+                state["v_" + layerId] = layer.getVisibility();
+                state["o_" + layerId] = layer.opacity == null ?
+                    1 : layer.opacity;
+            }
         }
 
         return state;

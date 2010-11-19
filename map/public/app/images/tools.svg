@@ -13,9 +13,9 @@
    height="15"
    id="svg2"
    version="1.1"
-   inkscape:version="0.47 r22583"
-   sodipodi:docname="dessin.svg"
-   inkscape:export-filename="/home/sbrunner/Dropbox/OSM/map/tools.png"
+   inkscape:version="0.48.0 r9654"
+   sodipodi:docname="tools.svg"
+   inkscape:export-filename="/home/sbrunner/workspace/map-git/map/public/app/images/tools.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
   <defs
@@ -43,16 +43,16 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="19.65"
-     inkscape:cx="29.949109"
+     inkscape:cx="21.068702"
      inkscape:cy="5.0184516"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      showguides="true"
      inkscape:guide-bbox="true"
-     inkscape:window-width="1680"
-     inkscape:window-height="1023"
-     inkscape:window-x="1680"
+     inkscape:window-width="1919"
+     inkscape:window-height="1054"
+     inkscape:window-x="1366"
      inkscape:window-y="0"
      inkscape:window-maximized="1">
     <sodipodi:guide
@@ -87,6 +87,10 @@
        orientation="1,0"
        position="59.961905,17.485714"
        id="guide2904" />
+    <sodipodi:guide
+       orientation="1,0"
+       position="0,3.307888"
+       id="guide3061" />
   </sodipodi:namedview>
   <metadata
      id="metadata7">
@@ -107,14 +111,15 @@
      transform="translate(0,-1037.3622)">
     <text
        xml:space="preserve"
-       style="font-size:14.64619732px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
-       x="3.6802938"
-       y="1050.2974"
-       id="text2864"><tspan
+       style="font-size:12.9445982px;font-style:normal;font-weight:normal;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+       x="5.7180266"
+       y="1369.847"
+       id="text2864"
+       transform="scale(1.3064858,0.76541207)"><tspan
          sodipodi:role="line"
          id="tspan2866"
-         x="3.6802938"
-         y="1050.2974">?</tspan></text>
+         x="5.7180266"
+         y="1369.847">i</tspan></text>
     <path
        style="fill:#000000;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        d="m 22.18984,1042.12 -3.159803,5.4844 6.325445,0 -3.165642,-5.4844"
@@ -141,5 +146,15 @@
          d="M 45,0 59.96875,15 45,0 z"
          style="fill:none;stroke:#000000;stroke-width:1.7639035;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
     </g>
+    <path
+       sodipodi:type="arc"
+       id="path3063"
+       sodipodi:cx="8.95539"
+       sodipodi:cy="8.2315521"
+       sodipodi:rx="6.1055174"
+       sodipodi:ry="6.7684479"
+       d="m 15.060907,8.2315521 a 6.1055174,6.7684479 0 1 1 -12.2110344,0 6.1055174,6.7684479 0 1 1 12.2110344,0 z"
+       transform="matrix(0.89883644,0,0,0.80803442,-0.51897742,1038.2061)"
+       style="fill:none;stroke-width:1.17339634999999998;stroke-miterlimit:4;stroke-dasharray:none;stroke:#000000;stroke-opacity:1" />
   </g>
 </svg>

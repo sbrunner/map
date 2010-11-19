@@ -15,7 +15,7 @@
  * @requires GeoExt/widgets/LayerOpacitySlider.js
  */
 
-function contains = function (array, needle) {
+function contains(array, needle) {
    for (i in array) {
        if (array[i] == needle) return true;
    }
@@ -106,7 +106,7 @@ function addXapiStyleLayer(options) {
     if (options.style) {
         styleMap = options.style();
     }
-    var id = options.id;
+    var ref = options.ref;
     var element = options.element;
     var predicate = options.predicate;
 
@@ -129,11 +129,11 @@ function addXapiStyleLayer(options) {
             predicate: predicate,
             format: format
         });
-        strategies = [ new OpenLayers.Strategy.BBOX({ ratio: 1.2 }) ]
+        strategies = [ new OpenLayers.Strategy.BBOX({ ratio: 1.6 }) ]
     }
 
     layer = new OpenLayers.Layer.Vector(name, {
-        id: id,
+        ref: ref,
         projection: epsg4326,
         strategies: strategies, 
         protocol: protocol,
@@ -142,11 +142,6 @@ function addXapiStyleLayer(options) {
         numZoomLevels: 22,
         attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>"
     });
-    var sf = new OpenLayers.Control.SelectFeature(layer, {
-      autoActivate: true,
-      hover: true
-    });
-    mapPanel.map.addControl(sf);
     return layer;
 }
 function addOsmStyleLayer(options) {
@@ -155,7 +150,7 @@ function addOsmStyleLayer(options) {
     if (options.style) {
         styleMap = options.style();
     }
-    var id = options.id;
+    var ref = options.ref;
 
     var url = "http://api.openstreetmap.org/api/0.6/map?";
     var strategies = [];
@@ -167,7 +162,7 @@ function addOsmStyleLayer(options) {
         strategies = [ new OpenLayers.Strategy.BBOX({ ratio: 1.2 }) ];
     }
     layer = new OpenLayers.Layer.Vector(name, {
-        id: id,
+        ref: ref,
         projection: epsg4326,
         maxResolution: 1.5,
         strategies: strategies,
@@ -183,11 +178,6 @@ function addOsmStyleLayer(options) {
         numZoomLevels: 22,
         attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>"
     });
-    var sf = new OpenLayers.Control.SelectFeature(layer, {
-        autoActivate: true,
-        hover: true
-    });
-    mapPanel.map.addControl(sf);
     return layer;
 }
 
@@ -424,9 +414,9 @@ StephaneNodesUI = Ext.extend(GeoExt.tree.LayerNodeUI, {
                 iconCls: 'info',
                 handler: function() {
                     var text = "";
-                    text += "Title: " + this.text + "\n";
-                    text += "ID: " + this.id + "\n";
-                    text += "Copyright: " + stripHTML(this.attribution) + "\n";
+                    text += "Title: " + this.text + "<br />";
+                    text += "ID: " + this.id + "<br />";
+                    text += "Copyright: " + stripHTML(this.attribution) + "<br />";
                     var index = this.url.indexOf("/${z}/${x}/${y}.png");
                     if (index > 0) {
                         text += "Get from: " + this.url.substring(0, index);
@@ -434,7 +424,10 @@ StephaneNodesUI = Ext.extend(GeoExt.tree.LayerNodeUI, {
                     else {
                         text += "Get from: " + this.url;
                     }
-                    window.alert(text);
+                    Ext.Window({
+						title: OpenLayers.i18n("Layer properties"),
+						html: text
+					}).show();
                 },
                 scope: this.node.layer
             }));
@@ -458,7 +451,6 @@ StephaneNodesUI = Ext.extend(GeoExt.tree.LayerNodeUI, {
         var downAction = a.downAction || this.downAction;
         if (downAction) {
             buttons.push(new Ext.Action({
-//                text: "v",
                 iconCls: 'down',
                 tooltip: OpenLayers.i18n("Move the layer to the background"),
                 handler: function() {
@@ -474,8 +466,7 @@ StephaneNodesUI = Ext.extend(GeoExt.tree.LayerNodeUI, {
 
         var deleteAction = a.deleteAction || this.deleteAction;
         if (deleteAction) {
-            buttons.push(new Ext.Action({
-//                text: "X",
+            buttons.push(new Ext.Button({
                 iconCls: 'close',
                 tooltip: OpenLayers.i18n("Remove the layer from the map"),
                 handler: function() {
@@ -487,7 +478,7 @@ StephaneNodesUI = Ext.extend(GeoExt.tree.LayerNodeUI, {
 
         new Ext.Toolbar({
             renderTo: elt,
-            cls: "gx-toolbar",
+            cls: "gx-toolbar no-over",
             buttons: buttons
         });
     }

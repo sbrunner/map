@@ -90,7 +90,6 @@ window.onload = function() {
     OpenLayers.Number.thousandsSeparator = ' ';
     OpenLayers.IMAGE_RELOAD_ATTEMPTS = 5;
 
-    var width = 300;
     if (isDev) {
         document.title = "Dev - " + OpenLayers.i18n("Various OSM map");
     }
@@ -291,10 +290,10 @@ window.onload = function() {
                 region: "east",
                 collapseMode: "mini",
                 split: true,
-                width: width,
-                minWidth: width,
-                maxWidth: width,
-                autoScroll: true,
+                width: 300,
+                minWidth: 300,
+                maxWidth: 300,
+                style: "overflow-x: hidden; overflow-y: auto;",
                 tbar: [
                     new GeoExt.Action({
                         control: new OpenLayers.Control.DragPan(), 
@@ -326,6 +325,7 @@ window.onload = function() {
                         baseCls: "x-plane",
                         title: OpenLayers.i18n("Selected feature"),
                         name: 'sf',
+                        collapsed: true,
                         autoScroll: true,
                         height: 150,
                         style: "padding: 0 0 8px 8px;",
@@ -348,6 +348,7 @@ window.onload = function() {
                     {
                         baseCls: "x-plane",
                         name: 'pl',
+                        collapsed: true,
                         title: OpenLayers.i18n("Links"),
                         style: "padding: 0 0 8px 8px;",
                         html: "<ul>"
@@ -369,10 +370,11 @@ window.onload = function() {
                     {
                         title: OpenLayers.i18n("Routing"),
                         name: 'r',
+                        collapsed: true,
                         layout: 'fit',
                         height: 520,
                         items: [routingPanel]
-                    }], {html: ""}), {stateId: "b"}]
+                    }], {html: ""}, {stateId: "b"})]
             }]
         }]
     });
