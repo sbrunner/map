@@ -1,0 +1,175 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml" lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+
+
+  <title>Projection cenversion</title>
+  
+  <style type="text/css">
+    #footer {
+      margin-top: 20px;
+      border-top: 1px solid #eee;
+      padding: 10px;
+    }  
+    body {
+     font-family: Verdana;
+    }
+
+    td {
+      font-size: 75%;
+    }
+    td.error {
+      background-color: red;
+    }
+
+    #descSource, #descDest {
+        font-style: italic;
+        color: #999;
+    }
+    
+    #xySource, #xyDest {
+        width: 100%;
+    }
+    
+    #unitsSource, #unitsDest {
+        padding-left: 0.4em;
+    }
+    
+  </style>
+  
+  <script src="../build/proj.js" type="text/javascript"></script>
+                      
+  <script type="text/javascript">
+Proj4js.defs = {
+  // These are so widely used, we'll go ahead and throw them in
+  // without requiring a separate .js file
+//  'WGS84': "+title=long/lat:WGS84 +proj=longlat +ellps=WGS84 +datum=WGS84 +units=degrees",
+//  'EPSG:4326': "+title=long/lat:WGS84 +proj=longlat +a=6378137.0 +b=6356752.31424518 +ellps=WGS84 +datum=WGS84 +units=degrees",
+  'WGS84': "+title=long/lat - EPSG:4326 +proj=longlat +ellps=WGS84 +datum=WGS84 +units=degrees",
+  'EPSG:900913': "+title=Google Mercator +proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs",
+  'EPSG:21781': "+title=Swiss Grid CH1903 / LV03 +proj=somerc +lat_0=46.95240555555556 +lon_0=7.439583333333333 +x_0=600000 +y_0=200000 +ellps=bessel +towgs84=674.374,15.056,405.346,0,0,0,0 +units=m +no_defs",
+  'EPSG:2056': "+title=Swiss Grid CH1903more / LV95 +proj=somerc +lat_0=46.95240555555556 +lon_0=7.439583333333333 +x_0=2600000 +y_0=1200000 +ellps=bessel +towgs84=674.374,15.056,405.346,0,0,0,0 +units=m +no_defs",
+  'EPSG:32632': "+title=WGS 84 / UTM zone 32N +proj=utm +zone=32 +ellps=WGS84 +datum=WGS84 +units=m +no_defs",
+  'EPSG:27563': "+title=NTF (Paris)/Lambert Sud France +proj=lcc +lat_1=44.10000000000001 +lat_0=44.10000000000001 +lon_0=0 +k_0=0.9998774990000001 +x_0=600000 +y_0=200000 +a=6378249.2 +b=6356515 +towgs84=-168,-60,320,0,0,0,0 +pm=paris +units=m +no_defs ",
+  'EPSG:32640': "+title=WGS 84 / UTM zone 40N +proj=utm +zone=40 +ellps=WGS84 +datum=WGS84 +units=m +no_defs"
+};
+  
+  var projHash = {};
+  function initProj4js() {
+    var crsSource = document.getElementById('crsSource');
+    var crsDest = document.getElementById('crsDest');
+    var optIndex = 0;
+    for (var def in Proj4js.defs) {
+       projHash[def] = new Proj4js.Proj(def);    //create a Proj for each definition
+       var label = def+" - "+ (projHash[def].title ? projHash[def].title : '');
+       var opt = new Option(label, def);
+       crsSource.options[optIndex]= opt;
+       var opt = new Option(label, def);
+       crsDest.options[optIndex]= opt;
+       ++optIndex;
+    }  // for
+    updateCrs('Source');
+    updateCrs('Dest');
+  }
+  
+  function updateCrs(id) {
+    var crs = document.getElementById('crs'+id);
+    if (crs.value) {
+      var proj = projHash[crs.value];
+      var str = 'projection: ' + proj.projName + ' - datum: ' + proj.datumName;
+      var desc = document.getElementById('desc'+id);
+      desc.innerHTML = str;
+      var units = document.getElementById('units'+id);
+      units.innerHTML = proj.units;
+    }
+  }
+  
+  function transform() {
+    var crsSource = document.getElementById('crsSource');
+    var projSource = null;
+    if (crsSource.value) {
+      projSource = projHash[crsSource.value];
+    } else {
+      alert("Select a source coordinate system");
+      return;
+    }
+    var crsDest = document.getElementById('crsDest');
+    var projDest = null;
+    if (crsDest.value) {
+      projDest = projHash[crsDest.value];
+    } else {
+      alert("Select a destination coordinate system");
+      return;
+    }
+    var pointInput = document.getElementById('xySource');
+    if (pointInput.value) {
+      var pointSource = new Proj4js.Point(pointInput.value);
+      var pointDest = Proj4js.transform(projSource, projDest, pointSource);
+      document.getElementById('xyDest').value = pointDest.toShortString();
+    } else {
+      alert("Enter source coordinates");
+      return;
+    }
+  }
+  
+  </script>
+</head>
+<body onload="initProj4js()">
+  <h1>Conversion with Proj4js</h1>  <form>
+  <table>
+    <tbody>
+
+      <tr>
+        <th colspan="3">source</th>
+        <th></th>
+        <th colspan="3">dest</th>
+      </tr>
+      <tr>
+        <td>CRS:</td>
+
+        <td colspan="2">
+          <select name="crsSource" id="crsSource" onchange="updateCrs('Source')">
+            <option value selected="selected">Select a CRS</option>
+          </select>
+        </td>
+        <td></td>
+        <td>CRS:</td>
+        <td colspan="2">
+
+          <select name="crsDest" id="crsDest" onchange="updateCrs('Dest')">
+            <option value selected="selected">Select a CRS</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td></td>
+        <td colspan="2" id="descSource">Projection - datum</td>
+
+        <td></td>
+        <td></td>
+        <td colspan="2" id="descDest">Projection - datum</td>
+      </tr>
+      <tr>
+        <td>x,y</td>
+        <td><input name="xySource" id="xySource" type="text"/></td>
+        <td id="unitsSource">units</td>
+
+        <td><input type="button" value="--> transform -->" onclick="transform();"/></td>
+        <td>x,y</td>
+        <td><input name="xyDest" id="xyDest" type="text"></td>
+        <td id="unitsDest">units</td>
+      </tr>
+      <tr>
+        <td colspan="7" align="center"><input type="reset" value="reset"/></td>
+      </tr>
+
+    </tbody>
+  </table>
+  </form>
+  <p>
+For more information on Proj4js and to report bugs, please visit the 
+<a href="http://trac.osgeo.org/proj4js">Proj4js Trac and Wiki</a> at OSGeo.
+  </p>
+
+</body>
+</html>

@@ -55,7 +55,7 @@ My.ux.BubblePanel = Ext.extend(Ext.Panel, {
 			return end;
 		}
 		else {
-			element = Ext.Apply({
+			element = Ext.apply({
 				layout: 'fit',
 				region: 'north',
 				animCollapse: false,

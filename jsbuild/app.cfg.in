@@ -40,6 +40,14 @@ include =
 exclude =
     OpenLayers.js
 
+[proj.js]
+root = ${vars:jsbuild-root}
+first =
+    proj4js/lib/projCode/merc.js
+    proj4js/lib/projCode/merc.js
+include =
+    proj4js/lib/proj4js.js
+
 [en.js]
 root = ${vars:jsbuild-root}
 first =
