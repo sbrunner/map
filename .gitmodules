@@ -1,3 +1,4 @@
-[submodule "map/public/lib/openlayers"]
-	path = map/public/lib/openlayers
-	url = https://github.com/sbrunner/openlayers.git
+#[submodule "map/public/lib/openlayers"]
+#       path = map/public/lib/openlayers
+#       url = https://github.com/sbrunner/openlayers.git
+
