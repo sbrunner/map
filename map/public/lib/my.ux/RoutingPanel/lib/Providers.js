@@ -7,7 +7,79 @@
  */
  
 Ext.namespace('GeoExt.ux');
- 
+
+GeoExt.ux.cloudmadeRoutingService = function (options, type, start, end, catchResult, scope) {
+    var newUrl = start.y + ',' + start.x + ',' + end.y + ',' + end.x + "/" + type + ".js?lang=" + OpenLayers.Lang.getCode();
+    var proxy = new Ext.data.ScriptTagProxy({
+        url: "http://routes.cloudmade.com/" + options.cloudmadeKey + "/api/0.3/" + newUrl,
+        nocache: false
+    });
+    var routingStore = new Ext.data.Store({
+        proxy: proxy,
+        reader: new Ext.data.JsonReader({
+            root: 'version',
+            fields: [
+                {
+                    name: 'total_length'
+                }
+            ]
+
+        })
+    });
+
+    routingStore.on('load', function (store) {
+        var version = store.reader.jsonData.version;
+        var status = store.reader.jsonData.status;
+        
+        var statusMessage = null;
+        var routeSummary = null;
+        var routeGeometry = null;
+        var routeInstructions = null;
+        
+        if (store.reader.jsonData.status_message) {
+            statusMessage = store.reader.jsonData.status_message;
+        }
+        if (store.reader.jsonData.route_summary) {
+            routeSummary = store.reader.jsonData.route_summary;
+        }
+        if (store.reader.jsonData.route_geometry) {
+            routeGeometry = store.reader.jsonData.route_geometry;
+        }
+        if (store.reader.jsonData.route_instructions) {
+            routeInstructions = store.reader.jsonData.route_instructions;
+        }
+        if (status == '0') {
+            var instructions = '';
+            var first = true;
+            for (var i = 0 ; i < routeInstructions.length ; i++) {
+                if (first) { 
+                    first = false;
+                }
+                else { 
+                    instructions += '<br />';
+                }
+                instructions += routeInstructions[i][0] + ' (' + routeInstructions[i][4] + ').';
+            }
+            
+            var html = '<p>' + instructions + '</p><p>' + OpenLayers.i18n('Total length: ') + Math.round(routeSummary.total_distance / 1000) + ' km</p>';
+
+            var pointList = [];
+            for (var i = 0; i < routeGeometry.length; i++) {
+                var newPoint = new OpenLayers.Geometry.Point(routeGeometry[i][1],
+                        routeGeometry[i][0]);
+                pointList.push(newPoint);
+            }
+            var geometry = new OpenLayers.Geometry.LineString(pointList);
+
+            catchResult.call(scope, true, html, [new OpenLayers.Feature.Vector(geometry)]);
+        } 
+        else {
+            catchResult.call(scope, false, statusMessage, null);
+        }
+    }, this);
+    routingStore.load();
+}
+
 GeoExt.ux.RoutingProviders = {
 	cloudmadeSearchCombo: function (options) {
 		var maxRows = options.maxRows ? options.maxRows : 10; 

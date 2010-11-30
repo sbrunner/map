@@ -146,6 +146,7 @@ GeoExt.LayerCatalogue = Ext.extend(Ext.tree.TreePanel, {
     getLayerNodeBy: function (attribute, value) {
         var node = this.root.findChild(attribute, value, true);
         if (node) {
+			delete node.attributes.id;
             return node.attributes;
         }
         else {

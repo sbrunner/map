@@ -99,5 +99,5 @@ OpenLayers.Util.extend(OpenLayers.Lang.fr, {
     "Total length: ": "Longueur totale : ",
     "Drag the map": "Glisse la carte",
     "Infos": "Infos",
-    "Layer informations", "Informations du layer"
+    "Layer informations": "Informations du layer"
 });
