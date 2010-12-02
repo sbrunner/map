@@ -157,10 +157,9 @@ GeoExt.ux.RoutingProviders = {
 	},
 	
 	sbrunnerRoutingService: function(options, type, start, end, catchResult, scope) {
-		var newUrl = "source=" + start + "&target=" + end + "&lang=" + OpenLayers.Lang.getCode();
+		var args = "source=" + start + "&target=" + end + "&lang=" + OpenLayers.Lang.getCode();
 		var proxy = new Ext.data.ScriptTagProxy({
-			url: "http://localhost:5000/routing?" + newUrl,
-	//        url: isDev ? ("http://192.168.1.4/wsgi/routing?" + newUrl) : ("http://stephanebrunner.dyndns.org:5000/wsgi/routing?" + newUrl),
+	        url: isDev ? ("http://192.168.1.5/wsgi/routing?" + args) : ("http://stephanebrunner.dyndns.org:5000/wsgi/routing?" + args),
 			nocache: false
 		});
 		
