@@ -86,6 +86,8 @@ OpenLayers.Util.extend(OpenLayers.Lang.fr, {
     "Search in Geonames...": "Recherche avec Geonames...",
     "Search location in Cloudmade": "Recherche avec Cloudmade",
     "Search in Cloudmade...": "Recherche avec Cloudmade...",
+    "Search location in OSM": "Recherche avec OSM",
+    "Search in OSM...": "Recherche avec OSM...",
     "Get Point": "Pointe",
     "Compute itinerary: ": "Calcule l'itineraire : ",
     "By car": "En voiture",
@@ -99,5 +101,17 @@ OpenLayers.Util.extend(OpenLayers.Lang.fr, {
     "Total length: ": "Longueur totale : ",
     "Drag the map": "Glisse la carte",
     "Infos": "Infos",
-    "Layer informations": "Informations du layer"
+    "Layer informations": "Informations du layer",
+    
+    "Mapnik black an white": 'Mapnik noir et blanc',
+    'Hiking': 'promenades',
+    'Specific': 'Spécific',
+    'Hill': 'Colline',
+    'Hiking symbols': 'Symboles promenades',
+    'Hiking path': 'Chemin de payements',
+    'Velo symbols': 'Symbols vélo',
+    'Orientation': 'Orientation',
+    'Lignting': 'Eclérage',
+    'OSM no label': 'OSM sans label',
+    
 });

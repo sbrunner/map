@@ -73,11 +73,9 @@ function init() {
     });
     var layer;
     if (gpx) {
-        var format = new OpenLayers.Format.GPX({
-        });
         protocol = new OpenLayers.Protocol.HTTP({
             url: urlBase + gpx + ".gpx",
-            format: format
+            format: new OpenLayers.Format.GPX()
         });
         strategies = [ new OpenLayers.Strategy.Fixed({ preload: true }) ]
         layer = new OpenLayers.Layer.Vector('gpx', {

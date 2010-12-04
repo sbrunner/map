@@ -17,6 +17,7 @@
  * @include OpenLayers/Control/Attribution.js
  * @include OpenLayers/Control/ScaleLine.js
  * @include OpenLayers/Control/OverviewMap.js
+ * @include OpenLayers/Control/LoadingPanel.js
  * @include GeoExt/widgets/MapPanel.js
  * @include App/Tools.js
  */
@@ -55,11 +56,12 @@ App.Map = Ext.extend(GeoExt.MapPanel, {
                 new OpenLayers.Control.Attribution(),
                 new OpenLayers.Control.KeyboardDefaults(),
                 new OpenLayers.Control.ScaleLine({geodesic: true, maxWidth: 120}),
+                new OpenLayers.Control.LoadingPanel()
             ]
         }
         
         var map = new OpenLayers.Map(mapOptions);
-        map.addLayers([new OpenLayers.Layer.OSM(OpenLayers.i18n("White background"), "http://map.stephane-brunner.ch/white.png", { 
+        map.addLayers([new OpenLayers.Layer.OSM("back", "http://map.stephane-brunner.ch/white.png", { 
             numZoomLevels: 20, 
             displayInLayerSwitcher: false
         })]);
@@ -115,6 +117,15 @@ App.Map = Ext.extend(GeoExt.MapPanel, {
                     
                     OpenLayers.Util.getElement('featureData').innerHTML = "<p>" + html + "</p>";
                 });
+            }
+
+            if (arguments.layer.displayInLayerSwitcher !== false) {
+                var layers = map.getLayersBy('displayInLayerSwitcher', false);
+                for (var i = 0, len = layers.length ; i < len ; i++) {
+                    if (layers[i].name != "back") {
+                        map.setLayerIndex(layers[i], map.layers.length - 1);
+                    }
+                }
             }
         });
 

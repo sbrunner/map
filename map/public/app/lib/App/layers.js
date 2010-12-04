@@ -38,6 +38,27 @@ function getLayersTree(map) {
         }
     }
 
+    var wikipedia = [];
+    var languages = ['en', 'de', 'aa', 'ab', 'ace', 'af', 'ak', 'als', 'am', 'an', 'ang', 'ar', 'arc', 'arz', 'as', 'ast', 'av', 'ay', 'az', 'ba', 'bar', 'bat-smg', 'bcl', 'be', 'be-x-old', 'bg', 'bh', 'bi', 'bjn', 'bm', 'bn', 'bo', 'bpy', 'br', 'bs', 'bug', 'bxr', 'ca', 'cbk-zam', 'cdo', 'ce', 'ceb', 'ch', 'cho', 'chr', 'chy', 'ckb', 'co', 'cr', 'crh', 'cs', 'csb', 'cu', 'cv', 'cy', 'da', 'diq', 'dsb', 'dv', 'dz', 'ee', 'el', 'eml', 'eo', 'es', 'et', 'eu', 'ext', 'fa', 'ff', 'fi', 'fiu-vro', 'fj', 'fo', 'fr', 'frp', 'frr', 'fur', 'fy', 'ga', 'gan', 'gd', 'gl', 'glk', 'gn', 'got', 'gu', 'gv', 'ha', 'hak', 'haw', 'he', 'hi', 'hif', 'ho', 'hr', 'hsb', 'ht', 'hu', 'hy', 'hz', 'ia', 'id', 'ie', 'ig', 'ii', 'ik', 'ilo', 'io', 'is', 'it', 'iu', 'ja', 'jbo', 'jv', 'ka', 'kaa', 'kab', 'kg', 'ki', 'kj', 'kk', 'kl', 'km', 'kn', 'ko', 'koi', 'kr', 'krc', 'ks', 'ksh', 'ku', 'kv', 'kw', 'ky', 'la', 'lad', 'lb', 'lbe', 'lg', 'li', 'lij', 'lmo', 'ln', 'lo', 'lt', 'lv', 'map-bms', 'mdf', 'mg', 'mh', 'mhr', 'mi', 'mk', 'ml', 'mn', 'mo', 'mr', 'mrj', 'ms', 'mt', 'mus', 'mwl', 'my', 'myv', 'mzn', 'na', 'nah', 'nap', 'nds', 'nds-nl', 'ne', 'new', 'ng', 'nl', 'nn', 'no', 'nov', 'nrm', 'nv', 'ny', 'oc', 'om', 'or', 'os', 'pa', 'pag', 'pam', 'pap', 'pcd', 'pdc', 'pi', 'pih', 'pl', 'pms', 'pnb', 'pnt', 'ps', 'pt', 'qu', 'rm', 'rmy', 'rn', 'ro', 'roa-rup', 'roa-tara', 'ru', 'rw', 'sa', 'sah', 'sc', 'scn', 'sco', 'sd', 'se', 'sg', 'sh', 'si', 'simple', 'sk', 'sl', 'sm', 'sn', 'so', 'sq', 'sr', 'srn', 'ss', 'st', 'stq', 'su', 'sv', 'sw', 'szl', 'ta', 'te', 'tet', 'tg', 'th', 'ti', 'tk', 'tl', 'tn', 'to', 'tpi', 'tr', 'ts', 'tt', 'tum', 'tw', 'ty', 'udm', 'ug', 'uk', 'ur', 'uz', 've', 'vec', 'vi', 'vls', 'vo', 'wa', 'war', 'wo', 'wuu', 'xal', 'xh', 'yi', 'yo', 'za', 'zea', 'zh', 'zh-classical', 'zh-min-nan', 'zh-yue', 'zu'];
+    for (var i = 0 , len = languages.length ; i < len ; i++) {
+        var l = languages[i];
+        wikipedia.push({
+            text: OpenLayers.i18n(l),
+            leaf: true,
+            handler: addLayer,
+            url: [
+                "http://a.www.toolserver.org/tiles/" + l + "/${z}/${x}/${y}.png", 
+                "http://b.www.toolserver.org/tiles/" + l + "/${z}/${x}/${y}.png", 
+                "http://c.www.toolserver.org/tiles/" + l + "/${z}/${x}/${y}.png"
+            ],
+            displayOutsideMaxExtent: true,
+            numZoomLevels: 18,
+            attribution: "<a href='http://www.openstreetmap.org/'>CC-BY-SA OpenStreetMap &amp; Contributors</a>",
+            ref: l
+        });
+    }
+
+            
     var root = {
 		text: OpenLayers.i18n("All layers"),
         expanded: true,
@@ -64,16 +85,51 @@ function getLayersTree(map) {
                 text: OpenLayers.i18n("Mapnik"),
                 leaf: true,
                 handler: addLayer,
-                url: "http://c.tile.openstreetmap.org/${z}/${x}/${y}.png",
+                url: [
+                    "http://a.tile.openstreetmap.org/${z}/${x}/${y}.png",
+                    "http://b.tile.openstreetmap.org/${z}/${x}/${y}.png",
+                    "http://c.tile.openstreetmap.org/${z}/${x}/${y}.png"
+                ],
                 numZoomLevels: 18,
                 attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", 
                 ref: "mk" 
             },
             {
+                text: OpenLayers.i18n("Mapnik black an white"),
+                leaf: true,
+                handler: addLayer,
+                url: [
+                    "http://a.www.toolserver.org/tiles/bw-mapnik/${z}/${x}/${y}.png",
+                    "http://b.www.toolserver.org/tiles/bw-mapnik/${z}/${x}/${y}.png",
+                    "http://c.www.toolserver.org/tiles/bw-mapnik/${z}/${x}/${y}.png"
+                ],
+                numZoomLevels: 18,
+                attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", 
+                ref: "mkbw" 
+            },
+            {
+                text: OpenLayers.i18n("Nominatim"),
+                leaf: true,
+                handler: addLayer,
+                url: [
+                    "http://otile1.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.png",
+                    "http://otile2.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.png",
+                    "http://otile3.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.png",
+                    "http://otile4.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.png"
+                ],
+                numZoomLevels: 18,
+                attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", 
+                ref: "nominatim" 
+            },
+            {
                 text: OpenLayers.i18n("Osmarender"),
                 leaf: true,
                 handler: addLayer,
-                url: "http://b.tah.openstreetmap.org/Tiles/tile/${z}/${x}/${y}.png",
+                url: [
+                    "http://a.tah.openstreetmap.org/Tiles/tile/${z}/${x}/${y}.png",
+                    "http://b.tah.openstreetmap.org/Tiles/tile/${z}/${x}/${y}.png",
+                    "http://c.tah.openstreetmap.org/Tiles/tile/${z}/${x}/${y}.png"
+                ],
                 numZoomLevels: 17,
                 attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", 
                 ref: "osma" 
@@ -82,7 +138,11 @@ function getLayersTree(map) {
                 text: OpenLayers.i18n("OpenCycleMap"),
                 leaf: true,
                 handler: addLayer,
-                url: "http://b.tile.opencyclemap.org/cycle/${z}/${x}/${y}.png",
+                url: [
+                    "http://a.tile.opencyclemap.org/cycle/${z}/${x}/${y}.png",
+                    "http://b.tile.opencyclemap.org/cycle/${z}/${x}/${y}.png",
+                    "http://c.tile.opencyclemap.org/cycle/${z}/${x}/${y}.png"
+                ],
                 numZoomLevels: 17,
                 attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", 
                 ref: "bike" 
@@ -106,13 +166,36 @@ function getLayersTree(map) {
                 ref: "pt" 
             },
             {
-                text: OpenLayers.i18n("Hiking Tails"),
+                text: OpenLayers.i18n("Hiking"),
                 leaf: true,
                 handler: addLayer,
-                url: "http://osm.lonvia.de/hiking/${z}/${x}/${y}.png",
-                numZoomLevels: 15,
+                url: "http://toolserver.org/tiles/hikebike/${z}/${x}/${y}.png",
+                numZoomLevels: 18,
                 attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", 
-                ref: "hiking" 
+                ref: "hiking2" 
+            },
+            {
+                text: OpenLayers.i18n("Refuge.info"),
+                leaf: true,
+                handler: addLayer,
+                url: "http://maps.refuges.info/tiles/renderer.py/hiking_without_contours/${z}/${x}/${y}.png",
+                numZoomLevels: 18,
+                attribution: "Data by <a href='http://www.osm.org/'>OSM</a>", 
+                ref: "refuge" 
+            }]
+        },
+        {
+            text: OpenLayers.i18n("Specific"),
+            leaf: false,
+            expanded: true,
+            children: [{
+                text: OpenLayers.i18n("ODLB"),
+                leaf: true,
+                handler: addLayer,
+                url: "http://osm.informatik.uni-leipzig.de/osm_tiles2/${z}/${x}/${y}.png",
+                numZoomLevels: 18,
+                attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", 
+                ref: "odlb" 
             }]
         },
         {
@@ -136,6 +219,33 @@ function getLayersTree(map) {
                 numZoomLevels: 18,
                 attribution: "Data by <a href='ftp://e0srp01u.ecs.nasa.gov/srtm/version2/SRTM3/'>NASA</a>, <a href='http://asterweb.jpl.nasa.gov/gdem.asp'>ASTER</a>, <a href='http://www.gebco.net/'>GEBCO</a> and <a href='http://www.osm.org/'>OSM</a>", 
                 ref: "cont" 
+            },
+            {
+                text: OpenLayers.i18n("Hill"),
+                leaf: true,
+                handler: addLayer,
+                url: "http://toolserver.org/~cmarqu/hill/${z}/${x}/${y}.png",
+                numZoomLevels: 16,
+                attribution: "Data by <a href='ftp://e0srp01u.ecs.nasa.gov/srtm/version2/SRTM3/'>NASA</a>", 
+                ref: "cont" 
+            },
+            {
+                text: OpenLayers.i18n("Hill"),
+                leaf: true,
+                handler: addLayer,
+                url: "http://toolserver.org/~cmarqu/hill/${z}/${x}/${y}.png",
+                numZoomLevels: 16,
+                attribution: "Data by <a href='ftp://e0srp01u.ecs.nasa.gov/srtm/version2/SRTM3/'>NASA</a>", 
+                ref: "cont" 
+            },
+            {
+                text: OpenLayers.i18n("Relief Refuge.info"),
+                leaf: true,
+                handler: addLayer,
+                url: "http://maps.refuges.info/tiles/renderer.py/relief/14/8518/5806.jpeg",
+                numZoomLevels: 18,
+                attribution: "Data by <a href='ftp://e0srp01u.ecs.nasa.gov/srtm/version2/SRTM3/'>NASA</a>", 
+                ref: "relief" 
             }]
         },
         {
@@ -143,6 +253,51 @@ function getLayersTree(map) {
             expanded: false,
             leaf: false,
             children: [{
+                text: OpenLayers.i18n("Hiking symbols"),
+                numZoomLevels: 18,
+                leaf: true,
+                handler: addLayer,
+                url: "http://osm.lonvia.de/hiking/${z}/${x}/${y}.png",
+                ref: 'hikes'
+            },
+            {
+                text: OpenLayers.i18n("Hiking path"),
+                numZoomLevels: 18,
+                leaf: true,
+                handler: addLayer,
+                url: "http://osm.lonvia.de/hiking/${z}/${x}/${y}.png",
+                ref: 'hikep'
+            },
+            {
+                text: OpenLayers.i18n("Velo symbols"),
+                numZoomLevels: 18,
+                leaf: true,
+                handler: addLayer,
+                url: "http://toolserver.org/tiles/bicycle/${z}/${x}/${y}.png",
+                ref: 'velo'
+            },
+            {
+                text: OpenLayers.i18n("Orientation"),
+                expanded: false,
+                leaf: false,
+                children: [{
+                    text: OpenLayers.i18n("Street-O Map"),
+                    numZoomLevels: 18,
+                    leaf: true,
+                    handler: addLayer,
+                    url: "http://tiler1.censusprofiler.org/streeto/${z}/${x}/${y}.png",
+                    ref: 'streetomap'
+                },
+                {
+                    text: OpenLayers.i18n("Pseud-O Map"),
+                    numZoomLevels: 18,
+                    leaf: true,
+                    handler: addLayer,
+                    url: "http://tiler1.censusprofiler.org/oterrain/${z}/${x}/${y}.png",
+                    ref: 'pseudomap'
+                }]
+            },
+            {
                 text: OpenLayers.i18n("Peak"),
                 leaf: true,
                 handler: addXapiStyleLayer,
@@ -320,6 +475,15 @@ function getLayersTree(map) {
                     element: 'way',
                     predicate: "maxlength"
                 }]
+            },
+            {
+                text: OpenLayers.i18n("Lignting"),
+                leaf: true,
+                handler: addLayer,
+                url: "http://toolserver.org/tiles/lighting/${z}/${x}/${y}.png",
+                numZoomLevels: 16,
+                attribution: "<a href='http://www.openstreetmap.org/'>CC-BY-SA OpenStreetMap &amp; Contributors</a>",
+                ref: 'lignt'
             }]
         },
         {
@@ -329,7 +493,10 @@ function getLayersTree(map) {
                 text: OpenLayers.i18n("CloudMade nonames"),
                 leaf: true,
                 handler: addLayer,
-                url: "http://tile.cloudmade.com/D563D910896D4B67B22BC1088920C483/3/256/${z}/${x}/${y}.png",
+                url: [
+                    "http://a.tile.cloudmade.com/D563D910896D4B67B22BC1088920C483/3/256/${z}/${x}/${y}.png",
+                    "http://b.tile.cloudmade.com/D563D910896D4B67B22BC1088920C483/3/256/${z}/${x}/${y}.png"
+                ],
                 displayOutsideMaxExtent: true,
                 numZoomLevels: 18,
                 attribution: "<a href='http://www.openstreetmap.org/'>CC-BY-SA OpenStreetMap &amp; Contributors</a> -- tiles from <a href='http://www.cloudmade.com/'>CloudMade</a>",
@@ -354,6 +521,15 @@ function getLayersTree(map) {
                 attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", 
                 ref: "dbl"
             },
+            {
+                text: OpenLayers.i18n("Cloudmade navdebug"),
+                leaf: true,
+                handler: addLayer,
+                url: "http://ec2-184-73-15-218.compute-1.amazonaws.com/6700/256/${z}/${x}/${y}.png",
+                numZoomLevels: 18,
+                attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", 
+                ref: "navdebug"
+            },            
             {
                 text: OpenLayers.i18n("Swiss history"),
                 leaf: false,
@@ -385,6 +561,20 @@ function getLayersTree(map) {
                     ref: "20100622"
                 }]
             }]
+        },
+        {
+            text: OpenLayers.i18n("Localized (Wikipedia)"),
+            leaf: false,
+            children: [{
+                text: OpenLayers.i18n("OSM no label"),
+                leaf: true,
+                handler: addLayer,
+                url: "http://a.www.toolserver.org/tiles/osm-no-labels/${z}/${x}/${y}.png",
+                displayOutsideMaxExtent: true,
+                numZoomLevels: 18,
+                attribution: "<a href='http://www.openstreetmap.org/'>CC-BY-SA OpenStreetMap &amp; Contributors</a> -- tiles from <a href='http://www.cloudmade.com/'>CloudMade</a>",
+                ref: "nolabel"
+            }, wikipedia]
         },
         brutes]
     };

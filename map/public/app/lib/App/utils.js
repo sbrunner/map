@@ -51,6 +51,7 @@ var epsg4326 = new OpenLayers.Projection("EPSG:4326");
 
 function addLayer(options) {
     options.isBaseLayer = false;
+    delete options.id;
     return new OpenLayers.Layer.XYZ(options.text, options.url, options);
 }
 function addXapiStyleLayer(options) {

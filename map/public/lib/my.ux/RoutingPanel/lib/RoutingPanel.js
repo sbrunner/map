@@ -99,29 +99,28 @@ GeoExt.ux.RoutingPanel = Ext.extend(Ext.Panel, {
      */
     pointDrawControl: null,
 
-    /** property[resultPanel]
-     *  ``Ext.Panel`` Panel presenting the computation result
+    /**
+     * property[resultPanel]
+     * ``Ext.Panel`` Panel presenting the computation result
      */
     resultPanel: null,
 
-    /** private: property[stateEvents]
-     *  ``Array(String)`` Array of state events
+    /**
+     * private: property[stateEvents]
+     * ``Array(String)`` Array of state events
      */
     stateEvents: ["routingcomputed", "pointadded"],
 
+    /**
+     * private: property[state]
+     * ``Map`` Acctual routing state
+     */
     state: {},
-
 
     /**
      * api: config[geocodingProvider]
      */
-    geocodingProviders: {
-        builder: GeoExt.ux.RoutingProviders.cloudmadeSearchCombo,
-        projection: new OpenLayers.Projection("EPSG:4326"),
-        cloudmadeKey: cloudmadeKey,
-        maxRows: 20,
-        queryParam: 'query'
-    },
+    geocodingProviders: null,
 
     /** api: config[showGoogleItinerary]
      *  Define if the google itinerary links are shown in the result panel
@@ -163,31 +162,30 @@ GeoExt.ux.RoutingPanel = Ext.extend(Ext.Panel, {
      */
     initComponent: function () {
         if (!this.routingProviders) {
-            this.routingProviders = { 
-                cloudmade : {
-                    service: GeoExt.ux.cloudmadeRoutingService,
-                    projection: new OpenLayers.Projection("EPSG:4326"),
-                    cloudmadeKey: cloudmadeKey,
-                    types: {
-                        car: { name: OpenLayers.i18n('By car') },
-                        foot: { name: OpenLayers.i18n('By foot') },
-                        bicycle: { name: OpenLayers.i18n('By bicycle') }
-                    }
-                }
+            this.routingProviders = {
+                ors: GeoExt.ux.RoutingProviders.getOpenRouteServiceProvider(),
+                yours: GeoExt.ux.RoutingProviders.getYOURSRoutingProvider()
             }
         }
+        if (!this.geocodingProviders) {
+            this.geocodingProviders = {
+                builder: GeoExt.ux.RoutingProviders.nominatimSearchCombo,
+                projection: new OpenLayers.Projection("EPSG:4326")
+            }
+        }
+
         this.start.locationCombo = this.geocodingProviders.builder(Ext.apply({
             name: 'startLocationCombo',
             emptyText: OpenLayers.i18n('Search start...'),
             width: 195,
+            map: this.map,
             listeners: {
                 select: function (combo, record, index) {
                     if (this.startFeature) {
                         this.layer.removeFeatures([this.startFeature]);
                         this.startFeature = null;
                     }
-                    var geometry = new OpenLayers.Geometry.Point(record.data.centroid.coordinates[1], record.data.centroid.coordinates[0]);
-                    geometry = geometry.transform(this.geocodingProviders.projection, this.map.getProjectionObject());
+                    var geometry = combo.getCentroid(record.data);
                     this.startFeature = new OpenLayers.Feature.Vector(geometry, {type: 'point'});
                     this.layer.addFeatures([this.startFeature]);
                 },
@@ -198,13 +196,13 @@ GeoExt.ux.RoutingPanel = Ext.extend(Ext.Panel, {
             name: 'endLocationCombo',
             emptyText: OpenLayers.i18n('Search end...'),
             width: 195,
+            map: this.map,
             listeners: {
                 select: function (combo, record, index) {
                     if (this.endFeature) {
                         this.layer.removeFeatures([this.endFeature]);
                     }
-                    var geometry = new OpenLayers.Geometry.Point(record.data.centroid.coordinates[1], record.data.centroid.coordinates[0]);
-                    geometry = geometry.transform(this.geocodingProviders.projection, this.map.getProjectionObject());
+                    var geometry = combo.getCentroid(record.data);
                     this.endFeature = new OpenLayers.Feature.Vector(geometry, {type: 'point'});
                     this.layer.addFeatures([this.endFeature]);
                 },
@@ -226,6 +224,12 @@ GeoExt.ux.RoutingPanel = Ext.extend(Ext.Panel, {
         for (var providerRef in this.routingProviders) {
             var provider = this.routingProviders[providerRef];
             provider.ref = providerRef;
+            itinaryItems.push({
+                cls: 'x-plane',
+                html: '<h3>' + provider.name + '</h3>',
+                style: 'clear: booth;',
+                border: false
+            });
             for (var typeRef in provider.types) {
                 var type = provider.types[typeRef];
                 type.type = typeRef;
@@ -508,14 +512,18 @@ GeoExt.ux.RoutingPanel = Ext.extend(Ext.Panel, {
      *  Returns the current state for the map panel.
      */
     getState: function() {
-        var state;
+        var state = {};
 
-        state['start_lon'] = Math.round(this.start.feature.x * 100000) / 100000;
-        state['start_lat'] = Math.round(this.start.feature.y * 100000) / 100000;
-        state['start_text'] = this.start.locationCombo.getValue();
-        state['end_lon'] = Math.round(this.end.feature.x * 100000) / 100000;
-        state['end_lat'] = Math.round(this.end.feature.y * 100000) / 100000;
-        state['end_text'] = this.end.locationCombo.getValue();
+        if (this.start.feature) {
+            state['start_lon'] = Math.round(this.start.feature.x * 100000) / 100000;
+            state['start_lat'] = Math.round(this.start.feature.y * 100000) / 100000;
+            state['start_text'] = this.start.locationCombo.getValue();
+        }
+        if (this.end.feature) {
+            state['end_lon'] = Math.round(this.end.feature.x * 100000) / 100000;
+            state['end_lat'] = Math.round(this.end.feature.y * 100000) / 100000;
+            state['end_text'] = this.end.locationCombo.getValue();
+        }
         state.provider = this.state.provider;
         state.type = this.state.type;
 
