@@ -105,11 +105,11 @@ probleme on share geometre between feature.
 
         // uncomment this line if you use the OGC proxy
         //OpenLayers.ProxyHost = "${url(controller='ogcproxy', action='index', url='')}";
+        OpenLayers.ProxyHost = "/main/wsgi/app/proxy.php?url="; // proxy is required here
 
 //        Ext.BLANK_IMAGE_URL = "${url('/lib/ext/Ext/resources/images/default/s.gif')}";
 
-//        OpenLayers.IMAGE_RELOAD_ATTEMPTS = 2;
-//        OpenLayers._getScriptLocation = function() {return ""};
+        OpenLayers.IMAGE_RELOAD_ATTEMPTS = 2;
     </script>
   </head>
   <body>

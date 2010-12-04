@@ -163,7 +163,6 @@ GeoExt.ux.RoutingPanel = Ext.extend(Ext.Panel, {
     initComponent: function () {
         if (!this.routingProviders) {
             this.routingProviders = {
-                ors: GeoExt.ux.RoutingProviders.getOpenRouteServiceProvider(),
                 yours: GeoExt.ux.RoutingProviders.getYOURSRoutingProvider()
             }
         }

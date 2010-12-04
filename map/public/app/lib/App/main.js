@@ -250,7 +250,7 @@ window.onload = function() {
         routingProviders: { 
             cloudmade : GeoExt.ux.RoutingProviders.getCloudmadeRoutingProvider(cloudmadeKey),
             sbrunner: GeoExt.ux.RoutingProviders.getSbrunnerRoutingProvider(),
-            ors: GeoExt.ux.RoutingProviders.getOpenRouteServiceProvider(),
+//            ors: GeoExt.ux.RoutingProviders.getOpenRouteServiceProvider(),
             yours: GeoExt.ux.RoutingProviders.getYOURSRoutingProvider()
         },
         tbar: [
@@ -356,6 +356,7 @@ window.onload = function() {
                             + "<li><a id='permalink.osmose' href='http://osmose.openstreetmap.fr/map/cgi-bin/index.py?'>" + OpenLayers.i18n("Osmose") + "</a></li>"
                             + "<li><a id='permalink.restrictions' href='http://osm.virtuelle-loipe.de/restrictions/'>" + OpenLayers.i18n("Restrictions") + "</a></li>"
                             + "<li><a id='permalink.geofabrik' href='http://tools.geofabrik.de/map/?type=Geofabrik'>" + OpenLayers.i18n("Geofabrik") + "</a></li>"
+                            + "<li><a id='permalink.openrouteservice' href='http://www.openrouteservice.org'>" + OpenLayers.i18n("OpenRouteService.org") + "</a></li>"
                             + "<li><a id='permalink.osb' href='http://openstreetbugs.schokokeks.org/'>" + OpenLayers.i18n("OpenStreetBug") + "</a></li>"
                             + "<li><a id='permalink.qsm' href='http://www.qualitystreetmap.org/osmqa/'>" + OpenLayers.i18n("OSM QA Mpp") + "</a></li>"
                             + "<li><a id='permalink.maxspeed' href='http://maxspeed.osm.lab.rfc822.org/?layers=B0TF'>" + OpenLayers.i18n("Max speed") + "</a></li>"
@@ -370,6 +371,7 @@ window.onload = function() {
                             + "</ul>"
 
                             + "<hr /><ul>"
+                            + '<li><a href="http://maps.cloudmade.com/">' + OpenLayers.i18n('CloudMade') + "</a></li>"
                             + '<li><a href="http://dev-yves.dyndns.org/legend/page.html">' + OpenLayers.i18n('OSM Legend') + "</a></li>"
                             + "</ul>"
 

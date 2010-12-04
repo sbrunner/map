@@ -62,77 +62,94 @@ function getLayersTree(map) {
     var root = {
 		text: OpenLayers.i18n("All layers"),
         expanded: true,
-        ref: 'allLayers',
         children: [{
             text: OpenLayers.i18n("Base Layers"),
             leaf: false,
             expanded: true,
             children: [{
-                text: OpenLayers.i18n("All features"),
-                leaf: true,
-                handler: addOsmStyleLayer,
-                style: getOSMStyle,
-                ref: 'all'
-            },
-            {
-                text: OpenLayers.i18n("Raw"),
-                leaf: true,
-                handler: addOsmStyleLayer,
-                style: null,
-                ref: 'raw'
-            },
-            {
-                text: OpenLayers.i18n("Mapnik"),
-                leaf: true,
-                handler: addLayer,
-                url: [
-                    "http://a.tile.openstreetmap.org/${z}/${x}/${y}.png",
-                    "http://b.tile.openstreetmap.org/${z}/${x}/${y}.png",
-                    "http://c.tile.openstreetmap.org/${z}/${x}/${y}.png"
-                ],
-                numZoomLevels: 18,
-                attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", 
-                ref: "mk" 
-            },
-            {
-                text: OpenLayers.i18n("Mapnik black an white"),
-                leaf: true,
-                handler: addLayer,
-                url: [
-                    "http://a.www.toolserver.org/tiles/bw-mapnik/${z}/${x}/${y}.png",
-                    "http://b.www.toolserver.org/tiles/bw-mapnik/${z}/${x}/${y}.png",
-                    "http://c.www.toolserver.org/tiles/bw-mapnik/${z}/${x}/${y}.png"
-                ],
-                numZoomLevels: 18,
-                attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", 
-                ref: "mkbw" 
-            },
-            {
-                text: OpenLayers.i18n("Nominatim"),
-                leaf: true,
-                handler: addLayer,
-                url: [
-                    "http://otile1.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.png",
-                    "http://otile2.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.png",
-                    "http://otile3.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.png",
-                    "http://otile4.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.png"
-                ],
-                numZoomLevels: 18,
-                attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", 
-                ref: "nominatim" 
-            },
-            {
-                text: OpenLayers.i18n("Osmarender"),
-                leaf: true,
-                handler: addLayer,
-                url: [
-                    "http://a.tah.openstreetmap.org/Tiles/tile/${z}/${x}/${y}.png",
-                    "http://b.tah.openstreetmap.org/Tiles/tile/${z}/${x}/${y}.png",
-                    "http://c.tah.openstreetmap.org/Tiles/tile/${z}/${x}/${y}.png"
-                ],
-                numZoomLevels: 17,
-                attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", 
-                ref: "osma" 
+                text: OpenLayers.i18n("Generalist"),
+                leaf: false,
+                expanded: false,
+                children: [{
+                    text: OpenLayers.i18n("All features"),
+                    leaf: true,
+                    handler: addOsmStyleLayer,
+                    style: getOSMStyle,
+                    ref: 'all'
+                },
+                {
+                    text: OpenLayers.i18n("Raw"),
+                    leaf: true,
+                    handler: addOsmStyleLayer,
+                    style: null,
+                    ref: 'raw'
+                },
+                {
+                    text: OpenLayers.i18n("Mapnik"),
+                    leaf: true,
+                    handler: addLayer,
+                    url: [
+                        "http://a.tile.openstreetmap.org/${z}/${x}/${y}.png",
+                        "http://b.tile.openstreetmap.org/${z}/${x}/${y}.png",
+                        "http://c.tile.openstreetmap.org/${z}/${x}/${y}.png"
+                    ],
+                    numZoomLevels: 18,
+                    attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", 
+                    ref: "mk" 
+                },
+                {
+                    text: OpenLayers.i18n("Mapnik black an white"),
+                    leaf: true,
+                    handler: addLayer,
+                    url: [
+                        "http://a.www.toolserver.org/tiles/bw-mapnik/${z}/${x}/${y}.png",
+                        "http://b.www.toolserver.org/tiles/bw-mapnik/${z}/${x}/${y}.png",
+                        "http://c.www.toolserver.org/tiles/bw-mapnik/${z}/${x}/${y}.png"
+                    ],
+                    numZoomLevels: 18,
+                    attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", 
+                    ref: "mkbw" 
+                },
+                {
+                    text: OpenLayers.i18n("Nominatim"),
+                    leaf: true,
+                    handler: addLayer,
+                    url: [
+                        "http://otile1.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.png",
+                        "http://otile2.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.png",
+                        "http://otile3.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.png",
+                        "http://otile4.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.png"
+                    ],
+                    numZoomLevels: 18,
+                    attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", 
+                    ref: "nominatim" 
+                },
+                {
+                    text: OpenLayers.i18n("Osmarender"),
+                    leaf: true,
+                    handler: addLayer,
+                    url: [
+                        "http://a.tah.openstreetmap.org/Tiles/tile/${z}/${x}/${y}.png",
+                        "http://b.tah.openstreetmap.org/Tiles/tile/${z}/${x}/${y}.png",
+                        "http://c.tah.openstreetmap.org/Tiles/tile/${z}/${x}/${y}.png"
+                    ],
+                    numZoomLevels: 17,
+                    attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", 
+                    ref: "osma" 
+                },
+                {
+                    text: OpenLayers.i18n("CloudMade"),
+                    leaf: true,
+                    handler: addLayer,
+                    url: [
+                        "http://a.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/1/256//${z}/${x}/${y}.png",
+                        "http://b.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/1/256//${z}/${x}/${y}.png",
+                        "http://c.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/1/256//${z}/${x}/${y}.png"
+                    ],
+                    numZoomLevels: 18,
+                    attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", 
+                    ref: "cloudmade" 
+                }]
             },
             {
                 text: OpenLayers.i18n("OpenCycleMap"),

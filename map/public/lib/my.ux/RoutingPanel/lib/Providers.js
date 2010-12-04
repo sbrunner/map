@@ -299,7 +299,7 @@ GeoExt.ux.RoutingProviders = {
         proxy.doRequest('', null, {}, reader);
     },
 
-    getOpenRouteServiceProvider: function() {
+/*    getOpenRouteServiceProvider: function() {
         return {
 	    name: OpenLayers.i18n("OpenRouteService"),
             service : GeoExt.ux.RoutingProviders.openRouteService,
@@ -323,25 +323,30 @@ GeoExt.ux.RoutingProviders = {
 	    params: {
 		Start: start.x + "," + start.y,
 		End: end.x + "," + end.y,
+		Via: '',
 		lang: OpenLayers.Lang.getCode(),
 		distunit: 'KM',
 		instructions: 'true',
-		routepref: type
+		routepref: type,
+		noMotorways: 'false',
+		noTollways: 'false',
+		useTMC: 'false'
 	    },
-	    format: OpenLayers.Format.GML(),
+	    readWithPOST: true,
+	    format: new OpenLayers.Format.GML(),
 	    callback: function(response) {
-		var distance = null;
 		var time = null;
+		var distance = null;
 		var instructions = '';
 
-		if (data.TotalTime) {
-		    time = data.TotalTime;
+		if (response.TotalTime) {
+		    time = response.TotalTime;
 		}
-		if (data.TotalDistance) {
-		    distance = data.TotalDistance;
+		if (response.TotalDistance) {
+		    distance = response.TotalDistance;
 		}
-		if (data.RouteSummary) {
-		    instructions = data.RouteSummary;
+		if (response.RouteSummary) {
+		    instructions = response.RouteSummary;
 		}
 		
 		var html = '<p>' + OpenLayers.i18n('Total length: ') + distance + ' km</p>'
@@ -352,7 +357,7 @@ GeoExt.ux.RoutingProviders = {
 	    }
 	});
         http.read();
-    },
+    },*/
 
     getYOURSRoutingProvider: function() {
         return {
@@ -378,22 +383,24 @@ GeoExt.ux.RoutingProviders = {
 		format: 'geojson',
 		v: type
 	    },
-	    format: OpenLayers.Format.GeoJSON(),
-	    callback: function(response) {		
+	    format: new OpenLayers.Format.JSON(),
+	    callback: function(response) {
 		var distance = null;
 		var instructions = '';
 
-		if (data.distance) {
-		    distance = data.distance;
+		var feature = new OpenLayers.Format.GeoJSON().read(response.features);
+
+		if (response.features.properties.distance) {
+		    distance = response.features.properties.distance;
 		}
-		if (data.description) {
-		    instructions = data.description;
+		if (response.features.properties.description) {
+		    instructions = response.features.properties.description;
 		}
 		
 		var html = '<p>' + OpenLayers.i18n('Total length: ') + distance + ' km</p>'
 			+ instructions + '<hr />';
 
-		catchResult.call(scope, true, html, data);
+		catchResult.call(scope, true, html, feature);
 	    }
 	});
 
