@@ -112,6 +112,5 @@ OpenLayers.Util.extend(OpenLayers.Lang.fr, {
     'Velo symbols': 'Symbols vélo',
     'Orientation': 'Orientation',
     'Lignting': 'Eclérage',
-    'OSM no label': 'OSM sans label',
-    
+    'OSM no label': 'OSM sans label'
 });
