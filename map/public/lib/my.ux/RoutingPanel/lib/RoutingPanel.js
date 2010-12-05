@@ -225,6 +225,7 @@ GeoExt.ux.RoutingPanel = Ext.extend(Ext.Panel, {
                     xtype: 'button',
                     text: OpenLayers.i18n('Get Point'),
                     handler: function (button, event) {
+                        this.createDrawFeature();
                         this.pointDrawControl.point = this.start;
                         this.pointDrawControl.activate();
                     },
@@ -242,6 +243,7 @@ GeoExt.ux.RoutingPanel = Ext.extend(Ext.Panel, {
                     xtype: 'button',
                     text: OpenLayers.i18n('Get Point'),
                     handler: function (button, event) {
+                        this.createDrawFeature();
                         this.pointDrawControl.point = this.end;
                         this.pointDrawControl.activate();
                     },
@@ -340,6 +342,10 @@ GeoExt.ux.RoutingPanel = Ext.extend(Ext.Panel, {
     afterRender: function () {
         GeoExt.ux.RoutingPanel.superclass.afterRender.call(this);
 
+        this.readPermalink();
+    },
+
+    createDrawFeature: function() {
         // Create point draw control
         this.pointDrawControl = new OpenLayers.Control.DrawFeature(this.layer, OpenLayers.Handler.Point);
         this.map.addControl(this.pointDrawControl);
@@ -364,7 +370,6 @@ GeoExt.ux.RoutingPanel = Ext.extend(Ext.Panel, {
             },
             scope: this
         });
-        this.readPermalink();
     },
 
     /** private: method[getItinerary]
