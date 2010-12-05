@@ -89,7 +89,7 @@ OpenLayers.Util.extend(OpenLayers.Lang.fr, {
     "Search location in OSM": "Recherche avec OSM",
     "Search in OSM...": "Recherche avec OSM...",
     "Get Point": "Pointe",
-    "Compute itinerary: ": "Calcule l'itineraire : ",
+    "Compute itinerary": "Calcule l'itineraire",
     "By car": "En voiture",
     "By foot": "A pieds",
     "By bicycle": "A vélo",

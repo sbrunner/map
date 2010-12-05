@@ -215,17 +215,52 @@ GeoExt.ux.RoutingPanel = Ext.extend(Ext.Panel, {
             height: 400
         });
 
-        var itinaryItems = [{
+        var lanes = [{
+            layout: 'column',
+            border: false,
+            fieldLabel: OpenLayers.i18n('From'),
+            items: [
+                this.start.locationCombo,
+                {
+                    xtype: 'button',
+                    text: OpenLayers.i18n('Get Point'),
+                    handler: function (button, event) {
+                        this.pointDrawControl.point = this.start;
+                        this.pointDrawControl.activate();
+                    },
+                    scope: this
+                }
+            ]
+        },
+        {
+            layout: 'column',
+            border: false,
+            fieldLabel: OpenLayers.i18n('To'),
+            items: [
+                this.end.locationCombo,
+                {
+                    xtype: 'button',
+                    text: OpenLayers.i18n('Get Point'),
+                    handler: function (button, event) {
+                        this.pointDrawControl.point = this.end;
+                        this.pointDrawControl.activate();
+                    },
+                    scope: this
+                }
+            ]
+        }];
+        lanes.push({
             baseCls: 'x-plane',
-            html: OpenLayers.i18n('Compute itinerary: '),
+            html: '<h3>' + OpenLayers.i18n('Compute itinerary') + '</h3>',
             bodyStyle: 'padding: 2px 5px 0 0;'
-        }]
+        });
         for (var providerRef in this.routingProviders) {
+            var itinaryItems = [];
             var provider = this.routingProviders[providerRef];
             provider.ref = providerRef;
-            itinaryItems.push({
+            lanes.push({
                 cls: 'x-plane',
-                html: '<h3>' + provider.name + '</h3>',
+                html: provider.name,
                 style: 'clear: booth;',
                 border: false
             });
@@ -243,7 +278,14 @@ GeoExt.ux.RoutingPanel = Ext.extend(Ext.Panel, {
                     }
                 });
             }
+            lanes.push({
+                layout: 'column',
+                border: false,
+                bodyStyle: 'padding: 3px 0 10px 0;',
+                items: itinaryItems
+            });
         }
+        lanes.push(this.resultPanel);
         Ext.apply(this, {
             plain: true,
             border: false,
@@ -255,50 +297,9 @@ GeoExt.ux.RoutingPanel = Ext.extend(Ext.Panel, {
                 },
                 border: false,
                 labelWidth: 40,
-                items: [{
-                        layout: 'column',
-                        border: false,
-                        fieldLabel: OpenLayers.i18n('From'),
-                        items: [
-                            this.start.locationCombo,
-                            {
-                                xtype: 'button',
-                                text: OpenLayers.i18n('Get Point'),
-                                handler: function (button, event) {
-                                    this.pointDrawControl.point = this.start;
-                                    this.pointDrawControl.activate();
-                                },
-                                scope: this
-                            }
-                        ]
-                    },
-                    {
-                        layout: 'column',
-                        border: false,
-                        fieldLabel: OpenLayers.i18n('To'),
-                        items: [
-                            this.end.locationCombo,
-                            {
-                                xtype: 'button',
-                                text: OpenLayers.i18n('Get Point'),
-                                handler: function (button, event) {
-                                    this.pointDrawControl.point = this.end;
-                                    this.pointDrawControl.activate();
-                                },
-                                scope: this
-                            }
-                        ]
-                    },
-                    {
-                        layout: 'column',
-                        border: false,
-                        bodyStyle: 'padding: 3px 0 10px 0;',
-                        items: [itinaryItems]
-                    },
-                    this.resultPanel
-                ]}
-            ]}
-        );
+                items: lanes
+            }]
+        });
         GeoExt.ux.RoutingPanel.superclass.initComponent.apply(this, arguments);
 
         // Create routing layer
