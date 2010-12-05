@@ -46,7 +46,7 @@ OpenLayers.Util.extend(OpenLayers.Lang.fr, {
     "Duplicates nodes": "Noeud dupliquer",
     "Hiking Tails": "Chemins d'excursion",
     "All features": "Toutes les fonctionnalités",
-    "Raw": "Brut",
+    "Raw (XAPI)": "Brut (XAPI)",
     "Permalink": "Permalien",
     "Links": "Liens",
     "Edit with JOSM": "Éditer avec JOSM",

@@ -86,7 +86,7 @@ window.onload = function() {
      * Setting of OpenLayers global vars.
      */
     OpenLayers.Number.thousandsSeparator = ' ';
-    OpenLayers.IMAGE_RELOAD_ATTEMPTS = 5;
+    OpenLayers.IMAGE_RELOAD_ATTEMPTS = 3;
 
     if (isDev) {
         document.title = "Dev - " + OpenLayers.i18n("Various OSM map");
@@ -123,10 +123,6 @@ window.onload = function() {
     Ext.state.Manager.setProvider(permalinkProvider);
 
     permalinkProvider.on({statechange: onStatechange});
-    if (!permalinkProvider.state.a) {
-        permalinkProvider.state.a = {};
-    }
-
     
     /*
      * Initialize the application.
@@ -347,7 +343,7 @@ window.onload = function() {
                             + "<li><div id='permalink'><a href=''>" + OpenLayers.i18n("Permalink") + "</a></div></li>"
                             + "<li><a id='permalink.potlatch' href=''>" + OpenLayers.i18n("Edit on Potlatch") + "</a></li>"
                             + "<li><div id='josm'><a href=''>" + OpenLayers.i18n("Edit with JOSM") + "</a></div></li>"
-                            + "<li><div id='mapzen'><a href='http://mapzen.cloudmade.com/editor?zoom=15&lat=51.51184074882071&lng=-0.13737201690673828'>" + OpenLayers.i18n("Edit with Mapzen") + "</a></div></li>"
+                            + "<li><div id='mapzen'><a href='http://mapzen.cloudmade.com/editor'>" + OpenLayers.i18n("Edit with Mapzen") + "</a></div></li>"
                             + "</ul>"
 
                             + "<hr /><ul>"

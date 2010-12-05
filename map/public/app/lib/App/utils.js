@@ -198,12 +198,14 @@ function onStatechange(provider) {
         
         var bounds = mapPanel.map.getExtent();
         bounds = bounds.transform(mapPanel.map.getProjectionObject(), mapPanel.map.displayProjection);
+	Ext.get("josm").update("<a href='http://127.0.0.1:8111/load_and_zoom?"
+	    + "left=" + bounds.left + "&right=" + bounds.right
+	    + "&top=" + bounds.top + "&bottom=" + bounds.bottom + "'>" + OpenLayers.i18n("Edit with JOSM") + "</a>");
 
-        if (bounds) {
-            Ext.get("josm").update("<a href='http://127.0.0.1:8111/load_and_zoom?"
-                + "left=" + bounds.left + "&right=" + bounds.right
-                + "&top=" + bounds.top + "&bottom=" + bounds.bottom + "'>" + OpenLayers.i18n("Edit with JOSM") + "</a>");
-        }
+	var center = mapPanel.map.getCenter();
+        center = center.transform(mapPanel.map.getProjectionObject(), mapPanel.map.displayProjection);
+	Ext.get("josm").update("<a href='http://mapzen.cloudmade.com/editor?lat=" + center.z + "&lng=" + center.x + "&zoom=" + mapPanel.map.getZoom() + "'>"
+		+ OpenLayers.i18n("Edit with Mapzen") + "</a>");
     }
 };
 
