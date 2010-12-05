@@ -61,13 +61,13 @@ App.Map = Ext.extend(GeoExt.MapPanel, {
         }
         
         var map = new OpenLayers.Map(mapOptions);
-        map.addLayers([new OpenLayers.Layer.OSM("back", "http://map.stephane-brunner.ch/white.png", { 
+        map.addLayers([new OpenLayers.Layer.OSM("back", "http://map.stephane-brunner.ch/white.png", {
             numZoomLevels: 20, 
             displayInLayerSwitcher: false
         })]);
 
         map.events.register('addlayer', map, function(arguments) {
-            if (arguments.layer instanceof OpenLayers.Layer.Vector) {
+            if (arguments.layer instanceof OpenLayers.Layer.Vector && (arguments.layer.ref || arguments.layer.name == "Routing")) {
                 var sf = new OpenLayers.Control.SelectFeature(arguments.layer, {
                     autoActivate: true,
                     hover: true,

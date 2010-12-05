@@ -346,30 +346,32 @@ GeoExt.ux.RoutingPanel = Ext.extend(Ext.Panel, {
     },
 
     createDrawFeature: function() {
-        // Create point draw control
-        this.pointDrawControl = new OpenLayers.Control.DrawFeature(this.layer, OpenLayers.Handler.Point);
-        this.map.addControl(this.pointDrawControl);
-        this.pointDrawControl.events.on({
-            featureadded: function (events) {
-                var featureLocation = null;
-                var point = this.pointDrawControl.point;
-                events.feature.attributes.type = 'point';
-                events.feature.layer.drawFeature(events.feature);
-                this.pointDrawControl.type = null;
-                
-                if (point.feature) {
-                    this.layer.removeFeatures([point.feature]);
-                }
-                point.feature = events.feature;
-                featureLocation = point.feature.geometry.clone();
-                featureLocation.transform(this.map.getProjectionObject(), this.routingProjection);
-                point.locationCombo.emptyText = OpenLayers.i18n('Position: ') + Math.round(featureLocation.x * 100000) / 100000 + ',' + Math.round(featureLocation.y * 100000) / 100000;
-                point.locationCombo.clearValue();
-                this.pointDrawControl.deactivate();
-                this.fireEvent('pointadded', this);
-            },
-            scope: this
-        });
+        if (!this.pointDrawControl) {
+            // Create point draw control
+            this.pointDrawControl = new OpenLayers.Control.DrawFeature(this.layer, OpenLayers.Handler.Point);
+            this.map.addControl(this.pointDrawControl);
+            this.pointDrawControl.events.on({
+                featureadded: function (events) {
+                    var featureLocation = null;
+                    var point = this.pointDrawControl.point;
+                    events.feature.attributes.type = 'point';
+                    events.feature.layer.drawFeature(events.feature);
+                    this.pointDrawControl.type = null;
+                    
+                    if (point.feature) {
+                        this.layer.removeFeatures([point.feature]);
+                    }
+                    point.feature = events.feature;
+                    featureLocation = point.feature.geometry.clone();
+                    featureLocation.transform(this.map.getProjectionObject(), this.routingProjection);
+                    point.locationCombo.emptyText = OpenLayers.i18n('Position: ') + Math.round(featureLocation.x * 100000) / 100000 + ',' + Math.round(featureLocation.y * 100000) / 100000;
+                    point.locationCombo.clearValue();
+                    this.pointDrawControl.deactivate();
+                    this.fireEvent('pointadded', this);
+                },
+                scope: this
+            });
+        }
     },
 
     /** private: method[getItinerary]
