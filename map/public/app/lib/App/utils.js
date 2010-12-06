@@ -16,8 +16,10 @@
  */
 
 function contains(array, needle) {
-   for (i in array) {
-       if (array[i] == needle) return true;
+   for (var i in array) {
+       if (array[i] == needle) {
+           return true;
+       }
    }
    return false;
 }
@@ -74,7 +76,7 @@ function addXapiStyleLayer(options) {
             url: OpenLayers.OSM_URL,
             format: format
         });
-        strategies = [ new OpenLayers.Strategy.Fixed({ preload: false }) ]
+        strategies = [ new OpenLayers.Strategy.Fixed({ preload: false }) ];
     }
     else {
         protocol = new OpenLayers.Protocol.XAPI({
@@ -82,7 +84,7 @@ function addXapiStyleLayer(options) {
             predicate: predicate,
             format: format
         });
-        strategies = [ new OpenLayers.Strategy.BBOX({ ratio: 1.6 }) ]
+        strategies = [ new OpenLayers.Strategy.BBOX({ ratio: 1.6 }) ];
     }
 
     layer = new OpenLayers.Layer.Vector(name, {
@@ -108,7 +110,7 @@ function addOsmStyleLayer(options) {
     var strategies = [];
     if (OpenLayers.OSM_URL) {
         url = OpenLayers.OSM_URL;
-        strategies = [ new OpenLayers.Strategy.Fixed({ preload: false }) ]
+        strategies = [ new OpenLayers.Strategy.Fixed({ preload: false }) ];
     }
     else {
         strategies = [ new OpenLayers.Strategy.BBOX({ ratio: 1.2 }) ];
@@ -185,12 +187,12 @@ OpenLayers.Control.PermalinkLayer = OpenLayers.Class(OpenLayers.Control.Permalin
 
 function onStatechange(provider) {
     var l = provider.getLink(permalinkBase);
-    l = l.replace("#\?", "#");
+    l = l.replace("#?", "#");
     if (Ext.get("permalink")) {
         Ext.get("permalink").update("<a href=" + l + ">" + OpenLayers.i18n("Permalink") + "</a>");
     
-        var l = provider.getLink(permalinkTitleBase);
-        l = l.replace("#\?", "#");
+        l = provider.getLink(permalinkTitleBase);
+        l = l.replace("#?", "#");
         if (window.location.href.indexOf("?") < 0) {
             window.location.href = l;
         }
@@ -204,7 +206,7 @@ function onStatechange(provider) {
                 + "&top=" + bounds.top + "&bottom=" + bounds.bottom + "'>" + OpenLayers.i18n("Edit with JOSM") + "</a>");
         }
     }
-};
+}
 
 
 /**
@@ -218,14 +220,16 @@ function onStatechange(provider) {
  * @param   Number  b       The blue color value
  * @return  Array           The HSL representation
  */
-function rgbToHsl(r, g, b){
-    r /= 255, g /= 255, b /= 255;
+function rgbToHsl(r, g, b) {
+    r /= 255;
+    g /= 255;
+    b /= 255;
     var max = Math.max(r, g, b), min = Math.min(r, g, b);
     var h, s, l = (max + min) / 2;
 
-    if(max == min){
+    if (max == min) {
         h = s = 0; // achromatic
-    }else{
+    } else {
         var d = max - min;
         s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
         switch(max){
@@ -250,18 +254,18 @@ function rgbToHsl(r, g, b){
  * @param   Number  l       The lightness
  * @return  Array           The RGB representation
  */
-function hslToRgb(h, s, l){
+function hslToRgb(h, s, l) {
     var r, g, b;
 
-    if(s == 0){
+    if (s == 0) {
         r = g = b = l; // achromatic
-    }else{
-        function hue2rgb(p, q, t){
-            if(t < 0) t += 1;
-            if(t > 1) t -= 1;
-            if(t < 1/6) return p + (q - p) * 6 * t;
-            if(t < 1/2) return q;
-            if(t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+    } else {
+        function hue2rgb(p, q, t) {
+            if (t < 0) { t += 1 };
+            if (t > 1) { t -= 1 };
+            if (t < 1/6) { return p + (q - p) * 6 * t };
+            if (t < 1/2) { return q };
+            if (t < 2/3) { return p + (q - p) * (2/3 - t) * 6 };
             return p;
         }
 
@@ -353,7 +357,7 @@ StephaneNodesUI = Ext.extend(GeoExt.tree.LayerNodeUI, {
 					value: this.node.layer.opacity === null ? 100 : this.node.layer.opacity * 100,
 					maxValue: 100
 				});
-				buttons.push(slider)
+				buttons.push(slider);
 			}
 
 			buttons.push('->');
@@ -397,7 +401,7 @@ StephaneNodesUI = Ext.extend(GeoExt.tree.LayerNodeUI, {
 						if (index == this.map.layers.length - 1) {
 							return;
 						}
-						this.map.setLayerIndex(this, index + 1)
+						this.map.setLayerIndex(this, index + 1);
 					},
 					scope: this.node.layer
 				}));
@@ -412,7 +416,7 @@ StephaneNodesUI = Ext.extend(GeoExt.tree.LayerNodeUI, {
 						if (index == 0) {
 							return;
 						}
-						this.map.setLayerIndex(this, index - 1)
+						this.map.setLayerIndex(this, index - 1);
 					},
 					scope: this.node.layer
 				}));
@@ -456,9 +460,10 @@ StephaneNodesUI = Ext.extend(GeoExt.tree.LayerNodeUI, {
             '<ul class="x-tree-node-ct" style="display:none;"></ul>',
             "</li>"].join('');
 
-        if(bulkRender !== true && n.nextSibling && (nel = n.nextSibling.ui.getEl())){
+        if (bulkRender !== true && n.nextSibling && (nel = n.nextSibling.ui.getEl())) {
             this.wrap = Ext.DomHelper.insertHtml("beforeBegin", nel, buf);
-        }else{
+        }
+        else {
             this.wrap = Ext.DomHelper.insertHtml("beforeEnd", targetNode, buf);
         }
 

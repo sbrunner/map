@@ -19,7 +19,7 @@ function addPoint(styleMap, property, value, image, width, height) {
             value: value
         })
     })]);
-    styleMap.styles["select"].addRules([new OpenLayers.Rule({
+    styleMap.styles.select.addRules([new OpenLayers.Rule({
         symbolizer: { externalGraphic: image, graphicWidth: width ? width : 16, graphicHeight: height ? height : 16, graphicOpacity: 1 },
         filter: new OpenLayers.Filter.Comparison({
             type: OpenLayers.Filter.Comparison.LIKE,
@@ -37,7 +37,7 @@ function addPointNoImg(styleMap, property, value, color, radius, opacity) {
             value: value
         })
     })]);
-    styleMap.styles["select"].addRules([new OpenLayers.Rule({
+    styleMap.styles.select.addRules([new OpenLayers.Rule({
         symbolizer: { pointRadius: radius, fillOpacity: opacity },
         filter: new OpenLayers.Filter.Comparison({
             type: OpenLayers.Filter.Comparison.LIKE,
@@ -58,7 +58,7 @@ function addStroke(styleMap, property, value, strokeColor, strokeWidth, strokeDa
             value: value
         })
     })]);
-    styleMap.styles["select"].addRules([new OpenLayers.Rule({
+    styleMap.styles.select.addRules([new OpenLayers.Rule({
         symbolizer: { strokeWidth: strokeWidth },
         filter: new OpenLayers.Filter.Comparison({
             type: OpenLayers.Filter.Comparison.LIKE,
@@ -86,7 +86,7 @@ function addStrokeArea(styleMap, property, value, color, strokeWidth) {
             value: value
         })
     })]);
-    styleMap.styles["select"].addRules([new OpenLayers.Rule({
+    styleMap.styles.select.addRules([new OpenLayers.Rule({
         symbolizer: { strokeWidth: strokeWidth },
         filter: new OpenLayers.Filter.Comparison({
             type: OpenLayers.Filter.Comparison.LIKE,
@@ -105,7 +105,7 @@ function addStrokeOperator(styleMap, property, value, operator, strokeColor, str
             value: value
         })
     })]);
-    styleMap.styles["select"].addRules([new OpenLayers.Rule({
+    styleMap.styles.select.addRules([new OpenLayers.Rule({
         symbolizer: { strokeWidth: strokeWidth },
         filter: new OpenLayers.Filter.Comparison({
             type: operator,

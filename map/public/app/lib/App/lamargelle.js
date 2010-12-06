@@ -58,11 +58,11 @@ function init() {
 
     var parameters = OpenLayers.Util.getParameters(window.location.href);
     var urlBase = 'http://www.lamargelle.ch/map/';
-    if (parameters['base']) {
-        urlBase = parameters['base'];
+    if (parameters.base) {
+        urlBase = parameters.base;
     }
-    var gpx = parameters['gpx'];
-    var osm = parameters['osm'];
+    var gpx = parameters.gpx;
+    var osm = parameters.osm;
     var styleMap = new OpenLayers.StyleMap({
         strokeColor: 'orange',
         strokeWidth: 5,
@@ -79,12 +79,12 @@ function init() {
             url: urlBase + gpx + ".gpx",
             format: format
         });
-        strategies = [ new OpenLayers.Strategy.Fixed({ preload: true }) ]
+        strategies = [ new OpenLayers.Strategy.Fixed({ preload: true }) ];
         layer = new OpenLayers.Layer.Vector('gpx', {
             projection: epsg4326,
             strategies: strategies, 
             protocol: protocol,
-            styleMap: styleMap,
+            styleMap: styleMap
         });
     }
     else if (osm) {
@@ -96,12 +96,12 @@ function init() {
             url: urlBase + osm + '.osm',
             format: format
         });
-        strategies = [ new OpenLayers.Strategy.Fixed({ preload: true }) ]
+        strategies = [ new OpenLayers.Strategy.Fixed({ preload: true }) ];
         layer = new OpenLayers.Layer.Vector('course', {
             projection: epsg4326,
             strategies: strategies, 
             protocol: protocol,
-            styleMap: styleMap,
+            styleMap: styleMap
         });
     }
     map.addLayer(layer);

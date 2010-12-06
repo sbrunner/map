@@ -154,24 +154,21 @@ OpenLayers.Protocol.XAPI = OpenLayers.Class(OpenLayers.Protocol, {
         var filter = options.filter;        
         var className = filter.CLASS_NAME;
         var filterType = className.substring(className.lastIndexOf(".") + 1);
-        switch(filterType) {
-            case "Spatial":
-                switch(filter.type) {
-                    case OpenLayers.Filter.Spatial.BBOX:
-                        var bbox = filter.value;
-                        if (filter.projection.projCode != "EPSG:4326") {
-                            bbox.transform(filter.projection, 
-                                new OpenLayers.Projection("EPSG:4326"));
-                        }
-                        url += "[bbox="+bbox.left+","+bbox.bottom+","+bbox.right+","+bbox.top+"]"
-                        break;
-                    default:
-                        OpenLayers.Console.warn(
-                            "Unknown spatial filter type " + filter.type);
+        if (filterType == "Spatial") {
+            if (filter.type == OpenLayers.Filter.Spatial.BBOX) {
+                var bbox = filter.value;
+                if (filter.projection.projCode != "EPSG:4326") {
+                    bbox.transform(filter.projection, 
+                        new OpenLayers.Projection("EPSG:4326"));
                 }
-                break;
-            default:
-                OpenLayers.Console.warn("Unknown filter type " + filterType);
+                url += "[bbox="+bbox.left+","+bbox.bottom+","+bbox.right+","+bbox.top+"]";
+            }
+            else {
+                OpenLayers.Console.warn("Unknown spatial filter type " + filter.type);
+            }
+        }
+        else {
+            OpenLayers.Console.warn("Unknown filter type " + filterType);
         }
         return url;
     },
