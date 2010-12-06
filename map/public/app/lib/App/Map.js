@@ -17,6 +17,7 @@
  * @include OpenLayers/Control/Attribution.js
  * @include OpenLayers/Control/ScaleLine.js
  * @include OpenLayers/Control/OverviewMap.js
+ * @include OpenLayers/Control/LoadingPanel.js
  * @include GeoExt/widgets/MapPanel.js
  * @include App/Tools.js
  */
@@ -54,19 +55,20 @@ App.Map = Ext.extend(GeoExt.MapPanel, {
                 new OpenLayers.Control.ArgParser(),
                 new OpenLayers.Control.Attribution(),
                 new OpenLayers.Control.KeyboardDefaults(),
-                new OpenLayers.Control.ScaleLine({geodesic: true, maxWidth: 120})
+                new OpenLayers.Control.ScaleLine({geodesic: true, maxWidth: 120}),
+                new OpenLayers.Control.LoadingPanel()
             ]
         };
         
         var map = new OpenLayers.Map(mapOptions);
-        map.addLayers([new OpenLayers.Layer.OSM(OpenLayers.i18n("White background"), "http://map.stephane-brunner.ch/white.png", { 
+        map.addLayers([new OpenLayers.Layer.OSM("back", "http://map.stephane-brunner.ch/white.png", {
             numZoomLevels: 20, 
             displayInLayerSwitcher: false
         })]);
 
-        map.events.register('addlayer', map, function() {
-            if (arguments.layer instanceof OpenLayers.Layer.Vector) {
-                var sf = new OpenLayers.Control.SelectFeature(arguments.layer, {
+        map.events.register('addlayer', map, function(args) {
+            if (args.layer instanceof OpenLayers.Layer.Vector && (args.layer.ref || args.layer.name == "Routing")) {
+                var sf = new OpenLayers.Control.SelectFeature(args.layer, {
                     autoActivate: true,
                     hover: true,
                     clickout: true,
@@ -74,7 +76,7 @@ App.Map = Ext.extend(GeoExt.MapPanel, {
                 });
                 this.addControl(sf);
 
-                arguments.layer.events.register('featureselected', this, function(o) {
+                args.layer.events.register('featureselected', this, function(o) {
                     var html = null;
                     for (var a in o.feature.attributes) {
                         if (html === null) {
@@ -115,6 +117,15 @@ App.Map = Ext.extend(GeoExt.MapPanel, {
                     
                     OpenLayers.Util.getElement('featureData').innerHTML = "<p>" + html + "</p>";
                 });
+            }
+
+            if (arguments.layer.displayInLayerSwitcher !== false) {
+                var layers = map.getLayersBy('displayInLayerSwitcher', false);
+                for (var i = 0, len = layers.length ; i < len ; i++) {
+                    if (layers[i].name != "back") {
+                        map.setLayerIndex(layers[i], map.layers.length - 1);
+                    }
+                }
             }
         });
 

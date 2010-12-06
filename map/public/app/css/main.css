@@ -9,6 +9,16 @@
   bottom: 1.25em !important;
 }
 
+.olControlLoadingPanel {
+    background-image: url(/app/images/waiting.gif);
+    position: relative;
+    width: 195px;
+    height: 11px;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: none;
+}
+
 body {
     font-family: helvetica,tahoma,verdana,sans-serif;
     padding: 0;
@@ -72,3 +82,5 @@ div.no-over table.x-btn-over td {
 .no-background div {
     background-color: transparent;
 }
+
+

@@ -61,6 +61,9 @@ probleme on share geometre between feature.
     <script type="text/javascript" src="${url('/lib/geoext.ux/ux/Measure/lib/GeoExt.ux/MeasureLength.js')}"></script>
     <script type="text/javascript" src="${url('/lib/geoext.ux/ux/Measure/lib/GeoExt.ux/MeasureArea.js')}"></script>
 
+    <script type="text/javascript" src="${url('/lib/my.ux/OpenLayers/Control/LoadingPanel.js')}"></script>
+    <script type="text/javascript" src="${url('/lib/my.ux/OpenLayers/Protocol/XAPI.js')}"></script>
+    <script type="text/javascript" src="${url('/lib/my.ux/OpenLayers/Protocol/OSMAPI.js')}"></script>
     <script type="text/javascript" src="${url('/lib/my.ux/LayerCatalogue/lib/LayerCatalogue.js')}"></script>
     <script type="text/javascript" src="${url('/lib/my.ux/RoutingPanel/lib/Providers.js')}"></script>
     <script type="text/javascript" src="${url('/lib/my.ux/RoutingPanel/lib/RoutingPanel.js')}"></script>
@@ -79,7 +82,6 @@ probleme on share geometre between feature.
     <script type="text/javascript" src="${url('/app/lib/App/josmstyle.js')}"></script>
     <script type="text/javascript" src="${url('/app/lib/App/osmstyle.js')}"></script>
     <script type="text/javascript" src="${url('/app/lib/App/style.js')}"></script>
-    <script type="text/javascript" src="${url('/app/lib/App/protocole.js')}"></script>
     <script type="text/javascript" src="${url('/app/lib/App/layers.js')}"></script>
 
     <link rel="stylesheet" type="text/css" href="${url('/lib/ext/Ext/resources/css/ext-all.css')}" />
@@ -103,11 +105,11 @@ probleme on share geometre between feature.
 
         // uncomment this line if you use the OGC proxy
         //OpenLayers.ProxyHost = "${url(controller='ogcproxy', action='index', url='')}";
+        OpenLayers.ProxyHost = "/main/wsgi/app/proxy.php?url="; // proxy is required here
 
 //        Ext.BLANK_IMAGE_URL = "${url('/lib/ext/Ext/resources/images/default/s.gif')}";
 
-//        OpenLayers.IMAGE_RELOAD_ATTEMPTS = 2;
-//        OpenLayers._getScriptLocation = function() {return ""};
+        OpenLayers.IMAGE_RELOAD_ATTEMPTS = 2;
     </script>
   </head>
   <body>

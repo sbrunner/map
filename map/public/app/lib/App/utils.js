@@ -53,6 +53,7 @@ var epsg4326 = new OpenLayers.Projection("EPSG:4326");
 
 function addLayer(options) {
     options.isBaseLayer = false;
+    delete options.id;
     return new OpenLayers.Layer.XYZ(options.text, options.url, options);
 }
 function addXapiStyleLayer(options) {
@@ -199,12 +200,14 @@ function onStatechange(provider) {
         
         var bounds = mapPanel.map.getExtent();
         bounds = bounds.transform(mapPanel.map.getProjectionObject(), mapPanel.map.displayProjection);
+	Ext.get("josm").update("<a href='http://127.0.0.1:8111/load_and_zoom?"
+	    + "left=" + bounds.left + "&right=" + bounds.right
+	    + "&top=" + bounds.top + "&bottom=" + bounds.bottom + "'>" + OpenLayers.i18n("Edit with JOSM") + "</a>");
 
-        if (bounds) {
-            Ext.get("josm").update("<a href='http://127.0.0.1:8111/load_and_zoom?"
-                + "left=" + bounds.left + "&right=" + bounds.right
-                + "&top=" + bounds.top + "&bottom=" + bounds.bottom + "'>" + OpenLayers.i18n("Edit with JOSM") + "</a>");
-        }
+	var center = mapPanel.map.getCenter();
+        center = center.transform(mapPanel.map.getProjectionObject(), mapPanel.map.displayProjection);
+	Ext.get("josm").update("<a href='http://mapzen.cloudmade.com/editor?lat=" + center.z + "&lng=" + center.x + "&zoom=" + mapPanel.map.getZoom() + "'>"
+		+ OpenLayers.i18n("Edit with Mapzen") + "</a>");
     }
 }
 
@@ -371,12 +374,16 @@ StephaneNodesUI = Ext.extend(GeoExt.tree.LayerNodeUI, {
 						text += "Title: " + this.text + "<br />";
 						text += "Reference: " + this.ref + "<br />";
 						text += "Copyright: " + stripHTML(this.attribution) + "<br />";
-						var index = this.url.indexOf("/${z}/${x}/${y}.png");
+						var url = this.url;
+						if (url instanceof Array) {
+						    url = url[0];
+						}
+						var index = url.indexOf("/${z}/${x}/${y}.png");
 						if (index > 0) {
-							text += "Get from: " + this.url.substring(0, index);
+							text += "Get from: " + url.substring(0, index);
 						}
 						else {
-							text += "Get from: " + this.url;
+							text += "Get from: " + url;
 						}
 						new Ext.Window({
 							title: OpenLayers.i18n("Layer informations"),
