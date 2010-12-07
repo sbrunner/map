@@ -11,7 +11,6 @@
  * @include App/LayerTree.js
  * @include App/layers.js
  * @include App/style.js
- * @include App/protocole.js
  * @include App/utils.js
  * 
  * @include OpenLayers/Util.js

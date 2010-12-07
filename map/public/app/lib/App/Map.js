@@ -119,7 +119,7 @@ App.Map = Ext.extend(GeoExt.MapPanel, {
                 });
             }
 
-            if (arguments.layer.displayInLayerSwitcher !== false) {
+            if (args.layer.displayInLayerSwitcher !== false) {
                 var layers = map.getLayersBy('displayInLayerSwitcher', false);
                 for (var i = 0, len = layers.length ; i < len ; i++) {
                     if (layers[i].name != "back") {
