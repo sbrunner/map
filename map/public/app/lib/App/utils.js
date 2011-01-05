@@ -51,6 +51,7 @@ var epsg4326 = new OpenLayers.Projection("EPSG:4326");
 
 function addLayer(options) {
     options.isBaseLayer = false;
+    options.transitionEffect = "resize";
     delete options.id;
     return new OpenLayers.Layer.XYZ(options.text, options.url, options);
 }
@@ -350,13 +351,18 @@ StephaneNodesUI = Ext.extend(GeoExt.tree.LayerNodeUI, {
 			var component = a.component || this.component;
 			var opacitySlider = a.opacitySlider || this.opacitySlider;
 			if (opacitySlider) {
-				var slider = new GeoExt.LayerOpacitySlider({
-					layer: this.node.layer,
-					width: 200,
-					value: this.node.layer.opacity === null ? 100 : this.node.layer.opacity * 100,
-					maxValue: 100
-				});
-				buttons.push(slider)
+			    if (!this.node.layer.opacity) {
+				this.node.layer.opacity = 1;
+			    }
+			    var slider = new GeoExt.LayerOpacitySlider({
+				    layer: this.node.layer,
+				    width: 200,
+				    value: this.node.layer.opacity * 100,
+				    maxValue: 100,
+				    aggressive: true,
+				    changeVisibility: true
+			    });
+			    buttons.push(slider)
 			}
 
 			buttons.push('->');
