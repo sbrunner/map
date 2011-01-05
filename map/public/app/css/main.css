@@ -1,22 +1,27 @@
-    /* OSM */
+/* OSM */
 .olControlPanZoom {
-  display: none;
+    display: none;
 }
 .olControlAttribution {
-  bottom: 0em !important;
+    bottom: 0em !important;
 }
 .olControlMousePosition {
-  bottom: 1.25em !important;
+    bottom: 1.25em !important;
 }
 
 .olControlLoadingPanel {
-    background-image: url(/app/images/waiting.gif);
-    position: relative;
-    width: 195px;
-    height: 11px;
+    background-image: url(../../app/images/waiting.gif);
     background-position: center;
     background-repeat: no-repeat;
-    display: none;
+    opacity: 0.4;
+    width: 32px;
+    height: 32px;
+    bottom: 2em;
+    right: 3px;
+}
+
+.olPopup {
+    border: 1px solid gray !important;
 }
 
 body {
