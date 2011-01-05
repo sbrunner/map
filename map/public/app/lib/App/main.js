@@ -11,8 +11,10 @@
  * @include App/LayerTree.js
  * @include App/layers.js
  * @include App/style.js
- * @include App/protocole.js
  * @include App/utils.js
+ * 
+ * @include OpenLayers/Protocol/XAPI.js
+ * @include OpenLayers/Protocol/OSMAPI.js
  * 
  * @include OpenLayers/Util.js
  * @include OpenLayers/Lang.js
@@ -87,6 +89,7 @@ window.onload = function() {
      */
     OpenLayers.Number.thousandsSeparator = ' ';
     OpenLayers.IMAGE_RELOAD_ATTEMPTS = 3;
+	OpenLayers.ImgPath = "http://map.stephane-brunner.ch/app/images/oltheme/";
 
     if (isDev) {
         document.title = "Dev - " + OpenLayers.i18n("Various OSM map");
@@ -310,27 +313,17 @@ window.onload = function() {
                     })
                 ],
                 items: [new My.ux.BubblePanel([{
-                        baseCls: "x-plane",
-                        title: OpenLayers.i18n("Selection"),
-                        name: 'sf',
-                        collapsed: true,
-                        autoScroll: true,
-                        height: 150,
-                        style: "padding: 0 0 8px 8px;",
-                        html: "<div id='featureData'></div>"
-                    },
-                    {
                         title: OpenLayers.i18n("Layers"),
                         layout: 'fit',
                         name: 'sl',
-                        height: 150,
+                        height: 200,
                         items: [layerTree]
                     },
                     {
                         title: OpenLayers.i18n("Catalogue"),
                         layout: 'fit',
                         name: 'al',
-                        height: 200,
+                        height: 300,
                         items: [tree]
                     },
                     {
@@ -338,6 +331,8 @@ window.onload = function() {
                         name: 'pl',
                         collapsed: true,
                         title: OpenLayers.i18n("Links"),
+                        height: 300,
+                        autoScroll: true,
                         style: "padding: 0 0 8px 8px;",
                         html: "<ul>"
                             + "<li><div id='permalink'><a href=''>" + OpenLayers.i18n("Permalink") + "</a></div></li>"
