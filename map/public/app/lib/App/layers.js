@@ -159,7 +159,7 @@ function getLayersTree(map) {
                     ref: "mkbw" 
                 },
                 {
-                    text: OpenLayers.i18n("Nominatim"),
+                    text: OpenLayers.i18n("MapQuest"),
                     leaf: true,
                     handler: addLayer,
                     url: [
@@ -170,7 +170,7 @@ function getLayersTree(map) {
                     ],
                     numZoomLevels: 18,
                     attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", 
-                    ref: "nominatim" 
+                    ref: "mapquest" 
                 },
                 {
                     text: OpenLayers.i18n("Osmarender"),
@@ -327,7 +327,7 @@ function getLayersTree(map) {
                 numZoomLevels: 18,
                 attribution: "Data by <a href='ftp://e0srp01u.ecs.nasa.gov/srtm/version2/SRTM3/'>NASA</a>, <a href='http://asterweb.jpl.nasa.gov/gdem.asp'>ASTER</a>, <a href='http://www.gebco.net/'>GEBCO</a> and <a href='http://www.osm.org/'>OSM</a>", 
                 ref: "topo" 
-            },
+            }/*,
             {
                 text: OpenLayers.i18n("Contours"),
                 leaf: true,
@@ -336,7 +336,7 @@ function getLayersTree(map) {
                 numZoomLevels: 18,
                 attribution: "Data by <a href='ftp://e0srp01u.ecs.nasa.gov/srtm/version2/SRTM3/'>NASA</a>, <a href='http://asterweb.jpl.nasa.gov/gdem.asp'>ASTER</a>, <a href='http://www.gebco.net/'>GEBCO</a> and <a href='http://www.osm.org/'>OSM</a>", 
                 ref: "cont" 
-            },
+            }*/,
             {
                 text: OpenLayers.i18n("Hill shade"),
                 leaf: true,
