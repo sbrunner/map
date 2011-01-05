@@ -7,7 +7,7 @@
  */
 /*
  * @include OpenLayers/Geometry/Point.js
- * @include OpenLayers/Bounds.js
+ * @include OpenLayers/BaseTypes/Bounds.js
  */ 
 
 Ext.namespace('GeoExt.ux');
