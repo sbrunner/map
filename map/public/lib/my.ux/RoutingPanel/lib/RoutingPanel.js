@@ -72,6 +72,10 @@ GeoExt.ux.RoutingPanel = Ext.extend(Ext.Panel, {
      */
     routingProviders: null,
 
+    /** api: config[routingProjection]
+     *  zhe projection used for the display and the permalink.
+     */
+    routingProjection: new OpenLayers.Projection("EPSG:4326"),
 
     /** api: config[layer]
      *  ``OpenLayers.Layer.Vector``  Layer presenting the routing result geometry. Per default, a layer named "Routing" will be created.
@@ -478,12 +482,17 @@ GeoExt.ux.RoutingPanel = Ext.extend(Ext.Panel, {
      *  Apply the state to a point.
      */
     applyStatePoint: function(point, lon, lat) {
+        if (!this.layer) {
+            // Create routing layer
+            this.layer = new OpenLayers.Layer.Vector("Routing", {styleMap: this.style, displayInLayerSwitcher: false});
+            this.map.addLayer(this.layer);
+        }
         var geometry = new OpenLayers.Geometry.Point(lon, lat);
         geometry = geometry.transform(this.geocodingProviders.projection, this.map.getProjectionObject());
         point.feature = new OpenLayers.Feature.Vector(geometry, {type: 'point'});
         this.layer.addFeatures([point.feature]);
 
-        point.locationCombo.emptyText = OpenLayers.i18n('Position: ') + lon + ',' + lat;
+        point.locationCombo.emptyText = OpenLayers.i18n('Position: ') + lon + ', ' + lat;
         point.locationCombo.clearValue();
     },
     
@@ -498,10 +507,10 @@ GeoExt.ux.RoutingPanel = Ext.extend(Ext.Panel, {
             return;
         }
         if (state.start_lon && state.start_lat) {
-            applyStatePoint(this.start, state.start_lon, state.start_lat)
+            this.applyStatePoint(this.start, state.start_lon, state.start_lat)
         }
         if (state.end_lon && state.end_lat) {
-            applyStatePoint(this.end, state.end_lon, state.end_lat)
+            this.applyStatePoint(this.end, state.end_lon, state.end_lat)
         }
         if (state.start_lon && state.start_lat && state.end_lon && state.end_lat
                 && state.provider && state.type) {
@@ -524,13 +533,15 @@ GeoExt.ux.RoutingPanel = Ext.extend(Ext.Panel, {
         var state = {};
 
         if (this.start.feature) {
-            state['start_lon'] = Math.round(this.start.feature.x * 100000) / 100000;
-            state['start_lat'] = Math.round(this.start.feature.y * 100000) / 100000;
+            var geometry = this.start.feature.geometry.clone().transform(this.map.getProjectionObject(), this.geocodingProviders.projection);
+            state['start_lon'] = Math.round(geometry.x * 100000) / 100000;
+            state['start_lat'] = Math.round(geometry.y * 100000) / 100000;
             state['start_text'] = this.start.locationCombo.getValue();
         }
         if (this.end.feature) {
-            state['end_lon'] = Math.round(this.end.feature.x * 100000) / 100000;
-            state['end_lat'] = Math.round(this.end.feature.y * 100000) / 100000;
+            var geometry = this.end.feature.geometry.clone().transform(this.map.getProjectionObject(), this.geocodingProviders.projection);
+            state['end_lon'] = Math.round(geometry.x * 100000) / 100000;
+            state['end_lat'] = Math.round(geometry.y * 100000) / 100000;
             state['end_text'] = this.end.locationCombo.getValue();
         }
         state.provider = this.state.provider;

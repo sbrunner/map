@@ -168,7 +168,7 @@ App.Map = Ext.extend(GeoExt.MapPanel, {
         // if we get strings for state.x, state.y or state.zoom
         // OpenLayers will take care of converting them to the
         // appropriate types so we don't bother with that
-        this.center = new OpenLayers.LonLat(state.x, state.y);
+        this.center = new OpenLayers.LonLat(state.x, state.y).transform(this.map.displayProjection, this.map.getProjectionObject());
         this.zoom = state.z;
 
         // set layer visibility and opacity
@@ -215,10 +215,10 @@ App.Map = Ext.extend(GeoExt.MapPanel, {
         }
 
         // record location and zoom level
-        var center = this.map.getCenter();
+        var center = this.map.getCenter().clone().transform(this.map.getProjectionObject(), this.map.displayProjection);
         state = {
-            x: Math.round(center.lon),
-            y: Math.round(center.lat),
+            x: Math.round(center.lon * 100000) / 100000,
+            y: Math.round(center.lat * 100000) / 100000,
             z: this.map.getZoom()
         };
 
