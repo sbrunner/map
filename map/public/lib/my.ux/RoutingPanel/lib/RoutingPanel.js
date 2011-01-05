@@ -304,10 +304,6 @@ GeoExt.ux.RoutingPanel = Ext.extend(Ext.Panel, {
         });
         GeoExt.ux.RoutingPanel.superclass.initComponent.apply(this, arguments);
 
-        // Create routing layer
-        this.layer = new OpenLayers.Layer.Vector("Routing", {styleMap: this.style, displayInLayerSwitcher: false});
-        this.map.addLayer(this.layer);
-
         this.addEvents(
             /**
              * api: event[routingcomputed]
@@ -346,6 +342,12 @@ GeoExt.ux.RoutingPanel = Ext.extend(Ext.Panel, {
     },
 
     createDrawFeature: function() {
+        if (!this.layer) {
+            // Create routing layer
+            this.layer = new OpenLayers.Layer.Vector("Routing", {styleMap: this.style, displayInLayerSwitcher: false});
+            this.map.addLayer(this.layer);
+        }
+
         if (!this.pointDrawControl) {
             // Create point draw control
             this.pointDrawControl = new OpenLayers.Control.DrawFeature(this.layer, OpenLayers.Handler.Point);
