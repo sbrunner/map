@@ -58,14 +58,15 @@
  * layout is created.
  */
 
-var code = (OpenLayers.Util.getBrowserName() == "msie") ? navigator.userLanguage : navigator.language
+var code = (OpenLayers.Util.getBrowserName() == "msie") ? navigator.userLanguage : navigator.language;
 var lang = code.substring(0, 2);
-delete code;
 if (!contains(['en', 'fr'], lang)) {
     lang = "en";
 }
 document.write("<script type=\"text/javascript\" src=\"build/" + lang + ".js\"></script>");
 document.write('<meta HTTP-EQUIV="Content-Language" CONTENT="' + lang + '" />');
+delete code;
+delete lang;
 
 var mapPanel;
 
@@ -181,7 +182,7 @@ window.onload = function() {
                 tree.addLayer(this.getSelectionModel().getSelectedNode().attributes);
             },
             scope: this
-        })],
+        })]
     });
     if (mapPanel.map.layers.length == 1) { // only the blank background
         tree.addLayerByRef('mk');
@@ -215,12 +216,12 @@ window.onload = function() {
     routingStyle.styles["default"].addRules([new OpenLayers.Rule({
         symbolizer: {
             strokeColor: "#0000FF",
-            strokeOpacity: .8,
+            strokeOpacity: 0.8,
             strokeWidth: 3
         },
         filter: new OpenLayers.Filter.Comparison({ type: "==", property: 'type', value: 'route' })
     })]);
-    routingStyle.styles["select"].addRules([new OpenLayers.Rule({
+    routingStyle.styles.select.addRules([new OpenLayers.Rule({
         symbolizer: {
             pointRadius: "8",
             fillColor: "yellow",
@@ -231,10 +232,10 @@ window.onload = function() {
         },
         filter: new OpenLayers.Filter.Comparison({ type: "==", property: 'type', value: 'point' })
     })]);
-    routingStyle.styles["select"].addRules([new OpenLayers.Rule({
+    routingStyle.styles.select.addRules([new OpenLayers.Rule({
         symbolizer: {
             strokeColor: "yellow",
-            strokeOpacity: .6,
+            strokeOpacity: 0.6,
             strokeWidth: 5
         },
         filter: new OpenLayers.Filter.Comparison({ type: "==", property: 'type', value: 'route' })

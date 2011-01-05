@@ -58,7 +58,7 @@ App.Map = Ext.extend(GeoExt.MapPanel, {
                 new OpenLayers.Control.ScaleLine({geodesic: true, maxWidth: 120}),
                 new OpenLayers.Control.LoadingPanel()
             ]
-        }
+        };
         
         var map = new OpenLayers.Map(mapOptions);
         map.addLayers([new OpenLayers.Layer.OSM("back", "http://map.stephane-brunner.ch/white.png", {
@@ -91,14 +91,14 @@ App.Map = Ext.extend(GeoExt.MapPanel, {
                 this.addControl(selectFeatureControl);
                 selectFeatureControl
 
-                arguments.layer.events.register('featureselected', this, function(o) {
+                args.layer.events.register('featureselected', this, function(o) {
                     var html = null;
-                    for (a in o.feature.attributes) {
-                        if (html == null) {
+                    for (var a in o.feature.attributes) {
+                        if (html === null) {
                             html = '';
                         }
                         else {
-                            html += '<br />'
+                            html += '<br />';
                         }
                         if (a == 'website') {
                             var href = o.feature.attributes[a];
@@ -140,7 +140,7 @@ App.Map = Ext.extend(GeoExt.MapPanel, {
                 });
             }
 
-            if (arguments.layer.displayInLayerSwitcher !== false) {
+            if (args.layer.displayInLayerSwitcher !== false) {
                 var layers = map.getLayersBy('displayInLayerSwitcher', false);
                 for (var i = 0, len = layers.length ; i < len ; i++) {
                     if (layers[i].name != "back") {
@@ -229,8 +229,7 @@ App.Map = Ext.extend(GeoExt.MapPanel, {
             if (layer.ref) {
                 layerId = layer.ref;
                 state["v_" + layerId] = layer.getVisibility();
-                state["o_" + layerId] = layer.opacity == null ?
-                    1 : layer.opacity;
+                state["o_" + layerId] = layer.opacity === null ? 1 : layer.opacity;
             }
         }
 
