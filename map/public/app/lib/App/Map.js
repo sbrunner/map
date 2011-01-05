@@ -66,15 +66,30 @@ App.Map = Ext.extend(GeoExt.MapPanel, {
             displayInLayerSwitcher: false
         })]);
 
+        var selectFeatureControl = null;
         map.events.register('addlayer', map, function(arguments) {
             if (arguments.layer instanceof OpenLayers.Layer.Vector && (arguments.layer.ref || arguments.layer.name == "Routing")) {
-                var sf = new OpenLayers.Control.SelectFeature(arguments.layer, {
+                if (map.popups.length > 0) {
+                    map.removePopup(map.popups[0]);
+                }
+                if (selectFeatureControl) {
+                    selectFeatureControl.destroy();
+                }
+/*                var layers = [];
+                Ext.each(map.layers, function (layer) {
+                    if (layer instanceof OpenLayers.Layer.Vector && (layer.ref || layer.name == "Routing")) {
+                        layers.pop(layer);
+                    }
+                });
+*/
+                var selectFeatureControl = new OpenLayers.Control.SelectFeature(arguments.layer, {
                     autoActivate: true,
                     hover: true,
                     clickout: true,
                     toggle: true
                 });
-                this.addControl(sf);
+                this.addControl(selectFeatureControl);
+                selectFeatureControl
 
                 arguments.layer.events.register('featureselected', this, function(o) {
                     var html = null;
@@ -114,8 +129,14 @@ App.Map = Ext.extend(GeoExt.MapPanel, {
                         var href = "http://www.openstreetmap.org/browse/" + o.feature.type + "/" + o.feature.osm_id + "/history";
                         html += '<br /><a href="' + href + '">History</a>';
                     }
-                    
-                    OpenLayers.Util.getElement('featureData').innerHTML = "<p>" + html + "</p>";
+
+                    if (map.popups.length > 0) {
+                        map.removePopup(map.popups[0]);
+                    }
+                    var c = o.feature.geometry.getCentroid();
+                    popup = new OpenLayers.Popup('selection', new OpenLayers.LonLat(c.x, c.y), new OpenLayers.Size(150, 150),
+                            "<h1>" + OpenLayers.i18n("Selection") + "</h1><p>" + html + "</p>", true);
+                    map.addPopup(popup);
                 });
             }
 
