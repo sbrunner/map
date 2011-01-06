@@ -223,6 +223,15 @@ function getLayersTree(map) {
                     numZoomLevels: 18,
                     attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", 
                     ref: "shape" 
+                },
+                {
+                    text: OpenLayers.i18n("OSM-WMS"),
+                    leaf: true,
+                    ref: "osm-wms",
+                    handler: addWmsLayer,
+                    url: 'http://129.206.229.158/cached/osm',
+                    attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>",
+                    layers: 'osm_auto'
                 }]
             },
             {
@@ -299,7 +308,26 @@ function getLayersTree(map) {
                 numZoomLevels: 17,
                 attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", 
                 ref: "pt" 
-            }]
+            },
+            {
+                text: OpenLayers.i18n("Public Transport Lines"),
+                leaf: true,
+                handler: addLayer,
+                url: "http://openptmap.de/tiles/${z}/${x}/${y}.png",
+                numZoomLevels: 15,
+                attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", 
+                ref: "ptl" 
+            },
+            {
+                text: OpenLayers.i18n("OpenSeaMap"),
+                leaf: true,
+                handler: addLayer,
+                url: "http://tiles.openseamap.org/seamark/${z}/${x}/${y}.png",
+                numZoomLevels: 18,
+                attribution: "Data by <a href='http://www.osm.org/'>OSM</a>", 
+                ref: "openseamap" 
+            }
+            ]
         },
         {
             text: OpenLayers.i18n("Specific"),
@@ -313,6 +341,15 @@ function getLayersTree(map) {
                 numZoomLevels: 18,
                 attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", 
                 ref: "odlb" 
+            },
+            {
+                text: OpenLayers.i18n("Historic"),
+                leaf: true,
+                ref: "osm-wms",
+                handler: addWmsLayer,
+                url: 'http://129.206.229.158/histosm-wms',
+                attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", 
+                layers: 'osm_auto:histosm_points'
             }]
         },
         {
@@ -338,6 +375,15 @@ function getLayersTree(map) {
                 ref: "cont" 
             }*/,
             {
+                text: OpenLayers.i18n("Contours"),
+                leaf: true,
+                ref: "cont",
+                handler: addWmsLayer,
+                url: "http://map.stephane-brunner.ch/contours/${z}/${x}/${y}.png",
+                attribution: "Data by <a href='ftp://e0srp01u.ecs.nasa.gov/srtm/version2/SRTM3/'>NASA</a>", 
+                layers: '' 
+            },
+            {
                 text: OpenLayers.i18n("Hill shade"),
                 leaf: true,
                 handler: addLayer,
@@ -354,6 +400,15 @@ function getLayersTree(map) {
                 numZoomLevels: 18,
                 attribution: "Data by <a href='ftp://e0srp01u.ecs.nasa.gov/srtm/version2/SRTM3/'>NASA</a>", 
                 ref: "relief" 
+            },
+            {
+                text: OpenLayers.i18n("Hillshade of Europe"),
+                leaf: true,
+                ref: "osm-wms",
+                handler: addWmsLayer,
+                url: 'http://129.206.229.158/cached/hillshade',
+                attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>",
+                layers: 'europe_wms:hs_srtm_europa'
             }]
         },
         {
@@ -522,6 +577,107 @@ function getLayersTree(map) {
                     element: 'relation',
                     predicate: "route=fitness_trail"
                 }]
+            }]
+        },
+        {
+            text: OpenLayers.i18n("Orthophotos"),
+            leaf: false,
+            children: [{
+                text: OpenLayers.i18n("Landsat"),
+                leaf: true,
+                handler: addWmsLayer,
+                ref: 'landsat',
+                url: 'http://onearth.jpl.nasa.gov/wms.cgi',
+                layers: 'global_mosaic',
+                attribution: 'Landsat'
+            }, {
+                text: OpenLayers.i18n("Landsat (mirror)"),
+                leaf: true,
+                handler: addWmsLayer,
+                ref: 'landsatmir',
+                url: 'http://irs.gis-lab.info/',
+                layers: 'landsat',
+                attribution: 'Landsat'
+            }, {
+                text: OpenLayers.i18n("Lausanne"),
+                leaf: true,
+                handler: addWmsLayer,
+                ref: 'lausanne',
+                url: 'http://plan.epfl.ch/lausanne-epfl-osm',
+                layers: 'lausanne',
+                attribution: "<a href='http://wiki.openstreetmap.org/wiki/Lausanne'>Orthophoto Ville de Lausanne 2008</a>",
+            }, {
+                text: OpenLayers.i18n("EPFL"),
+                leaf: true,
+                handler: addWmsLayer,
+                ref: 'epfl',
+                url: 'http://plan.epfl.ch/lausanne-epfl-osm',
+                layers: 'epfl',
+                attribution: "<a href='http://wiki.openstreetmap.org/wiki/EPFL_WMS'>plan.epfl.ch Orthophoto 2009</a>",
+            }, {
+                text: OpenLayers.i18n("EPFL plan"),
+                leaf: true,
+                handler: addWmsLayer,
+                ref: 'epflplan',
+                url: 'http://plan.epfl.ch/wms',
+                layers: 'epfl_surface,unil_surface,circulation2,surface_foret,unil_batiments',
+                attribution: "<a href='http://wiki.openstreetmap.org/wiki/EPFL_WMS'>plan.epfl.ch</a>"
+            }/*, {
+                text: OpenLayers.i18n("Genf"),
+                leaf: true,
+                handler: addWmsLayer,
+                ref: 'genf',
+                url: 'http://etat.geneve.ch/ags2/services/Orthophotos_2005/MapServer/WMSServer',
+                layers: '0',
+                attribution: "<a href='http://wiki.openstreetmap.org/wiki/SITG_WMS'>Orthophotos du SITG 2005 (Système d'Information du Territoire Genevois)</a>"
+            }*/, {
+                text: OpenLayers.i18n("Yverdon"),
+                leaf: true,
+                handler: addWmsLayer,
+                ref: 'yverdon',
+                url: 'http://ogc.heig-vd.ch/mapserver/wms',
+                layers: 'orthophoto_yverdon',
+                attribution: "<a href='http://wiki.openstreetmap.org/wiki/HEIG-VD_WMS'>Orthophoto Yverdon 2007 / HEIG-VD</a>"
+            }, {
+                text: OpenLayers.i18n("Yverdon cessnov"),
+                leaf: true,
+                handler: addWmsLayer,
+                ref: 'yverdoncessnov',
+                url: 'http://ogc.heig-vd.ch/mapserver/wms',
+                layers: 'r-pod_yverdon_cessnov',
+                attribution: "<a href='http://wiki.openstreetmap.org/wiki/HEIG-VD_WMS'>Orthophoto Yverdon 2010 / R-Pod @ HEIG-VD</a>"
+            }, {
+                text: OpenLayers.i18n("Yverdon Y-Parc"),
+                leaf: true,
+                handler: addWmsLayer,
+                ref: 'yverdonyparc',
+                url: 'http://ogc.heig-vd.ch/mapserver/wms',
+                layers: 'r-pod_yverdon_y-parc',
+                attribution: "<a href='http://wiki.openstreetmap.org/wiki/HEIG-VD_WMS'>Orthophoto Yverdon 2010 / R-Pod @ HEIG-VD</a>"
+            }, {
+                text: OpenLayers.i18n("Yverdon Bellevue"),
+                leaf: true,
+                handler: addWmsLayer,
+                ref: 'yverdonbellevue',
+                url: 'http://ogc.heig-vd.ch/mapserver/wms',
+                layers: 'r-pod_yverdon_bellevue',
+                attribution: "<a href='http://wiki.openstreetmap.org/wiki/HEIG-VD_WMS'>Orthophoto Yverdon 2010 / R-Pod @ HEIG-VD</a>"
+            }/*, {
+                text: OpenLayers.i18n("Neuchatel"),
+                leaf: true,
+                handler: addWmsLayer,
+                ref: 'neuchatel',
+                url: 'http://sitn.ne.ch/ogc-sitn-open/wms',
+                layers: 'ortho',
+                attribution: "<a href='http://wiki.openstreetmap.org/wiki/SITN_WMS'>orthophotos2006sitn50cm</a>"
+            }*/, {
+                text: OpenLayers.i18n("Jura"),
+                leaf: true,
+                handler: addWmsLayer,
+                ref: 'jura',
+                url: 'http://sitn.ne.ch/ogc-sitj-ortho/wms',
+                layers: 'ortho1998',
+                attribution: "<a href='http://wiki.openstreetmap.org/wiki/Switzerland:Jura'>Orthophotos 1998 RCJU 50cm</a>"
             }]
         },
         {

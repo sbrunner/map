@@ -113,5 +113,6 @@ OpenLayers.Util.extend(OpenLayers.Lang.fr, {
     'Orientation': 'Orientation',
     'Lignting': 'Eclérage',
     'OSM no label': 'OSM sans label',
-    'Generalist': 'Généraliste'
+    'Generalist': 'Généraliste',
+    'Genf': 'Genève'
 });

@@ -32,8 +32,6 @@
  * @include OpenLayers/Protocol/HTTP.js
  * @include OpenLayers/Format/JSON.js
  * @include OpenLayers/Format/OSM.js
- * @include OpenLayers/Layer/Vector.js
- * @include OpenLayers/Layer/XYZ.js
  * 
  * @include GeoExt/widgets/MapPanel.js
  * @include GeoExt/widgets/tree/LayerContainer.js

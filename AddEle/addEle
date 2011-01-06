@@ -1,7 +1,7 @@
 #!/bin/python
 # -*- coding: utf-8 -*-
 
-from dem import GeoRaster
+from dem import ShpGeoRaster
 import sys
 
 from xml.sax import make_parser, handler, saxutils
@@ -11,7 +11,7 @@ class OsmHandler(handler.ContentHandler):
     def __init__(self, out = sys.stdout):
         handler.ContentHandler.__init__(self)
         self._out = out
-        self._demModel = GeoRaster.TIFTile("dem-4326.tif")
+        self._demModel = GeoRaster.TIFTile("tiff/srtm.shp")
 
 
     def startDocument(self):
