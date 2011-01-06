@@ -7,12 +7,15 @@
  */
 
 /*
- * @requires OpenLayers/Projection.js
- * @requires OpenLayers/Control.js
- * @requires OpenLayers/Format/GeoJSON.js
- * @requires OpenLayers/Control/Permalink.js
- * @requires GeoExt/widgets/tree/LayerNode.js
- * @requires GeoExt/widgets/LayerOpacitySlider.js
+ * @include OpenLayers/Projection.js
+ * @include OpenLayers/Control.js
+ * @include OpenLayers/Format/GeoJSON.js
+ * @include OpenLayers/Control/Permalink.js
+ * @include GeoExt/widgets/tree/LayerNode.js
+ * @include GeoExt/widgets/LayerOpacitySlider.js
+ * @include OpenLayers/Layer/Vector.js
+ * @include OpenLayers/Layer/XYZ.js
+ * @include OpenLayers/Layer/WMS.js
  */
 
 function contains(array, needle) {
@@ -56,6 +59,13 @@ function addLayer(options) {
     options.transitionEffect = "resize";
     delete options.id;
     return new OpenLayers.Layer.XYZ(options.text, options.url, options);
+}
+function addWmsLayer(options) {
+    options.isBaseLayer = false;
+    options.transitionEffect = "resize";
+    delete options.id;
+    var wmsOptions = options.wmsOptions ? options.wmsOptions : {layers: options.layers};
+    return new OpenLayers.Layer.WMS(options.text, options.url, wmsOptions, options);
 }
 function addXapiStyleLayer(options) {
     var name = options.text;
@@ -207,7 +217,7 @@ function onStatechange(provider) {
 
 	var center = mapPanel.map.getCenter();
         center = center.transform(mapPanel.map.getProjectionObject(), mapPanel.map.displayProjection);
-	Ext.get("josm").update("<a href='http://mapzen.cloudmade.com/editor?lat=" + center.z + "&lng=" + center.x + "&zoom=" + mapPanel.map.getZoom() + "'>"
+	Ext.get("mapzen").update("<a href='http://mapzen.cloudmade.com/editor?lat=" + center.z + "&lng=" + center.x + "&zoom=" + mapPanel.map.getZoom() + "'>"
 		+ OpenLayers.i18n("Edit with Mapzen") + "</a>");
     }
 }
@@ -456,7 +466,7 @@ StephaneNodesUI = Ext.extend(GeoExt.tree.LayerNodeUI, {
 		}
     },
 
-    renderElements : function(n, a, targetNode, bulkRender){
+    renderElements : function(n, a, targetNode, bulkRender) {
         
         this.indentMarkup = n.parentNode ? n.parentNode.ui.getChildIndent() : '';
 
