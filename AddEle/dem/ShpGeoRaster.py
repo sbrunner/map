@@ -1,6 +1,8 @@
-import shputils
+from . import shpUtils
 from os.path import dirname
 from struct import unpack
+from osgeo import gdal
+from osgeo.gdalconst import *
 
 class Tile(object):
     def __init__(self, minX, minY, maxX, maxY, filename):
@@ -40,10 +42,30 @@ class BTTile(Tile):
         file.close();
         return val
 
+class TIFTile(Tile):
+    def __init__(self, minX, minY, maxX, maxY, filename):
+        self.dataset = gdal.Open(filename, GA_ReadOnly)
+        self.adfGeoTransform = self.dataset.GetGeoTransform();
+        
+        self.resolutionX = abs(self.adfGeoTransform[1])
+        self.resolutionY = abs(self.adfGeoTransform[5])
+        
+        super(TIFTile, self).__init__(minX, minY, maxX, maxY, filename)
+
+    def getVal(self, x, y):
+        posX = int((x - self.minX) / self.resolutionX)
+        posY = int((y - self.minY) / self.resolutionY)
+
+#        print "%f, %f (%f, %f - %f, %f) -> %i, %i"%(x, y, self.minX, self.minY, self.resolutionX, self.resolutionY, posX , posY)
+        band = self.dataset.GetRasterBand(1)
+        scanline = band.ReadRaster(posX, posY, 1, 1, 1, 1, GDT_Float32);
+        tupleOfFloats = unpack('f' * 1, scanline)
+        return tupleOfFloats[0]
+
 class GeoRaster:
     def __init__(self, shapefileName):
         self.tiles=[]
-        shpRecords = shputils.loadShapefile(shapefileName)
+        shpRecords = shpUtils.loadShapefile(shapefileName)
         dir=dirname(shapefileName)
         if dir=="":
             dir="."
@@ -52,6 +74,8 @@ class GeoRaster:
             tileClass=None
             if filename.endswith(".bt"):
                 tileClass=BTTile
+            elif filename.endswith(".tif"):
+                tileClass=TIFTile
             if not filename.startswith("/"):
                 filename=dir+'/'+filename
             geo=shape['shp_data']

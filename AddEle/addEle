@@ -11,7 +11,8 @@ class OsmHandler(handler.ContentHandler):
     def __init__(self, out = sys.stdout):
         handler.ContentHandler.__init__(self)
         self._out = out
-        self._demModel = GeoRaster.TIFTile("tiff/srtm.shp")
+#        self._demModel = GeoRaster.TIFTile("tiff/srtm.tif")
+        self._demModel = ShpGeoRaster.GeoRaster("tiff/srtm.shp")
 
 
     def startDocument(self):
