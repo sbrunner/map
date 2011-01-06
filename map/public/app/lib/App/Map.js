@@ -154,6 +154,7 @@ App.Map = Ext.extend(GeoExt.MapPanel, {
         var tools = new App.Tools(map);
         options = Ext.apply({
             map: map,
+            extent: new OpenLayers.Bounds(5, 45.5, 11, 48).transform(map.displayProjection, map.projection),
     //        tbar: tools.tbar,
             border: true,
             stateId: "m",
