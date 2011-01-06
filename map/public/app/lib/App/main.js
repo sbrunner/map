@@ -70,14 +70,6 @@ delete lang;
 
 var mapPanel;
 
-/*
-var mainPanel;
-var permalinkProvider;
-var permalinkBase;
-var permalinkTitleBase;
-var tree;
-*/
-
 window.onload = function() {
     if (!OpenLayers.Lang[lang]) {
         OpenLayers.Lang[lang] = OpenLayers.Util.applyDefaults({});
