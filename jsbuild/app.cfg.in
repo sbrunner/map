@@ -6,15 +6,16 @@ first =
     proj4js/lib/proj4js.js
     proj4js/lib/projCode/merc.js
     proj4js/lib/defs/EPSG900913.js
+    OpenLayers/SingleFile.js
     OpenLayers/Util.js
     OpenLayers/BaseTypes.js
     OpenLayers/BaseTypes/Class.js
     OpenLayers/Lang.js
 include =
+    OpenLayers/Location.js
     OpenLayers/Renderer/VML.js
     OpenLayers/Renderer/SVG.js
     OpenLayers/Control/Navigation.js
-    OpenLayers/Location.js
     App/main.js
 exclude =
     OpenLayers.js
@@ -24,22 +25,42 @@ exclude =
 [trace.js]
 root = ${vars:jsbuild-root}
 first =
-    proj4js/lib/proj4js.js
-    proj4js/lib/projCode/merc.js
-    proj4js/lib/defs/EPSG900913.js
+#    proj4js/lib/proj4js.js
+#    proj4js/lib/projCode/merc.js
+#    proj4js/lib/defs/EPSG900913.js
+    OpenLayers/SingleFile.js
     OpenLayers/Util.js
     OpenLayers/BaseTypes.js
     OpenLayers/BaseTypes/Class.js
 include =
+    OpenLayers/Location.js
     OpenLayers/Lang/fr.js
     OpenLayers/Renderer/SVG.js
     OpenLayers/Control/Navigation.js
-    OpenLayers/Location.js
     App/lamargelle.js
     App/Lang/fr.js
 exclude =
     OpenLayers.js
 
+[smallol.js]
+root = ${vars:jsbuild-root}
+first =
+    OpenLayers/SingleFile.js
+    OpenLayers/Util.js
+    OpenLayers/BaseTypes.js
+    OpenLayers/BaseTypes/Class.js
+include =
+    OpenLayers/Location.js
+    OpenLayers/Map.js
+    OpenLayers/Control/Navigation.js
+    OpenLayers/Control/PanZoomBar.js
+    OpenLayers/Control/MousePosition.js
+    OpenLayers/Control/Permalink.js
+    OpenLayers/Control/Attribution.js
+    OpenLayers/Control/ScaleLine.js
+    OpenLayers/Layer/TileCache.js
+    OpenLayers/Layer/XYZ.js
+        
 [proj.js]
 root = ${vars:jsbuild-root}
 first =
