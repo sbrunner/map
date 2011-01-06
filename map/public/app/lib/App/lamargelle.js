@@ -6,26 +6,26 @@
  * of the license.
  */
 /*
- * @requires App/commonstyle.js
- * @requires App/utils.js
+ * @include App/commonstyle.js
+ * @include App/utils.js
  * 
- * @requires OpenLayers/Util.js
- * @requires OpenLayers/Lang.js
- * @requires OpenLayers/Map.js
- * @requires OpenLayers/Control/SelectFeature.js
- * @requires OpenLayers/Control/ZoomPanel.js
- * @requires OpenLayers/Control/PanZoom.js
- * @requires OpenLayers/Control/MousePosition.js
- * @requires OpenLayers/Control/KeyboardDefaults.js
- * @requires OpenLayers/Control/Attribution.js
- * @requires OpenLayers/Control/ScaleLine.js
- * @requires OpenLayers/Control/ArgParser.js
- * @requires OpenLayers/Strategy/Fixed.js
- * @requires OpenLayers/Protocol/HTTP.js
- * @requires OpenLayers/Format/GPX.js
- * @requires OpenLayers/Format/OSM.js
- * @requires OpenLayers/Layer/Vector.js
- * @requires OpenLayers/Layer/XYZ.js
+ * @include OpenLayers/Util.js
+ * @include OpenLayers/Lang.js
+ * @include OpenLayers/Map.js
+ * @include OpenLayers/Control/SelectFeature.js
+ * @include OpenLayers/Control/ZoomPanel.js
+ * @include OpenLayers/Control/PanZoom.js
+ * @include OpenLayers/Control/MousePosition.js
+ * @include OpenLayers/Control/KeyboardDefaults.js
+ * @include OpenLayers/Control/Attribution.js
+ * @include OpenLayers/Control/ScaleLine.js
+ * @include OpenLayers/Control/ArgParser.js
+ * @include OpenLayers/Strategy/Fixed.js
+ * @include OpenLayers/Protocol/HTTP.js
+ * @include OpenLayers/Format/GPX.js
+ * @include OpenLayers/Format/OSM.js
+ * @include OpenLayers/Layer/Vector.js
+ * @include OpenLayers/Layer/XYZ.js
  */
 
 

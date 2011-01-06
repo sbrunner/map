@@ -7,11 +7,12 @@
  */
 
 /*
+ * @requires GeoExt/widgets/tree/LayerNode.js
+ *
  * @include OpenLayers/Projection.js
  * @include OpenLayers/Control.js
  * @include OpenLayers/Format/GeoJSON.js
  * @include OpenLayers/Control/Permalink.js
- * @include GeoExt/widgets/tree/LayerNode.js
  * @include GeoExt/widgets/LayerOpacitySlider.js
  * @include OpenLayers/Layer/Vector.js
  * @include OpenLayers/Layer/XYZ.js

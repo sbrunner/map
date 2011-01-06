@@ -6,8 +6,8 @@
  * of the license.
  */
 /*
- * @requires OpenLayers/Filter/Comparison.js
- * @requires OpenLayers/Rule.js
+ * @include OpenLayers/Filter/Comparison.js
+ * @include OpenLayers/Rule.js
  */
 
 function addPoint(styleMap, property, value, image, width, height) {
