@@ -327,17 +327,21 @@ window.onload = function() {
                         style: "padding: 0 0 8px 8px;",
                         html: "<ul>"
                             + "<li><div id='permalink'><a href=''>" + OpenLayers.i18n("Permalink") + "</a></div></li>"
+                            + "<li><div id='permalink.osm'><a href='http://openstreetmap.org'>" + OpenLayers.i18n("OpenStreetMap") + "</a></div></li>"
+                            + "</ul>"
+
+                            + "<hr /><ul>"
                             + "<li><a id='permalink.potlatch' href=''>" + OpenLayers.i18n("Edit on Potlatch") + "</a></li>"
                             + "<li><div id='josm'><a href=''>" + OpenLayers.i18n("Edit with JOSM") + "</a></div></li>"
                             + "<li><div id='mapzen'><a href='http://mapzen.cloudmade.com/editor'>" + OpenLayers.i18n("Edit with Mapzen") + "</a></div></li>"
                             + "</ul>"
 
                             + "<hr /><ul>"
-                            + "<li><a id='permalink.amenity.editor' href='http://ae.osmsurround.org/'>" + OpenLayers.i18n("Amenity (POI) Editor") + "</a></li>"
                             + "<li><a id='permalink.keepright' href='http://keepright.ipax.at/report_map.php'>" + OpenLayers.i18n("Keep right!") + "</a></li>"
                             + "<li><a id='permalink.osmose' href='http://osmose.openstreetmap.fr/map/cgi-bin/index.py?'>" + OpenLayers.i18n("Osmose") + "</a></li>"
                             + "<li><a id='permalink.restrictions' href='http://osm.virtuelle-loipe.de/restrictions/'>" + OpenLayers.i18n("Restrictions") + "</a></li>"
                             + "<li><a id='permalink.geofabrik' href='http://tools.geofabrik.de/map/?type=Geofabrik'>" + OpenLayers.i18n("Geofabrik") + "</a></li>"
+                            + "<li><a id='permalink.amenity.editor' href='http://ae.osmsurround.org/'>" + OpenLayers.i18n("Amenity (POI) Editor") + "</a></li>"
                             + "<li><a id='permalink.openrouteservice' href='http://www.openrouteservice.org'>" + OpenLayers.i18n("OpenRouteService.org") + "</a></li>"
                             + "<li><a id='permalink.osb' href='http://openstreetbugs.schokokeks.org/'>" + OpenLayers.i18n("OpenStreetBug") + "</a></li>"
                             + "<li><a id='permalink.qsm' href='http://www.qualitystreetmap.org/osmqa/'>" + OpenLayers.i18n("OSM QA Mpp") + "</a></li>"
@@ -350,9 +354,15 @@ window.onload = function() {
                             + "<li><a id='permalink.velo' href='http://osm.t-i.ch/bicycle/map/'>" + OpenLayers.i18n("Velo Access map") + "</a></li>"
                             + "<li><a id='permalink.osv' href='http://openstreetview.org/'>" + OpenLayers.i18n("OpenStreetView") + "</a></li>"
                             + "<li><a id='permalink.ocm' href='http://toolserver.org/~stephankn/cuisine/'>" + OpenLayers.i18n("OpenCuisineMap") + "</a></li>"
+                            + "<li><a id='permalink.playground' href='http://toolserver.org/~stephankn/playground/?layers=BT'>" + OpenLayers.i18n("OpenPlaygroundMap") + "</a></li>"
+                            + "<li><a id='permalink.rsr' href='http://www.rollstuhlrouting.de/routenplaner.html?layers=B0TTTTFFFF'>" + OpenLayers.i18n("Rollstuhlrouting.de") + "</a></li>"
+                            + "<li><a id='permalink.rsk' href='http://www.rollstuhlkarte.ch/?layers=B00000FFTTFFFFFFT'>" + OpenLayers.i18n("rollstuhlkarte.ch") + "</a></li>"
+                            + "<li><a id='permalink.hist' href='http://www.histosm.org/'>" + OpenLayers.i18n("Histo OSM") + "</a></li>"
+                            + "<li><a id='permalink.post' href='http://post.openstreetmap.de/?layers=BTTTT'>" + OpenLayers.i18n("Post- und Telefonkarte") + "</a></li>"
                             + "</ul>"
 
                             + "<hr /><ul>"
+                            + '<li><a href="http://www.geofabrik.de/">' + OpenLayers.i18n('Geofabrik') + "</a></li>"
                             + '<li><a href="http://maps.cloudmade.com/">' + OpenLayers.i18n('CloudMade') + "</a></li>"
                             + '<li><a href="http://dev-yves.dyndns.org/legend/page.html">' + OpenLayers.i18n('OSM Legend') + "</a></li>"
                             + "</ul>"
@@ -372,6 +382,7 @@ window.onload = function() {
     });
 
     mapPanel.map.addControl(new OpenLayers.Control.PermalinkLayer("permalink.potlatch", "http://www.openstreetmap.org/edit"));
+    mapPanel.map.addControl(new OpenLayers.Control.PermalinkLayer("permalink.osm", "http://openstreetmap.org"));
     mapPanel.map.addControl(new OpenLayers.Control.PermalinkLayer("permalink.amenity.editor", " http://ae.osmsurround.org/"));
     mapPanel.map.addControl(new OpenLayers.Control.PermalinkLayer("permalink.keepright", "http://keepright.ipax.at/report_map.php"));
     mapPanel.map.addControl(new OpenLayers.Control.PermalinkLayer("permalink.osmose", "http://osmose.openstreetmap.fr/map/cgi-bin/index.py"));
@@ -388,4 +399,9 @@ window.onload = function() {
     mapPanel.map.addControl(new OpenLayers.Control.PermalinkLayer("permalink.velo", "http://osm.t-i.ch/bicycle/map/"));
     mapPanel.map.addControl(new OpenLayers.Control.PermalinkLayer("permalink.osv", "http://openstreetview.org/"));
     mapPanel.map.addControl(new OpenLayers.Control.PermalinkLayer("permalink.ocm", "http://toolserver.org/~stephankn/cuisine/"));
+    mapPanel.map.addControl(new OpenLayers.Control.PermalinkLayer('permalink.playground', 'http://toolserver.org/~stephankn/playground/?layers=BT'));
+    mapPanel.map.addControl(new OpenLayers.Control.PermalinkLayer('permalink.rsr', 'http://www.rollstuhlrouting.de/routenplaner.html?layers=B0TTTTFFFF'));
+    mapPanel.map.addControl(new OpenLayers.Control.PermalinkLayer('permalink.rsk', 'http://www.rollstuhlkarte.ch/?layers=B00000FFTTFFFFFFT'));
+    mapPanel.map.addControl(new OpenLayers.Control.PermalinkLayer('permalink.hist', 'http://www.histosm.org/'));
+    mapPanel.map.addControl(new OpenLayers.Control.PermalinkLayer('permalink.post', 'http://post.openstreetmap.de/?layers=BTTTT'));
 };
