@@ -91,7 +91,7 @@ App.Map = Ext.extend(GeoExt.MapPanel, {
                 this.addControl(selectFeatureControl);
                 selectFeatureControl
 
-                args.layer.events.register('featureselected', this, function(o) {
+                arguments.layer.events.register('featureselected', this, function(o) {
                     var html = null;
                     for (var a in o.feature.attributes) {
                         if (html === null) {
@@ -140,7 +140,7 @@ App.Map = Ext.extend(GeoExt.MapPanel, {
                 });
             }
 
-            if (args.layer.displayInLayerSwitcher !== false) {
+            if (arguments.layer.displayInLayerSwitcher !== false) {
                 var layers = map.getLayersBy('displayInLayerSwitcher', false);
                 for (var i = 0, len = layers.length ; i < len ; i++) {
                     if (layers[i].name != "back") {
