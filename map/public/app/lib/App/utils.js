@@ -211,7 +211,7 @@ function onStatechange(provider) {
         
         var bounds = mapPanel.map.getExtent();
         bounds = bounds.transform(mapPanel.map.getProjectionObject(), mapPanel.map.displayProjection);
-	Ext.get("josm").update("<a href='http://127.0.0.1:8111/load_and_zoom?"
+	Ext.get("josm").update("<a target='hiddenIframe' href='http://127.0.0.1:8111/load_and_zoom?"
 	    + "left=" + bounds.left + "&right=" + bounds.right
 	    + "&top=" + bounds.top + "&bottom=" + bounds.bottom + "'>" + OpenLayers.i18n("Edit with JOSM") + "</a>");
 
