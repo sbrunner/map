@@ -6,9 +6,9 @@
  * of the license.
  */
 /*
- * @requires App/commonstyle.js
- * @requires App/josmstyle.js
- * @requires App/osmstyle.js
+ * @include App/commonstyle.js
+ * @include App/josmstyle.js
+ * @include App/osmstyle.js
  */
 
 function getMaxSpeedStyle() {

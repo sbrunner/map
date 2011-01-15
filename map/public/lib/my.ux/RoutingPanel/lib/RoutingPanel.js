@@ -27,81 +27,8 @@
 Ext.namespace('GeoExt.ux');
 
 
-GeoExt.ux.cloudmadeRoutingService = function (options, type, start, end, catchResult, scope) {
-    var newUrl = start.y + ',' + start.x + ',' + end.y + ',' + end.x + "/" + type + ".js?lang=" + OpenLayers.Lang.getCode();
-    var proxy = new Ext.data.ScriptTagProxy({
-        url: "http://routes.cloudmade.com/" + options.cloudmadeKey + "/api/0.3/" + newUrl,
-        nocache: false
-    });
-    var routingStore = new Ext.data.Store({
-        proxy: proxy,
-        reader: new Ext.data.JsonReader({
-            root: 'version',
-            fields: [
-                {
-                    name: 'total_length'
-                }
-            ]
-
-        })
-    });
-
-    routingStore.on('load', function (store) {
-        var version = store.reader.jsonData.version;
-        var status = store.reader.jsonData.status;
-        
-        var statusMessage = null;
-        var routeSummary = null;
-        var routeGeometry = null;
-        var routeInstructions = null;
-        
-        if (store.reader.jsonData.status_message) {
-            statusMessage = store.reader.jsonData.status_message;
-        }
-        if (store.reader.jsonData.route_summary) {
-            routeSummary = store.reader.jsonData.route_summary;
-        }
-        if (store.reader.jsonData.route_geometry) {
-            routeGeometry = store.reader.jsonData.route_geometry;
-        }
-        if (store.reader.jsonData.route_instructions) {
-            routeInstructions = store.reader.jsonData.route_instructions;
-        }
-        if (status == '0') {
-            var instructions = '';
-            var first = true;
-            for (var i = 0 ; i < routeInstructions.length ; i++) {
-                if (first) { 
-                    first = false;
-                }
-                else { 
-                    instructions += '<br />';
-                }
-                instructions += routeInstructions[i][0] + ' (' + routeInstructions[i][4] + ').';
-            }
-            
-            var html = '<p>' + instructions + '</p><p>' + OpenLayers.i18n('Total length: ') + Math.round(routeSummary.total_distance / 1000) + ' km</p>';
-
-            var pointList = [];
-            for (var i = 0; i < routeGeometry.length; i++) {
-                var newPoint = new OpenLayers.Geometry.Point(routeGeometry[i][1],
-                        routeGeometry[i][0]);
-                pointList.push(newPoint);
-            }
-            var geometry = new OpenLayers.Geometry.LineString(pointList);
-
-            catchResult.call(scope, true, html, [new OpenLayers.Feature.Vector(geometry)]);
-        } 
-        else {
-            catchResult.call(scope, false, statusMessage, null);
-        }
-    }, this);
-    routingStore.load();
-}
-
-
 GeoExt.ux.RoutingPanel = Ext.extend(Ext.Panel, {
-
+            
     /** api: config[map]
      *  ``OpenLayers.Map``  A configured map
      */
@@ -110,29 +37,45 @@ GeoExt.ux.RoutingPanel = Ext.extend(Ext.Panel, {
      */
     map: null,
 
-    /** api: config[startLocationCombo]
-     *  ``Ext.form.ComboBox``  The combo box used for searching the start point
-     */
-    /** private: property[startLocationCombo]
-     *  ``Ext.form.ComboBox``  The combo box used for searching the start point
-     */
-    startLocationCombo: null,
+    start: {
+        /** api: config[start.locationCombo]
+         *  ``Ext.form.ComboBox``  The combo box used for searching the start point
+         */
+        /** private: property[start.locationCombo]
+         *  ``Ext.form.ComboBox``  The combo box used for searching the start point
+         */
+        locationCombo: null,
 
-    /** api: config[endLocationCombo]
-     *  ``Ext.form.ComboBox``  The combo box used for searching the end point
-     */
-    /** private: property[endLocationCombo]
-     *  ``Ext.form.ComboBox``  The combo box used for searching the end point
-     */
-    endLocationCombo: null,
+        /** property[start.feature]
+         *  ``OpenLayers.Feature.Vector`` Point feature storing the start point, if digitized by the user.
+         */
+        feature: null
+    },
+
+    end: {
+        /** api: config[end.locationCombo]
+         *  ``Ext.form.ComboBox``  The combo box used for searching the end point
+         */
+        /** private: property[end.locationCombo]
+         *  ``Ext.form.ComboBox``  The combo box used for searching the end point
+         */
+        locationCombo: null,
+
+        /** property[end.feature]
+         *  ``OpenLayers.Feature.Vector`` Point feature storing the end point, if digitized by the user.
+         */
+        feature: null
+    },
 
     /** api: config[routingProviders]
      *  options givent to the routingService function.
      */
-    // Key for dev.geoext.org: 187a9f341f70406a8064d07a30e5695c
-    // Key for localhost: BC9A493B41014CAABB98F0471D759707
     routingProviders: null,
 
+    /** api: config[routingProjection]
+     *  zhe projection used for the display and the permalink.
+     */
+    routingProjection: new OpenLayers.Projection("EPSG:4326"),
 
     /** api: config[layer]
      *  ``OpenLayers.Layer.Vector``  Layer presenting the routing result geometry. Per default, a layer named "Routing" will be created.
@@ -155,37 +98,33 @@ GeoExt.ux.RoutingPanel = Ext.extend(Ext.Panel, {
      */
     routeFeatures: null,
 
-    /** property[startFeature]
-     *  ``OpenLayers.Feature.Vector`` Point feature storing the start point, if digitized by the user.
-     */
-    startFeature: null,
-
-    /** property[endFeature]
-     *  ``OpenLayers.Feature.Vector`` Point feature storing the end point, if digitized by the user.
-     */
-    endFeature: null,
-
     /** private: property[pointDrawControl]
      *  ``OpenLayers.Control.DrawFeature`` Control to get start and end feature
      */
     pointDrawControl: null,
 
-    /** property[resultPanel]
-     *  ``Ext.Panel`` Panel presenting the computation result
+    /**
+     * property[resultPanel]
+     * ``Ext.Panel`` Panel presenting the computation result
      */
     resultPanel: null,
 
+    /**
+     * private: property[stateEvents]
+     * ``Array(String)`` Array of state events
+     */
+    stateEvents: ["routingcomputed", "pointadded"],
+
+    /**
+     * private: property[state]
+     * ``Map`` Acctual routing state
+     */
+    state: {},
 
     /**
      * api: config[geocodingProvider]
      */
-    geocodingProviders: {
-        builder: GeoExt.ux.RoutingProviders.cloudmadeSearchCombo,
-        projection: new OpenLayers.Projection("EPSG:4326"),
-        cloudmadeKey: cloudmadeKey,
-        maxRows: 20,
-        queryParam: 'query'
-    },
+    geocodingProviders: null,
 
     /** api: config[showGoogleItinerary]
      *  Define if the google itinerary links are shown in the result panel
@@ -212,18 +151,12 @@ GeoExt.ux.RoutingPanel = Ext.extend(Ext.Panel, {
         }
     }),
 
-    /** api: config[usePermalink]
-     *  ``Boolean``  Read the permalink in the url if presents
+    /** private: method[constructor]
+     *  Construct the component.
      */
-    /** private: property[readPermalink]
-     *  ``Boolean``  Read the permalink in the url if presents
-     */
-    usePermalink: true,
-    
-    /** private: property[sermalinkState]
-     *  ``Objext`` the permalink state of the rooting panel
-     */
-    permalinkState: {},
+    constructor: function(config) {
+        GeoExt.ux.RoutingPanel.superclass.constructor.call(this, Ext.apply({stateId: 'routing'}, config));
+    },
 
     /** private: method[initComponent]
      *  Private initComponent override.
@@ -232,71 +165,49 @@ GeoExt.ux.RoutingPanel = Ext.extend(Ext.Panel, {
      *  - beforeroutingcomputed
      */
     initComponent: function () {
-
-        
-        var permalinkProvider = Ext.state.Manager.getProvider();
-        if (!permalinkProvider.state.r) {
-            permalinkProvider.state.r = this.permalinkState;
-        }
-        else {
-            this.permalinkState = permalinkProvider.state.r;
-        }
-
         if (!this.routingProviders) {
-            this.routingProviders = { 
-                cloudmade : {
-                    service: GeoExt.ux.cloudmadeRoutingService,
-                    projection: new OpenLayers.Projection("EPSG:4326"),
-                    cloudmadeKey: cloudmadeKey,
-                    types: {
-                        car: { name: OpenLayers.i18n('By car') },
-                        foot: { name: OpenLayers.i18n('By foot') },
-                        bicycle: { name: OpenLayers.i18n('By bicycle') }
-                    }
-                }
+            this.routingProviders = {
+                yours: GeoExt.ux.RoutingProviders.getYOURSRoutingProvider()
             }
         }
-        this.startLocationCombo = this.geocodingProviders.builder(Ext.apply({
+        if (!this.geocodingProviders) {
+            this.geocodingProviders = {
+                builder: GeoExt.ux.RoutingProviders.nominatimSearchCombo,
+                projection: new OpenLayers.Projection("EPSG:4326")
+            }
+        }
+
+        this.start.locationCombo = this.geocodingProviders.builder(Ext.apply({
             name: 'startLocationCombo',
             emptyText: OpenLayers.i18n('Search start...'),
             width: 195,
+            map: this.map,
             listeners: {
                 select: function (combo, record, index) {
                     if (this.startFeature) {
                         this.layer.removeFeatures([this.startFeature]);
                         this.startFeature = null;
                     }
-                    var geometry = new OpenLayers.Geometry.Point(record.data.centroid.coordinates[1], record.data.centroid.coordinates[0]);
-                    geometry = geometry.transform(this.geocodingProviders.projection, this.map.getProjectionObject());
+                    var geometry = combo.getCentroid(record.data);
                     this.startFeature = new OpenLayers.Feature.Vector(geometry, {type: 'point'});
                     this.layer.addFeatures([this.startFeature]);
-                    if (this.usePermalink) {
-                        this.permalinkState.start_lon = Math.round(record.data.centroid.coordinates[1] * 100000) / 100000;
-                        this.permalinkState.start_lat = Math.round(record.data.centroid.coordinates[0] * 100000) / 100000;
-                        this.permalinkState.start_text = this.startLocationCombo.getValue();
-                    }
                 },
                 scope: this
             }
         }, this.geocodingProviders));
-        this.endLocationCombo = this.geocodingProviders.builder(Ext.apply({
+        this.end.locationCombo = this.geocodingProviders.builder(Ext.apply({
             name: 'endLocationCombo',
             emptyText: OpenLayers.i18n('Search end...'),
             width: 195,
+            map: this.map,
             listeners: {
                 select: function (combo, record, index) {
                     if (this.endFeature) {
                         this.layer.removeFeatures([this.endFeature]);
                     }
-                    var geometry = new OpenLayers.Geometry.Point(record.data.centroid.coordinates[1], record.data.centroid.coordinates[0]);
-                    geometry = geometry.transform(this.geocodingProviders.projection, this.map.getProjectionObject());
+                    var geometry = combo.getCentroid(record.data);
                     this.endFeature = new OpenLayers.Feature.Vector(geometry, {type: 'point'});
                     this.layer.addFeatures([this.endFeature]);
-                    if (this.usePermalink) {
-                        this.permalinkState.end_lon = Math.round(record.data.centroid.coordinates[1] * 100000) / 100000;
-                        this.permalinkState.end_lat = Math.round(record.data.centroid.coordinates[0] * 100000) / 100000;
-                        this.permalinkState.end_text = this.endLocationCombo.getValue();
-                    }
                 },
                 scope: this
             }
@@ -308,14 +219,57 @@ GeoExt.ux.RoutingPanel = Ext.extend(Ext.Panel, {
             height: 400
         });
 
-        var itinaryItems = [{
+        var lanes = [{
+            layout: 'column',
+            border: false,
+            fieldLabel: OpenLayers.i18n('From'),
+            items: [
+                this.start.locationCombo,
+                {
+                    xtype: 'button',
+                    text: OpenLayers.i18n('Get Point'),
+                    handler: function (button, event) {
+                        this.createDrawFeature();
+                        this.pointDrawControl.point = this.start;
+                        this.pointDrawControl.activate();
+                    },
+                    scope: this
+                }
+            ]
+        },
+        {
+            layout: 'column',
+            border: false,
+            fieldLabel: OpenLayers.i18n('To'),
+            items: [
+                this.end.locationCombo,
+                {
+                    xtype: 'button',
+                    text: OpenLayers.i18n('Get Point'),
+                    handler: function (button, event) {
+                        this.createDrawFeature();
+                        this.pointDrawControl.point = this.end;
+                        this.pointDrawControl.activate();
+                    },
+                    scope: this
+                }
+            ]
+        }];
+        lanes.push({
             baseCls: 'x-plane',
-            html: OpenLayers.i18n('Compute itinerary: '),
+            html: '<h3>' + OpenLayers.i18n('Compute itinerary') + '</h3>',
             bodyStyle: 'padding: 2px 5px 0 0;'
-        }]
+        });
         for (var providerRef in this.routingProviders) {
+            var itinaryItems = [];
             var provider = this.routingProviders[providerRef];
             provider.ref = providerRef;
+            lanes.push({
+                cls: 'x-plane',
+                html: provider.name,
+                style: 'clear: booth;',
+                border: false
+            });
             for (var typeRef in provider.types) {
                 var type = provider.types[typeRef];
                 type.type = typeRef;
@@ -330,7 +284,14 @@ GeoExt.ux.RoutingPanel = Ext.extend(Ext.Panel, {
                     }
                 });
             }
+            lanes.push({
+                layout: 'column',
+                border: false,
+                bodyStyle: 'padding: 3px 0 10px 0;',
+                items: itinaryItems
+            });
         }
+        lanes.push(this.resultPanel);
         Ext.apply(this, {
             plain: true,
             border: false,
@@ -342,73 +303,36 @@ GeoExt.ux.RoutingPanel = Ext.extend(Ext.Panel, {
                 },
                 border: false,
                 labelWidth: 40,
-                items: [{
-                        layout: 'column',
-                        border: false,
-                        fieldLabel: OpenLayers.i18n('From'),
-                        items: [
-                            this.startLocationCombo,
-                            {
-                                xtype: 'button',
-                                text: OpenLayers.i18n('Get Point'),
-                                handler: function (button, event) {
-                                    this.pointDrawControl.type = 'GetStartPoint';
-                                    this.pointDrawControl.activate();
-                                },
-                                scope: this
-                            }
-                        ]
-                    },
-                    {
-                        layout: 'column',
-                        border: false,
-                        fieldLabel: OpenLayers.i18n('To'),
-                        items: [
-                            this.endLocationCombo,
-                            {
-                                xtype: 'button',
-                                text: OpenLayers.i18n('Get Point'),
-                                handler: function (button, event) {
-                                    this.pointDrawControl.type = 'GetEndPoint';
-                                    this.pointDrawControl.activate();
-                                },
-                                scope: this
-                            }
-                        ]
-                    },
-                    {
-                        layout: 'column',
-                        border: false,
-                        bodyStyle: 'padding: 3px 0 10px 0;',
-                        items: [itinaryItems]
-                    },
-                    this.resultPanel
-                ]}
-            ]}
-        );
+                items: lanes
+            }]
+        });
         GeoExt.ux.RoutingPanel.superclass.initComponent.apply(this, arguments);
 
-        // Create routing layer
-        this.layer = new OpenLayers.Layer.Vector("Routing", {styleMap: this.style, displayInLayerSwitcher: false, id: 'routing'});
-        this.map.addLayer(this.layer);
-
         this.addEvents(
-            /** api: event[routingcomputed]
-             *  Fires when a routing has been computed
+            /**
+             * api: event[routingcomputed]
+             * Fires when a routing has been computed
              *
-             *  Listener arguments:
-             *  * comp - :class:`GeoExt.ux.RoutingPanel`` This component.
+             * Listener arguments:
+             * * comp - :class:`GeoExt.ux.RoutingPanel`` This component.
              */
-                'routingcomputed',
+            'routingcomputed',
 
-            /** api: event[beforeroutingcomputed]
-             *  Fires when before a routing is computed
+            /**
+             * api: event[beforeroutingcomputed]
+             * Fires when before a routing is computed
              *
-             *  Listener arguments:
-             *  * comp - :class:`GeoExt.ux.RoutingPanel`` This component.
+             * Listener arguments:
+             * * comp - :class:`GeoExt.ux.RoutingPanel`` This component.
              */
-                'beforeroutingcomputed');
+            'beforeroutingcomputed',
 
+            /**
+             * api: event[destinationadded]
+             * Fires when a routing point is added.
+             */
+            'pointadded'
+        );
 
     },
 
@@ -418,108 +342,41 @@ GeoExt.ux.RoutingPanel = Ext.extend(Ext.Panel, {
     afterRender: function () {
         GeoExt.ux.RoutingPanel.superclass.afterRender.call(this);
 
-        // Create point draw control
-        this.pointDrawControl = new OpenLayers.Control.DrawFeature(this.layer, OpenLayers.Handler.Point);
-        this.map.addControl(this.pointDrawControl);
-        this.pointDrawControl.events.on({ featureadded: function (events) {
-            var featureLocation = null;
-            var combo = null;
-            var permalinkPrefix = null;
-            var featureName = null;
-            if (this.pointDrawControl.type == 'GetStartPoint') {
-                combo = this.startLocationCombo;
-                permalinkPrefix = 'start_';
-                featureName = 'startFeature';
-                events.feature.attributes.type = 'point';
-                events.feature.layer.drawFeature(events.feature);
-            }
-            else if (this.pointDrawControl.type == 'GetEndPoint') {
-                combo = this.endLocationCombo;
-                permalinkPrefix = 'end_';
-                featureName = 'endFeature';
-                events.feature.attributes.type = 'point';
-                events.feature.layer.drawFeature(events.feature);
-            }
-            this.pointDrawControl.type = null;
-            
-            if (this[featureName]) {
-                this.layer.removeFeatures([this[featureName]]);
-                this[featureName] = null;
-            }
-            this[featureName] = events.feature;
-            featureLocation = this[featureName].geometry.clone();
-            featureLocation.transform(this.map.getProjectionObject(), this.routingProjection);
-            combo.emptyText = OpenLayers.i18n('Position: ') + Math.round(featureLocation.x * 100000) / 100000 + ',' + Math.round(featureLocation.y * 100000) / 100000;
-            combo.clearValue();
-            if (this.usePermalink) {
-                this.permalinkState[permalinkPrefix+'lon'] = Math.round(featureLocation.x * 100000) / 100000;
-                this.permalinkState[permalinkPrefix+'lat'] = Math.round(featureLocation.y * 100000) / 100000;
-                this.permalinkState[permalinkPrefix+'text'] = null;
-            }
-            this.pointDrawControl.deactivate();
-        },
-            scope: this
-        });
-        // Use the permalink
-        if (this.usePermalink) {
-            this.readPermalink();
-        }
+        this.readPermalink();
     },
 
-    /** private: method[setPermalink]
-     *  Set the permalink according to the url parameters
-     *
-     * :param parameters URL paramaters
-     */
-    readPermalink: function () {
-        if (this.permalinkState.start_lon && this.permalinkState.start_lat) {
-            var geometry = new OpenLayers.Geometry.Point(this.permalinkState.start_lon, this.permalinkState.start_lat);
-            geometry = geometry.transform(this.geocodingProviders.projection, this.map.getProjectionObject());
-            this.startFeature = new OpenLayers.Feature.Vector(geometry, {type: 'point'});
-            this.layer.addFeatures([this.startFeature]);
+    createDrawFeature: function() {
+        if (!this.layer) {
+            // Create routing layer
+            this.layer = new OpenLayers.Layer.Vector("Routing", {styleMap: this.style, displayInLayerSwitcher: false});
+            this.map.addLayer(this.layer);
+        }
 
-            this.startLocationCombo.emptyText = OpenLayers.i18n('Position: ') + this.permalinkState.start_lon + ',' + this.permalinkState.start_lat;
-            this.startLocationCombo.clearValue();
-        }
-        if (this.permalinkState.end_lon && this.permalinkState.end_lat) {
-            var geometry = new OpenLayers.Geometry.Point(this.permalinkState.end_lon, this.permalinkState.end_lat);
-            geometry = geometry.transform(this.geocodingProviders.projection, this.map.getProjectionObject());
-            this.endFeature = new OpenLayers.Feature.Vector(geometry, {type: 'point'});
-            this.layer.addFeatures([this.endFeature]);
-            
-            this.endLocationCombo.emptyText = OpenLayers.i18n('Position: ') + this.permalinkState.end_lon + ',' + this.permalinkState.end_lat;
-            this.endLocationCombo.clearValue();
-        }
-        if (this.permalinkState.start_lon && this.permalinkState.start_lat && this.permalinkState.end_lon && this.permalinkState.end_lat
-                && this.permalinkState.provider && this.permalinkState.type) {
-            this.getItinerary(this.routingProviders[this.permalinkState.provider], this.permalinkState.type); // should be stored in permalink
-        }
-        if (this.permalinkState.start_text) {
-            this.startLocationCombo.setValue(this.permalinkState.start_text);
-        }
-        if (this.permalinkState.end_text) {
-            this.endLocationCombo.setValue(this.permalinkState.end_text);
-        }
-    },
-
-    /** private: method[stringToBoolean]
-     *  Transform a string (true, false, yes, no 1 or 0) to a boolean
-     *
-     * :param string
-     */
-    stringToBoolean: function (string) {
-        switch (string.toLowerCase()) {
-            case "true": 
-            case "yes": 
-            case "1": 
-                return true;
-            case "false": 
-            case "no": 
-            case "0": 
-            case null: 
-                return false;
-            default: 
-                return Boolean(string);
+        if (!this.pointDrawControl) {
+            // Create point draw control
+            this.pointDrawControl = new OpenLayers.Control.DrawFeature(this.layer, OpenLayers.Handler.Point);
+            this.map.addControl(this.pointDrawControl);
+            this.pointDrawControl.events.on({
+                featureadded: function (events) {
+                    var featureLocation = null;
+                    var point = this.pointDrawControl.point;
+                    events.feature.attributes.type = 'point';
+                    events.feature.layer.drawFeature(events.feature);
+                    this.pointDrawControl.type = null;
+                    
+                    if (point.feature) {
+                        this.layer.removeFeatures([point.feature]);
+                    }
+                    point.feature = events.feature;
+                    featureLocation = point.feature.geometry.clone();
+                    featureLocation.transform(this.map.getProjectionObject(), this.routingProjection);
+                    point.locationCombo.emptyText = OpenLayers.i18n('Position: ') + Math.round(featureLocation.x * 100000) / 100000 + ',' + Math.round(featureLocation.y * 100000) / 100000;
+                    point.locationCombo.clearValue();
+                    this.pointDrawControl.deactivate();
+                    this.fireEvent('pointadded', this);
+                },
+                scope: this
+            });
         }
     },
 
@@ -530,21 +387,22 @@ GeoExt.ux.RoutingPanel = Ext.extend(Ext.Panel, {
         this.fireEvent('beforeroutingcomputed', this);
         this.resultPanel.html = OpenLayers.i18n('Computation ongoing....');
 
-        this.permalinkState.provider = provider.ref;
-        this.permalinkState.type = type;
+        this.state.provider = provider.ref;
+        this.state.type = type;
 
         if (this.resultPanel.body) {
             this.resultPanel.body.update(this.resultPanel.html);
         }
-        var start = this.startFeature.geometry.clone().transform(this.map.getProjectionObject(), provider.projection);
-        var end = this.endFeature.geometry.clone().transform(this.map.getProjectionObject(), provider.projection);
-        provider.service(provider, type, start, end, function (succed, html, features) {
+        var start = this.start.feature.geometry.clone().transform(this.map.getProjectionObject(), provider.projection);
+        var end = this.end.feature.geometry.clone().transform(this.map.getProjectionObject(), provider.projection);
+        provider.service(provider, type, start, end,
+            function (succed, html, features) {
                 if (succed) {
                     this.drawRoute(features, provider.projection);
                     var googleLinks = '';
                     if (this.showGoogleItinerary) {
-                        var start = this.startFeature.geometry.clone().transform(this.map.getProjectionObject(), this.routingProjection);
-                        var end = this.endFeature.geometry.clone().transform(this.map.getProjectionObject(), this.routingProjection);
+                        var start = this.start.feature.geometry.clone().transform(this.map.getProjectionObject(), this.routingProjection);
+                        var end = this.end.feature.geometry.clone().transform(this.map.getProjectionObject(), this.routingProjection);
                         var baseURL = 'http://maps.google.com/maps?source=s_d&saddr=' + start.y + ',' + start.x + '&daddr=' + end.y + ',' + end.x;
                         googleLinks = '<p><a href="' + baseURL + '&dirflg=a" target="new">' + OpenLayers.i18n('Google Itinerary by car') + '</a><br />'
                             + '<a href="' + baseURL + '&dirflg=r" target="new">' + OpenLayers.i18n('Google Itinerary by public transport') + '</a><br />'
@@ -570,15 +428,15 @@ GeoExt.ux.RoutingPanel = Ext.extend(Ext.Panel, {
         if (this.routeFeatures) {
             this.layer.removeFeatures(this.routeFeatures);
         }
-        this.startLocationCombo.clearValue();
-        this.endLocationCombo.clearValue();
-        if (this.startFeature) {
-            this.layer.removeFeatures([this.startFeature]);
-            this.startFeature = null;
+        this.start.locationCombo.clearValue();
+        this.end.locationCombo.clearValue();
+        if (this.start.feature) {
+            this.layer.removeFeatures([this.start.feature]);
+            this.start.feature = null;
         }
-        if (this.endFeature) {
-            this.layer.removeFeatures([this.endFeature]);
-            this.endFeature = null;
+        if (this.end.feature) {
+            this.layer.removeFeatures([this.end.feature]);
+            this.end.feature = null;
         }
         this.resultPanel.html = '';
         this.resultPanel.body.update(this.resultPanel.html);
@@ -609,6 +467,87 @@ GeoExt.ux.RoutingPanel = Ext.extend(Ext.Panel, {
 
         this.layer.addFeatures(this.routeFeatures);
         this.map.zoomToExtent(extent);
+    },
+
+    /** private: method[setPermalink]
+     *  Set the permalink according to the url parameters
+     *
+     * :param parameters URL paramaters
+     */
+    readPermalink: function () {
+    },
+
+    /** private: method[applyStatePoint]
+     *
+     *  Apply the state to a point.
+     */
+    applyStatePoint: function(point, lon, lat) {
+        if (!this.layer) {
+            // Create routing layer
+            this.layer = new OpenLayers.Layer.Vector("Routing", {styleMap: this.style, displayInLayerSwitcher: false});
+            this.map.addLayer(this.layer);
+        }
+        var geometry = new OpenLayers.Geometry.Point(lon, lat);
+        geometry = geometry.transform(this.geocodingProviders.projection, this.map.getProjectionObject());
+        point.feature = new OpenLayers.Feature.Vector(geometry, {type: 'point'});
+        this.layer.addFeatures([point.feature]);
+
+        point.locationCombo.emptyText = OpenLayers.i18n('Position: ') + lon + ', ' + lat;
+        point.locationCombo.clearValue();
+    },
+    
+    /** private: method[applyState]
+     *  :param state: ``Object`` The state to apply.
+     *
+     *  Apply the state provided as an argument.
+     */
+    applyState: function(state) {
+        var state = Ext.state.Manager.get(this.getStateId());
+        if (!state) {
+            return;
+        }
+        if (state.start_lon && state.start_lat) {
+            this.applyStatePoint(this.start, state.start_lon, state.start_lat)
+        }
+        if (state.end_lon && state.end_lat) {
+            this.applyStatePoint(this.end, state.end_lon, state.end_lat)
+        }
+        if (state.start_lon && state.start_lat && state.end_lon && state.end_lat
+                && state.provider && state.type) {
+            this.getItinerary(this.routingProviders[state.provider], state.type); // should be stored in permalink
+        }
+        if (state.start_text) {
+            this.start.locationCombo.setValue(state.start_text);
+        }
+        if (state.end_text) {
+            this.end.locationCombo.setValue(state.end_text);
+        }
+    },
+
+    /** private: method[getState]
+     *  :return:  ``Object`` The state.
+     *
+     *  Returns the current state for the map panel.
+     */
+    getState: function() {
+        var state = {};
+
+        if (this.start.feature) {
+            var geometry = this.start.feature.geometry.clone().transform(this.map.getProjectionObject(), this.geocodingProviders.projection);
+            state['start_lon'] = Math.round(geometry.x * 100000) / 100000;
+            state['start_lat'] = Math.round(geometry.y * 100000) / 100000;
+            state['start_text'] = this.start.locationCombo.getValue();
+        }
+        if (this.end.feature) {
+            var geometry = this.end.feature.geometry.clone().transform(this.map.getProjectionObject(), this.geocodingProviders.projection);
+            state['end_lon'] = Math.round(geometry.x * 100000) / 100000;
+            state['end_lat'] = Math.round(geometry.y * 100000) / 100000;
+            state['end_text'] = this.end.locationCombo.getValue();
+        }
+        state.provider = this.state.provider;
+        state.type = this.state.type;
+
+        return state;
     }
 });
 

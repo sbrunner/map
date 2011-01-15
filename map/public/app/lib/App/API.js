@@ -98,8 +98,9 @@ map.Map = function(options) {
 
     // Main
 
-    if (options.easting != undefined && options.northing != undefined) {
-        var center = new OpenLayers.LonLat(
+    var center = null;
+    if (options.easting && options.northing) {
+        center = new OpenLayers.LonLat(
             options.easting, options.northing
         );
         delete options.easting;

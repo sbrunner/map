@@ -1,3 +1,0 @@
-[cache]
-type = Disk
-base = /var/sig/tilecache/map-${instanceid}_tilecache

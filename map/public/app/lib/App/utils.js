@@ -7,17 +7,23 @@
  */
 
 /*
- * @requires OpenLayers/Projection.js
- * @requires OpenLayers/Control.js
- * @requires OpenLayers/Format/GeoJSON.js
- * @requires OpenLayers/Control/Permalink.js
  * @requires GeoExt/widgets/tree/LayerNode.js
- * @requires GeoExt/widgets/LayerOpacitySlider.js
+ *
+ * @include OpenLayers/Projection.js
+ * @include OpenLayers/Control.js
+ * @include OpenLayers/Format/GeoJSON.js
+ * @include OpenLayers/Control/Permalink.js
+ * @include GeoExt/widgets/LayerOpacitySlider.js
+ * @include OpenLayers/Layer/Vector.js
+ * @include OpenLayers/Layer/XYZ.js
+ * @include OpenLayers/Layer/WMS.js
  */
 
 function contains(array, needle) {
-   for (i in array) {
-       if (array[i] == needle) return true;
+   for (var i in array) {
+       if (array[i] == needle) {
+           return true;
+       }
    }
    return false;
 }
@@ -51,7 +57,16 @@ var epsg4326 = new OpenLayers.Projection("EPSG:4326");
 
 function addLayer(options) {
     options.isBaseLayer = false;
+    options.transitionEffect = "resize";
+    delete options.id;
     return new OpenLayers.Layer.XYZ(options.text, options.url, options);
+}
+function addWmsLayer(options) {
+    options.isBaseLayer = false;
+    options.transitionEffect = "resize";
+    delete options.id;
+    var wmsOptions = options.wmsOptions ? options.wmsOptions : {layers: options.layers};
+    return new OpenLayers.Layer.WMS(options.text, options.url, wmsOptions, options);
 }
 function addXapiStyleLayer(options) {
     var name = options.text;
@@ -74,7 +89,7 @@ function addXapiStyleLayer(options) {
             url: OpenLayers.OSM_URL,
             format: format
         });
-        strategies = [ new OpenLayers.Strategy.Fixed({ preload: false }) ]
+        strategies = [ new OpenLayers.Strategy.Fixed({ preload: false }) ];
     }
     else {
         protocol = new OpenLayers.Protocol.XAPI({
@@ -82,7 +97,7 @@ function addXapiStyleLayer(options) {
             predicate: predicate,
             format: format
         });
-        strategies = [ new OpenLayers.Strategy.BBOX({ ratio: 1.6 }) ]
+        strategies = [ new OpenLayers.Strategy.BBOX({ ratio: 1.6 }) ];
     }
 
     layer = new OpenLayers.Layer.Vector(name, {
@@ -108,7 +123,7 @@ function addOsmStyleLayer(options) {
     var strategies = [];
     if (OpenLayers.OSM_URL) {
         url = OpenLayers.OSM_URL;
-        strategies = [ new OpenLayers.Strategy.Fixed({ preload: false }) ]
+        strategies = [ new OpenLayers.Strategy.Fixed({ preload: false }) ];
     }
     else {
         strategies = [ new OpenLayers.Strategy.BBOX({ ratio: 1.2 }) ];
@@ -185,26 +200,28 @@ OpenLayers.Control.PermalinkLayer = OpenLayers.Class(OpenLayers.Control.Permalin
 
 function onStatechange(provider) {
     var l = provider.getLink(permalinkBase);
-    l = l.replace("#\?", "#");
+    l = l.replace("#?", "#");
     if (Ext.get("permalink")) {
         Ext.get("permalink").update("<a href=" + l + ">" + OpenLayers.i18n("Permalink") + "</a>");
     
-        var l = provider.getLink(permalinkTitleBase);
-        l = l.replace("#\?", "#");
+        l = provider.getLink(permalinkTitleBase);
+        l = l.replace("#?", "#");
         if (window.location.href.indexOf("?") < 0) {
             window.location.href = l;
         }
         
         var bounds = mapPanel.map.getExtent();
         bounds = bounds.transform(mapPanel.map.getProjectionObject(), mapPanel.map.displayProjection);
+	Ext.get("josm").update("<a target='hiddenIframe' href='http://127.0.0.1:8111/load_and_zoom?"
+	    + "left=" + bounds.left + "&right=" + bounds.right
+	    + "&top=" + bounds.top + "&bottom=" + bounds.bottom + "'>" + OpenLayers.i18n("Edit with JOSM") + "</a>");
 
-        if (bounds) {
-            Ext.get("josm").update("<a href='http://127.0.0.1:8111/load_and_zoom?"
-                + "left=" + bounds.left + "&right=" + bounds.right
-                + "&top=" + bounds.top + "&bottom=" + bounds.bottom + "'>" + OpenLayers.i18n("Edit with JOSM") + "</a>");
-        }
+	var center = mapPanel.map.getCenter();
+        center = center.transform(mapPanel.map.getProjectionObject(), mapPanel.map.displayProjection);
+	Ext.get("mapzen").update("<a href='http://mapzen.cloudmade.com/editor?lat=" + center.z + "&lng=" + center.x + "&zoom=" + mapPanel.map.getZoom() + "'>"
+		+ OpenLayers.i18n("Edit with Mapzen") + "</a>");
     }
-};
+}
 
 
 /**
@@ -218,14 +235,16 @@ function onStatechange(provider) {
  * @param   Number  b       The blue color value
  * @return  Array           The HSL representation
  */
-function rgbToHsl(r, g, b){
-    r /= 255, g /= 255, b /= 255;
+function rgbToHsl(r, g, b) {
+    r /= 255;
+    g /= 255;
+    b /= 255;
     var max = Math.max(r, g, b), min = Math.min(r, g, b);
     var h, s, l = (max + min) / 2;
 
-    if(max == min){
+    if (max == min) {
         h = s = 0; // achromatic
-    }else{
+    } else {
         var d = max - min;
         s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
         switch(max){
@@ -250,18 +269,18 @@ function rgbToHsl(r, g, b){
  * @param   Number  l       The lightness
  * @return  Array           The RGB representation
  */
-function hslToRgb(h, s, l){
+function hslToRgb(h, s, l) {
     var r, g, b;
 
-    if(s == 0){
+    if (s == 0) {
         r = g = b = l; // achromatic
-    }else{
-        function hue2rgb(p, q, t){
-            if(t < 0) t += 1;
-            if(t > 1) t -= 1;
-            if(t < 1/6) return p + (q - p) * 6 * t;
-            if(t < 1/2) return q;
-            if(t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+    } else {
+        function hue2rgb(p, q, t) {
+            if (t < 0) { t += 1 };
+            if (t > 1) { t -= 1 };
+            if (t < 1/6) { return p + (q - p) * 6 * t };
+            if (t < 1/2) { return q };
+            if (t < 2/3) { return p + (q - p) * (2/3 - t) * 6 };
             return p;
         }
 
@@ -347,13 +366,18 @@ StephaneNodesUI = Ext.extend(GeoExt.tree.LayerNodeUI, {
 			var component = a.component || this.component;
 			var opacitySlider = a.opacitySlider || this.opacitySlider;
 			if (opacitySlider) {
-				var slider = new GeoExt.LayerOpacitySlider({
-					layer: this.node.layer,
-					width: 200,
-					value: this.node.layer.opacity === null ? 100 : this.node.layer.opacity * 100,
-					maxValue: 100
-				});
-				buttons.push(slider)
+			    if (!this.node.layer.opacity) {
+				this.node.layer.opacity = 1;
+			    }
+			    var slider = new GeoExt.LayerOpacitySlider({
+				    layer: this.node.layer,
+				    width: 200,
+				    value: this.node.layer.opacity * 100,
+				    maxValue: 100,
+				    aggressive: true,
+				    changeVisibility: true
+			    });
+			    buttons.push(slider)
 			}
 
 			buttons.push('->');
@@ -367,12 +391,16 @@ StephaneNodesUI = Ext.extend(GeoExt.tree.LayerNodeUI, {
 						text += "Title: " + this.text + "<br />";
 						text += "Reference: " + this.ref + "<br />";
 						text += "Copyright: " + stripHTML(this.attribution) + "<br />";
-						var index = this.url.indexOf("/${z}/${x}/${y}.png");
+						var url = this.url;
+						if (url instanceof Array) {
+						    url = url[0];
+						}
+						var index = url.indexOf("/${z}/${x}/${y}.png");
 						if (index > 0) {
-							text += "Get from: " + this.url.substring(0, index);
+							text += "Get from: " + url.substring(0, index);
 						}
 						else {
-							text += "Get from: " + this.url;
+							text += "Get from: " + url;
 						}
 						new Ext.Window({
 							title: OpenLayers.i18n("Layer informations"),
@@ -397,7 +425,7 @@ StephaneNodesUI = Ext.extend(GeoExt.tree.LayerNodeUI, {
 						if (index == this.map.layers.length - 1) {
 							return;
 						}
-						this.map.setLayerIndex(this, index + 1)
+						this.map.setLayerIndex(this, index + 1);
 					},
 					scope: this.node.layer
 				}));
@@ -412,7 +440,7 @@ StephaneNodesUI = Ext.extend(GeoExt.tree.LayerNodeUI, {
 						if (index == 0) {
 							return;
 						}
-						this.map.setLayerIndex(this, index - 1)
+						this.map.setLayerIndex(this, index - 1);
 					},
 					scope: this.node.layer
 				}));
@@ -439,7 +467,7 @@ StephaneNodesUI = Ext.extend(GeoExt.tree.LayerNodeUI, {
 		}
     },
 
-    renderElements : function(n, a, targetNode, bulkRender){
+    renderElements : function(n, a, targetNode, bulkRender) {
         
         this.indentMarkup = n.parentNode ? n.parentNode.ui.getChildIndent() : '';
 
@@ -456,9 +484,10 @@ StephaneNodesUI = Ext.extend(GeoExt.tree.LayerNodeUI, {
             '<ul class="x-tree-node-ct" style="display:none;"></ul>',
             "</li>"].join('');
 
-        if(bulkRender !== true && n.nextSibling && (nel = n.nextSibling.ui.getEl())){
+        if (bulkRender !== true && n.nextSibling && (nel = n.nextSibling.ui.getEl())) {
             this.wrap = Ext.DomHelper.insertHtml("beforeBegin", nel, buf);
-        }else{
+        }
+        else {
             this.wrap = Ext.DomHelper.insertHtml("beforeEnd", targetNode, buf);
         }
 

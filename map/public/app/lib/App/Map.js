@@ -17,6 +17,7 @@
  * @include OpenLayers/Control/Attribution.js
  * @include OpenLayers/Control/ScaleLine.js
  * @include OpenLayers/Control/OverviewMap.js
+ * @include OpenLayers/Control/LoadingPanel.js
  * @include GeoExt/widgets/MapPanel.js
  * @include App/Tools.js
  */
@@ -55,33 +56,49 @@ App.Map = Ext.extend(GeoExt.MapPanel, {
                 new OpenLayers.Control.Attribution(),
                 new OpenLayers.Control.KeyboardDefaults(),
                 new OpenLayers.Control.ScaleLine({geodesic: true, maxWidth: 120}),
+                new OpenLayers.Control.LoadingPanel()
             ]
-        }
+        };
         
         var map = new OpenLayers.Map(mapOptions);
-        map.addLayers([new OpenLayers.Layer.OSM(OpenLayers.i18n("White background"), "http://map.stephane-brunner.ch/white.png", { 
+        map.addLayers([new OpenLayers.Layer.OSM("back", "http://map.stephane-brunner.ch/white.png", {
             numZoomLevels: 20, 
             displayInLayerSwitcher: false
         })]);
 
+        var selectFeatureControl = null;
         map.events.register('addlayer', map, function(arguments) {
-            if (arguments.layer instanceof OpenLayers.Layer.Vector) {
-                var sf = new OpenLayers.Control.SelectFeature(arguments.layer, {
+            if (arguments.layer instanceof OpenLayers.Layer.Vector && (arguments.layer.ref || arguments.layer.name == "Routing")) {
+                if (map.popups.length > 0) {
+                    map.removePopup(map.popups[0]);
+                }
+                if (selectFeatureControl) {
+                    selectFeatureControl.destroy();
+                }
+/*                var layers = [];
+                Ext.each(map.layers, function (layer) {
+                    if (layer instanceof OpenLayers.Layer.Vector && (layer.ref || layer.name == "Routing")) {
+                        layers.pop(layer);
+                    }
+                });
+*/
+                var selectFeatureControl = new OpenLayers.Control.SelectFeature(arguments.layer, {
                     autoActivate: true,
                     hover: true,
                     clickout: true,
                     toggle: true
                 });
-                this.addControl(sf);
+                this.addControl(selectFeatureControl);
+                selectFeatureControl
 
                 arguments.layer.events.register('featureselected', this, function(o) {
                     var html = null;
-                    for (a in o.feature.attributes) {
-                        if (html == null) {
+                    for (var a in o.feature.attributes) {
+                        if (html === null) {
                             html = '';
                         }
                         else {
-                            html += '<br />'
+                            html += '<br />';
                         }
                         if (a == 'website') {
                             var href = o.feature.attributes[a];
@@ -112,9 +129,24 @@ App.Map = Ext.extend(GeoExt.MapPanel, {
                         var href = "http://www.openstreetmap.org/browse/" + o.feature.type + "/" + o.feature.osm_id + "/history";
                         html += '<br /><a href="' + href + '">History</a>';
                     }
-                    
-                    OpenLayers.Util.getElement('featureData').innerHTML = "<p>" + html + "</p>";
+
+                    if (map.popups.length > 0) {
+                        map.removePopup(map.popups[0]);
+                    }
+                    var c = o.feature.geometry.getCentroid();
+                    popup = new OpenLayers.Popup('selection', new OpenLayers.LonLat(c.x, c.y), new OpenLayers.Size(150, 150),
+                            "<h1>" + OpenLayers.i18n("Selection") + "</h1><p>" + html + "</p>", true);
+                    map.addPopup(popup);
                 });
+            }
+
+            if (arguments.layer.displayInLayerSwitcher !== false) {
+                var layers = map.getLayersBy('displayInLayerSwitcher', false);
+                for (var i = 0, len = layers.length ; i < len ; i++) {
+                    if (layers[i].name != "back") {
+                        map.setLayerIndex(layers[i], map.layers.length - 1);
+                    }
+                }
             }
         });
 
@@ -122,6 +154,7 @@ App.Map = Ext.extend(GeoExt.MapPanel, {
         var tools = new App.Tools(map);
         options = Ext.apply({
             map: map,
+            extent: new OpenLayers.Bounds(5, 45.5, 11, 48).transform(map.displayProjection, map.projection),
     //        tbar: tools.tbar,
             border: true,
             stateId: "m",
@@ -136,7 +169,7 @@ App.Map = Ext.extend(GeoExt.MapPanel, {
         // if we get strings for state.x, state.y or state.zoom
         // OpenLayers will take care of converting them to the
         // appropriate types so we don't bother with that
-        this.center = new OpenLayers.LonLat(state.x, state.y);
+        this.center = new OpenLayers.LonLat(state.x, state.y).transform(this.map.displayProjection, this.map.getProjectionObject());
         this.zoom = state.z;
 
         // set layer visibility and opacity
@@ -183,10 +216,10 @@ App.Map = Ext.extend(GeoExt.MapPanel, {
         }
 
         // record location and zoom level
-        var center = this.map.getCenter();
+        var center = this.map.getCenter().clone().transform(this.map.getProjectionObject(), this.map.displayProjection);
         state = {
-            x: Math.round(center.lon),
-            y: Math.round(center.lat),
+            x: Math.round(center.lon * 100000) / 100000,
+            y: Math.round(center.lat * 100000) / 100000,
             z: this.map.getZoom()
         };
 
@@ -197,8 +230,7 @@ App.Map = Ext.extend(GeoExt.MapPanel, {
             if (layer.ref) {
                 layerId = layer.ref;
                 state["v_" + layerId] = layer.getVisibility();
-                state["o_" + layerId] = layer.opacity == null ?
-                    1 : layer.opacity;
+                state["o_" + layerId] = layer.opacity === null ? 1 : layer.opacity;
             }
         }
 

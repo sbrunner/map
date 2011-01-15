@@ -85,7 +85,7 @@ class GeoRaster:
             dir = "."
         for shape in shpRecords:
             filename=shape['dbf_data']['location'].rstrip()
-            if filename.endwith(".tif"):
+            if filename.endswith(".tif"):
                 tile = TIFTile(filename)
             else:
                 tileClass=None

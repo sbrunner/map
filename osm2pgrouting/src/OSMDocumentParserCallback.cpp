@@ -51,8 +51,6 @@ void OSMDocumentParserCallback::StartElement( const char *name, const char** att
                 if (node != 0) {
                     m_pActWay->AddNodeRef(node);
                     node->numsOfUse += 1;
-                } else {
-                    std::cerr << "Reference nd=" << nodeRefId << " has no corresponding Node Entry (Maybe Node entry after Reference?)" << std::endl;
                 }
 			}
 		}
@@ -130,7 +128,6 @@ void OSMDocumentParserCallback::StartElement( const char *name, const char** att
 		if (atts != NULL)
 		{
 			long long id=-1;
-			bool visibility = false;
 			const char** attribut = (const char**)atts;
 			while( *attribut != NULL )
 			{
@@ -140,14 +137,10 @@ void OSMDocumentParserCallback::StartElement( const char *name, const char** att
 				{
 					id = atol( value);
 				}
-				else if( strcmp( name, "visible" ) == 0 )
-				{
-					visibility = strcmp(value,"true")==0;
-				}
 			}
-			if( id>0 )
+			if (id>0)
 			{
-				m_pActWay = new Way( id, visibility );
+				m_pActWay = new Way(id);
 				
 			}
 		}
@@ -161,11 +154,11 @@ void OSMDocumentParserCallback::StartElement( const char *name, const char** att
 
 void OSMDocumentParserCallback::EndElement( const char* name )
 {
-	if( strcmp(name,"way") == 0 )
+	if (strcmp(name,"way") == 0)
 	{
-		if( ! m_pActWay->m_attributes.empty() )
+		if (! m_pActWay->m_attributes.empty())
 		{
-			m_rDocument.AddWay( m_pActWay );
+			m_rDocument.AddWay(m_pActWay);
 		}
 		else
 		{
