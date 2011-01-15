@@ -27,6 +27,8 @@
 #include "Way.h"
 #include <set>
 
+#include <boost/algorithm/string/replace.hpp>
+
 using namespace osm;
 
 /**
@@ -45,19 +47,15 @@ public:
 	 * @param dbname name of the database
 	 * 
 	 */ 
- 	Export2DB(std::string host, std::string user, std::string dbname, std::string port, std::string password);
+ 	Export2DB();
  	/**
  	 * Destructor
  	 * closes the connection to the database
  	 */  
  	~Export2DB();
  	
- 	//! connects to database
- 	int connect();
  	//! creates needed tables
  	void createTables(std::set<std::string> edge, std::set<std::string> vertex);
- 	//! exports nodes to the database
- 	void exportNode(Node* node, std::set<std::string> vertex);
  	//! exports ways to the database
  	void exportWay(Way* way, std::set<std::string> edge, std::set<std::string> vertex);
 
@@ -76,9 +74,6 @@ public:
  	void dropTables();
  	
 private:
-    PGconn *mycon;
-    std::string conninf;
-
  	std::string getCollumns(std::set<std::string> names, std::string prefix);
 };
 
