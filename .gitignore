@@ -13,3 +13,5 @@ jsbuild/app.cfg
 map.egg-info/
 print/print-*.jar
 production.ini
+osm2pgrouting/osm2pgrouting
+
