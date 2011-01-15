@@ -42,7 +42,7 @@ std::string Export2DB::getCollumns(std::set<std::string> names, std::string pref
 void Export2DB::createTables(std::set<std::string> edge, std::set<std::string> vertex)
 {
     {
-        std::string query("CREATE TABLE ways (gid int4, altitude_diff double precision, x1 double precision, y1 double precision, x2 double precision,y2 double precision, rule text, PRIMARY KEY(gid)");
+        std::string query("CREATE TABLE ways (gid int4, source int4, target int4, altitude_diff double precision, x1 double precision, y1 double precision, x2 double precision,y2 double precision, rule text, PRIMARY KEY(gid)");
         query += getCollumns(edge, "");
         query += getCollumns(vertex, "source_");
         query += getCollumns(vertex, "target_");
@@ -75,7 +75,7 @@ void Export2DB::exportWay(Way* way, std::set<std::string> edge, std::set<std::st
             altitude_diff = back->ele - front->ele;
         }
     }
-    std::string query = "INSERT into ways(gid, altitude_diff, x1, y1, x2, y2, the_geom";
+    std::string query = "INSERT into ways(gid, source, target, altitude_diff, x1, y1, x2, y2, the_geom";
     for (std::set<std::string>::iterator it = edge.begin(); it != edge.end(); it++) {
         query += ", \"" + *it + "\"";
     }
@@ -86,7 +86,7 @@ void Export2DB::exportWay(Way* way, std::set<std::string> edge, std::set<std::st
     query += ") values (";
     
     query += boost::lexical_cast<std::string>(way->id) + ","
-//         	   + boost::lexical_cast<std::string>(source_id) + "," + boost::lexical_cast<std::string>(target_id) + ","
+	     + boost::lexical_cast<std::string>(source_id) + "," + boost::lexical_cast<std::string>(target_id) + ","
 	     + boost::lexical_cast<std::string>(altitude_diff) + "," 
 	     + boost::lexical_cast<std::string>(way->m_NodeRefs.front()->lon) + "," + boost::lexical_cast<std::string>(way->m_NodeRefs.front()->lat) + ","
 	     + boost::lexical_cast<std::string>(way->m_NodeRefs.back()->lon)  + "," + boost::lexical_cast<std::string>(way->m_NodeRefs.back()->lat) + ",";
@@ -114,17 +114,17 @@ void Export2DB::exportWay(Way* way, std::set<std::string> edge, std::set<std::st
         query += ", '" + boost::algorithm::replace_all_copy(front->m_attributes[*it], "'", "''") + "'";
         query += ", '" + boost::algorithm::replace_all_copy(back->m_attributes[*it], "'", "''") + "'";
     }
-    query+=");";
+    query += ");";
     std::cout << query <<std::endl;
 }
 
 void Export2DB::createTopology()
 {
-    std::cout << "ALTER TABLE ways ADD COLUMN source int4;" <<std::endl;
+/*    std::cout << "ALTER TABLE ways ADD COLUMN source int4;" <<std::endl;
     std::cout << "ALTER TABLE ways ADD COLUMN target int4;" <<std::endl;
     std::cout << "CREATE INDEX source_idx ON ways(source);" <<std::endl;
     std::cout << "CREATE INDEX target_idx ON ways(target);" <<std::endl;
     std::cout << "CREATE INDEX geom_idx ON ways USING GIST(the_geom GIST_GEOMETRY_OPS);" <<std::endl;
-    std::cout << "SELECT assign_vertex_id('ways', 0.00001, 'the_geom', 'gid');" <<std::endl;
+    std::cout << "SELECT assign_vertex_id('ways', 0.00001, 'the_geom', 'gid');" <<std::endl;*/
     std::cout << "VACUUM FULL VERBOSE ANALYZE;" <<std::endl;
 }
