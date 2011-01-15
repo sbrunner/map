@@ -88,4 +88,12 @@ div.no-over table.x-btn-over td {
     background-color: transparent;
 }
 
-
+.bubble button {
+    font-size: 140%;
+    font-weight: bold;
+    margin: 0 0 3px 3px;
+}
+.bubble td {
+    background-image: none;
+    text-align: left;
+}

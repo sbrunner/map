@@ -84,8 +84,8 @@ My.ux.BubblePanel = Ext.extend(Ext.Panel, {
 			}, this);
 			var title = new Ext.Button({
 				region: 'north',
-				html: '<h2>' + title + '</h2>',
-				style: "padding: 4px 8px;",
+				text: title,
+				cls: 'bubble',
 				enableToggle: true,
 				handler: function() {
 					if (this.collapsed) {
