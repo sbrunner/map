@@ -18,6 +18,7 @@ Ext.onReady(function() {
         },
         {
             renderTo: "bubble",
+            cls: "bubble-panel",
             height: 400,
             width: 200
         });

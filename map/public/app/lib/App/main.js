@@ -125,21 +125,6 @@ window.onload = function() {
         region: "center"
     }));
 
-    if (mapPanel.map.getZoom() === 0) {
-        if (navigator.geolocation) {
-            try {
-              navigator.geolocation.getCurrentPosition(usePosition);
-            }
-            catch (e) {
-              mapPanel.map.zoomToMaxExtent();
-            }
-        }
-        else {
-            mapPanel.map.zoomToMaxExtent();
-        }
-    }
-
-
     /*
      * init the layer tree
      */
