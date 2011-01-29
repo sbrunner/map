@@ -17,6 +17,7 @@
  * @include OpenLayers/Layer/Vector.js
  * @include OpenLayers/Layer/XYZ.js
  * @include OpenLayers/Layer/WMS.js
+ * @include OpenLayers/Format/OSM.js
  */
 
 function contains(array, needle) {
@@ -78,9 +79,14 @@ function addXapiStyleLayer(options) {
     var element = options.element;
     var predicate = options.predicate;
 
-    var format = new OpenLayers.Format.OSM({ 
+    var format = new OpenLayers.Format.OSM({
         checkTags: true,
-        externalProjection: epsg4326
+        externalProjection: epsg4326,
+        relationsParcers: {
+            multipolygon: OpenLayers.Format.OSM.multipolygonParcer,
+            boundary:     OpenLayers.Format.OSM.multipolygonParcer,
+            route:        OpenLayers.Format.OSM.routeParcer
+        }
     });
     var protocol;
     var strategies = null;
@@ -107,7 +113,7 @@ function addXapiStyleLayer(options) {
         protocol: protocol,
         styleMap: styleMap,
         numZoomLevels: 22,
-        attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>"
+        attribution: "Data CC-By-SA by <a href='http://openstreetmap.org/'>OpenStreetMap</a>"
     });
     return layer;
 }
@@ -135,14 +141,19 @@ function addOsmStyleLayer(options) {
         strategies: strategies,
         protocol: new OpenLayers.Protocol.HTTP({
             url: url,
-            format: new OpenLayers.Format.OSM({ 
+            format: new OpenLayers.Format.OSM({
                 checkTags: true,
-                externalProjection: epsg4326
+                externalProjection: epsg4326,
+                relationsParcers: {
+                    multipolygon: OpenLayers.Format.OSM.multipolygonParcer,
+                    boundary:     OpenLayers.Format.OSM.multipolygonParcer,
+                    route:        OpenLayers.Format.OSM.routeParcer
+                }
             })
         }),
         styleMap: styleMap,
         numZoomLevels: 22,
-        attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>"
+        attribution: "Data CC-By-SA by <a href='http://openstreetmap.org/'>OpenStreetMap</a>"
     });
     return layer;
 }

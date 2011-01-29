@@ -31,7 +31,6 @@
  * @include OpenLayers/Strategy/BBOX.js
  * @include OpenLayers/Protocol/HTTP.js
  * @include OpenLayers/Format/JSON.js
- * @include OpenLayers/Format/OSM.js
  * 
  * @include GeoExt/widgets/MapPanel.js
  * @include GeoExt/widgets/tree/LayerContainer.js
