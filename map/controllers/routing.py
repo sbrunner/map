@@ -1,8 +1,8 @@
 #from epfl.lib.base import *
 
-from mapfishapp.model import Session
-from mapfishapp.model.routing import RoutingEdge
-from mapfishapp.lib.base import BaseController
+from map.model import Session
+from map.model.routing import RoutingEdge
+from map.lib.base import BaseController
 
 from mapfish.plugins.pgrouting import shortest_path
 

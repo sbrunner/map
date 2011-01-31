@@ -31,7 +31,7 @@ def make_map(config):
     map.connect('/{controller}/{action}')
     map.connect('/{controller}/{action}/{id}')
 
-    map.connect('/routing', controller='routing')
-    map.connect('/routing{path:.*?}', controller='routing')
+    map.connect('/routing', controller='routing', action='index')
+    map.connect('/routing{path:.*?}', controller='routing', action='index')
 
     return map
