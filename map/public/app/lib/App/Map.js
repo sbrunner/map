@@ -11,13 +11,15 @@
  * @include OpenLayers/Map.js
  * @include OpenLayers/Layer/XYZ.js
  * @include OpenLayers/Control/Navigation.js
- * @include OpenLayers/Control/PanPanel.js
+ * @include OpenLayers/Control/PanZoomBar.js
  * @include OpenLayers/Control/ZoomPanel.js
  * @include OpenLayers/Control/ArgParser.js
  * @include OpenLayers/Control/Attribution.js
  * @include OpenLayers/Control/ScaleLine.js
- * @include OpenLayers/Control/OverviewMap.js
  * @include OpenLayers/Control/LoadingPanel.js
+ * @include OpenLayers/Control/MousePosition.js
+ * @include OpenLayers/Control/KeyboardDefaults.js
+ * @include OpenLayers/Control/ArgParser.js
  * @include GeoExt/widgets/MapPanel.js
  * @include App/Tools.js
  */

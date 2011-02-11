@@ -97,3 +97,10 @@ div.no-over table.x-btn-over td {
     background-image: none;
     text-align: left;
 }
+
+.olControlOverviewMapElement {
+    background-color: #000000;
+    -moz-opacity:0.75;
+    opacity: 0.75;
+    filter:alpha(opacity=75);
+}
