@@ -163,7 +163,7 @@ reversecost = commoncost % {'diff': reversediffSpeed, 'speed': reversespeed, 'fi
 print """
 DROP TABLE IF EXISTS edges;
 CREATE TABLE edges (id int4, source int4, target int4, cost float8, reverse_cost float8, x1 double precision, y1 double precision, x2 double precision, y2 double precision);
-SELECT AddGeometryColumn('edges','the_geom',4326,'MULTILINESTRING',3);
+SELECT AddGeometryColumn('edges','the_geom',4326,'MULTILINESTRING',2);
 INSERT INTO edges (id, source, target, cost, reverse_cost, x1, y1, x2, y2, the_geom)
     SELECT gid AS id, source, target, (%(cost)s)::float8 AS cost, (%(reversecost)s)::float8 AS reverse_cost, x1, y1, x2, y2, the_geom
     FROM ways;

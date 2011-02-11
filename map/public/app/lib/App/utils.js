@@ -82,10 +82,10 @@ function addXapiStyleLayer(options) {
     var format = new OpenLayers.Format.OSM({
         checkTags: true,
         externalProjection: epsg4326,
-        relationsParcers: {
-            multipolygon: OpenLayers.Format.OSM.multipolygonParcer,
-            boundary:     OpenLayers.Format.OSM.multipolygonParcer,
-            route:        OpenLayers.Format.OSM.routeParcer
+        relationsParsers: {
+            multipolygon: OpenLayers.Format.OSM.multipolygonParser,
+            boundary:     OpenLayers.Format.OSM.multipolygonParser,
+            route:        OpenLayers.Format.OSM.routeParser
         }
     });
     var protocol;
@@ -144,10 +144,10 @@ function addOsmStyleLayer(options) {
             format: new OpenLayers.Format.OSM({
                 checkTags: true,
                 externalProjection: epsg4326,
-                relationsParcers: {
-                    multipolygon: OpenLayers.Format.OSM.multipolygonParcer,
-                    boundary:     OpenLayers.Format.OSM.multipolygonParcer,
-                    route:        OpenLayers.Format.OSM.routeParcer
+                relationsParsers: {
+                    multipolygon: OpenLayers.Format.OSM.multipolygonParser,
+                    boundary:     OpenLayers.Format.OSM.multipolygonParser,
+                    route:        OpenLayers.Format.OSM.routeParser
                 }
             })
         }),
