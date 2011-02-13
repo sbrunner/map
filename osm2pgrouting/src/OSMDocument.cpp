@@ -29,7 +29,9 @@
 namespace osm
 {
 
-OSMDocument::OSMDocument( Configuration& config ) : m_rConfig( config )
+OSMDocument::OSMDocument(Configuration& config):
+	m_rConfig(config),
+	wayid(0)
 {
 }
 
@@ -56,18 +58,9 @@ const
 	return (it != m_Nodes.end() ) ? it->second : 0;
 }
 
-void OSMDocument::SplitWays()
+long long OSMDocument::SplitWays(long long id)
 {
 	
-//	std::vector<Way*>::const_iterator it(m_Ways.begin());
-//	std::vector<Way*>::const_iterator last(m_Ways.end());
-
-	//splitted ways get a new ID
-	long long id=0;
-
-//	while(it!=last)
-//	{
-//		Way* currentWay = *it++;
 	while (!m_Ways.empty()) {
 		Way* currentWay = m_Ways.back();
 		
@@ -85,7 +78,7 @@ void OSMDocument::SplitWays()
 			Node* secondNode=0;
 			Node* lastNode=0;
 			
-			Way* splitted_way = new Way(++id);
+			Way* splitted_way = new Way(node->id, ++id);
 			splitted_way->m_attributes = currentWay->m_attributes;
 
 			splitted_way->AddNodeRef(node);
@@ -127,6 +120,7 @@ void OSMDocument::SplitWays()
 
 		m_Ways.pop_back();
 		delete currentWay;
+		return id;
 	}
 
 } // end SplitWays

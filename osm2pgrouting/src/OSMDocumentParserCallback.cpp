@@ -32,7 +32,6 @@
 namespace osm
 {
 	
-	
 /**
 	Parser callback for OSMDocument files
 */
@@ -140,12 +139,11 @@ void OSMDocumentParserCallback::StartElement( const char *name, const char** att
 			}
 			if (id>0)
 			{
-				m_pActWay = new Way(id);
-				
+				m_pActWay = new Way(id, ++m_rDocument.wayid);
 			}
 		}
 	}
-	else if( strcmp(name,"osm") == 0 )
+	else if (strcmp(name,"osm") == 0)
 	{
 	}
 }

@@ -52,6 +52,8 @@ public:
 	std::vector<Node*> m_NodeRefs;
 	//! ID of the way
 	long long id;
+	//! new ID of the way
+	long long nid;
 //	bool visible;
 	//! name of the street
 //	std::string name;
@@ -68,7 +70,7 @@ public:
 	 *	Constructor
 	 *	@param id ID of the way
 	 */
-	Way(long long id);
+	Way(long long id, long long nid);
 	//! Destructor
 	~Way();
 	/**

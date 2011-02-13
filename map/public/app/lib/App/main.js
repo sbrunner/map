@@ -20,13 +20,8 @@
  * @include OpenLayers/Lang.js
  * @include OpenLayers/Map.js
  * @include OpenLayers/Control/SelectFeature.js
- * @include OpenLayers/Control/PanZoomBar.js
- * @include OpenLayers/Control/MousePosition.js
- * @include OpenLayers/Control/KeyboardDefaults.js
- * @include OpenLayers/Control/Attribution.js
- * @include OpenLayers/Control/ScaleLine.js
+ * @include OpenLayers/Control/OverviewMap.js
  * @include OpenLayers/Control/Permalink.js
- * @include OpenLayers/Control/ArgParser.js
  * @include OpenLayers/Strategy/Fixed.js
  * @include OpenLayers/Strategy/BBOX.js
  * @include OpenLayers/Protocol/HTTP.js
@@ -160,8 +155,9 @@ window.onload = function() {
     });
     if (mapPanel.map.layers.length == 1) { // only the blank background
         tree.addLayerByRef('mk');
+        tree.addLayerByRef('all');
     }
-
+    mapPanel.map.addControl(new OpenLayers.Control.OverviewMap({minRatio: 64, maxRatio: 64, layers: [new OpenLayers.Layer.OSM()]}));
 
     /*
      * init the routing panel

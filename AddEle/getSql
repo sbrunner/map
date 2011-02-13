@@ -71,12 +71,12 @@ end) *
     end)
 end) *
 (case trail_visibility 
-    when 'excellent' then 1
+    when 'excellent' then 1.0
     when 'good' then 1.1
     when 'intermediate' then 1.3
     when 'bad' then 1.8
     when 'horrible' then 2.5
-    when 'no' then 4
+    when 'no' then 4.0
     else 1.1
 end)
 """
@@ -136,13 +136,17 @@ end)
 """
 
 length = "ST_Length(the_geom, true)"
-commondiff = "(case when altitude_diff > 0 then exp(%(signe)s altitude_diff / %(length)s * 12) else exp(%(signe)s altitude_diff / %(length)s * 9) end) * %(length)s * 200"
+commondiff = "(case when %(signe)s altitude_diff > 0 then exp(%(signe)s altitude_diff / %(length)s * 12) else exp(%(signe)s altitude_diff / %(length)s * 9) end) * %(length)s * 200"
 diffSpeed =        commondiff%{'signe': '+', 'length': length}
 reversediffSpeed = commondiff%{'signe': '-', 'length': length}
 
-testtooincline = "(case when abs(altitude_diff) / %(length)s < 10 then %(calculate)s else -1 end)"
-diffSpeed =        testtooincline%{'length': length, 'calculate': diffSpeed}
-reversediffSpeed = testtooincline%{'length': length, 'calculate': reversediffSpeed}
+#testtooincline = "(case when abs(altitude_diff) / %(length)s < 10 then %(calculate)s else -1 end)"
+#diffSpeed =        testtooincline%{'length': length, 'calculate': diffSpeed}
+#reversediffSpeed = testtooincline%{'length': length, 'calculate': reversediffSpeed}
+
+testtooslow = "(case when %(calculate)s > 10 then %(calculate)s else 100 end)"
+diffSpeed =        testtooslow%{'calculate': diffSpeed}
+reversediffSpeed = testtooslow%{'calculate': reversediffSpeed}
 
 testlength = "(case when %(length)s > 0 then %(calculate)s else 0 end)"
 diffSpeed =        testlength%{'length': length, 'calculate': diffSpeed}
@@ -156,18 +160,26 @@ replaceOverMax = "(case when %(speed)s < 10000 then %(calculate)s else -1 end)"
 speed =        replaceOverMax%{'speed': speed,        'calculate': speed}
 reversespeed = replaceOverMax%{'speed': reversespeed, 'calculate': reversespeed}
 
-commoncost = "%(diff)s * %(speed)s %(fixed)s"
+commoncost = "%(diff)s * %(speed)s + %(fixed)s"
 cost =        commoncost % {'diff': diffSpeed,        'speed': speed,        'fixed': booth_fixed}
 reversecost = commoncost % {'diff': reversediffSpeed, 'speed': reversespeed, 'fixed': booth_fixed}
+
 
 print """
 DROP TABLE IF EXISTS edges;
 CREATE TABLE edges (id int4, source int4, target int4, cost float8, reverse_cost float8, x1 double precision, y1 double precision, x2 double precision, y2 double precision);
-SELECT AddGeometryColumn('edges','the_geom',4326,'MULTILINESTRING',2);
+SELECT AddGeometryColumn('edges','the_geom',4326,'MULTILINESTRING',2);"""
+print """
 INSERT INTO edges (id, source, target, cost, reverse_cost, x1, y1, x2, y2, the_geom)
     SELECT gid AS id, source, target, (%(cost)s)::float8 AS cost, (%(reversecost)s)::float8 AS reverse_cost, x1, y1, x2, y2, the_geom
-    FROM ways;
+    FROM ways;"""%{'cost': cost, 'reversecost': reversecost}
+print """
 CREATE INDEX source_idx ON edges(source);
 CREATE INDEX target_idx ON edges(target);
 --CREATE INDEX geom_idx ON ways USING GIST(the_geom GIST_GEOMETRY_OPS);
-VACUUM FULL VERBOSE ANALYZE;"""%{'cost': cost, 'reversecost': reversecost}
+UPDATE edges SET cost = -1 WHERE cost > 1000000000;
+UPDATE edges SET reverse_cost = -1 WHERE reverse_cost > 1000000000;
+UPDATE edges SET cost = -1 WHERE cost < 0;
+UPDATE edges SET reverse_cost = -1 WHERE reverse_cost < 0;
+--SELECT assign_vertex_id('edges', 0.00001, 'the_geom', 'id');
+VACUUM FULL ANALYZE;"""

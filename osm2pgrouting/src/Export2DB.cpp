@@ -69,8 +69,8 @@ void Export2DB::exportWay(Way* way, std::set<std::string> edge, std::set<std::st
     Node* front = way->m_NodeRefs.front();
     Node* back = way->m_NodeRefs.back();
     {
-        sprintf(source_id, "%lld", front->id);
-        sprintf(target_id, "%lld", back->id);        
+        sprintf(source_id, "%lld", front->nid);
+        sprintf(target_id, "%lld", back->nid);        
         if (front->ele != -99999 && back->ele != -99999) {
             altitude_diff = back->ele - front->ele;
         }
@@ -85,7 +85,7 @@ void Export2DB::exportWay(Way* way, std::set<std::string> edge, std::set<std::st
     }
     query += ") values (";
     
-    query += boost::lexical_cast<std::string>(way->id) + ","
+    query += boost::lexical_cast<std::string>(way->nid) + ","
 	     + boost::lexical_cast<std::string>(source_id) + "," + boost::lexical_cast<std::string>(target_id) + ","
 	     + boost::lexical_cast<std::string>(altitude_diff) + "," 
 	     + boost::lexical_cast<std::string>(way->m_NodeRefs.front()->lon) + "," + boost::lexical_cast<std::string>(way->m_NodeRefs.front()->lat) + ","
@@ -126,5 +126,5 @@ void Export2DB::createTopology()
     std::cout << "CREATE INDEX target_idx ON ways(target);" <<std::endl;
     std::cout << "CREATE INDEX geom_idx ON ways USING GIST(the_geom GIST_GEOMETRY_OPS);" <<std::endl;
     std::cout << "SELECT assign_vertex_id('ways', 0.00001, 'the_geom', 'gid');" <<std::endl;*/
-    std::cout << "VACUUM FULL VERBOSE ANALYZE;" <<std::endl;
+    std::cout << "VACUUM FULL ANALYZE;" <<std::endl;
 }

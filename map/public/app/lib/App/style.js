@@ -161,3 +161,23 @@ function getVitaStyle() {
     return styleMap;
 }
 
+function getBusStyle() {
+    var styleMap = new OpenLayers.StyleMap();
+    styleMap.createSymbolizer = function(feature, intent) {
+        if(!feature) {
+            feature = new OpenLayers.Feature.Vector();
+        }
+        if(!this.styles[intent]) {
+            intent = "default";
+        }
+        feature.renderIntent = intent;
+        var defaultSymbolizer = {};
+        if(this.extendDefault && intent != "default") {
+            defaultSymbolizer = this.styles["default"].createSymbolizer(feature);
+        }
+        defaultSymbolizer.strokeColor = feature.data.color;
+        return OpenLayers.Util.extend(defaultSymbolizer,
+            this.styles[intent].createSymbolizer(feature));
+    }
+    return styleMap;
+}

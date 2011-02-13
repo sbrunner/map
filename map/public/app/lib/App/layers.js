@@ -319,6 +319,15 @@ function getLayersTree(map) {
                 ref: "ptl" 
             },
             {
+                text: OpenLayers.i18n("Trolley Bus (XAPI)"),
+                leaf: true,
+                handler: addXapiStyleLayer,
+                style: getBusStyle,
+                ref: 'bus',
+                element: 'relation',
+                predicate: "route=trolleybus"
+            },
+            {
                 text: OpenLayers.i18n("OpenSeaMap"),
                 leaf: true,
                 handler: addLayer,
