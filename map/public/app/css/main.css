@@ -48,7 +48,21 @@ a:hover {
 .x-toolbar .drag-icon {
     background-image: url(../images/panning-hand-on.png);
 }
-
+.x-toolbar .maxExtent {
+    background: url('../images/map_magnify.png') top left no-repeat;
+}
+.x-toolbar .mapZoomIn {
+    background: url('../images/zoom_in.png') top left no-repeat;
+}
+.x-toolbar .mapZoomOut {
+    background: url('../images/zoom_out.png') top left no-repeat;
+}
+.x-toolbar .mapHistoryPrevious {
+    background: url('../images/arrow_left.png') top left no-repeat;
+}
+.x-toolbar .mapHistoryNext {
+    background: url('../images/arrow_right.png') top left no-repeat;
+}
 .x-toolbar .info,
 .x-toolbar .up,
 .x-toolbar .down,
@@ -86,6 +100,25 @@ div.no-over table.x-btn-over td {
 
 .no-background div {
     background-color: transparent;
+}
+
+div.toolwindow {
+    border: 1px solid #99BBE8;
+    border-top: 0;
+    border-right: 0;
+    background: #ffffff;
+    -moz-opacity:0.85;
+    opacity: 0.85;
+    filter:alpha(opacity=85);
+}
+div.toolwindow div.x-plain-tl {
+    height: 20px;
+    font-size: 14px;
+    border-bottom: 1px solid #99BBE8;
+}
+div.toolwindow div.x-panel, div.toolwindow div.x-panel-body {
+    border: none;
+    background: none;
 }
 
 .bubble button {

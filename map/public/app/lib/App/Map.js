@@ -7,6 +7,7 @@
  */
 
 /*
+ * @requires GeoExt/widgets/MapPanel.js
  * @include OpenLayers/Projection.js
  * @include OpenLayers/Map.js
  * @include OpenLayers/Layer/XYZ.js
@@ -19,8 +20,9 @@
  * @include OpenLayers/Control/LoadingPanel.js
  * @include OpenLayers/Control/MousePosition.js
  * @include OpenLayers/Control/KeyboardDefaults.js
- * @include OpenLayers/Control/ArgParser.js
- * @include GeoExt/widgets/MapPanel.js
+ * @include OpenLayers/Control/OverviewMap.js
+ * @include OpenLayers/Control/SelectFeature.js
+ * @include OpenLayers/Control/Permalink.js
  * @include App/Tools.js
  */
 
@@ -58,14 +60,16 @@ App.Map = Ext.extend(GeoExt.MapPanel, {
                 new OpenLayers.Control.Attribution(),
                 new OpenLayers.Control.KeyboardDefaults(),
                 new OpenLayers.Control.ScaleLine({geodesic: true, maxWidth: 120}),
-                new OpenLayers.Control.LoadingPanel()
+                new OpenLayers.Control.LoadingPanel(),
+                new OpenLayers.Control.OverviewMap({minRatio: 64, maxRatio: 64, layers: [new OpenLayers.Layer.OSM()]})
             ]
         };
         
         var map = new OpenLayers.Map(mapOptions);
         map.addLayers([new OpenLayers.Layer.OSM("back", "http://map.stephane-brunner.ch/white.png", {
             numZoomLevels: 20, 
-            displayInLayerSwitcher: false
+            displayInLayerSwitcher: false,
+            attribution: ""
         })]);
 
         var selectFeatureControl = null;
@@ -77,13 +81,6 @@ App.Map = Ext.extend(GeoExt.MapPanel, {
                 if (selectFeatureControl) {
                     selectFeatureControl.destroy();
                 }
-/*                var layers = [];
-                Ext.each(map.layers, function (layer) {
-                    if (layer instanceof OpenLayers.Layer.Vector && (layer.ref || layer.name == "Routing")) {
-                        layers.pop(layer);
-                    }
-                });
-*/
                 var selectFeatureControl = new OpenLayers.Control.SelectFeature(arguments.layer, {
                     autoActivate: true,
                     hover: true,
@@ -132,13 +129,14 @@ App.Map = Ext.extend(GeoExt.MapPanel, {
                         html += '<br /><a href="' + href + '">History</a>';
                     }
 
-                    if (map.popups.length > 0) {
+                    /*if (map.popups.length > 0) {
                         map.removePopup(map.popups[0]);
                     }
                     var c = o.feature.geometry.getCentroid();
                     popup = new OpenLayers.Popup('selection', new OpenLayers.LonLat(c.x, c.y), new OpenLayers.Size(150, 150),
                             "<h1>" + OpenLayers.i18n("Selection") + "</h1><p>" + html + "</p>", true);
-                    map.addPopup(popup);
+                    map.addPopup(popup);*/
+                    OpenLayers.Util.getElement('featureData').innerHTML = "<p>" + html + "</p>";
                 });
             }
 
@@ -156,16 +154,17 @@ App.Map = Ext.extend(GeoExt.MapPanel, {
         var tools = new App.Tools(map);
         options = Ext.apply({
             map: map,
+            tbar: tools.tbar,
             extent: new OpenLayers.Bounds(5, 45.5, 11, 48).transform(map.displayProjection, map.projection),
-    //        tbar: tools.tbar,
             border: true,
             stateId: "m",
             prettyStateKeys: true
         }, options);
-
         GeoExt.LayerCatalogue.superclass.constructor.call(this, options);
+        
+        this.getTopToolbar().addButton(tools.getAdditionalButtons(map));
     },
-    
+
     applyState: function(state) {
 
         // if we get strings for state.x, state.y or state.zoom
@@ -177,7 +176,7 @@ App.Map = Ext.extend(GeoExt.MapPanel, {
         // set layer visibility and opacity
         var i, l, layer, layerId, visibility, opacity;
         var layers = this.map.layers;
-        for(i=0, l=layers.length; i<l; i++) {
+        for (i=0, l=layers.length; i<l; i++) {
             layer = layers[i];
             if (layer.ref) {
                 layerId = layer.ref;

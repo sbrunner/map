@@ -80,17 +80,17 @@ GeoExt.LayerCatalogue = Ext.extend(Ext.tree.TreePanel, {
         if (state) {
             this.applyState(state);
         }
-        state = Ext.state.Manager.get(mapPanel.getStateId());
+        state = Ext.state.Manager.get(this.mapPanel.getStateId());
         if (state) {
-            mapPanel.applyState(state);
+            this.mapPanel.applyState(state);
         }
         
-        mapPanel.map.events.register("changelayer", this, function(arguments) {
+        this.mapPanel.map.events.register("changelayer", this, function(arguments) {
 			if (arguments.property == "order") {
 				this.fireEvent("ordererlayer", arguments.layer);
 			}
 		});
-        mapPanel.map.events.register("removelayer", this, function() {
+        this.mapPanel.map.events.register("removelayer", this, function() {
             this.fireEvent("removelayer", arguments.layer);
 		});
     },
@@ -110,10 +110,7 @@ GeoExt.LayerCatalogue = Ext.extend(Ext.tree.TreePanel, {
             return;
         }
         var allreadyAdded = this.mapPanel.map.getLayersBy('ref', options.ref);
-        if (allreadyAdded.length > 0) {
-            this.mapPanel.map.setBaseLayer(allreadyAdded[0]);
-        }
-        else if (options.builder || options.handler) {
+        if (allreadyAdded.length == 0 && (options.builder || options.handler)) {
             this.mapPanel.map.addLayer(this.getLayer(options));
             this.fireEvent("addlayer", options);
         }
