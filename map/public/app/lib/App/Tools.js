@@ -142,7 +142,7 @@ App.Tools = function(map) {
 
     this.getAdditionalButtons = function(map) {
         /*
-         * Layers
+         * Selected feature
          */
         var selection = toolBuilder(OpenLayers.i18n("Selected"), new Ext.Panel({
             id: 'featureData',
@@ -150,7 +150,7 @@ App.Tools = function(map) {
         }));
 
         /*
-         * Init the layer tree
+         * Layers
          */
         var layerTree = new Ext.tree.TreePanel({
             autoScroll: true,
@@ -166,21 +166,12 @@ App.Tools = function(map) {
         });
 
         /*
-         * Layers
-         */
-        var layers = toolBuilder(OpenLayers.i18n("Layers"), new Ext.Panel({
-            //height: 300,
-            items: [layerTree]
-        }));
-
-        /*
-         * init the catalogue 
+         * Catalogue 
          */
         var tree = new GeoExt.LayerCatalogue({
             mapPanel: GeoExt.MapPanel.guess(),
             root: new Ext.tree.AsyncTreeNode(getLayersTree()),
             stateId: "c",
-            width: 250,
             tbar: [{
                 xtype: 'tbfill'
             }, new Ext.Action({
@@ -191,14 +182,23 @@ App.Tools = function(map) {
                 scope: this
             })]
         })
+        tree.getTopToolbar().insert(0, new Ext.Toolbar.TextItem(OpenLayers.i18n("Catalogue")));
         if (map.layers.length == 1) { // only the blank background
             tree.addLayerByRef('mk');
             tree.addLayerByRef('all');
         }
-        var treeButton = toolBuilder(OpenLayers.i18n("Catalogue"), tree);
+        
+        /*
+         * Layers
+         */
+        var layers = toolBuilder(OpenLayers.i18n("Layers"), new Ext.Panel({
+            items: [layerTree, tree]
+//            items: [layerTree, {text: OpenLayers.i18n("Catalogue"), cls: 'x-plain-tl'}, tree]
+        }));
+
 
         /*
-         * init the routing panel
+         * Routing
          */
         var routingStyle = new OpenLayers.StyleMap();
         routingStyle.createSymbolizer = function(feature) {
@@ -325,6 +325,6 @@ App.Tools = function(map) {
                 + '<hr /><p><b><a href="https://github.com/sbrunner/map">Sources du site</a></b></p>'
         }));
         
-        return [selection, layers, treeButton, routing, links];
+        return [selection, layers, routing, links];
     }
 };
