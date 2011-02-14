@@ -56,11 +56,19 @@ App.Tools = function(map) {
      * {Array} An array of toolbar items.
      */
     var getTbarItems = function(map) {
+        var drag = new GeoExt.Action({
+            control: new OpenLayers.Control.DragPan(), 
+            toggleGroup: map.id + '_tools',
+            iconCls: 'drag-icon', 
+            tooltip: OpenLayers.i18n("Drag the map"),
+            pressed: true,
+            enableToggle: true
+        });
         var zoomToMaxExtent = new GeoExt.Action({
             control: new OpenLayers.Control.ZoomToMaxExtent(),
             map: map,
             iconCls: 'maxExtent',
-            tooltip: "Go back to maximum extent"
+            tooltip: OpenLayers.i18n("Go back to maximum extent")
         });
         var zoomIn = new GeoExt.Action({
             control: new OpenLayers.Control.ZoomBox(),
@@ -90,7 +98,7 @@ App.Tools = function(map) {
 
         var measureLocator = new App.Locator(map, {
             toggleGroup: map.id + '_tools',
-            tooltip: "Get point coordinates",
+            tooltip: OpenLayers.i18n("Get point coordinates"),
             iconCls: 'mapMeasurePosition'
         }).action
         var measureLength = new GeoExt.ux.MeasureLength({
@@ -99,7 +107,7 @@ App.Tools = function(map) {
                 geodesic: true
             },
             toggleGroup: map.id + '_tools',
-            tooltip: "Measure a length"
+            tooltip: OpenLayers.i18n("Measure a length")
         });
         var measureArea = new GeoExt.ux.MeasureArea({
             map: map,
@@ -107,16 +115,7 @@ App.Tools = function(map) {
                 geodesic: true
             },
             toggleGroup: map.id + '_tools',
-            tooltip: "Measure an area"
-        });
-
-        var drag = new GeoExt.Action({
-            control: new OpenLayers.Control.DragPan(), 
-            toggleGroup: map.id + '_tools',
-            iconCls: 'drag-icon', 
-            tooltip: OpenLayers.i18n("Drag the map"),
-            pressed: true,
-            enableToggle: true
+            tooltip: OpenLayers.i18n("Measure an area")
         });
         var geocodder = GeoExt.ux.RoutingProviders.nominatimSearchCombo({
             map: map, 
