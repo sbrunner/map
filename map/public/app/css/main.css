@@ -97,6 +97,9 @@ div.no-over table.x-btn-over td {
 .x-toolbar .gx-map-measurearea {
     background-position: -16px 0;
 }
+.x-toolbar .mapMeasurePosition {
+    background: url('../images/bullet_orange.png') top left no-repeat;
+}
 
 .no-background div {
     background-color: transparent;

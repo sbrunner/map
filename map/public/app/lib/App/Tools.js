@@ -27,6 +27,7 @@
  * @include GeoExt/widgets/Action.js
  * @include GeoExt.ux/MeasureLength.js
  * @include GeoExt.ux/MeasureArea.js
+ * @include App/Locator.js
  * @include App/ToolPanel.js
  */
 
@@ -59,7 +60,7 @@ App.Tools = function(map) {
             control: new OpenLayers.Control.ZoomToMaxExtent(),
             map: map,
             iconCls: 'maxExtent',
-            tooltip: OpenLayers.i18n("Tools.maxextentactiontooltip")
+            tooltip: "Go back to maximum extent"
         });
         var zoomIn = new GeoExt.Action({
             control: new OpenLayers.Control.ZoomBox(),
@@ -87,13 +88,18 @@ App.Tools = function(map) {
             iconCls: 'mapHistoryNext'
         });
 
+        var measureLocator = new App.Locator(map, {
+            toggleGroup: map.id + '_tools',
+            tooltip: "Get point coordinates",
+            iconCls: 'mapMeasurePosition'
+        }).action
         var measureLength = new GeoExt.ux.MeasureLength({
             map: map,
             controlOptions: {
                 geodesic: true
             },
             toggleGroup: map.id + '_tools',
-            tooltip: OpenLayers.i18n("Tools.measurelengthactiontooltip")
+            tooltip: "Measure a length"
         });
         var measureArea = new GeoExt.ux.MeasureArea({
             map: map,
@@ -101,8 +107,9 @@ App.Tools = function(map) {
                 geodesic: true
             },
             toggleGroup: map.id + '_tools',
-            tooltip: OpenLayers.i18n("Tools.measureareaactiontooltip")
+            tooltip: "Measure an area"
         });
+
         var drag = new GeoExt.Action({
             control: new OpenLayers.Control.DragPan(), 
             toggleGroup: map.id + '_tools',
@@ -119,7 +126,7 @@ App.Tools = function(map) {
         return [
             drag, zoomToMaxExtent, zoomIn, zoomOut, '-',
             historyPrevious, historyNext, '-',
-            measureLength, measureArea, '-', geocodder, '->'
+            measureLocator, measureLength, measureArea, '-', geocodder, '->'
         ];
     };
 

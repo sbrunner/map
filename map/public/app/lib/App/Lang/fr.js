@@ -3,6 +3,11 @@
  */
 
 OpenLayers.Util.extend(OpenLayers.Lang.fr, {
+    "Go back to maximum extent": "Aller a la couverture maximale",
+    "Get point coordinates": "Obtenir les coordonnÃ©es d'un point",
+    "Measure a length": "Mesure une longueurs",
+    "Measure an area": "Mesure une surface",
+
     "Various OSM map": "Diverses cartes OSM",
     "Mapnik": "Mapnik",
     "White background": "Fond blanc",
