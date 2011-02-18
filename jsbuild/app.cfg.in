@@ -58,6 +58,7 @@ include =
     OpenLayers/Control/Permalink.js
     OpenLayers/Control/Attribution.js
     OpenLayers/Control/ScaleLine.js
+    OpenLayers/Control/URLBarPermalink.js
     OpenLayers/Layer/TileCache.js
     OpenLayers/Layer/XYZ.js
         
