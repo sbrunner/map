@@ -137,6 +137,7 @@ App.Map = Ext.extend(GeoExt.MapPanel, {
                             "<h1>" + OpenLayers.i18n("Selection") + "</h1><p>" + html + "</p>", true);
                     map.addPopup(popup);*/
                     OpenLayers.Util.getElement('featureData').innerHTML = "<p>" + html + "</p>";
+                    selectionWindow.doLayout(false, true);
                 });
             }
 

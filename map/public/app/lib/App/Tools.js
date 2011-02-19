@@ -154,6 +154,8 @@ App.Tools = function(map) {
             id: 'featureData',
             style: "padding: 0 0 8px 8px;"
         }));
+        // make public
+        selectionWindow = selection.window;
 
         /*
          * Layers
