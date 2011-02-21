@@ -144,7 +144,7 @@ reversediffSpeed = commondiff%{'signe': '-', 'length': length}
 #diffSpeed =        testtooincline%{'length': length, 'calculate': diffSpeed}
 #reversediffSpeed = testtooincline%{'length': length, 'calculate': reversediffSpeed}
 
-testtooslow = "(case when %(calculate)s > 10 then %(calculate)s else 100 end)"
+testtooslow = "overMaxValue(%(calculate)s, 50, -1)"
 diffSpeed =        testtooslow%{'calculate': diffSpeed}
 reversediffSpeed = testtooslow%{'calculate': reversediffSpeed}
 
@@ -164,11 +164,51 @@ commoncost = "%(diff)s * %(speed)s + %(fixed)s"
 cost =        commoncost % {'diff': diffSpeed,        'speed': speed,        'fixed': booth_fixed}
 reversecost = commoncost % {'diff': reversediffSpeed, 'speed': reversespeed, 'fixed': booth_fixed}
 
+overmax = "maxValue(overMaxValue(%(cost)s, 1000000000, -1), -1)"
+cost =        overmax % {'cost': cost}
+reversecost = overmax % {'cost': reversecost}
+
 
 print """
 DROP TABLE IF EXISTS edges;
 CREATE TABLE edges (id int4, source int4, target int4, cost float8, reverse_cost float8, x1 double precision, y1 double precision, x2 double precision, y2 double precision);
-SELECT AddGeometryColumn('edges','the_geom',4326,'MULTILINESTRING',2);"""
+SELECT AddGeometryColumn('edges','the_geom',4326,'MULTILINESTRING',2);
+CREATE OR REPLACE FUNCTION maxValue(val1 numeric, val2 numeric) RETURNS numeric AS
+'
+begin
+if (val1 > val2) then
+return val1;
+else
+return val2;
+end if;
+end;
+'
+LANGUAGE 'plpgsql';
+
+CREATE OR REPLACE FUNCTION minValue(val1 numeric, val2 numeric) RETURNS numeric AS
+'
+begin
+if (val1 > val2) then
+return val2;
+else
+return val1;
+end if;
+end;
+'
+LANGUAGE 'plpgsql';
+
+CREATE OR REPLACE FUNCTION overMaxValue(val1 numeric, val2 numeric, default numeric) RETURNS numeric AS
+'
+begin
+if (val1 > val2) then
+return default;
+else
+return val1;
+end if;
+end;
+'
+LANGUAGE 'plpgsql';
+"""
 print """
 INSERT INTO edges (id, source, target, cost, reverse_cost, x1, y1, x2, y2, the_geom)
     SELECT gid AS id, source, target, (%(cost)s)::float8 AS cost, (%(reversecost)s)::float8 AS reverse_cost, x1, y1, x2, y2, the_geom
@@ -177,9 +217,5 @@ print """
 CREATE INDEX source_idx ON edges(source);
 CREATE INDEX target_idx ON edges(target);
 --CREATE INDEX geom_idx ON ways USING GIST(the_geom GIST_GEOMETRY_OPS);
-UPDATE edges SET cost = -1 WHERE cost > 1000000000;
-UPDATE edges SET reverse_cost = -1 WHERE reverse_cost > 1000000000;
-UPDATE edges SET cost = -1 WHERE cost < 0;
-UPDATE edges SET reverse_cost = -1 WHERE reverse_cost < 0;
 --SELECT assign_vertex_id('edges', 0.00001, 'the_geom', 'id');
 VACUUM FULL ANALYZE;"""
