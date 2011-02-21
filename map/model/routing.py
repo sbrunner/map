@@ -11,7 +11,7 @@ __all__ = [__name for __name in locals().keys() if not __name.startswith('_') \
            or __name == '_']
            
 class RoutingEdge(Base, GeometryTableMixIn):
-    __tablename__ = 'ways'
+    __tablename__ = 'edges'
     __table_args__ = {
         "autoload": True,
         "autoload_with": Session.bind
