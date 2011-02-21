@@ -2,29 +2,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
   <head>
-    <!--
-    TODO:
-    - multipoint itineraire
-    - add draw feature
-
-    - add google street view
-    - add google earth
-
-    - adresse error
-    - add editor (oauth) (amety editor)
-    
-    New Layers :
-    - add orthophotos EPFL / Lausanne / Genève / Jura / Yverdon / Neuchatel.
-    - add lit layer
-    - add bus layer
-    - add boundary layer
-    - summer/winter layer
-    - access voiture/velo
-    - ...
-
-probleme on share geometre between feature.
-
-    -->
     <title>Loading...</title>
 
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -38,6 +15,8 @@ probleme on share geometre between feature.
     <meta NAME="Generator" CONTENT="Geany" />
     <meta NAME="Robot" CONTENT="INDEX,FOLLOW" />
     <meta name="verify-v1" content="syP8XFMkXjlqcZAwWi+v+943YidZzaCgRsAWI1leDQE=" />
+    
+    <link rel="shortcut icon" href="http://map.stephane-brunner.ch/app/images/favicon.png" />
 
     <script type="text/javascript">
         var isDev = true;
@@ -61,6 +40,9 @@ probleme on share geometre between feature.
     <script type="text/javascript" src="${url('/lib/geoext.ux/ux/Measure/lib/GeoExt.ux/MeasureLength.js')}"></script>
     <script type="text/javascript" src="${url('/lib/geoext.ux/ux/Measure/lib/GeoExt.ux/MeasureArea.js')}"></script>
 
+    <script type="text/javascript" src="${url('/lib/my.ux/OpenLayers/Control/LoadingPanel.js')}"></script>
+    <script type="text/javascript" src="${url('/lib/my.ux/OpenLayers/Protocol/XAPI.js')}"></script>
+    <script type="text/javascript" src="${url('/lib/my.ux/OpenLayers/Protocol/OSMAPI.js')}"></script>
     <script type="text/javascript" src="${url('/lib/my.ux/LayerCatalogue/lib/LayerCatalogue.js')}"></script>
     <script type="text/javascript" src="${url('/lib/my.ux/RoutingPanel/lib/Providers.js')}"></script>
     <script type="text/javascript" src="${url('/lib/my.ux/RoutingPanel/lib/RoutingPanel.js')}"></script>
@@ -69,7 +51,9 @@ probleme on share geometre between feature.
     <script type="text/javascript" src="${url('/app/lib/App/Lang/en.js')}"></script>
     <script type="text/javascript" src="${url('/app/lib/App/Lang/fr.js')}"></script>
     <script type="text/javascript" src="${url('/app/lib/App/Map.js')}"></script>
+    <script type="text/javascript" src="${url('/app/lib/App/Locator.js')}"></script>
     <script type="text/javascript" src="${url('/app/lib/App/Tools.js')}"></script>
+    <script type="text/javascript" src="${url('/app/lib/App/ToolPanel.js')}"></script>
 
     <script type="text/javascript" src="${url('/lib/geoext.ux/ux/GeoNamesSearchCombo/lib/GeoExt.ux/GeoNamesSearchCombo.js')}"></script>
 
@@ -79,7 +63,6 @@ probleme on share geometre between feature.
     <script type="text/javascript" src="${url('/app/lib/App/josmstyle.js')}"></script>
     <script type="text/javascript" src="${url('/app/lib/App/osmstyle.js')}"></script>
     <script type="text/javascript" src="${url('/app/lib/App/style.js')}"></script>
-    <script type="text/javascript" src="${url('/app/lib/App/protocole.js')}"></script>
     <script type="text/javascript" src="${url('/app/lib/App/layers.js')}"></script>
 
     <link rel="stylesheet" type="text/css" href="${url('/lib/ext/Ext/resources/css/ext-all.css')}" />
@@ -88,9 +71,6 @@ probleme on share geometre between feature.
     <link rel="stylesheet" type="text/css" href="${url('/lib/geoext.ux/ux/Measure/resources/css/measure.css')}" />
     <link rel="stylesheet" type="text/css" href="${url('/app/css/main.css')}" />
 % else:
-    <script type="text/javascript">
-        window.OpenLayers = {};
-    </script>
     <script type="text/javascript" src="${url('/build/app.js')}"></script>
     <script type="text/javascript" src="${url('/build/fr.js')}"></script>
     <script type="text/javascript" src="${url('/build/en.js')}"></script>
@@ -103,11 +83,11 @@ probleme on share geometre between feature.
 
         // uncomment this line if you use the OGC proxy
         //OpenLayers.ProxyHost = "${url(controller='ogcproxy', action='index', url='')}";
+        OpenLayers.ProxyHost = "/main/wsgi/app/proxy.php?url="; // proxy is required here
 
-        Ext.BLANK_IMAGE_URL = "${url('/lib/ext/Ext/resources/images/default/s.gif')}";
+//        Ext.BLANK_IMAGE_URL = "${url('/lib/ext/Ext/resources/images/default/s.gif')}";
 
         OpenLayers.IMAGE_RELOAD_ATTEMPTS = 2;
-        OpenLayers._getScriptLocation = function() {return ""};
     </script>
   </head>
   <body>
@@ -116,6 +96,7 @@ probleme on share geometre between feature.
         <p style="font: bold 13px;  padding: 20px; margin: 0">Please wait, the map is loading<br />Thanks for your patience (especially in internet explorer).</p>
       </div>
     </div>
+    <iframe style="display:none" id="hiddenIframe" name="hiddenIframe"></iframe>
 </body>
 </html>
 

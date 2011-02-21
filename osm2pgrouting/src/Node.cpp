@@ -24,8 +24,9 @@
 namespace osm
 {
 
-Node::Node( long long id, double lat, double lon, double ele) :
+Node::Node(long long id, long long nid, double lat, double lon, double ele) :
 	id(id),
+	nid(nid),
 	lat(lat),
 	lon(lon),
 	ele(ele)

@@ -25,11 +25,10 @@
 namespace osm
 {
 
-Way::Way( long long id, bool visible )
+Way::Way(long long id, long long nid)
 :
 	id(id),
-	visible(visible),
-	length(0)
+	nid(nid)
 {
 }
 

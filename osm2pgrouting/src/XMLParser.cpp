@@ -22,7 +22,6 @@
 #include "stdafx.h"
 #include "XMLParser.h"
 
-
 namespace xml
 {
 
@@ -47,7 +46,7 @@ int XMLParser::Parse( XMLParserCallback& rCallback, const char* chFileName )
 {
   int ret = 1; // File not found
 
-  FILE* fp = fopen(chFileName,"rb");
+  FILE* fp = fopen64(chFileName,"rb");
   if( fp )
   {
     XML_Parser parser = XML_ParserCreate(NULL);

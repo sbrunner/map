@@ -4,14 +4,14 @@ from geoalchemy import GeometryColumn, Geometry
 from geoalchemy import Geometry
 
 from mapfish.sqlalchemygeom import GeometryTableMixIn
-from mapfishapp.model.meta import Session, Base
+from map.model.meta import Session, Base
 
 # Include the '_' function in the public names
 __all__ = [__name for __name in locals().keys() if not __name.startswith('_') \
            or __name == '_']
            
 class RoutingEdge(Base, GeometryTableMixIn):
-    __tablename__ = 'ways'
+    __tablename__ = 'edges'
     __table_args__ = {
         "autoload": True,
         "autoload_with": Session.bind

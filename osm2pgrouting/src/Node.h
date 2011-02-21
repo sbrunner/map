@@ -37,6 +37,8 @@ class Node
 public:
 	//! ID of the node
 	long long id;
+	//! new ID of the node
+	long long nid;
 	//! latitude coordinate
 	double lat;
 	//! longitude coordinate
@@ -57,7 +59,7 @@ public:
 	 *	@param lat latitude
 	 *	@param lon longitude
 	 */
-	Node( long long id=-1, double lat=0, double lon=0, double ele = 0);
+	Node(long long id=-1, long long nid=-1, double lat=0, double lon=0, double ele = 0);
 	//! Destructor
 	virtual ~Node();
 };

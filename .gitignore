@@ -1,0 +1,17 @@
+*.pyc
+map/public/build/*
+buildout/*
+apache/README.txt
+apache/frontend.conf
+apache/mapserver.conf
+apache/tilecache.conf
+.installed.cfg
+MANIFEST
+apache/wsgi.conf
+development.ini
+jsbuild/app.cfg
+map.egg-info/
+print/print-*.jar
+production.ini
+osm2pgrouting/osm2pgrouting
+

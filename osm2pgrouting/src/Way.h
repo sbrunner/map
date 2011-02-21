@@ -52,24 +52,25 @@ public:
 	std::vector<Node*> m_NodeRefs;
 	//! ID of the way
 	long long id;
-	bool visible;
+	//! new ID of the way
+	long long nid;
+//	bool visible;
 	//! name of the street
-	std::string name;
+//	std::string name;
 
     std::map<std::string, std::string> m_attributes;
 	
 	//! geometry of the street
-	std::string geom;
+//	std::string geom;
 	//! length of the street
-
-	double length;
+//	double length;
 
 public:
 	/** 
 	 *	Constructor
 	 *	@param id ID of the way
 	 */
-	Way( long long id, bool visible );
+	Way(long long id, long long nid);
 	//! Destructor
 	~Way();
 	/**

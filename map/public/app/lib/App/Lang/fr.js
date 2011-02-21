@@ -3,6 +3,11 @@
  */
 
 OpenLayers.Util.extend(OpenLayers.Lang.fr, {
+    "Go back to maximum extent": "Aller a la couverture maximale",
+    "Get point coordinates": "Obtenir les coordonnèes d'un point",
+    "Measure a length": "Mesure une longueurs",
+    "Measure an area": "Mesure une surface",
+
     "Various OSM map": "Diverses cartes OSM",
     "Mapnik": "Mapnik",
     "White background": "Fond blanc",
@@ -46,7 +51,7 @@ OpenLayers.Util.extend(OpenLayers.Lang.fr, {
     "Duplicates nodes": "Noeud dupliquer",
     "Hiking Tails": "Chemins d'excursion",
     "All features": "Toutes les fonctionnalités",
-    "Raw": "Brut",
+    "Raw (XAPI)": "Brut (XAPI)",
     "Permalink": "Permalien",
     "Links": "Liens",
     "Edit with JOSM": "Éditer avec JOSM",
@@ -86,8 +91,10 @@ OpenLayers.Util.extend(OpenLayers.Lang.fr, {
     "Search in Geonames...": "Recherche avec Geonames...",
     "Search location in Cloudmade": "Recherche avec Cloudmade",
     "Search in Cloudmade...": "Recherche avec Cloudmade...",
+    "Search location in OSM": "Recherche avec OSM",
+    "Search in OSM...": "Recherche avec OSM...",
     "Get Point": "Pointe",
-    "Compute itinerary: ": "Calcule l'itineraire : ",
+    "Compute itinerary": "Calcule l'itineraire",
     "By car": "En voiture",
     "By foot": "A pieds",
     "By bicycle": "A vélo",
@@ -99,5 +106,18 @@ OpenLayers.Util.extend(OpenLayers.Lang.fr, {
     "Total length: ": "Longueur totale : ",
     "Drag the map": "Glisse la carte",
     "Infos": "Infos",
-    "Layer informations", "Informations du layer"
+    "Layer informations": "Informations du layer",
+    
+    "Mapnik black an white": 'Mapnik noir et blanc',
+    'Hiking': 'promenades',
+    'Specific': 'Spécific',
+    'Hill': 'Colline',
+    'Hiking symbols': 'Symboles promenades',
+    'Hiking path': 'Chemin de payements',
+    'Velo symbols': 'Symbols vélo',
+    'Orientation': 'Orientation',
+    'Lignting': 'Eclérage',
+    'OSM no label': 'OSM sans label',
+    'Generalist': 'Généraliste',
+    'Genf': 'Genève'
 });

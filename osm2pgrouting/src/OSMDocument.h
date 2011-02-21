@@ -43,18 +43,24 @@ public:
 	//! splitted ways
 	std::vector<Way*> m_SplittedWays;
 	Configuration& m_rConfig;
+
+	//! the next way id
+	long long wayid;
+	//! the next node id
+	long long nodeid;
+
 public:
 
 	//! Constructor
-	OSMDocument( Configuration& config);
+	OSMDocument(Configuration& config);
 	//! Destructor
 	virtual ~OSMDocument();
 	//! add node to the map
-	void AddNode( Node* n );
+	void AddNode(Node* n);
 	//! add way to the map
-	void AddWay( Way* w );
+	void AddWay(Way* w);
 	//! find node by using an ID
-	Node* FindNode( long long nodeRefId ) const;
+	Node* FindNode(long long nodeRefId) const;
 	//! split the ways
 	void SplitWays();
 	//Node* getNode( long long nodeRefId );
