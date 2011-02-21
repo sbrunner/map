@@ -136,7 +136,7 @@ end)
 """
 
 length = "ST_Length(the_geom, true)"
-commondiff = "(case when %(signe)s altitude_diff > 0 then exp(%(signe)s altitude_diff / %(length)s * 12) else exp(%(signe)s altitude_diff / %(length)s * 9) end) * %(length)s * 200"
+commondiff = "(case when %(signe)s altitude_diff > 0 then exp(maxValue(minValue(%(signe)s altitude_diff / %(length)s * 12, 20), -20)) else exp(maxValue(minValue(%(signe)s altitude_diff / %(length)s * 9, 20), -20)) end) * %(length)s * 200"
 diffSpeed =        commondiff%{'signe': '+', 'length': length}
 reversediffSpeed = commondiff%{'signe': '-', 'length': length}
 
@@ -144,7 +144,7 @@ reversediffSpeed = commondiff%{'signe': '-', 'length': length}
 #diffSpeed =        testtooincline%{'length': length, 'calculate': diffSpeed}
 #reversediffSpeed = testtooincline%{'length': length, 'calculate': reversediffSpeed}
 
-testtooslow = "overMaxValue(%(calculate)s, 50, -1)"
+testtooslow = "overMaxValue(%(calculate)s, 50.0, -1.0)"
 diffSpeed =        testtooslow%{'calculate': diffSpeed}
 reversediffSpeed = testtooslow%{'calculate': reversediffSpeed}
 
@@ -156,15 +156,15 @@ commonspeed = "%(speed)s * %(boothspeed)s"
 speed =        commonspeed%{'speed': speed,        'boothspeed': booth_speed}
 reversespeed = commonspeed%{'speed': reversespeed, 'boothspeed': booth_speed}
 
-replaceOverMax = "(case when %(speed)s < 10000 then %(calculate)s else -1 end)"
-speed =        replaceOverMax%{'speed': speed,        'calculate': speed}
-reversespeed = replaceOverMax%{'speed': reversespeed, 'calculate': reversespeed}
+#replaceOverMax = "overMaxValue(%(speed)s, 1000000.0, -1.0)"
+#speed =        replaceOverMax%{'speed': speed,        'calculate': speed}
+#reversespeed = replaceOverMax%{'speed': reversespeed, 'calculate': reversespeed}
 
 commoncost = "%(diff)s * %(speed)s + %(fixed)s"
 cost =        commoncost % {'diff': diffSpeed,        'speed': speed,        'fixed': booth_fixed}
 reversecost = commoncost % {'diff': reversediffSpeed, 'speed': reversespeed, 'fixed': booth_fixed}
 
-overmax = "maxValue(overMaxValue(%(cost)s, 1000000000, -1), -1)"
+overmax = "maxValue(overMaxValue(%(cost)s, 100000000.0, -1.0), -1.0)"
 cost =        overmax % {'cost': cost}
 reversecost = overmax % {'cost': reversecost}
 
@@ -173,7 +173,7 @@ print """
 DROP TABLE IF EXISTS edges;
 CREATE TABLE edges (id int4, source int4, target int4, cost float8, reverse_cost float8, x1 double precision, y1 double precision, x2 double precision, y2 double precision);
 SELECT AddGeometryColumn('edges','the_geom',4326,'MULTILINESTRING',2);
-CREATE OR REPLACE FUNCTION maxValue(val1 numeric, val2 numeric) RETURNS numeric AS
+CREATE OR REPLACE FUNCTION maxValue(val1 double precision, val2 double precision) RETURNS double precision AS
 '
 begin
 if (val1 > val2) then
@@ -185,7 +185,7 @@ end;
 '
 LANGUAGE 'plpgsql';
 
-CREATE OR REPLACE FUNCTION minValue(val1 numeric, val2 numeric) RETURNS numeric AS
+CREATE OR REPLACE FUNCTION minValue(val1 double precision, val2 double precision) RETURNS double precision AS
 '
 begin
 if (val1 > val2) then
@@ -197,11 +197,11 @@ end;
 '
 LANGUAGE 'plpgsql';
 
-CREATE OR REPLACE FUNCTION overMaxValue(val1 numeric, val2 numeric, default numeric) RETURNS numeric AS
+CREATE OR REPLACE FUNCTION overMaxValue(val1 double precision, val2 double precision, def double precision) RETURNS numeric AS
 '
 begin
 if (val1 > val2) then
-return default;
+return def;
 else
 return val1;
 end if;

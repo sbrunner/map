@@ -29,6 +29,8 @@
 // for applying this filter, compile with "DISTRICT" as flag (g++ -DRESTRICT)
 //#define _FILTER if(m_pActWay->highway == "motorway" || m_pActWay->highway == "primary" || m_pActWay->highway == "secondary")
 
+using namespace std;
+
 namespace osm
 {
 	
@@ -84,7 +86,7 @@ void OSMDocumentParserCallback::StartElement( const char *name, const char** att
 				}
 			}
 			if (id > 0) {
-                m_pActNode = new Node(id, lat, lon, ele);
+                m_pActNode = new Node(id, ++m_rDocument.nodeid, lat, lon, ele);
                 m_rDocument.AddNode(m_pActNode);
             }
 		}
