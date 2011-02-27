@@ -58,10 +58,16 @@ include =
     OpenLayers/Control/Permalink.js
     OpenLayers/Control/Attribution.js
     OpenLayers/Control/ScaleLine.js
-    OpenLayers/Control/URLBarPermalink.js
+    OpenLayers/Protocol/HTTP.js
+    OpenLayers/Strategy/Fixed.js
+    OpenLayers/Format/GPX.js
+    OpenLayers/Format/OSM.js
     OpenLayers/Layer/TileCache.js
     OpenLayers/Layer/XYZ.js
-        
+    OpenLayers/Layer/Vector.js
+    OpenLayers/Renderer/VML.js
+    OpenLayers/Renderer/SVG.js
+
 [proj.js]
 root = ${vars:jsbuild-root}
 first =
