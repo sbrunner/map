@@ -101,43 +101,36 @@ App.Map = Ext.extend(GeoExt.MapPanel, {
                         }
                         if (a == 'website') {
                             var href = o.feature.attributes[a];
-                            html += a + ': <a href="' + href + '">' + href + '</a>';
+                            html += a + ':&nbsp;<a href="' + href + '">' + href + '</a>';
                         }
                         else if (a == 'url') {
                             var href = o.feature.attributes[a];
-                            html += a + ': <a href="' + href + '">' + href + '</a>';
+                            html += a + ':&nbsp;<a href="' + href + '">' + href + '</a>';
                         }
                         else if (a == 'wikipedia') {
                             var href = 'http://en.wikipedia.org/wiki/' + o.feature.attributes[a];
-                            html += a + ': <a href="' + href + '">' + o.feature.attributes[a] + '</a>';
+                            html += a + ':&nbsp;<a href="' + href + '">' + o.feature.attributes[a].replace(/ /g, '&nbsp;') + '</a>';
                         }
                         else if (a.match('^wikipedia:')) {
                             var lang = a.substring('wikipedia:'.length, a.length);
                             var href = 'http://' + lang + '.wikipedia.org/wiki/' + o.feature.attributes[a];
-                            html += a + ': <a href="' + href + '">' + o.feature.attributes[a] + '</a>';
+                            html += a + ':&nbsp;<a href="' + href + '">' + o.feature.attributes[a].replace(/ /g, '&nbsp;') + '</a>';
                         }
                         else if (a == 'OSM user') {
                             var href = "http://www.openstreetmap.org/user/" + o.feature.attributes[a];
                             html += '<a href="' + href + '">Last edit by ' + o.feature.attributes[a] + '</a>';
                         }
                         else {                  
-                            html += a + ": " + o.feature.attributes[a];
+                            html += a + ":&nbsp;" + o.feature.attributes[a].replace(/ /g, '&nbsp;');
                         }
                     }
                     if (o.feature.osm_id) {
                         var href = "http://www.openstreetmap.org/browse/" + o.feature.type + "/" + o.feature.osm_id + "/history";
                         html += '<br /><a href="' + href + '">History</a>';
                     }
-
-                    /*if (map.popups.length > 0) {
-                        map.removePopup(map.popups[0]);
-                    }
-                    var c = o.feature.geometry.getCentroid();
-                    popup = new OpenLayers.Popup('selection', new OpenLayers.LonLat(c.x, c.y), new OpenLayers.Size(150, 150),
-                            "<h1>" + OpenLayers.i18n("Selection") + "</h1><p>" + html + "</p>", true);
-                    map.addPopup(popup);*/
-                    OpenLayers.Util.getElement('featureData').innerHTML = "<p>" + html + "</p>";
-                    selectionWindow.doLayout(false, true);
+                    
+                    selection.panel.update(html);
+                    selection.window.anchorTo(selection.ownerCt.getEl(), 'tr-br');
                 });
             }
 

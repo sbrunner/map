@@ -148,14 +148,12 @@ App.Tools = function(map) {
 
     this.getAdditionalButtons = function(map) {
         /*
-         * Selected feature
+         * Selected feature (global)
          */
-        var selection = toolBuilder(OpenLayers.i18n("Selected"), new Ext.Panel({
+        selection = toolBuilder(OpenLayers.i18n("Selected"), new Ext.Panel({
             id: 'featureData',
-            style: "padding: 0 0 8px 8px;"
+            style: "padding: 8px;"
         }));
-        // make public
-        selectionWindow = selection.window;
 
         /*
          * Layers
@@ -191,9 +189,8 @@ App.Tools = function(map) {
             })]
         })
         tree.getTopToolbar().insert(0, new Ext.Toolbar.TextItem(OpenLayers.i18n("Catalogue")));
-        if (map.layers.length == 1) { // only the blank background
+        if (map.layers.length == 1) {
             tree.addLayerByRef('mk');
-            tree.addLayerByRef('all');
         }
         
         /*
@@ -201,7 +198,6 @@ App.Tools = function(map) {
          */
         var layers = toolBuilder(OpenLayers.i18n("Layers"), new Ext.Panel({
             items: [layerTree, tree]
-//            items: [layerTree, {text: OpenLayers.i18n("Catalogue"), cls: 'x-plain-tl'}, tree]
         }));
 
 
