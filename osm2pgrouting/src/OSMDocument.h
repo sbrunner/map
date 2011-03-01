@@ -46,6 +46,8 @@ public:
 
 	//! the next way id
 	long long wayid;
+	//! the next node id
+	long long nodeid;
 
 public:
 
@@ -60,7 +62,7 @@ public:
 	//! find node by using an ID
 	Node* FindNode(long long nodeRefId) const;
 	//! split the ways
-	long long SplitWays(long long id);
+	void SplitWays();
 	//Node* getNode( long long nodeRefId );
 };
 

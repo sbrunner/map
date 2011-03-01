@@ -25,6 +25,7 @@
 #include "Way.h"
 #include "math_functions.h"
 
+using namespace std;
 
 namespace osm
 {
@@ -58,7 +59,7 @@ const
 	return (it != m_Nodes.end() ) ? it->second : 0;
 }
 
-long long OSMDocument::SplitWays(long long id)
+void OSMDocument::SplitWays()
 {
 	
 	while (!m_Ways.empty()) {
@@ -70,7 +71,6 @@ long long OSMDocument::SplitWays(long long id)
 		Node* backNode = currentWay->m_NodeRefs.back();
 
 
-
 		while(it_node!=last_node)
 		{
 			
@@ -78,7 +78,7 @@ long long OSMDocument::SplitWays(long long id)
 			Node* secondNode=0;
 			Node* lastNode=0;
 			
-			Way* splitted_way = new Way(node->id, ++id);
+			Way* splitted_way = new Way(node->id, ++wayid);
 			splitted_way->m_attributes = currentWay->m_attributes;
 
 			splitted_way->AddNodeRef(node);
@@ -115,12 +115,10 @@ long long OSMDocument::SplitWays(long long id)
 				delete splitted_way;
 				splitted_way=0;
 			}
-				
 		}
 
 		m_Ways.pop_back();
 		delete currentWay;
-		return id;
 	}
 
 } // end SplitWays

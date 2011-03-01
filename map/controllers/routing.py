@@ -80,13 +80,12 @@ class RoutingController(BaseController):
             distance += float(edge.length)
             time += float(costs[i-1])
 
-#            name = edge.highway
             if edge.name == None:
                 name = edge.highway
             else:
                 name = edge.name
             features.append(Feature(
-                id = edge.gid,
+                id = edge.id,
                 geometry = wkb.loads(str(edge.the_geom.geom_wkb)),
                 properties = {
                     "name": name,
@@ -95,9 +94,6 @@ class RoutingController(BaseController):
                     "elevation": edge.altitude_diff
                 }
             ));
-#            roadmap.append(Feature(id=edge.gid,
-##                   geometry=Point(edge.x1, edge.y1),
-#                   properties={'name': edge.name, 'highway': edge.highway, 'distance': distance, 'time': time}))
 
         features.append(Feature(id = 0,
                 properties = {'distance': distance, 'time': time, 'timeUnit': 's'}))
@@ -116,24 +112,10 @@ class RoutingController(BaseController):
             costs.append(step.cost)
             
         # gets only name highway altitide diff length
-        edges = Session.query(RoutingEdge.gid, RoutingEdge.name, RoutingEdge.highway, RoutingEdge.length, RoutingEdge.altitude_diff, RoutingEdge.the_geom).filter(RoutingEdge.gid.in_(edge_ids)).all()
-        """
-                    if edge.name == None:
-                name = edge.highway
-            else:
-                name = edge.name
-            features.append(Feature(
-                id = edge.gid,
-                geometry = wkb.loads(str(edge.the_geom.geom_wkb)),
-                properties = {
-                    "name": name,
-                    "time": costs[i-1],
-                    "waylength": float(edge.length),
-                    "elevation": edge.altitude_diff
-                }
-"""
+        edges = Session.query(RoutingEdge.id, RoutingEdge.name, RoutingEdge.highway, RoutingEdge.length, RoutingEdge.altitude_diff, RoutingEdge.the_geom).filter(RoutingEdge.id.in_(edge_ids)).all()
+
         # reorder edges list according to edge_ids
         order_map = dict([(v,k) for (k,v) in enumerate(edge_ids)])
-        edges.sort(key=lambda v: order_map[v.gid])
+        edges.sort(key=lambda v: order_map[v.id])
 
         return (edges, costs, steps.rowcount)

@@ -135,45 +135,62 @@ reversespeed = """
 end)
 """
 
+#print "SELECT (%1s) FROM ways limit 40;"%booth_speed // 1.3 1.4 13000
+#print "SELECT (%1s) FROM ways limit 40;"%booth_fixed // 0
+#print "SELECT (%1s) FROM ways limit 40;"%speed // 1
+#print "SELECT (%1s) FROM ways limit 40;"%reversespeed // 1
+
 length = "ST_Length(the_geom, true)"
-commondiff = "(case when %(signe)s altitude_diff > 0 then exp(%(signe)s altitude_diff / %(length)s * 12) else exp(%(signe)s altitude_diff / %(length)s * 9) end) * %(length)s * 200"
+#print "SELECT (%1s) FROM ways limit 40;"%length / 8..600
+commondiff = "(case when %(signe)s altitude_diff > 0 then exp(maxValue(minValue(%(signe)s altitude_diff / %(length)s * 0.012, 0.3), -0.3)) else exp(maxValue(minValue(%(signe)s altitude_diff / %(length)s * 0.009, 0.3), -0.3)) end)" # / 7
 diffSpeed =        commondiff%{'signe': '+', 'length': length}
 reversediffSpeed = commondiff%{'signe': '-', 'length': length}
+#print "SELECT (%1s) FROM ways limit 40;"%diffSpeed // 1'000..100'000
+#print "SELECT (%1s) FROM ways limit 40;"%reversediffSpeed // 100..400'000
 
-#testtooincline = "(case when abs(altitude_diff) / %(length)s < 10 then %(calculate)s else -1 end)"
-#diffSpeed =        testtooincline%{'length': length, 'calculate': diffSpeed}
-#reversediffSpeed = testtooincline%{'length': length, 'calculate': reversediffSpeed}
+testtooincline = "(case when abs(altitude_diff) / %(length)s < 0.6 then %(calculate)s else -1 end)"
+diffSpeed =        testtooincline%{'length': length, 'calculate': diffSpeed}
+reversediffSpeed = testtooincline%{'length': length, 'calculate': reversediffSpeed}
+#print "SELECT (%1s) FROM ways limit 40;"%diffSpeed // 1'000..100'000
+#print "SELECT (%1s) FROM ways limit 40;"%reversediffSpeed // 100..400'000
 
-testtooslow = "overMaxValue(%(calculate)s, 50, -1)"
-diffSpeed =        testtooslow%{'calculate': diffSpeed}
-reversediffSpeed = testtooslow%{'calculate': reversediffSpeed}
 
-testlength = "(case when %(length)s > 0 then %(calculate)s else 0 end)"
+testlength = "(case when %(length)s > 0 then (%(calculate)s) else -1 end)"
 diffSpeed =        testlength%{'length': length, 'calculate': diffSpeed}
 reversediffSpeed = testlength%{'length': length, 'calculate': reversediffSpeed}
+#print "SELECT (%1s) FROM ways limit 40;"%diffSpeed # 1'000..100'000
+#print "SELECT (%1s) FROM ways limit 40;"%reversediffSpeed # 100..400'000
 
 commonspeed = "%(speed)s * %(boothspeed)s"
 speed =        commonspeed%{'speed': speed,        'boothspeed': booth_speed}
 reversespeed = commonspeed%{'speed': reversespeed, 'boothspeed': booth_speed}
+#print "SELECT (%1s) FROM ways limit 40;"%speed # 1.3..20'000
 
-replaceOverMax = "(case when %(speed)s < 10000 then %(calculate)s else -1 end)"
-speed =        replaceOverMax%{'speed': speed,        'calculate': speed}
-reversespeed = replaceOverMax%{'speed': reversespeed, 'calculate': reversespeed}
+#replaceOverMax = "overMaxValue(%(speed)s, 30.0, -1.0)"
+#speed =        replaceOverMax%{'speed': speed,        'calculate': speed}
+#reversespeed = replaceOverMax%{'speed': reversespeed, 'calculate': reversespeed}
+#print "SELECT (%1s) FROM ways limit 40;"%speed # -1, 1..2
 
-commoncost = "%(diff)s * %(speed)s + %(fixed)s"
-cost =        commoncost % {'diff': diffSpeed,        'speed': speed,        'fixed': booth_fixed}
-reversecost = commoncost % {'diff': reversediffSpeed, 'speed': reversespeed, 'fixed': booth_fixed}
+commoncost = "%(length)s / %(diff)s / %(speed)s %(fixed)s"
+cost =        commoncost % {'diff': diffSpeed,        'speed': speed,        'length': length, 'fixed': booth_fixed}
+reversecost = commoncost % {'diff': reversediffSpeed, 'speed': reversespeed, 'length': length, 'fixed': booth_fixed}
+#print "SELECT (%1s) FROM ways limit 40;"%cost # -2'000'000..10'000'000
 
-overmax = "maxValue(overMaxValue(%(cost)s, 1000000000, -1), -1)"
-cost =        overmax % {'cost': cost}
-reversecost = overmax % {'cost': reversecost}
+min = "maxValue(%(cost)s, -1.0)"
+cost =        min % {'cost': cost}
+reversecost = min % {'cost': reversecost}
+#print "SELECT (%1s) FROM ways limit 40;"%cost # -1, 40'000..10'000'000
 
+#overmax = "maxValue(overMaxValue(%(cost)s, 100000000.0, -1.0), -1.0)"
+#cost =        overmax % {'cost': cost}
+#reversecost = overmax % {'cost': reversecost}
+#print "SELECT (%1s) FROM ways limit 40;"%cost # -1, 40'000..10'000'000
 
 print """
 DROP TABLE IF EXISTS edges;
-CREATE TABLE edges (id int4, source int4, target int4, cost float8, reverse_cost float8, x1 double precision, y1 double precision, x2 double precision, y2 double precision);
+CREATE TABLE edges (id int4 PRIMARY KEY, source int4, target int4, cost float8, reverse_cost float8, x1 double precision, y1 double precision, x2 double precision, y2 double precision, name varchar(200), highway varchar(30), length float8, altitude_diff float8);
 SELECT AddGeometryColumn('edges','the_geom',4326,'MULTILINESTRING',2);
-CREATE OR REPLACE FUNCTION maxValue(val1 numeric, val2 numeric) RETURNS numeric AS
+CREATE OR REPLACE FUNCTION maxValue(val1 double precision, val2 double precision) RETURNS double precision AS
 '
 begin
 if (val1 > val2) then
@@ -185,7 +202,7 @@ end;
 '
 LANGUAGE 'plpgsql';
 
-CREATE OR REPLACE FUNCTION minValue(val1 numeric, val2 numeric) RETURNS numeric AS
+CREATE OR REPLACE FUNCTION minValue(val1 double precision, val2 double precision) RETURNS double precision AS
 '
 begin
 if (val1 > val2) then
@@ -197,11 +214,11 @@ end;
 '
 LANGUAGE 'plpgsql';
 
-CREATE OR REPLACE FUNCTION overMaxValue(val1 numeric, val2 numeric, default numeric) RETURNS numeric AS
+CREATE OR REPLACE FUNCTION overMaxValue(val1 double precision, val2 double precision, def double precision) RETURNS numeric AS
 '
 begin
 if (val1 > val2) then
-return default;
+return def;
 else
 return val1;
 end if;
@@ -210,10 +227,12 @@ end;
 LANGUAGE 'plpgsql';
 """
 print """
-INSERT INTO edges (id, source, target, cost, reverse_cost, x1, y1, x2, y2, the_geom)
-    SELECT gid AS id, source, target, (%(cost)s)::float8 AS cost, (%(reversecost)s)::float8 AS reverse_cost, x1, y1, x2, y2, the_geom
-    FROM ways;"""%{'cost': cost, 'reversecost': reversecost}
+INSERT INTO edges (id, source, target, cost, reverse_cost, x1, y1, x2, y2, the_geom, name, highway, length, altitude_diff)
+    SELECT gid AS id, source, target, (%(cost)s)::float8 AS cost, (%(reversecost)s)::float8 AS reverse_cost, 
+        x1, y1, x2, y2, the_geom, name, highway, %(length)s, altitude_diff
+    FROM ways;"""%{'cost': cost, 'reversecost': reversecost, 'length': length}
 print """
+DELETE FROM edges WHERE cost = -1 AND reverse_cost = -1;
 CREATE INDEX source_idx ON edges(source);
 CREATE INDEX target_idx ON edges(target);
 --CREATE INDEX geom_idx ON ways USING GIST(the_geom GIST_GEOMETRY_OPS);

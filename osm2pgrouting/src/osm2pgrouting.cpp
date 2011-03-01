@@ -103,7 +103,7 @@ int main(int argc, char* argv[])
 	
 	cerr << "Split ways" << endl;
 
-	document->wayid = document->SplitWays(document->wayid);
+	document->SplitWays();
 	//############# Export2DB
 	{
 		Export2DB test;
