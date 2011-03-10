@@ -255,12 +255,12 @@ GeoExt.ux.RoutingProviders = {
                 if (first) { 
                     first = false;
                 }
-                d.speed = d.waylength / d.time * 3600;
+                d.speed = d.waylength / 1000 / d.time * 3600;
                 d.speed = Math.round(d.speed * 10) / 10;
                 d.elevation = Math.abs(d.elevation);
-                d.decinivite = Math.round(d.elevation / d.waylength / 10) + "&nbsp;%";
+                d.decinivite = Math.round(d.elevation / d.waylength * 100) + "&nbsp;%";
                 d.elevation = Math.round(d.elevation) + "&nbsp;m";
-                d.waylength = (Math.round(d.waylength * 100) / 100) + "&nbsp;km";
+                d.waylength = (Math.round(d.waylength / 10) / 100) + "&nbsp;km";
                 
                 time = d.time;
                 minutes = Math.floor(time / 60);
