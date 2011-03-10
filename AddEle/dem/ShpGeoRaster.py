@@ -5,11 +5,17 @@ from osgeo import gdal
 from osgeo.gdalconst import *
 
 class Tile(object):
-    def __init__(self, minX, minY, maxX, maxY, filename):
-        self.minX=minX
-        self.minY=minY
-        self.maxX=maxX
-        self.maxY=maxY
+    def __init__(self, fromX, fromY, toX, toY, filename):
+        self.fromX = fromX
+        self.toX = toX
+        self.fromY = fromY
+        self.toY = toY
+        
+        self.minX = min(fromX, toX)
+        self.minY = min(fromY, toY)
+        self.maxX = max(fromX, toX)
+        self.maxY = max(fromY, toY)
+        
         self.filename=filename
 
     def contains(self, x, y):
@@ -27,8 +33,8 @@ class BTTile(Tile):
             self.resolutionX = (self.maxX-self.minX)/self.cols
             self.resolutionY = (self.maxY-self.minY)/self.rows
 
-        posX=int((x-self.minX)/self.resolutionX)
-        posY=int((y-self.minY)/self.resolutionY)
+        posX = int((x-self.fromX)/self.resolutionX)
+        posY = int((y-self.fromY)/self.resolutionY)
         file.seek(256+(posY+posX*self.rows)*self.dataSize)
         if self.floatingPoint==1:
           val=unpack("<f", file.read(self.dataSize))[0]
@@ -47,14 +53,16 @@ class TIFTile(Tile):
         self.dataset = gdal.Open(filename, GA_ReadOnly)
         self.adfGeoTransform = self.dataset.GetGeoTransform();
         
-        self.resolutionX = abs(self.adfGeoTransform[1])
-        self.resolutionY = abs(self.adfGeoTransform[5])
+        self.resolutionX = self.adfGeoTransform[1]
+        self.resolutionY = self.adfGeoTransform[5]
         
-        super(TIFTile, self).__init__(minX, minY, maxX, maxY, filename)
+        super(TIFTile, self).__init__(self.adfGeoTransform[0], self.adfGeoTransform[3], 
+                self.adfGeoTransform[0] + self.dataset.RasterXSize * self.adfGeoTransform[1],
+                self.adfGeoTransform[3] + self.dataset.RasterYSize * self.adfGeoTransform[5], filename)
 
     def getVal(self, x, y):
-        posX = int((x - self.minX) / self.resolutionX)
-        posY = int((y - self.minY) / self.resolutionY)
+        posX = int((x - self.fromX) / self.resolutionX)
+        posY = int((y - self.fromY) / self.resolutionY)
 
 #        print "%f, %f (%f, %f - %f, %f) -> %i, %i"%(x, y, self.minX, self.minY, self.resolutionX, self.resolutionY, posX , posY)
         band = self.dataset.GetRasterBand(1)
