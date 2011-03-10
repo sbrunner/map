@@ -235,6 +235,6 @@ print """
 DELETE FROM edges WHERE cost = -1 AND reverse_cost = -1;
 CREATE INDEX source_idx ON edges(source);
 CREATE INDEX target_idx ON edges(target);
---CREATE INDEX geom_idx ON ways USING GIST(the_geom GIST_GEOMETRY_OPS);
+CREATE INDEX geom_idx ON ways USING GIST(the_geom GIST_GEOMETRY_OPS);
 --SELECT assign_vertex_id('edges', 0.00001, 'the_geom', 'id');
 VACUUM FULL ANALYZE;"""
