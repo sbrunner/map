@@ -29,6 +29,8 @@
  * @include GeoExt.ux/MeasureArea.js
  * @include App/Locator.js
  * @include App/ToolPanel.js
+ * @include RoutingPanel/lib/RoutingPanel.js
+ * @include RoutingPanel/lib/Providers.js
  */
 
 Ext.namespace('App');
@@ -205,7 +207,7 @@ App.Tools = function(map) {
          * Routing
          */
         var routingStyle = new OpenLayers.StyleMap();
-        routingStyle.createSymbolizer = function(feature) {
+        routingStyle.createSymbolizer = function(feature, intent) {
             var symbolizer = OpenLayers.StyleMap.prototype.createSymbolizer.apply(this, arguments);
             if (feature.attributes.speed) {
                 rgb = hslToRgb(feature.attributes.speed / 50, 1, 0.5);
@@ -234,7 +236,7 @@ App.Tools = function(map) {
         })]);
         routingStyle.styles.select.addRules([new OpenLayers.Rule({
             symbolizer: {
-                pointRadius: "8",
+                pointRadius: "18",
                 fillColor: "yellow",
                 fillOpacity: 0.5,
                 strokeColor: "yellow",
@@ -255,7 +257,7 @@ App.Tools = function(map) {
             border: false,
             map: map,
             width: 300,
-            style: routingStyle,
+            layerStyle: routingStyle,
             // Key for dev.geoext.org: 187a9f341f70406a8064d07a30e5695c
             // Key for localhost: BC9A493B41014CAABB98F0471D759707
             // Key for map.stephane-brunner.ch: 60a6b92afa824cc985331da088d3225c

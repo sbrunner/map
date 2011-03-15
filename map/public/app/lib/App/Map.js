@@ -120,8 +120,11 @@ App.Map = Ext.extend(GeoExt.MapPanel, {
                             var href = "http://www.openstreetmap.org/user/" + o.feature.attributes[a];
                             html += '<a href="' + href + '">Last edit by ' + o.feature.attributes[a] + '</a>';
                         }
-                        else {                  
+                        else if (o.feature.attributes[a].replace) {
                             html += a + ":&nbsp;" + o.feature.attributes[a].replace(/ /g, '&nbsp;');
+                        }
+                        else {
+                            html += a + ":&nbsp;" + o.feature.attributes[a];
                         }
                     }
                     if (o.feature.osm_id) {
