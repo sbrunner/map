@@ -146,7 +146,7 @@ commondiff = "(%(signe)s altitude_diff)"
 diff =        commondiff%{'signe': '+'}
 reversediff = commondiff%{'signe': '-'}
 
-commoncoef = "(case when %(diff)s > 0 then 12 else 9)"
+commoncoef = "(case when %(diff)s > 0 then 12 else 9 end)"
 coef =        commoncoef%{'diff': diff}
 reversecoef = commoncoef%{'diff': reversediff}
 
@@ -155,8 +155,8 @@ reversecoef = commoncoef%{'diff': reversediff}
 commondiff = "exp(%(diff)s / %(length)s * %(coef)s)"
 diffSpeed =        commondiff%{'diff': diff, 'length': length, 'coef': coef}
 reversediffSpeed = commondiff%{'diff': reversediff, 'length': length, 'coef': reversecoef}
-#print "SELECT (%1s) FROM ways limit 40;"%diffSpeed // 1'000..100'000
-#print "SELECT (%1s) FROM ways limit 40;"%reversediffSpeed // 100..400'000
+#print "SELECT (%1s) FROM ways limit 40;"%diffSpeed
+#print "SELECT (%1s) FROM ways limit 40;"%reversediffSpeed
 
 testtooincline = "(case when abs(altitude_diff) / %(length)s < 0.7 then %(calculate)s else -1 end)"
 diffSpeed =        testtooincline%{'length': length, 'calculate': diffSpeed}
@@ -181,12 +181,12 @@ reversespeed = commonspeed%{'speed': reversespeed, 'boothspeed': booth_speed}
 #reversespeed = replaceOverMax%{'speed': reversespeed, 'calculate': reversespeed}
 #print "SELECT (%1s) FROM ways limit 40;"%speed # -1, 1..2
 
-commonspeed = "overMaxValue(%(speed)s * %(diff)s, 1000, -1)" # 7 m/s => env. 25 km/h
+commonspeed = "overMaxValue(%(speed)s * %(diff)s, 1000, -1)"
 speed =        commonspeed % {'diff': diffSpeed,        'speed': speed}
 reversespeed = commonspeed % {'diff': reversediffSpeed, 'speed': reversespeed}
 
 
-commoncost = "%(length)s * %(speed)s %(fixed)s" # 7 m/s => env. 25 km/h
+commoncost = "%(length)s * %(speed)s / 7 %(fixed)s" # 7 m/s => env. 25 km/h
 cost =        commoncost % {'speed': speed,        'length': length, 'fixed': booth_fixed}
 reversecost = commoncost % {'speed': reversespeed, 'length': length, 'fixed': booth_fixed}
 #print "SELECT (%1s) FROM ways limit 40;"%cost # -2'000'000..10'000'000
