@@ -289,7 +289,7 @@ GeoExt.ux.RoutingProviders = {
                 }
             }
             
-            var html = '<p>' + OpenLayers.i18n('Total length: ') + Math.round(distance * 100) / 100 + ' km</p>'
+            var html = '<p>' + OpenLayers.i18n('Total length: ') + Math.round(distance / 100) / 10 + ' km</p>'
                     + '<p>' + OpenLayers.i18n('Total time: ') + hours + 'h' + minutes + '</p>'
                     + instructions + '<hr />';
 
