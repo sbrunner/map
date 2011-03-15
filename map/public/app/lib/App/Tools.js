@@ -236,7 +236,7 @@ App.Tools = function(map) {
         })]);
         routingStyle.styles.select.addRules([new OpenLayers.Rule({
             symbolizer: {
-                pointRadius: "18",
+                pointRadius: "8",
                 fillColor: "yellow",
                 fillOpacity: 0.5,
                 strokeColor: "yellow",
