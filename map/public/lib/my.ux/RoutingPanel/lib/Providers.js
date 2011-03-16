@@ -255,30 +255,24 @@ GeoExt.ux.RoutingProviders = {
                 if (first) { 
                     first = false;
                 }
+                d.units = {};
                 d.speed = d.waylength / 1000 / d.time * 3600;
                 d.speed = Math.round(d.speed * 10) / 10;
+                d.units.speed = "km/h";
                 d.elevation = Math.abs(d.elevation);
-                d.decinivite = Math.round(d.elevation / d.waylength * 100) + "&nbsp;%";
-                d.elevation = Math.round(d.elevation) + "&nbsp;m";
-                d.waylength = (Math.round(d.waylength / 10) / 100) + "&nbsp;km";
+                d.decinivite = Math.round(d.elevation / d.waylength * 100);
+                d.units.decinivite = "%";
+                d.elevation = Math.round(d.elevation);
+                d.units.elevation = "m";
+                d.waylength = Math.round(d.waylength);
+                d.units.waylength = "m";
                 
-                time = d.time;
-                minutes = Math.floor(time / 60);
-                seg = Math.round(time % 60);
-                if (seg < 10) {
-                    seg = '0'+seg;
-                }
-                d.time = minutes+'.'+seg+'&nbsp;min.s';
-
-    //            d.denivele = d.elevation / d.waylength / 10;
-                var instruction = d.name + ' (' + /*d.time + ', ' 
-                        + d.waylength + ', ' 
-                        + d.elevation + ', ' */
+                var instruction = d.name + ' (' + //d.time + ', ' 
+                        + d.waylength + "&nbsp;m" + ', ' 
+                        //+ d.elevation + ', '
                         + d.speed + "&nbsp;km/h" + ')';
                 d.instruction = instruction;
-    //            instructions += instruction;
             }
-    //        instructions += '</p>';
 
             if (features.time) {
                 time = features.time;
@@ -289,7 +283,7 @@ GeoExt.ux.RoutingProviders = {
                 }
             }
             
-            var html = '<p>' + OpenLayers.i18n('Total length: ') + Math.round(distance * 100) / 100 + ' km</p>'
+            var html = '<p>' + OpenLayers.i18n('Total length: ') + Math.round(distance / 10) / 100 + ' km</p>'
                     + '<p>' + OpenLayers.i18n('Total time: ') + hours + 'h' + minutes + '</p>'
                     + instructions + '<hr />';
 
