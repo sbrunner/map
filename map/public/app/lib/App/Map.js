@@ -141,13 +141,11 @@ App.Map = Ext.extend(GeoExt.MapPanel, {
                         else if (o.feature.attributes.units && o.feature.attributes.units[a]) {
                             html += a + ":&nbsp;" + o.feature.attributes[a] + "&nbsp;" + o.feature.attributes.units[a];
                         }
+                        else if (o.feature.attributes[a].replace) {
+                            html += a + ":&nbsp;" + o.feature.attributes[a].replace(/ /g, '&nbsp;');
+                        }
                         else {
-                            if (o.feature.attributes[a].replace) {
-                                html += a + ":&nbsp;" + o.feature.attributes[a].replace(/ /g, '&nbsp;');
-                            }
-                            else {
-                                html += a + ":&nbsp;" + o.feature.attributes[a];
-                            }
+                            html += a + ":&nbsp;" + o.feature.attributes[a];
                         }
                     }
                     if (o.feature.osm_id) {

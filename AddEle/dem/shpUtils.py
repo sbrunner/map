@@ -37,7 +37,7 @@ def createRecord(fp):
         # read header
         record_number = readAndUnpack('>L', fp.read(4))
         if record_number == '':
-                print 'doner'
+#                print 'doner'
                 return False
         content_length = readAndUnpack('>L', fp.read(4))
         record_shape_type = readAndUnpack('<L', fp.read(4))

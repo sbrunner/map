@@ -134,22 +134,13 @@ GeoExt.ux.RoutingPanel = Ext.extend(Ext.Panel, {
      */
     showGoogleItinerary: true,
 
-    /** api: config[style]
-     *  ``OpenLayers.StyleMap`` Vector style of routing layer
+    /** api: config[layerStyle]
+     *  ``OpenLayers.StyleMap`` Vector layerStyle of routing layer
      */
-    /** private: property[style]
-     *  ``OpenLayers.StyleMap`` Vector style of routing layer
+    /** private: property[layerStyle]
+     *  ``OpenLayers.StyleMap`` Vector layerStyle of routing layer
      */
-    style: new OpenLayers.StyleMap({
-        "default": {
-            pointRadius: "8",
-            fillColor: "#FF0000",
-            fillOpacity: 0.5,
-            strokeColor: "#FF0000",
-            strokeOpacity: .8,
-            strokeWidth: 3
-        }
-    }),
+    layerStyle: null,
 
     /** private: method[constructor]
      *  Construct the component.
@@ -176,7 +167,18 @@ GeoExt.ux.RoutingPanel = Ext.extend(Ext.Panel, {
                 projection: new OpenLayers.Projection("EPSG:4326")
             }
         }
-
+        if (!this.layerStyle) {
+            this.layerStyle = new OpenLayers.StyleMap({
+                "default": {
+                    pointRadius: "8",
+                    fillColor: "#FF0000",
+                    fillOpacity: 0.5,
+                    strokeColor: "#FF0000",
+                    strokeOpacity: .8,
+                    strokeWidth: 3
+                }
+            })
+        }
         this.start.locationCombo = this.geocodingProviders.builder(Ext.apply({
             name: 'startLocationCombo',
             emptyText: OpenLayers.i18n('Search start...'),
@@ -258,7 +260,7 @@ GeoExt.ux.RoutingPanel = Ext.extend(Ext.Panel, {
         lanes.push({
             baseCls: 'x-plane',
             html: '<h3>' + OpenLayers.i18n('Compute itinerary') + '</h3>',
-            bodyStyle: 'padding: 2px 5px 0 0;'
+            bodylayerStyle: 'padding: 2px 5px 0 0;'
         });
         for (var providerRef in this.routingProviders) {
             var itinaryItems = [];
@@ -267,7 +269,7 @@ GeoExt.ux.RoutingPanel = Ext.extend(Ext.Panel, {
             lanes.push({
                 cls: 'x-plane',
                 html: provider.name,
-                style: 'clear: booth;',
+                layerStyle: 'clear: booth;',
                 border: false
             });
             for (var typeRef in provider.types) {
@@ -287,7 +289,7 @@ GeoExt.ux.RoutingPanel = Ext.extend(Ext.Panel, {
             lanes.push({
                 layout: 'column',
                 border: false,
-                bodyStyle: 'padding: 3px 0 10px 0;',
+                bodylayerStyle: 'padding: 3px 0 10px 0;',
                 items: itinaryItems
             });
         }
@@ -295,7 +297,7 @@ GeoExt.ux.RoutingPanel = Ext.extend(Ext.Panel, {
         Ext.apply(this, {
             plain: true,
             border: false,
-            bodyStyle: 'padding: 5px 0 5px 5px;',
+            bodylayerStyle: 'padding: 5px 0 5px 5px;',
             items: [{
                 layout: 'form',
                 layoutConfig: {
@@ -348,7 +350,7 @@ GeoExt.ux.RoutingPanel = Ext.extend(Ext.Panel, {
     createDrawFeature: function() {
         if (!this.layer) {
             // Create routing layer
-            this.layer = new OpenLayers.Layer.Vector("Routing", {styleMap: this.style, displayInLayerSwitcher: false});
+            this.layer = new OpenLayers.Layer.Vector("Routing", {styleMap: this.layerStyle, displayInLayerSwitcher: false});
             this.map.addLayer(this.layer);
         }
 
@@ -484,7 +486,7 @@ GeoExt.ux.RoutingPanel = Ext.extend(Ext.Panel, {
     applyStatePoint: function(point, lon, lat) {
         if (!this.layer) {
             // Create routing layer
-            this.layer = new OpenLayers.Layer.Vector("Routing", {styleMap: this.style, displayInLayerSwitcher: false});
+            this.layer = new OpenLayers.Layer.Vector("Routing", {styleMap: this.layerStyle, displayInLayerSwitcher: false});
             this.map.addLayer(this.layer);
         }
         var geometry = new OpenLayers.Geometry.Point(lon, lat);

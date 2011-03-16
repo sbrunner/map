@@ -30,8 +30,6 @@
  * @include GeoExt/state/PermalinkProvider.js
  * 
  * @include LayerCatalogue/lib/LayerCatalogue.js
- * @include RoutingPanel/lib/RoutingPanel.js
- * @include RoutingPanel/lib/Providers.js
  */
 
 /*
