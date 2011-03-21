@@ -1,4 +1,5 @@
 from . import shpUtils
+from math import floor
 from os.path import dirname
 from struct import unpack
 from osgeo import gdal
@@ -61,9 +62,31 @@ class TIFTile(Tile):
                 self.adfGeoTransform[3] + self.dataset.RasterYSize * self.adfGeoTransform[5], filename)
 
     def getVal(self, x, y):
-        posX = int((x - self.fromX) / self.resolutionX)
-        posY = int((y - self.fromY) / self.resolutionY)
+        posX = (x - self.fromX) / self.resolutionX
+        posY = (y - self.fromY) / self.resolutionY
 
+        x1 = floor(posX)
+        y1 = floor(posy)
+        x2 = x1 + 1
+        y2 = y1 + 1
+        
+        e11 = ele(x1, y1)
+        e12 = ele(x1, y2)
+        e21 = ele(x2, y1)
+        e22 = ele(x2, y2)
+
+        d1 = e12 - e11
+        d2 = e22 - e21
+
+        e1 = e11 + d1 * (posX - x1)
+        e2 = e21 + d2 * (posX - x1)
+
+        d = e2 - e1
+        e = e1 + d * (posY - y1)
+        return e
+        
+
+    def ele(self, posX, posY):
 #        print "%f, %f (%f, %f - %f, %f) -> %i, %i"%(x, y, self.minX, self.minY, self.resolutionX, self.resolutionY, posX , posY)
         band = self.dataset.GetRasterBand(1)
         scanline = band.ReadRaster(posX, posY, 1, 1, 1, 1, GDT_Float32);
