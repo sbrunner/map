@@ -93,13 +93,20 @@ App.Map = Ext.extend(GeoExt.MapPanel, {
                 arguments.layer.events.register('featureselected', this, function(o) {
                     var html = null;
                     for (var a in o.feature.attributes) {
+                        var add = true;
+                        if (a == 'units' && typeof(o.feature.attributes.units) == 'object') {
+                            add = false;
+                        }
+
                         if (html === null) {
                             html = '';
                         }
-                        else {
+                        else if (add) {
                             html += '<br />';
                         }
-                        if (a == 'website') {
+                        if (!add) {
+                        }
+                        else if (a == 'website') {
                             var href = o.feature.attributes[a];
                             html += a + ':&nbsp;<a href="' + href + '">' + href + '</a>';
                         }
@@ -119,6 +126,20 @@ App.Map = Ext.extend(GeoExt.MapPanel, {
                         else if (a == 'OSM user') {
                             var href = "http://www.openstreetmap.org/user/" + o.feature.attributes[a];
                             html += '<a href="' + href + '">Last edit by ' + o.feature.attributes[a] + '</a>';
+                        }
+                        else if (a == 'time') {
+                            var time = o.feature.attributes[a];
+                            var minutes = Math.floor(time / 60);
+                            var seg = Math.round(time % 60);
+                            if (seg < 10) {
+                                seg = '0' + seg;
+                            }
+                            html += a + ":&nbsp;" + minutes + ':' + seg + '&nbsp;min:s';
+                        }
+                        else if (a == 'units' && typeof(o.feature.attributes.units) == 'object') {
+                        }
+                        else if (o.feature.attributes.units && o.feature.attributes.units[a]) {
+                            html += a + ":&nbsp;" + o.feature.attributes[a] + "&nbsp;" + o.feature.attributes.units[a];
                         }
                         else if (o.feature.attributes[a].replace) {
                             html += a + ":&nbsp;" + o.feature.attributes[a].replace(/ /g, '&nbsp;');
