@@ -58,7 +58,7 @@ class RoutingController(BaseController):
         distance = functions.distance(RoutingEdge.the_geom, wktPoint).label('dist')
         edge = Session.query(RoutingEdge.source, RoutingEdge.target).add_column(distance) \
                 .add_column(RoutingEdge.x1).add_column(RoutingEdge.y1).add_column(RoutingEdge.x2).add_column(RoutingEdge.y2) \
-                .order_by('dist').first()
+                .order_by('dist').limit(1).first()
         point = wkt.loads(wktPoint)
         source = Point(edge.x1, edge.y1)
         target = Point(edge.x2, edge.y2)
