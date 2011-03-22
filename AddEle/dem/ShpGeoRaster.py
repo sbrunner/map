@@ -65,15 +65,15 @@ class TIFTile(Tile):
         posX = (x - self.fromX) / self.resolutionX
         posY = (y - self.fromY) / self.resolutionY
 
-        x1 = floor(posX)
-        y1 = floor(posy)
-        x2 = x1 + 1
-        y2 = y1 + 1
+        x1 = int(floor(posX))
+        y1 = int(floor(posY))
+        x2 = int(min(x1 + 1, self.dataset.RasterXSize - 1))
+        y2 = int(min(y1 + 1, self.dataset.RasterYSize - 1))
         
-        e11 = ele(x1, y1)
-        e12 = ele(x1, y2)
-        e21 = ele(x2, y1)
-        e22 = ele(x2, y2)
+        e11 = self.ele(x1, y1)
+        e12 = self.ele(x1, y2)
+        e21 = self.ele(x2, y1)
+        e22 = self.ele(x2, y2)
 
         d1 = e12 - e11
         d2 = e22 - e21
@@ -91,6 +91,7 @@ class TIFTile(Tile):
         band = self.dataset.GetRasterBand(1)
         scanline = band.ReadRaster(posX, posY, 1, 1, 1, 1, GDT_Float32);
         tupleOfFloats = unpack('f' * 1, scanline)
+#        print posX, posY, tupleOfFloats[0]
         return tupleOfFloats[0]
 
 class GeoRaster:
