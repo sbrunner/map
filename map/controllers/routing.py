@@ -88,7 +88,7 @@ class RoutingController(BaseController):
                 id = edge.id,
                 geometry = wkb.loads(str(edge.the_geom.geom_wkb)),
                 properties = {
-                    "id"; id,
+                    "id": id,
                     "name": name,
                     "time": costs[i-1],
                     "waylength": float(edge.length),
