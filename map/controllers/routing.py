@@ -33,20 +33,32 @@ def shortest_path_astar(engine, sql, source_id, target_id,
 
 class RoutingController(BaseController):
 
+    import sys
+    sys.stdout = sys.stderr
+    import logging
+    log = logging.getLogger(__name__)
+
     def index(self):
         lang = request.params.get('lang', 'en')
+        log.error("begin")
+
         start_node = self._nearestVertex(request.params['source'])
+        log.error("start")
         end_node = self._nearestVertex(request.params['target'])
+        log.error("end")
 
         # FIXME: validate start_node and end_node
 
+
         edges, costs, rowcount = self._shortestPath(start_node, end_node)
+        log.error("route")
         if not edges:
             return dumps({'success': False,
                           'msg': "No path from '%s' to '%s'"%(start_node, end_node)})
         else:
             features = self._roadmap(edges, costs, rowcount)
             dump = dumps(FeatureCollection(features))
+            log.error("finish")
             if request.params.get('callback') != None:
                 response.headers['Content-Type'] = 'text/javascript; charset=utf-8'
                 return "%s(%s);"%(request.params.get('callback'), dump)
@@ -88,7 +100,7 @@ class RoutingController(BaseController):
                 id = edge.id,
                 geometry = wkb.loads(str(edge.the_geom.geom_wkb)),
                 properties = {
-                    "id": id,
+                    "id": edge.id,
                     "name": name,
                     "time": costs[i-1],
                     "waylength": float(edge.length),
