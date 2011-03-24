@@ -33,6 +33,11 @@ GeoExt.LayerCatalogue = Ext.extend(Ext.tree.TreePanel, {
      *  ``Array(String)`` Array of state events
      */
     stateEvents: ["addlayer", "ordererlayer", "removelayer"],
+    
+    /** private: property[model]
+     *  ``Object`` the model
+     */
+    model: null,
 
     /** private: method[constructor]
      *  Construct the component.
@@ -54,6 +59,13 @@ GeoExt.LayerCatalogue = Ext.extend(Ext.tree.TreePanel, {
                 }
             }
         }, config);
+        
+        model = new GeoExt.CatalogueModel();
+        model.constructor({
+            map: mapPanel.map,
+            root: config.root
+        });
+        delete config.root;
 
         this.addEvents(
             /** private: event[addlayer]
@@ -74,7 +86,7 @@ GeoExt.LayerCatalogue = Ext.extend(Ext.tree.TreePanel, {
         )
 
         GeoExt.LayerCatalogue.superclass.constructor.call(this, config);
-        this.loader.load(this.root);
+        this.loader.load(this.model.root);
         
         var state = Ext.state.Manager.get(this.getStateId());
         if (state) {
@@ -101,75 +113,6 @@ GeoExt.LayerCatalogue = Ext.extend(Ext.tree.TreePanel, {
     initComponent: function() {
         GeoExt.LayerCatalogue.superclass.initComponent.call(this);
     },
-    
-    /** public: method[addLayer]
-     *  add a layer to the map.
-     */
-    addLayer: function (options) {
-        if (!options) {
-            return;
-        }
-        var allreadyAdded = this.mapPanel.map.getLayersBy('ref', options.ref);
-        if (allreadyAdded.length == 0 && (options.builder || options.handler)) {
-            this.mapPanel.map.addLayer(this.getLayer(options));
-            this.fireEvent("addlayer", options);
-        }
-    },
-
-	addLayerByRef: function (ref) {
-        this.addLayer(this.getLayerNodeByRef(ref));
-	},
-
-    /** public: method[getLayerNodeBy]
-     *  get a layer by a attribute.
-     */
-    getLayerNodeBy: function (attribute, value) {
-        var node = this.root.findChild(attribute, value, true);
-        if (node) {
-			delete node.attributes.id;
-            return node.attributes;
-        }
-        else {
-            return null;
-        }
-    },
-    
-    /** public: method[getLayerNodeByRef]
-     *  get a layer by his ref.
-     */
-    getLayerNodeByRef: function (ref) {
-        return this.getLayerNodeBy('ref', ref);
-    },
-
-    /** public: method[getLayerByRef]
-     *  get a layer by his ref.
-     */
-    getLayerByRef: function (ref) {
-        return this.getLayer(this.getLayerNodeByRef(ref));
-    },
-
-    /** public: method[getLayer]
-     *  get a layer by his options.
-     */
-    getLayer: function (options) {
-        var olLayer = null;
-        if (options.handler) {
-            var handler = options.handler;
-            olLayer = handler.call(options.scope, options);
-        }
-        else {                
-            var builder = options.builder;
-            olLayer = null;
-            if (options.url) {
-                olLayer = new builder(options.text, options.url, options.layerOptions);
-            }
-            else {
-                olLayer = new builder(options.text, options.layerOptions);
-            }
-        }
-        olLayer.ref = options.ref;
-        return olLayer;
-    },
 
     /** private: method[applyState]
      *  :param state: ``Object`` The state to apply.
@@ -177,7 +120,7 @@ GeoExt.LayerCatalogue = Ext.extend(Ext.tree.TreePanel, {
      *  Apply the state provided as an argument.
      */
     applyState: function(state) {
-        if (this.root.childNodes.length > 0) { // initialysed ?
+        if (this.model.root.childNodes.length > 0) { // initialysed ?
             if (state.layers) {
                 if (state.layers instanceof Array) {
                     for(var i = 0 ; i < state.layers.length ; ++i) {
