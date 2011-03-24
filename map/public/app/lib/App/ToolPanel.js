@@ -52,8 +52,7 @@ function toolBuilder(name, panel) {
     var window = new App.ToolWindow({
         title: name,
         items: [panel],
-//        style: "left: auto; right: 0;"
-        labelStyle: "padding: 2px;"
+        headerCfg: { cls: "title" }
     });
     var button = new App.ToolButton(
         new Ext.Action({

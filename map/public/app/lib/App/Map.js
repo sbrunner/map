@@ -73,15 +73,15 @@ App.Map = Ext.extend(GeoExt.MapPanel, {
         })]);
 
         var selectFeatureControl = null;
-        map.events.register('addlayer', map, function(arguments) {
-            if (arguments.layer instanceof OpenLayers.Layer.Vector && (arguments.layer.ref || arguments.layer.name == "Routing")) {
+        map.events.register('addlayer', map, function(arg) {
+            if (arg.layer instanceof OpenLayers.Layer.Vector && (arg.layer.ref || arg.layer.name == "Routing")) {
                 if (map.popups.length > 0) {
                     map.removePopup(map.popups[0]);
                 }
                 if (selectFeatureControl) {
                     selectFeatureControl.destroy();
                 }
-                var selectFeatureControl = new OpenLayers.Control.SelectFeature(arguments.layer, {
+                var selectFeatureControl = new OpenLayers.Control.SelectFeature(arg.layer, {
                     autoActivate: true,
                     hover: true,
                     clickout: true,
@@ -90,7 +90,7 @@ App.Map = Ext.extend(GeoExt.MapPanel, {
                 this.addControl(selectFeatureControl);
                 selectFeatureControl
 
-                arguments.layer.events.register('featureselected', this, function(o) {
+                arg.layer.events.register('featureselected', this, function(o) {
                     var html = null;
                     for (var a in o.feature.attributes) {
                         var add = true;
@@ -158,7 +158,7 @@ App.Map = Ext.extend(GeoExt.MapPanel, {
                 });
             }
 
-            if (arguments.layer.displayInLayerSwitcher !== false) {
+            if (arg.layer.displayInLayerSwitcher !== false) {
                 var layers = map.getLayersBy('displayInLayerSwitcher', false);
                 for (var i = 0, len = layers.length ; i < len ; i++) {
                     if (layers[i].name != "back") {

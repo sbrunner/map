@@ -259,8 +259,8 @@ GeoExt.ux.RoutingPanel = Ext.extend(Ext.Panel, {
         }];
         lanes.push({
             baseCls: 'x-plane',
-            html: '<h3>' + OpenLayers.i18n('Compute itinerary') + '</h3>',
-            bodylayerStyle: 'padding: 2px 5px 0 0;'
+            cls: 'title',
+            html: '<h3>' + OpenLayers.i18n('Compute itinerary') + '</h3>'
         });
         for (var providerRef in this.routingProviders) {
             var itinaryItems = [];
@@ -288,18 +288,19 @@ GeoExt.ux.RoutingPanel = Ext.extend(Ext.Panel, {
             }
             lanes.push({
                 layout: 'column',
+                cls: 'itinary',
                 border: false,
-                bodylayerStyle: 'padding: 3px 0 10px 0;',
                 items: itinaryItems
             });
         }
         lanes.push(this.resultPanel);
-        Ext.apply(this, {
+        Ext.applyIf(this, {
             plain: true,
             border: false,
-            bodylayerStyle: 'padding: 5px 0 5px 5px;',
+            cls: 'routing',
             items: [{
                 layout: 'form',
+                cls: 'form',
                 layoutConfig: {
                     labelSeparator: ""
                 },

@@ -123,6 +123,11 @@ div.toolwindow div.x-panel, div.toolwindow div.x-panel-body {
     border: none;
     background: none;
 }
+div.toolwindow div.title {
+    padding: 2px 5px;
+    background-color: #D0DEF0;
+    border-bottom: 1px solid #99BBE8;
+}
 
 .bubble button {
     font-size: 140%;
@@ -139,4 +144,18 @@ div.toolwindow div.x-panel, div.toolwindow div.x-panel-body {
     -moz-opacity:0.75;
     opacity: 0.75;
     filter:alpha(opacity=75);
+}
+
+div.toolwindow div.routing div.title {
+    border: none;
+    background: none;
+}
+div.routing div.title {
+    padding: 2px 5px 0 0;
+}
+div.routing div.itinary {
+    padding: 3px 0 10px 0;
+}
+div.routing div.form {
+    padding: 5px;
 }

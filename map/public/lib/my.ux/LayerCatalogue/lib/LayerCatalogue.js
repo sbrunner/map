@@ -85,13 +85,13 @@ GeoExt.LayerCatalogue = Ext.extend(Ext.tree.TreePanel, {
             this.mapPanel.applyState(state);
         }
         
-        this.mapPanel.map.events.register("changelayer", this, function(arguments) {
-			if (arguments.property == "order") {
-				this.fireEvent("ordererlayer", arguments.layer);
+        this.mapPanel.map.events.register("changelayer", this, function(arg) {
+			if (arg.property == "order") {
+				this.fireEvent("ordererlayer", arg.layer);
 			}
 		});
-        this.mapPanel.map.events.register("removelayer", this, function() {
-            this.fireEvent("removelayer", arguments.layer);
+        this.mapPanel.map.events.register("removelayer", this, function(arg) {
+            this.fireEvent("removelayer", arg.layer);
 		});
     },
     
