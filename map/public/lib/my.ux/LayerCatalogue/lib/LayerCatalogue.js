@@ -6,6 +6,10 @@
  * of the license.
  */
 
+/*
+ * @include LayerCatalogue/lib/CatalogueModel.js
+ */
+
 /** api: (define)
  *  module = GeoExt
  *  class = LayerCatalogue
@@ -54,18 +58,16 @@ GeoExt.LayerCatalogue = Ext.extend(Ext.tree.TreePanel, {
             listeners: {
                 dblclick: {
                     fn: function(node) {
-                        this.addLayer(node.attributes);
+                        this.model.addLayer(node.attributes);
                     }
                 }
             }
         }, config);
         
-        model = new GeoExt.CatalogueModel();
-        model.constructor({
-            map: mapPanel.map,
+        this.model = new OpenLayers.CatalogueModel({
+            map: config.mapPanel.map,
             root: config.root
         });
-        delete config.root;
 
         this.addEvents(
             /** private: event[addlayer]
@@ -104,6 +106,9 @@ GeoExt.LayerCatalogue = Ext.extend(Ext.tree.TreePanel, {
 		});
         this.mapPanel.map.events.register("removelayer", this, function(arg) {
             this.fireEvent("removelayer", arg.layer);
+		});
+        this.model.events.register("alllayer", this, function(arg) {
+            this.fireEvent("alllayer", arg.layer);
 		});
     },
     
@@ -158,7 +163,12 @@ GeoExt.LayerCatalogue = Ext.extend(Ext.tree.TreePanel, {
         }
 
         return state;
+    },
+    
+ 	addLayerByRef: function (ref) {
+        this.model.addLayerByRef(ref);
     }
+
 });
 
 /** api: xtype = gx_layercatalogue */

@@ -31,6 +31,7 @@
  * @include App/ToolPanel.js
  * @include RoutingPanel/lib/RoutingPanel.js
  * @include RoutingPanel/lib/Providers.js
+ * @include LayerCatalogue/lib/LayerCatalogue.js
  */
 
 Ext.namespace('App');
@@ -157,6 +158,7 @@ App.Tools = function(map) {
          * Layers
          */
         var layers = toolBuilder(OpenLayers.i18n("Layers"), new Ext.Panel({
+            width: 300,
             items: [layerTree, tree]
         }));
 

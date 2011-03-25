@@ -20,7 +20,9 @@ Ext.namespace('GeoExt');
  *  A panel showing legends of all layers in a layer store.
  *  Depending on the layer type, a legend renderer will be chosen.
  */
-GeoExt.CatalogueModel = {
+OpenLayers.CatalogueModel = OpenLayers.Class({
+
+    EVENT_TYPES: ["addlayer"],
 
     /** api: config[map]
      *  ``Map`` the map object.
@@ -36,21 +38,32 @@ GeoExt.CatalogueModel = {
      */
     root: null,
 
-    /** private: method[constructor]
+    /**
+     * APIProperty: events
+     * {<OpenLayers.Events>} An events object that handles all 
+     *                       events on the map
+     */
+    events: null,
+    
+    /** private: method[initialize]
      *  Construct the component.
      */
-    constructor: function(config) {    
-        this.mapPanel.map.events.register("changelayer", this, function(arg) {
-			if (arg.property == "order") {
-				this.fireEvent("ordererlayer", arg.layer);
-			}
-		});
-        this.mapPanel.map.events.register("removelayer", this, function(arg) {
-            this.fireEvent("removelayer", arg.layer);
-		});
+    initialize: function(config) {
+        OpenLayers.Util.extend(this, config);
         
-        Ext.apply(this, config);
-    }
+        this.events = new OpenLayers.Events(this, 
+                                            null, 
+                                            this.EVENT_TYPES);
+    },
+    
+    /**
+     * APIMethod: destroy
+     * Destroy this map
+     */
+    destroy: function() {
+        this.events.destroy();
+        this.events = null;
+    },
     
     /** public: method[addLayer]
      *  add a layer to the map.
@@ -62,7 +75,7 @@ GeoExt.CatalogueModel = {
         var allreadyAdded = this.map.getLayersBy('ref', options.ref);
         if (allreadyAdded.length == 0 && (options.builder || options.handler)) {
             this.map.addLayer(this.getLayer(options));
-            this.fireEvent("addlayer", options);
+            this.events.triggerEvent("addlayer", options);
         }
     },
 
@@ -119,5 +132,8 @@ GeoExt.CatalogueModel = {
         }
         olLayer.ref = options.ref;
         return olLayer;
-    }
-};
+    },
+
+    CLASS_NAME: "OpenLayers.CatalogueModel"
+});
+
