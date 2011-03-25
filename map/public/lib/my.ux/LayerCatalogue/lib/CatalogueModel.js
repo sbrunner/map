@@ -22,8 +22,6 @@ Ext.namespace('GeoExt');
  */
 OpenLayers.CatalogueModel = OpenLayers.Class({
 
-    EVENT_TYPES: ["addlayer"],
-
     /** api: config[map]
      *  ``Map`` the map object.
      */
@@ -37,23 +35,12 @@ OpenLayers.CatalogueModel = OpenLayers.Class({
     /** private: property[root]
      */
     root: null,
-
-    /**
-     * APIProperty: events
-     * {<OpenLayers.Events>} An events object that handles all 
-     *                       events on the map
-     */
-    events: null,
     
     /** private: method[initialize]
      *  Construct the component.
      */
     initialize: function(config) {
         OpenLayers.Util.extend(this, config);
-        
-        this.events = new OpenLayers.Events(this, 
-                                            null, 
-                                            this.EVENT_TYPES);
     },
     
     /**
@@ -75,7 +62,6 @@ OpenLayers.CatalogueModel = OpenLayers.Class({
         var allreadyAdded = this.map.getLayersBy('ref', options.ref);
         if (allreadyAdded.length == 0 && (options.builder || options.handler)) {
             this.map.addLayer(this.getLayer(options));
-            this.events.triggerEvent("addlayer", options);
         }
     },
 

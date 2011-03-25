@@ -107,7 +107,7 @@ GeoExt.LayerCatalogue = Ext.extend(Ext.tree.TreePanel, {
         this.mapPanel.map.events.register("removelayer", this, function(arg) {
             this.fireEvent("removelayer", arg.layer);
 		});
-        this.model.events.register("alllayer", this, function(arg) {
+        this.mapPanel.map.events.register("alllayer", this, function(arg) {
             this.fireEvent("alllayer", arg.layer);
 		});
     },
