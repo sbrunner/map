@@ -84,7 +84,6 @@ GeoExt.LayerCatalogue = Ext.extend(Ext.tree.TreePanel, {
              *  Fires after a layer is removed.
              */
             "removelayer"
-            
         )
 
         GeoExt.LayerCatalogue.superclass.constructor.call(this, config);
@@ -107,8 +106,8 @@ GeoExt.LayerCatalogue = Ext.extend(Ext.tree.TreePanel, {
         this.mapPanel.map.events.register("removelayer", this, function(arg) {
             this.fireEvent("removelayer", arg.layer);
 		});
-        this.mapPanel.map.events.register("alllayer", this, function(arg) {
-            this.fireEvent("alllayer", arg.layer);
+        this.mapPanel.map.events.register("addlayer", this, function(arg) {
+            this.fireEvent("addlayer", arg.layer);
 		});
     },
     
