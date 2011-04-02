@@ -184,7 +184,7 @@ GeoExt.ux.RoutingProviders = {
                         name: 'centroid'
                     }]
                 })
-            }),
+            })
         }, options);
         var box =  new Ext.form.ComboBox(options);
         box.getCentroid = function(data) {
@@ -262,7 +262,7 @@ GeoExt.ux.RoutingProviders = {
                 d.elevation = Math.abs(d.elevation);
                 d.decinivite = Math.round(d.elevation / d.waylength * 100);
                 d.units.decinivite = "%";
-                d.elevation = Math.round(d.elevation);
+                d.elevation = Math.round(d.elevation * 10) / 10;
                 d.units.elevation = "m";
                 d.waylength = Math.round(d.waylength);
                 d.units.waylength = "m";
