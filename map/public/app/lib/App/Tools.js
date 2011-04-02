@@ -199,6 +199,7 @@ App.Tools = function(map) {
          * Layers
          */
         var layers = toolBuilder(OpenLayers.i18n("Layers"), new Ext.Panel({
+            width: 300,
             items: [layerTree, tree]
         }));
 
