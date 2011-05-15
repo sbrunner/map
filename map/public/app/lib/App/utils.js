@@ -403,15 +403,17 @@ StephaneNodesUI = Ext.extend(GeoExt.tree.LayerNodeUI, {
 						text += "Reference: " + this.ref + "<br />";
 						text += "Copyright: " + stripHTML(this.attribution) + "<br />";
 						var url = this.url;
-						if (url instanceof Array) {
-						    url = url[0];
-						}
-						var index = url.indexOf("/${z}/${x}/${y}.png");
-						if (index > 0) {
-							text += "Get from: " + url.substring(0, index);
-						}
-						else {
-							text += "Get from: " + url;
+						if (url) {
+						    if (url instanceof Array) {
+							url = url[0];
+						    }
+						    var index = url.indexOf("/${z}/${x}/${y}.png");
+						    if (index > 0) {
+							    text += "Get from: " + url.substring(0, index);
+						    }
+						    else {
+							    text += "Get from: " + url;
+						    }
 						}
 						new Ext.Window({
 							title: OpenLayers.i18n("Layer informations"),
