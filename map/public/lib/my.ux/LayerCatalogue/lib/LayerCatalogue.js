@@ -13,7 +13,6 @@
 /** api: (define)
  *  module = GeoExt
  *  class = LayerCatalogue
- *  base_link = `Ext.Panel <http://extjs.com/deploy/dev/docs/?class=Ext.tree.TreePanel>`_
  */
 
 Ext.namespace('GeoExt');
@@ -24,7 +23,7 @@ Ext.namespace('GeoExt');
  *  A panel showing legends of all layers in a layer store.
  *  Depending on the layer type, a legend renderer will be chosen.
  */
-GeoExt.LayerCatalogue = Ext.extend(Ext.tree.TreePanel, {
+GeoExt.LayerCatalogue = Ext.extend(Ext.Panel, {
 
     /** api: config[map]
      *  ``Map`` the map object.
@@ -47,14 +46,17 @@ GeoExt.LayerCatalogue = Ext.extend(Ext.tree.TreePanel, {
      *  Construct the component.
      */
     constructor: function(config) {
-        config = Ext.apply({
+        var config = Ext.apply({
             stateId: "catalogue",
-            autoScroll: true,
+            layout: {
+                type: 'vbox'
+            }
+        }, config);
+        var treeConfig = Ext.apply({
+            xtype: 'treepanel',
             loader: new Ext.tree.TreeLoader({
                    preloadChildren: true
             }),
-            rootVisible: false,
-            lines: false,
             listeners: {
                 dblclick: {
                     fn: function(node) {
@@ -62,12 +64,53 @@ GeoExt.LayerCatalogue = Ext.extend(Ext.tree.TreePanel, {
                     }
                 }
             }
-        }, config);
+        }, config.tree);
         
-        this.model = new OpenLayers.CatalogueModel({
+        this.model = new Geo.CatalogueModel({
             map: config.mapPanel.map,
-            root: config.root
+            root: config.tree.root
         });
+
+        tree = new Ext.tree.TreePanel(treeConfig);
+
+        var filter = function (record, exp) {
+            record.ui.wrap.hidden = false;
+            if (record.isLeaf()) {
+                if (exp != null) {
+                    if (!(exp.test(record.text) || record.tags != undefined && exp.test(record.tags))) {
+                        record.ui.wrap.hidden = true;
+                    }
+                }
+            }
+            else {
+                visible = false;
+                for (var i = 0, len = record.childNodes.length ; i < len ; i++) {
+                    filter(record.childNodes[i], exp);
+                    visible = visible || !record.childNodes[i].hidden;
+                }
+                if (!visible) {
+                    record.ui.wrap.hidden = true;
+                }
+            }
+        }
+        
+        var fieldConfig = Ext.apply({
+            xtype: 'textfield',
+            emptyText: OpenLayers.i18n('Search'),
+            listeners: {
+                change: function(field, newValue, oldValue) {
+                    var exp = newValue == "" ? null : new RegExp(newValue, 'i');
+                    filter(tree.getRootNode(), exp);
+                },
+                keyup: function(field, event) {
+                    var value = getValue();
+                    var exp = value == "" ? null : new RegExp(value, 'i');
+                    filter(tree.getRootNode(), exp);
+                }
+            }
+        }, config.searchConfig);
+
+        config.items = [fieldConfig, tree];
 
         this.addEvents(
             /** private: event[addlayer]
@@ -87,7 +130,7 @@ GeoExt.LayerCatalogue = Ext.extend(Ext.tree.TreePanel, {
         )
 
         GeoExt.LayerCatalogue.superclass.constructor.call(this, config);
-        this.loader.load(this.model.root);
+        tree.loader.load(tree.root);
         
         var state = Ext.state.Manager.get(this.getStateId());
         if (state) {

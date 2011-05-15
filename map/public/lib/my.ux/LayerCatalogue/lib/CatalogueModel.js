@@ -12,7 +12,7 @@
  *  base_link = `Ext.Panel <http://extjs.com/deploy/dev/docs/?class=Ext.tree.TreePanel>`_
  */
 
-Ext.namespace('GeoExt');
+Ext.namespace('Geo');
 
 /** api: constructor
  *  .. class:: LayerCatalogue(config)
@@ -20,7 +20,7 @@ Ext.namespace('GeoExt');
  *  A panel showing legends of all layers in a layer store.
  *  Depending on the layer type, a legend renderer will be chosen.
  */
-OpenLayers.CatalogueModel = OpenLayers.Class({
+Geo.CatalogueModel = OpenLayers.Class({
 
     /** api: config[map]
      *  ``Map`` the map object.
