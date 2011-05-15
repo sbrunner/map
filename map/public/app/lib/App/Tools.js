@@ -137,14 +137,27 @@ App.Tools = function(map) {
          */
         var tree = new GeoExt.LayerCatalogue({
             mapPanel: GeoExt.MapPanel.guess(),
-            root: new Ext.tree.AsyncTreeNode(getLayersTree()),
             stateId: "c",
+            width: 300,
+            height: 300,
+            tree: {
+                height: 250,
+                rootVisible: false,
+                lines: false,
+                expanded: true,
+                border: false,
+                autoScroll: true,
+                root: new Ext.tree.AsyncTreeNode(getLayersTree())
+            },
+            searchConfig: {
+                width: 200
+            },
             tbar: [{
                 xtype: 'tbfill'
             }, new Ext.Action({
                 text: 'Add',
                 handler: function() {
-                    tree.addLayer(this.getSelectionModel().getSelectedNode().attributes);
+                    tree.model.addLayer(tree.tree.getSelectionModel().getSelectedNode().attributes);
                 },
                 scope: this
             })]
@@ -161,6 +174,9 @@ App.Tools = function(map) {
             width: 300,
             items: [layerTree, tree]
         }));
+        layers.on("render", function() {
+            layers.toggle();
+        });
 
 
         /*
@@ -267,7 +283,7 @@ App.Tools = function(map) {
                 + "<li><a id='permalink.amenity.editor' href='http://ae.osmsurround.org/'>" + OpenLayers.i18n("Amenity (POI) Editor") + "</a></li>"
                 + "<li><a id='permalink.openrouteservice' href='http://www.openrouteservice.org'>" + OpenLayers.i18n("OpenRouteService.org") + "</a></li>"
                 + "<li><a id='permalink.osb' href='http://openstreetbugs.schokokeks.org/'>" + OpenLayers.i18n("OpenStreetBug") + "</a></li>"
-                + "<li><a id='permalink.qsm' href='http://www.qualitystreetmap.org/osmqa/'>" + OpenLayers.i18n("OSM QA Mpp") + "</a></li>"
+                + "<li><a id='permalink.qsm' href='http://www.qualitystreetmap.org/osmqa/'>" + OpenLayers.i18n("OSM QA app") + "</a></li>"
                 + "<li><a id='permalink.maxspeed' href='http://maxspeed.osm.lab.rfc822.org/?layers=B0TF'>" + OpenLayers.i18n("Max speed") + "</a></li>"
                 + "<li><a id='permalink.refuges' href='http://refuges.info/nav.php?choix_layer=OSM'>" + OpenLayers.i18n("Refuges.info") + "</a></li>"
                 + "<li><a id='permalink.browser' href='http://www.openstreetbrowser.org/'>" + OpenLayers.i18n("OpenStreetBrowser") + "</a></li>"
