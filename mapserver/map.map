@@ -4,6 +4,13 @@ MAP
 
   TRANSPARENT OFF
 
+  WEB
+    METADATA
+      wms_enable_request "*"
+      ows_enable_request "*"
+    END
+  END
+
   EXTENT 538500 150500 543600 155600
 
   UNITS METERS
