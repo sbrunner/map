@@ -88,7 +88,6 @@ App.Map = Ext.extend(GeoExt.MapPanel, {
                     toggle: true
                 });
                 this.addControl(selectFeatureControl);
-                selectFeatureControl
 
                 arg.layer.events.register('featureselected', this, function(o) {
                     var html = null;
