@@ -13,7 +13,6 @@
 /** api: (define)
  *  module = GeoExt
  *  class = LayerCatalogue
- *  base_link = `Ext.Panel <http://extjs.com/deploy/dev/docs/?class=Ext.tree.TreePanel>`_
  */
 
 Ext.namespace('GeoExt');
@@ -24,12 +23,12 @@ Ext.namespace('GeoExt');
  *  A panel showing legends of all layers in a layer store.
  *  Depending on the layer type, a legend renderer will be chosen.
  */
-GeoExt.LayerCatalogue = Ext.extend(Ext.tree.TreePanel, {
+GeoExt.LayerCatalogue = Ext.extend(Ext.Panel, {
 
-    /** api: config[map]
-     *  ``Map`` the map object.
+    /** api: config[mapPanel]
+     *  ``Panel`` the map panel object.
      */
-    /** private: property[map]
+    /** private: property[mapPanel]
      */
     mapPanel: null,
     
@@ -39,35 +38,110 @@ GeoExt.LayerCatalogue = Ext.extend(Ext.tree.TreePanel, {
     stateEvents: ["addlayer", "ordererlayer", "removelayer"],
     
     /** private: property[model]
-     *  ``Object`` the model
+     *  ``Geo.CatalogueModel`` the model
      */
     model: null,
 
+    /** api: config[tree]
+     *  ``Tree`` the tree object configuration.
+     */
+    /** private: property[tree]
+     *  ``Tree`` the tree object.
+     */
+    tree: null,
+    
     /** private: method[constructor]
      *  Construct the component.
      */
     constructor: function(config) {
-        config = Ext.apply({
+        var config = Ext.apply({
             stateId: "catalogue",
-            autoScroll: true,
+            layout: {
+                type: 'vbox'
+            }
+        }, config);
+        var treeConfig = Ext.apply({
+            xtype: 'treepanel',
+            width: config.width,
             loader: new Ext.tree.TreeLoader({
                    preloadChildren: true
             }),
-            rootVisible: false,
-            lines: false,
             listeners: {
                 dblclick: {
                     fn: function(node) {
                         this.model.addLayer(node.attributes);
-                    }
+                    },
+                    scope: this
                 }
             }
-        }, config);
+        }, config.tree);
         
-        this.model = new OpenLayers.CatalogueModel({
+        this.model = new Geo.CatalogueModel({
             map: config.mapPanel.map,
-            root: config.root
+            root: config.tree.root
         });
+
+        var tree = new Ext.tree.TreePanel(treeConfig);
+
+        var filter = function (record, exp) {
+            if (record.isLeaf()) {
+                if (exp != null) {
+                    record.attributes.hidden = !(exp.test(record.text) || record.tags != undefined && exp.test(record.tags));
+                }
+            }
+            else {
+                var hidden = true;
+                for (var i = 0, len = record.childNodes.length ; i < len ; i++) {
+                    filter(record.childNodes[i], exp);
+                    hidden = hidden && record.childNodes[i].attributes.hidden;
+                }
+                record.attributes.hidden = hidden;
+            }
+            if (record.ui.wrap) {
+                record.ui.wrap.hidden = record.attributes.hidden;
+            }
+        }
+        
+        var fieldConfig = Ext.apply({
+            xtype: 'textfield',
+            emptyText: OpenLayers.i18n('Search'),
+            listeners: {
+                change: {
+                    fn: function(field, newValue, oldValue) {
+                        var exp = newValue == "" || newValue == null ? null : new RegExp(newValue, 'i');
+                        filter(tree.getRootNode(), exp);
+                    },
+                    scope: this
+                },
+                keyup: {
+                    fn: function(field, event) {
+                        var value = this.getValue();
+                        var exp = value == "" || newValue == null ? null : new RegExp(value, 'i');
+                        filter(tree.getRootNode(), exp);
+                    },
+                    scope: this
+                },
+                render: {
+                    fn: function(field) {
+                        field.mon(field.el, 'keyup', function(field, event) {
+                            var value = this.getValue();
+                            var exp = value == "" || newValue == null ? null : new RegExp(value, 'i');
+                            filter(tree.getRootNode(), exp);
+                        }, this);
+                    },
+                    scope: this
+                }
+            }
+        }, config.searchConfig);
+        
+        config.items = [{
+            layout: 'hbox',
+            width: config.width,
+            items: [fieldConfig, {
+                xtype: 'button',
+                text: OpenLayers.i18n('Filter')
+            }]
+        }, tree];
 
         this.addEvents(
             /** private: event[addlayer]
@@ -87,7 +161,8 @@ GeoExt.LayerCatalogue = Ext.extend(Ext.tree.TreePanel, {
         )
 
         GeoExt.LayerCatalogue.superclass.constructor.call(this, config);
-        this.loader.load(this.model.root);
+        this.tree = tree;
+        tree.loader.load(tree.root);
         
         var state = Ext.state.Manager.get(this.getStateId());
         if (state) {
