@@ -73,7 +73,13 @@ Geo.CatalogueModel = OpenLayers.Class({
      *  get a layer by a attribute.
      */
     getLayerNodeBy: function (attribute, value) {
-        var node = this.root.findChild(attribute, value, true);
+        var node = null;
+        if (this.root.findChild) {
+            node = this.root.findChild(attribute, value, true);
+        }
+        else {
+            node = this._findChild(attribute, value, this.root);
+        }
         if (node) {
 			delete node.attributes.id;
             return node.attributes;
@@ -81,6 +87,19 @@ Geo.CatalogueModel = OpenLayers.Class({
         else {
             return null;
         }
+    },
+    
+    _findChild: function (attribute, value, node) {
+        if (node[attribute] == value) {
+            return node;
+        }
+        for (var i = 0, len = node.children.length ; i < len ; i++) {
+            var result = this._findChild(attribute, value, node.children[i]);
+            if (result != null) {
+                return result;
+            }
+        }
+        return null;
     },
     
     /** public: method[getLayerNodeByRef]
