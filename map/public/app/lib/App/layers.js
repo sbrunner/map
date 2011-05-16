@@ -614,7 +614,7 @@ function getLayersTree(map) {
                 ref: 'lausanne',
                 url: 'http://plan.epfl.ch/lausanne-epfl-osm',
                 layers: 'lausanne',
-                attribution: "<a href='http://wiki.openstreetmap.org/wiki/Lausanne'>Orthophoto Ville de Lausanne 2008</a>",
+                attribution: "<a href='http://wiki.openstreetmap.org/wiki/Lausanne'>Orthophoto Ville de Lausanne 2008</a>"
             }, {
                 text: OpenLayers.i18n("EPFL"),
                 leaf: true,
@@ -622,7 +622,7 @@ function getLayersTree(map) {
                 ref: 'epfl',
                 url: 'http://plan.epfl.ch/lausanne-epfl-osm',
                 layers: 'epfl',
-                attribution: "<a href='http://wiki.openstreetmap.org/wiki/EPFL_WMS'>plan.epfl.ch Orthophoto 2009</a>",
+                attribution: "<a href='http://wiki.openstreetmap.org/wiki/EPFL_WMS'>plan.epfl.ch Orthophoto 2009</a>"
             }, {
                 text: OpenLayers.i18n("EPFL plan"),
                 leaf: true,

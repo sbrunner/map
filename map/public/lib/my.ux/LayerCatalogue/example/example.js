@@ -21,26 +21,31 @@ Ext.onReady(function() {
         title: "Layers catalogue",
         renderTo: "store",
         mapPanel: mapPanel,
-        root: {
-            text: "All the store",
-            expanded: true,
-            children: [{
-                text: "Mapnik",
-                ref: 'mapnik',
-                leaf: true,
-                builder: OpenLayers.Layer.OSM,
-                url: "http://c.tile.openstreetmap.org/${z}/${x}/${y}.png",
-                layerOptions: {}
-            }, {
-                text: "Osmarender",
-                ref: 'osmarender',
-                leaf: true,
-                handler: function(layerNode) {
-                    return new OpenLayers.Layer.OSM(layerNode.text, "http://b.tah.openstreetmap.org/Tiles/tile/${z}/${x}/${y}.png");
-                }
-            }]
-        },
+        height: 200,
         width: 170,
-        height: 200
+        tree: {
+            rootVisible: false,
+            lines: false,
+            expanded: true,
+            border: false,
+            root: {
+                text: "All the store",
+                children: [{
+                    text: "Mapnik",
+                    ref: 'mapnik',
+                    leaf: true,
+                    builder: OpenLayers.Layer.OSM,
+                    url: "http://c.tile.openstreetmap.org/${z}/${x}/${y}.png",
+                    layerOptions: {}
+                }, {
+                    text: "Osmarender",
+                    ref: 'osmarender',
+                    leaf: true,
+                    handler: function(layerNode) {
+                        return new OpenLayers.Layer.OSM(layerNode.text, "http://b.tah.openstreetmap.org/Tiles/tile/${z}/${x}/${y}.png");
+                    }
+                }]
+            }
+        }
     });    
 });

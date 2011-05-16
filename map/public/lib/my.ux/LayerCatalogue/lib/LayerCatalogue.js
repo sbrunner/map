@@ -6,10 +6,13 @@
  * of the license.
  */
 
+/*
+ * @include LayerCatalogue/lib/CatalogueModel.js
+ */
+
 /** api: (define)
  *  module = GeoExt
  *  class = LayerCatalogue
- *  base_link = `Ext.Panel <http://extjs.com/deploy/dev/docs/?class=Ext.tree.TreePanel>`_
  */
 
 Ext.namespace('GeoExt');
@@ -20,12 +23,12 @@ Ext.namespace('GeoExt');
  *  A panel showing legends of all layers in a layer store.
  *  Depending on the layer type, a legend renderer will be chosen.
  */
-GeoExt.LayerCatalogue = Ext.extend(Ext.tree.TreePanel, {
+GeoExt.LayerCatalogue = Ext.extend(Ext.Panel, {
 
-    /** api: config[map]
-     *  ``Map`` the map object.
+    /** api: config[mapPanel]
+     *  ``Panel`` the map panel object.
      */
-    /** private: property[map]
+    /** private: property[mapPanel]
      */
     mapPanel: null,
     
@@ -33,27 +36,112 @@ GeoExt.LayerCatalogue = Ext.extend(Ext.tree.TreePanel, {
      *  ``Array(String)`` Array of state events
      */
     stateEvents: ["addlayer", "ordererlayer", "removelayer"],
+    
+    /** private: property[model]
+     *  ``Geo.CatalogueModel`` the model
+     */
+    model: null,
 
+    /** api: config[tree]
+     *  ``Tree`` the tree object configuration.
+     */
+    /** private: property[tree]
+     *  ``Tree`` the tree object.
+     */
+    tree: null,
+    
     /** private: method[constructor]
      *  Construct the component.
      */
     constructor: function(config) {
-        config = Ext.apply({
+        var config = Ext.apply({
             stateId: "catalogue",
-            autoScroll: true,
+            layout: {
+                type: 'vbox'
+            }
+        }, config);
+        var treeConfig = Ext.apply({
+            xtype: 'treepanel',
+            width: config.width,
             loader: new Ext.tree.TreeLoader({
                    preloadChildren: true
             }),
-            rootVisible: false,
-            lines: false,
             listeners: {
                 dblclick: {
                     fn: function(node) {
-                        this.addLayer(node.attributes);
-                    }
+                        this.model.addLayer(node.attributes);
+                    },
+                    scope: this
                 }
             }
-        }, config);
+        }, config.tree);
+        
+        this.model = new Geo.CatalogueModel({
+            map: config.mapPanel.map,
+            root: config.tree.root
+        });
+
+        var tree = new Ext.tree.TreePanel(treeConfig);
+
+        var filter = function (record, exp) {
+            if (record.isLeaf()) {
+                if (exp != null) {
+                    record.attributes.hidden = !(exp.test(record.text) || record.tags != undefined && exp.test(record.tags));
+                }
+            }
+            else {
+                var hidden = true;
+                for (var i = 0, len = record.childNodes.length ; i < len ; i++) {
+                    filter(record.childNodes[i], exp);
+                    hidden = hidden && record.childNodes[i].attributes.hidden;
+                }
+                record.attributes.hidden = hidden;
+            }
+            if (record.ui.wrap) {
+                record.ui.wrap.hidden = record.attributes.hidden;
+            }
+        }
+        
+        var fieldConfig = Ext.apply({
+            xtype: 'textfield',
+            emptyText: OpenLayers.i18n('Search'),
+            listeners: {
+                change: {
+                    fn: function(field, newValue, oldValue) {
+                        var exp = newValue == "" || newValue == null ? null : new RegExp(newValue, 'i');
+                        filter(tree.getRootNode(), exp);
+                    },
+                    scope: this
+                },
+                keyup: {
+                    fn: function(field, event) {
+                        var value = this.getValue();
+                        var exp = value == "" || newValue == null ? null : new RegExp(value, 'i');
+                        filter(tree.getRootNode(), exp);
+                    },
+                    scope: this
+                },
+                render: {
+                    fn: function(field) {
+                        field.mon(field.el, 'keyup', function(field, event) {
+                            var value = this.getValue();
+                            var exp = value == "" || newValue == null ? null : new RegExp(value, 'i');
+                            filter(tree.getRootNode(), exp);
+                        }, this);
+                    },
+                    scope: this
+                }
+            }
+        }, config.searchConfig);
+        
+        config.items = [{
+            layout: 'hbox',
+            width: config.width,
+            items: [fieldConfig, {
+                xtype: 'button',
+                text: OpenLayers.i18n('Filter')
+            }]
+        }, tree];
 
         this.addEvents(
             /** private: event[addlayer]
@@ -70,11 +158,11 @@ GeoExt.LayerCatalogue = Ext.extend(Ext.tree.TreePanel, {
              *  Fires after a layer is removed.
              */
             "removelayer"
-            
         )
 
         GeoExt.LayerCatalogue.superclass.constructor.call(this, config);
-        this.loader.load(this.root);
+        this.tree = tree;
+        tree.loader.load(tree.root);
         
         var state = Ext.state.Manager.get(this.getStateId());
         if (state) {
@@ -85,13 +173,16 @@ GeoExt.LayerCatalogue = Ext.extend(Ext.tree.TreePanel, {
             this.mapPanel.applyState(state);
         }
         
-        this.mapPanel.map.events.register("changelayer", this, function(arguments) {
-			if (arguments.property == "order") {
-				this.fireEvent("ordererlayer", arguments.layer);
+        this.mapPanel.map.events.register("changelayer", this, function(arg) {
+			if (arg.property == "order") {
+				this.fireEvent("ordererlayer", arg.layer);
 			}
 		});
-        this.mapPanel.map.events.register("removelayer", this, function() {
-            this.fireEvent("removelayer", arguments.layer);
+        this.mapPanel.map.events.register("removelayer", this, function(arg) {
+            this.fireEvent("removelayer", arg.layer);
+		});
+        this.mapPanel.map.events.register("addlayer", this, function(arg) {
+            this.fireEvent("addlayer", arg.layer);
 		});
     },
     
@@ -101,75 +192,6 @@ GeoExt.LayerCatalogue = Ext.extend(Ext.tree.TreePanel, {
     initComponent: function() {
         GeoExt.LayerCatalogue.superclass.initComponent.call(this);
     },
-    
-    /** public: method[addLayer]
-     *  add a layer to the map.
-     */
-    addLayer: function (options) {
-        if (!options) {
-            return;
-        }
-        var allreadyAdded = this.mapPanel.map.getLayersBy('ref', options.ref);
-        if (allreadyAdded.length == 0 && (options.builder || options.handler)) {
-            this.mapPanel.map.addLayer(this.getLayer(options));
-            this.fireEvent("addlayer", options);
-        }
-    },
-
-	addLayerByRef: function (ref) {
-        this.addLayer(this.getLayerNodeByRef(ref));
-	},
-
-    /** public: method[getLayerNodeBy]
-     *  get a layer by a attribute.
-     */
-    getLayerNodeBy: function (attribute, value) {
-        var node = this.root.findChild(attribute, value, true);
-        if (node) {
-			delete node.attributes.id;
-            return node.attributes;
-        }
-        else {
-            return null;
-        }
-    },
-    
-    /** public: method[getLayerNodeByRef]
-     *  get a layer by his ref.
-     */
-    getLayerNodeByRef: function (ref) {
-        return this.getLayerNodeBy('ref', ref);
-    },
-
-    /** public: method[getLayerByRef]
-     *  get a layer by his ref.
-     */
-    getLayerByRef: function (ref) {
-        return this.getLayer(this.getLayerNodeByRef(ref));
-    },
-
-    /** public: method[getLayer]
-     *  get a layer by his options.
-     */
-    getLayer: function (options) {
-        var olLayer = null;
-        if (options.handler) {
-            var handler = options.handler;
-            olLayer = handler.call(options.scope, options);
-        }
-        else {                
-            var builder = options.builder;
-            olLayer = null;
-            if (options.url) {
-                olLayer = new builder(options.text, options.url, options.layerOptions);
-            }
-            else {
-                olLayer = new builder(options.text, options.layerOptions);
-            }
-        }
-        olLayer.ref = options.ref;
-        return olLayer;
-    },
 
     /** private: method[applyState]
      *  :param state: ``Object`` The state to apply.
@@ -177,7 +199,7 @@ GeoExt.LayerCatalogue = Ext.extend(Ext.tree.TreePanel, {
      *  Apply the state provided as an argument.
      */
     applyState: function(state) {
-        if (this.root.childNodes.length > 0) { // initialysed ?
+        if (this.model.root.childNodes.length > 0) { // initialysed ?
             if (state.layers) {
                 if (state.layers instanceof Array) {
                     for(var i = 0 ; i < state.layers.length ; ++i) {
@@ -215,7 +237,12 @@ GeoExt.LayerCatalogue = Ext.extend(Ext.tree.TreePanel, {
         }
 
         return state;
+    },
+    
+ 	addLayerByRef: function (ref) {
+        this.model.addLayerByRef(ref);
     }
+
 });
 
 /** api: xtype = gx_layercatalogue */

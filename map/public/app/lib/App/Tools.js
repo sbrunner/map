@@ -31,6 +31,7 @@
  * @include App/ToolPanel.js
  * @include RoutingPanel/lib/RoutingPanel.js
  * @include RoutingPanel/lib/Providers.js
+ * @include LayerCatalogue/lib/LayerCatalogue.js
  */
 
 Ext.namespace('App');
@@ -58,46 +59,6 @@ App.Tools = function(map) {
      * {Array} An array of toolbar items.
      */
     var getTbarItems = function(map) {
-        var drag = new GeoExt.Action({
-            control: new OpenLayers.Control.DragPan(), 
-            toggleGroup: map.id + '_tools',
-            iconCls: 'drag-icon', 
-            tooltip: OpenLayers.i18n("Drag the map"),
-            pressed: true,
-            enableToggle: true
-        });
-        var zoomToMaxExtent = new GeoExt.Action({
-            control: new OpenLayers.Control.ZoomToMaxExtent(),
-            map: map,
-            iconCls: 'maxExtent',
-            tooltip: OpenLayers.i18n("Go back to maximum extent")
-        });
-        var zoomIn = new GeoExt.Action({
-            control: new OpenLayers.Control.ZoomBox(),
-            map: map,
-            toggleGroup: map.id + '_tools',
-            allowDepress: true,
-            iconCls: 'mapZoomIn'
-        });
-        var zoomOut = new GeoExt.Action({
-            control: new OpenLayers.Control.ZoomOut(),
-            map: map,
-            iconCls: 'mapZoomOut'
-        });
-
-        var history = new OpenLayers.Control.NavigationHistory();
-        map.addControl(history);
-        var historyPrevious = new GeoExt.Action({
-            control: history.previous,
-            disabled: true,
-            iconCls: 'mapHistoryPrevious'
-        });
-        var historyNext = new GeoExt.Action({
-            control: history.next,
-            disabled: true,
-            iconCls: 'mapHistoryNext'
-        });
-
         var measureLocator = new App.Locator(map, {
             toggleGroup: map.id + '_tools',
             tooltip: OpenLayers.i18n("Get point coordinates"),
@@ -125,9 +86,7 @@ App.Tools = function(map) {
         });
 
         return [
-            drag, zoomToMaxExtent, zoomIn, zoomOut, '-',
-            historyPrevious, historyNext, '-',
-            measureLocator, measureLength, measureArea, '-', geocodder, '->'
+            geocodder, '-', measureLocator, measureLength, measureArea, '->'
         ];
     };
 
@@ -139,7 +98,7 @@ App.Tools = function(map) {
          * APIProperty: tbar
          * {Ext.Toolbar} The top toolbar instance. Read-only.
          */
-        tbar: null,
+        tbar: null
 
     });
 
@@ -178,14 +137,27 @@ App.Tools = function(map) {
          */
         var tree = new GeoExt.LayerCatalogue({
             mapPanel: GeoExt.MapPanel.guess(),
-            root: new Ext.tree.AsyncTreeNode(getLayersTree()),
             stateId: "c",
+            width: 300,
+            height: 300,
+            tree: {
+                height: 250,
+                rootVisible: false,
+                lines: false,
+                expanded: true,
+                border: false,
+                autoScroll: true,
+                root: new Ext.tree.AsyncTreeNode(getLayersTree())
+            },
+            searchConfig: {
+                width: 200
+            },
             tbar: [{
                 xtype: 'tbfill'
             }, new Ext.Action({
                 text: 'Add',
                 handler: function() {
-                    tree.addLayer(this.getSelectionModel().getSelectedNode().attributes);
+                    tree.model.addLayer(tree.tree.getSelectionModel().getSelectedNode().attributes);
                 },
                 scope: this
             })]
@@ -199,8 +171,12 @@ App.Tools = function(map) {
          * Layers
          */
         var layers = toolBuilder(OpenLayers.i18n("Layers"), new Ext.Panel({
+            width: 300,
             items: [layerTree, tree]
         }));
+        layers.on("render", function() {
+            layers.toggle();
+        });
 
 
         /*
@@ -258,6 +234,8 @@ App.Tools = function(map) {
             map: map,
             width: 300,
             layerStyle: routingStyle,
+            stateId: 'r',
+            cls: 'routing',
             // Key for dev.geoext.org: 187a9f341f70406a8064d07a30e5695c
             // Key for localhost: BC9A493B41014CAABB98F0471D759707
             // Key for map.stephane-brunner.ch: 60a6b92afa824cc985331da088d3225c
@@ -285,7 +263,7 @@ App.Tools = function(map) {
         var links = toolBuilder(OpenLayers.i18n("Links"), new Ext.Panel({
             autoScroll: true,
             width: 200,
-            style: "padding: 0 0 8px 8px;",
+            style: "padding: 5px 7px;",
             html: "<ul>"
                 + "<li><div id='permalink'><a href=''>" + OpenLayers.i18n("Permalink") + "</a></div></li>"
                 + "<li><div id='permalink.osm'><a href='http://openstreetmap.org'>" + OpenLayers.i18n("OpenStreetMap") + "</a></div></li>"
@@ -305,7 +283,7 @@ App.Tools = function(map) {
                 + "<li><a id='permalink.amenity.editor' href='http://ae.osmsurround.org/'>" + OpenLayers.i18n("Amenity (POI) Editor") + "</a></li>"
                 + "<li><a id='permalink.openrouteservice' href='http://www.openrouteservice.org'>" + OpenLayers.i18n("OpenRouteService.org") + "</a></li>"
                 + "<li><a id='permalink.osb' href='http://openstreetbugs.schokokeks.org/'>" + OpenLayers.i18n("OpenStreetBug") + "</a></li>"
-                + "<li><a id='permalink.qsm' href='http://www.qualitystreetmap.org/osmqa/'>" + OpenLayers.i18n("OSM QA Mpp") + "</a></li>"
+                + "<li><a id='permalink.qsm' href='http://www.qualitystreetmap.org/osmqa/'>" + OpenLayers.i18n("OSM QA app") + "</a></li>"
                 + "<li><a id='permalink.maxspeed' href='http://maxspeed.osm.lab.rfc822.org/?layers=B0TF'>" + OpenLayers.i18n("Max speed") + "</a></li>"
                 + "<li><a id='permalink.refuges' href='http://refuges.info/nav.php?choix_layer=OSM'>" + OpenLayers.i18n("Refuges.info") + "</a></li>"
                 + "<li><a id='permalink.browser' href='http://www.openstreetbrowser.org/'>" + OpenLayers.i18n("OpenStreetBrowser") + "</a></li>"
@@ -331,6 +309,27 @@ App.Tools = function(map) {
                 + '<hr /><p><b><a href="https://github.com/sbrunner/map">Sources du site</a></b></p>'
         }));
         
-        return [selection, layers, routing, links];
+        var more = toolBuilder(OpenLayers.i18n("More"), new Ext.Panel({
+            autoScroll: true,
+            width: 200,
+            style: "padding: 5px 7px; overflow: hidden;",
+            html: "<h3>" + OpenLayers.i18n('Tools') + "</h3>"
+                + "<ul>"
+                + '<li><a href="http://map.stephane-brunner.ch/proj/">' + OpenLayers.i18n('Projection Converter') + '</a></li>'
+                + "</ul>"
+                + "<h3>" + OpenLayers.i18n('Feedback') + "</h3>"
+                + "<ul>"
+                + '<li><a href="https://github.com/sbrunner/map/issues">' + OpenLayers.i18n('Send a feedback') + '</a></li>'
+                + "</ul>"
+                + "<h3>" + OpenLayers.i18n('About') + "</h3>"
+                + "<ul>"
+                + '<li><a href="https://github.com/sbrunner/map">' + OpenLayers.i18n('Source code') + '</a></li>'
+                + '<li><a href="http://stephane-brunner.ch/">' + OpenLayers.i18n('Author site') + '</a></li>'
+                + '<li><a href="http://twitter.com/#!/stephanebrunner">' + OpenLayers.i18n('Twiter') + '</a></li>'
+                + '<li><a href="http://www.linkedin.com/profile/view?id=22182481">' + OpenLayers.i18n('LinkedIn') + '</a></li>'
+                + "</ul>"
+        }));
+
+        return [selection, layers, routing, links, more];
     }
 };
