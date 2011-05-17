@@ -141,7 +141,7 @@ App.Tools = function(map) {
             width: 300,
             height: 300,
             tree: {
-                height: 250,
+                height: 275,
                 rootVisible: false,
                 lines: false,
                 expanded: true,
@@ -149,19 +149,19 @@ App.Tools = function(map) {
                 autoScroll: true,
                 root: new Ext.tree.AsyncTreeNode(getLayersTree())
             },
+            displaySearch: false,
             searchConfig: {
                 width: 200
             },
-            tbar: [{
-                xtype: 'tbfill'
-            }, new Ext.Action({
-                text: 'Add',
+            tbar: ['-', '->', '-', new Ext.Action({
+                text: OpenLayers.i18n('Add'),
                 handler: function() {
                     tree.model.addLayer(tree.tree.getSelectionModel().getSelectedNode().attributes);
                 },
                 scope: this
             })]
-        })
+        });
+        tree.getTopToolbar().insert(1, tree.fieldConfig);
         tree.getTopToolbar().insert(0, new Ext.Toolbar.TextItem(OpenLayers.i18n("Catalogue")));
         if (map.layers.length == 1) {
             tree.addLayerByRef('mk');

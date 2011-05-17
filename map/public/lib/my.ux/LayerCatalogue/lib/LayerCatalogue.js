@@ -85,9 +85,14 @@ GeoExt.LayerCatalogue = Ext.extend(Ext.Panel, {
 
         var filter = function (record, exp) {
             if (record.isLeaf()) {
-                if (exp != null) {
-                    record.attributes.hidden = !(exp.test(record.text) || record.tags != undefined && exp.test(record.tags));
+                var found = true;
+                for (var i = 0, len = exp.length; i < len; i++) {
+                    if (found) {
+                        found = found && exp[i].test(record.text) ||
+                            record.attributes.tags != undefined && exp[i].test(record.attributes.tags);
+                    }
                 }
+                record.attributes.hidden = !found;
             }
             else {
                 var hidden = true;
@@ -101,47 +106,42 @@ GeoExt.LayerCatalogue = Ext.extend(Ext.Panel, {
                 record.ui.wrap.hidden = record.attributes.hidden;
             }
         }
-        
+        var getExp = function(value) {
+            if (value == "" || value == null) {
+                return [];
+            }
+            else {
+                var exp = [], values = value.split(" ");
+                for (var i = 0, len = values.length; i < len; i++) {
+                    exp.push(new RegExp(values[i], 'i'));
+                }
+                return exp;
+            }
+        }
         var fieldConfig = Ext.apply({
-            xtype: 'textfield',
+            xtype: 'combo',
+            hideTrigger: true,
             emptyText: OpenLayers.i18n('Search'),
             listeners: {
-                change: {
-                    fn: function(field, newValue, oldValue) {
-                        var exp = newValue == "" || newValue == null ? null : new RegExp(newValue, 'i');
-                        filter(tree.getRootNode(), exp);
-                    },
-                    scope: this
-                },
                 keyup: {
                     fn: function(field, event) {
-                        var value = this.getValue();
-                        var exp = value == "" || newValue == null ? null : new RegExp(value, 'i');
-                        filter(tree.getRootNode(), exp);
-                    },
-                    scope: this
-                },
-                render: {
-                    fn: function(field) {
-                        field.mon(field.el, 'keyup', function(field, event) {
-                            var value = this.getValue();
-                            var exp = value == "" || newValue == null ? null : new RegExp(value, 'i');
-                            filter(tree.getRootNode(), exp);
-                        }, this);
+                        var value = field.getValue();
+                        filter(tree.getRootNode(), getExp(value));
                     },
                     scope: this
                 }
-            }
+            },
+            findRecord: function(){},
+            minChars: 99999 // to desable store !
         }, config.searchConfig);
-        
-        config.items = [{
-            layout: 'hbox',
-            width: config.width,
-            items: [fieldConfig, {
-                xtype: 'button',
-                text: OpenLayers.i18n('Filter')
-            }]
-        }, tree];
+
+        if (config.displaySearch) {
+            config.items = [fieldConfig, tree];
+        }
+        else {
+            this.fieldConfig = fieldConfig;
+            config.items = [tree];
+        }
 
         this.addEvents(
             /** private: event[addlayer]

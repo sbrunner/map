@@ -10,7 +10,8 @@ function getLayersTree(map) {
     var brutes = {
         text: OpenLayers.i18n("Raw (XAPI)"),
         leaf: false,
-        children: []
+        children: [],
+        tags: "xapi"
     };
     var types = ['node', 'way', 'relation'];
     var cats = ["leisure", "amenity", "shop", "office", "tourism", "historic", "highway", "barrier", "cycleway", "tracktype", "railway", "aeroway", "power", "man_made", "landuse", "military", "natural", "route", "boundary", "sport", "abutters", "accessories", "place"];
@@ -103,15 +104,18 @@ function getLayersTree(map) {
     wikipediam.push({
         text: OpenLayers.i18n("Others"),
         leaf: false,
-        children: wikipedia
+        children: wikipedia,
+        tags: ""
     });
 
             
     var root = {
 		text: OpenLayers.i18n("All layers"),
+        tags: "",
         expanded: true,
         children: [{
             text: OpenLayers.i18n("Base Layers"),
+            tags: OpenLayers.i18n("Base"),
             leaf: false,
             expanded: true,
             children: [{
@@ -363,6 +367,7 @@ function getLayersTree(map) {
         },
         {
             text: OpenLayers.i18n("Dem"),
+            tags: OpenLayers.i18n("dem srtm"),
             leaf: false,
             expanded: true,
             children: [{
@@ -772,6 +777,322 @@ function getLayersTree(map) {
             text: OpenLayers.i18n("Debug"),
             leaf: false,
             children: [{
+                text: OpenLayers.i18n("ITO"),
+                leaf: false,
+                children: [{
+                    text: OpenLayers.i18n("Barriers"),
+                    leaf: true,
+                    handler: addLayer,
+                    numZoomLevels: 18,
+                    ref: "ito-barriers",
+                    attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a> -- tiles from <a href='http://www.itoworld.com/product/data/ito_map/'>ITO</a>",
+                    url: ['http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=49&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=49&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=49&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=49&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256']
+                },
+                {
+                    text: OpenLayers.i18n("Building heights"),
+                    leaf: true,
+                    handler: addLayer,
+                    numZoomLevels: 18,
+                    ref: "ito-bh",
+                    attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a> -- tiles from <a href='http://www.itoworld.com/product/data/ito_map/'>ITO</a>",
+                    url: ['http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=85&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=85&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=85&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=85&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256']
+                },
+                {
+                    text: OpenLayers.i18n("Buildings and addresses"),
+                    leaf: true,
+                    handler: addLayer,
+                    numZoomLevels: 18,
+                    ref: "ito-ba",
+                    attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a> -- tiles from <a href='http://www.itoworld.com/product/data/ito_map/'>ITO</a>",
+                    url: ['http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=9&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=9&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=9&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=9&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256']
+                },
+                {
+                    text: OpenLayers.i18n("Car parks"),
+                    leaf: true,
+                    handler: addLayer,
+                    numZoomLevels: 18,
+                    ref: "ito-cp",
+                    attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a> -- tiles from <a href='http://www.itoworld.com/product/data/ito_map/'>ITO</a>",
+                    url: ['http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=7&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=7&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=7&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=7&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256']
+                },
+                {
+                    text: OpenLayers.i18n("Electricity"),
+                    leaf: true,
+                    handler: addLayer,
+                    numZoomLevels: 18,
+                    ref: "ito-elec",
+                    attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a> -- tiles from <a href='http://www.itoworld.com/product/data/ito_map/'>ITO</a>",
+                    url: ['http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=4&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=4&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=4&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=4&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256']
+                },
+                {
+                    text: OpenLayers.i18n("FIXME"),
+                    leaf: true,
+                    handler: addLayer,
+                    numZoomLevels: 18,
+                    ref: "ito-fixme",
+                    attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a> -- tiles from <a href='http://www.itoworld.com/product/data/ito_map/'>ITO</a>",
+                    url: ['http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=12&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=12&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=12&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=12&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256']
+                },
+                {
+                    text: OpenLayers.i18n("Former railways"),
+                    leaf: true,
+                    handler: addLayer,
+                    numZoomLevels: 18,
+                    ref: "ito-fora",
+                    attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a> -- tiles from <a href='http://www.itoworld.com/product/data/ito_map/'>ITO</a>",
+                    url: ['http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=26&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=26&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=26&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=26&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256']
+                },
+                {
+                    text: OpenLayers.i18n("Highway lanes"),
+                    leaf: true,
+                    handler: addLayer,
+                    numZoomLevels: 18,
+                    ref: "ito-hila",
+                    attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a> -- tiles from <a href='http://www.itoworld.com/product/data/ito_map/'>ITO</a>",
+                    url: ['http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=56&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=56&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=56&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=56&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256']
+                },
+                {
+                    text: OpenLayers.i18n("Highway lighting"),
+                    leaf: true,
+                    handler: addLayer,
+                    numZoomLevels: 18,
+                    ref: "ito-hili",
+                    attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a> -- tiles from <a href='http://www.itoworld.com/product/data/ito_map/'>ITO</a>",
+                    url: ['http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=69&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=69&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=69&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=69&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256']
+                },
+                {
+                    text: OpenLayers.i18n("Layers"),
+                    leaf: true,
+                    handler: addLayer,
+                    numZoomLevels: 18,
+                    ref: "ito-layers",
+                    attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a> -- tiles from <a href='http://www.itoworld.com/product/data/ito_map/'>ITO</a>",
+                    url: ['http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=22&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=22&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=22&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=22&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256']
+                },
+                {
+                    text: OpenLayers.i18n("Metro"),
+                    leaf: true,
+                    handler: addLayer,
+                    numZoomLevels: 18,
+                    ref: "ito-metro",
+                    attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a> -- tiles from <a href='http://www.itoworld.com/product/data/ito_map/'>ITO</a>",
+                    url: ['http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=18&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=18&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=18&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=18&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256']
+                },
+                {
+                    text: OpenLayers.i18n("Navigable waterways"),
+                    leaf: true,
+                    handler: addLayer,
+                    numZoomLevels: 18,
+                    ref: "ito-navwa",
+                    attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a> -- tiles from <a href='http://www.itoworld.com/product/data/ito_map/'>ITO</a>",
+                    url: ['http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=24&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=24&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=24&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=24&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256']
+                },
+                {
+                    text: OpenLayers.i18n("Railway electrification"),
+                    leaf: true,
+                    handler: addLayer,
+                    numZoomLevels: 18,
+                    ref: "ito-raelec",
+                    attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a> -- tiles from <a href='http://www.itoworld.com/product/data/ito_map/'>ITO</a>",
+                    url: ['http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=68&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=68&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=68&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=68&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256']
+                },
+                {
+                    text: OpenLayers.i18n("Railway engineering"),
+                    leaf: true,
+                    handler: addLayer,
+                    numZoomLevels: 18,
+                    ref: "ito-raeng",
+                    attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a> -- tiles from <a href='http://www.itoworld.com/product/data/ito_map/'>ITO</a>",
+                    url: ['http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=55&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=55&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=55&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=55&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256']
+                },
+                {
+                    text: OpenLayers.i18n("Railway freight"),
+                    leaf: true,
+                    handler: addLayer,
+                    numZoomLevels: 18,
+                    ref: "ito-rafrei",
+                    attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a> -- tiles from <a href='http://www.itoworld.com/product/data/ito_map/'>ITO</a>",
+                    url: ['http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=71&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=71&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=71&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=71&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256']
+                },
+                {
+                    text: OpenLayers.i18n("Railway stations"),
+                    leaf: true,
+                    handler: addLayer,
+                    numZoomLevels: 18,
+                    ref: "ito-rasta",
+                    attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a> -- tiles from <a href='http://www.itoworld.com/product/data/ito_map/'>ITO</a>",
+                    url: ['http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=79&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=79&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=79&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=79&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256']
+                },
+                {
+                    text: OpenLayers.i18n("Railway tracks"),
+                    leaf: true,
+                    handler: addLayer,
+                    numZoomLevels: 18,
+                    ref: "ito-ratra",
+                    attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a> -- tiles from <a href='http://www.itoworld.com/product/data/ito_map/'>ITO</a>",
+                    url: ['http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=14&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=14&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=14&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=14&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256']
+                },
+                {
+                    text: OpenLayers.i18n("Railways"),
+                    leaf: true,
+                    handler: addLayer,
+                    numZoomLevels: 18,
+                    ref: "ito-ra",
+                    attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a> -- tiles from <a href='http://www.itoworld.com/product/data/ito_map/'>ITO</a>",
+                    url: ['http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=15&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=15&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=15&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=15&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256']
+                },
+                {
+                    text: OpenLayers.i18n("Schools"),
+                    leaf: true,
+                    handler: addLayer,
+                    numZoomLevels: 18,
+                    ref: "ito-sch",
+                    attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a> -- tiles from <a href='http://www.itoworld.com/product/data/ito_map/'>ITO</a>",
+                    url: ['http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=6&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=6&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=6&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=6&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256']
+                },
+                {
+                    text: OpenLayers.i18n("Speed limits km/h"),
+                    leaf: true,
+                    handler: addLayer,
+                    numZoomLevels: 18,
+                    ref: "ito-speed",
+                    attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a> -- tiles from <a href='http://www.itoworld.com/product/data/ito_map/'>ITO</a>",
+                    url: ['http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=25&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=25&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=25&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=25&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256']
+                },
+                {
+                    text: OpenLayers.i18n("Speed limits km/h: major roads"),
+                    leaf: true,
+                    handler: addLayer,
+                    numZoomLevels: 18,
+                    ref: "ito-speedmaj",
+                    attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a> -- tiles from <a href='http://www.itoworld.com/product/data/ito_map/'>ITO</a>",
+                    url: ['http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=42&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=42&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=42&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=42&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256']
+                },
+                {
+                    text: OpenLayers.i18n("Speed limits mph"),
+                    leaf: true,
+                    handler: addLayer,
+                    numZoomLevels: 18,
+                    ref: "ito-speedmph",
+                    attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a> -- tiles from <a href='http://www.itoworld.com/product/data/ito_map/'>ITO</a>",
+                    url: ['http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=5&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=5&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=5&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=5&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256']
+                },
+                {
+                    text: OpenLayers.i18n("Speed limits mph: major roads"),
+                    leaf: true,
+                    handler: addLayer,
+                    numZoomLevels: 18,
+                    ref: "ito-speedmphmaj",
+                    attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a> -- tiles from <a href='http://www.itoworld.com/product/data/ito_map/'>ITO</a>",
+                    url: ['http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=41&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=41&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=41&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=41&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256']
+                },
+                {
+                    text: OpenLayers.i18n("Surfaces"),
+                    leaf: true,
+                    handler: addLayer,
+                    numZoomLevels: 18,
+                    ref: "ito-surfaces",
+                    attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a> -- tiles from <a href='http://www.itoworld.com/product/data/ito_map/'>ITO</a>",
+                    url: ['http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=25&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=25&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=25&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=25&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256']
+                },
+                {
+                    text: OpenLayers.i18n("Unknown roads"),
+                    leaf: true,
+                    handler: addLayer,
+                    numZoomLevels: 18,
+                    ref: "ito-unro",
+                    attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a> -- tiles from <a href='http://www.itoworld.com/product/data/ito_map/'>ITO</a>",
+                    url: ['http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=21&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=21&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=21&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=21&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256']
+                },
+                {
+                    text: OpenLayers.i18n("Water"),
+                    leaf: true,
+                    handler: addLayer,
+                    numZoomLevels: 18,
+                    ref: "ito-water",
+                    attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a> -- tiles from <a href='http://www.itoworld.com/product/data/ito_map/'>ITO</a>",
+                    url: ['http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=3&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=3&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=3&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256',
+                        'http://t0.itoworld.com/osm_script/wms?TILE=${z}/${x}/${y}&LAYERS=3&STYLES=&SRS=EPSG:900913&FORMAT=image%2Fpng&TRANSPARENT=on&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&WIDTH=256&HEIGHT=256']
+                }]
+            },
+            {
                 text: OpenLayers.i18n("CloudMade nonames"),
                 leaf: true,
                 handler: addLayer,
@@ -813,6 +1134,15 @@ function getLayersTree(map) {
                 ref: "navdebug"
             },
             {
+                text: OpenLayers.i18n("Incomplete adresses, services"),
+                leaf: true,
+                handler: addLayer,
+                url: "http://map.stephane-brunner.ch/tiles/adrs/${z}/${x}/${y}.png",
+                numZoomLevels: 18,
+                attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", 
+                ref: "adrs"
+            },
+            {
                 text: OpenLayers.i18n("Swiss history"),
                 leaf: false,
                 children: [{
@@ -851,6 +1181,24 @@ function getLayersTree(map) {
         },
         brutes]
     };
-        
+
+    propagateTags = function(element, tags) {
+        if (element.tags === undefined) {
+            if (tags != "") { tags += " "; }
+            tags += element.text;
+        }
+        else if (element.tags != "") {
+            if (tags != "") { tags += " "; }
+            tags += element.tags;
+        }
+        element.tags = tags;
+        if (element.children) {
+            for (var i = 0, len = element.children.length; i < len ; i++) {
+                propagateTags(element.children[i], tags);
+            }
+        }
+    }
+    propagateTags(root, "");
+    
     return root;
 }
