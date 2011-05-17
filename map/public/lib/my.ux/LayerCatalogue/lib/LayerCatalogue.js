@@ -86,7 +86,8 @@ GeoExt.LayerCatalogue = Ext.extend(Ext.Panel, {
         var filter = function (record, exp) {
             if (record.isLeaf()) {
                 if (exp != null) {
-                    record.attributes.hidden = !(exp.test(record.text) || record.tags != undefined && exp.test(record.tags));
+                    record.attributes.hidden = !(exp.test(record.text) ||
+                            record.attributes.tags != undefined && exp.test(record.attributes.tags));
                 }
             }
             else {
@@ -103,7 +104,8 @@ GeoExt.LayerCatalogue = Ext.extend(Ext.Panel, {
         }
         
         var fieldConfig = Ext.apply({
-            xtype: 'textfield',
+            xtype: 'combo',
+            hideTrigger: true,
             emptyText: OpenLayers.i18n('Search'),
             listeners: {
                 change: {
@@ -133,15 +135,14 @@ GeoExt.LayerCatalogue = Ext.extend(Ext.Panel, {
                 }
             }
         }, config.searchConfig);
-        
-        config.items = [{
-            layout: 'hbox',
-            width: config.width,
-            items: [fieldConfig, {
-                xtype: 'button',
-                text: OpenLayers.i18n('Filter')
-            }]
-        }, tree];
+
+        if (config.displaySearch) {
+            config.items = [fieldConfig, tree];
+        }
+        else {
+            this.fieldConfig = fieldConfig;
+            config.items = [tree];
+        }
 
         this.addEvents(
             /** private: event[addlayer]
