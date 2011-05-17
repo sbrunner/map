@@ -10,7 +10,8 @@ function getLayersTree(map) {
     var brutes = {
         text: OpenLayers.i18n("Raw (XAPI)"),
         leaf: false,
-        children: []
+        children: [],
+        tags: "xapi"
     };
     var types = ['node', 'way', 'relation'];
     var cats = ["leisure", "amenity", "shop", "office", "tourism", "historic", "highway", "barrier", "cycleway", "tracktype", "railway", "aeroway", "power", "man_made", "landuse", "military", "natural", "route", "boundary", "sport", "abutters", "accessories", "place"];
@@ -103,15 +104,18 @@ function getLayersTree(map) {
     wikipediam.push({
         text: OpenLayers.i18n("Others"),
         leaf: false,
-        children: wikipedia
+        children: wikipedia,
+        tags: ""
     });
 
             
     var root = {
 		text: OpenLayers.i18n("All layers"),
+        tags: "",
         expanded: true,
         children: [{
             text: OpenLayers.i18n("Base Layers"),
+            tags: OpenLayers.i18n("Base"),
             leaf: false,
             expanded: true,
             children: [{
@@ -363,6 +367,7 @@ function getLayersTree(map) {
         },
         {
             text: OpenLayers.i18n("Dem"),
+            tags: OpenLayers.i18n("dem srtm"),
             leaf: false,
             expanded: true,
             children: [{
@@ -851,6 +856,24 @@ function getLayersTree(map) {
         },
         brutes]
     };
-        
+
+    propagateTags = function(element, tags) {
+        if (element.tags === undefined) {
+            if (tags != "") { tags += " "; }
+            tags += element.text;
+        }
+        else if (element.tags != "") {
+            if (tags != "") { tags += " "; }
+            tags += element.tags;
+        }
+        element.tags = tags;
+        if (element.children) {
+            for (var i = 0, len = element.children.length; i < len ; i++) {
+                propagateTags(element.children[i], tags);
+            }
+        }
+    }
+    propagateTags(root, "");
+    
     return root;
 }

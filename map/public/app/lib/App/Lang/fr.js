@@ -217,5 +217,9 @@ OpenLayers.Util.extend(OpenLayers.Lang.fr, {
     'Yverdon Bellevue': 'Yverdon Bellevue',
     'Yverdon cessnov': 'Yverdon cessnov',
     'Yverdon Y-Parc': 'Yverdon Y-Parc',
-    'Filter': 'Filtrer'
+    'Filter': 'Filtrer',
+    'XAPI': 'XAPI',
+    'Base': 'Base',
+    'dem srtm': 'dem srtm',
+    '': '',
 });
