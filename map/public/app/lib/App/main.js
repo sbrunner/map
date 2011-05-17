@@ -44,7 +44,6 @@ if (!contains(['en', 'fr'], lang)) {
 document.write("<script type=\"text/javascript\" src=\"build/" + lang + ".js\"></script>");
 document.write('<meta HTTP-EQUIV="Content-Language" CONTENT="' + lang + '" />');
 delete code;
-delete lang;
 
 var mapPanel;
 

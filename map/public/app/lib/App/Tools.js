@@ -154,7 +154,7 @@ App.Tools = function(map) {
                 width: 200
             },
             tbar: ['-', '->', '-', new Ext.Action({
-                text: 'Add',
+                text: OpenLayers.i18n('Add'),
                 handler: function() {
                     tree.model.addLayer(tree.tree.getSelectionModel().getSelectedNode().attributes);
                 },

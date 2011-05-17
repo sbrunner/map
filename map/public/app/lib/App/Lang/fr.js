@@ -240,6 +240,7 @@ OpenLayers.Util.extend(OpenLayers.Lang.fr, {
     'Railway stations': 'Gares',
     'Railway tracks': 'Les voies ferrées',
     'Railways': 'Chemins de fer',
+    'Railways': 'Chemins de fer',
     'Schools': 'Écoles',
     'Speed limits km/h': 'Vitesses limite km/h',
     'Speed limits km/h: major roads': 'Vitesses limite km/h: routes principales',
@@ -248,5 +249,6 @@ OpenLayers.Util.extend(OpenLayers.Lang.fr, {
     'Surfaces': 'Surfaces',
     'Unknown roads': 'Routes inconnues',
     'Water': 'Eau',
-    'Incomplete adresses, services': 'Adresses, voie de services incomplète'
+    'Incomplete adresses, services': 'Adresses, voie de services incomplète',
+    'Add': 'Ajoute'
 });
