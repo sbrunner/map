@@ -3,4 +3,5 @@ rm switzerland.osm
 bunzip2 switzerland.osm.bz2
 sudo -u postgres osm2pgsql -p adrs -S adrs.style -d osm -cs switzerland.osm
 ./generate_tiles.py
+rm switzerland.osm
 
