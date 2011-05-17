@@ -107,16 +107,16 @@ GeoExt.LayerCatalogue = Ext.extend(Ext.Panel, {
             emptyText: OpenLayers.i18n('Search'),
             listeners: {
                 change: {
-                    fn: function(field, newValue, oldValue) {
-                        var exp = newValue == "" || newValue == null ? null : new RegExp(newValue, 'i');
+                    fn: function(field, value, oldValue) {
+                        var exp = value == "" || value == null ? null : new RegExp(value, 'i');
                         filter(tree.getRootNode(), exp);
                     },
                     scope: this
                 },
                 keyup: {
                     fn: function(field, event) {
-                        var value = this.getValue();
-                        var exp = value == "" || newValue == null ? null : new RegExp(value, 'i');
+                        var value = field.getValue();
+                        var exp = value == "" || value == null ? null : new RegExp(value, 'i');
                         filter(tree.getRootNode(), exp);
                     },
                     scope: this
@@ -124,8 +124,8 @@ GeoExt.LayerCatalogue = Ext.extend(Ext.Panel, {
                 render: {
                     fn: function(field) {
                         field.mon(field.el, 'keyup', function(field, event) {
-                            var value = this.getValue();
-                            var exp = value == "" || newValue == null ? null : new RegExp(value, 'i');
+                            var value = field.getValue();
+                            var exp = value == "" || value == null ? null : new RegExp(value, 'i');
                             filter(tree.getRootNode(), exp);
                         }, this);
                     },
