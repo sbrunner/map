@@ -231,7 +231,6 @@ OpenLayers.Util.extend(OpenLayers.Lang.fr, {
     'Former railways': 'Ancien chemins de fer',
     'Highway lanes': 'Voies',
     'Highway lighting': 'Éclairage',
-    'Layers': 'Niveaux',
     'Metro': 'Métro',
     'Navigable waterways': 'Voies navigable',
     'Railway electrification': 'Électrification des chemins de fer',
