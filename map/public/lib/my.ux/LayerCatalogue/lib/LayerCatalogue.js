@@ -123,6 +123,12 @@ GeoExt.LayerCatalogue = Ext.extend(Ext.Panel, {
             hideTrigger: true,
             emptyText: OpenLayers.i18n('Search'),
             listeners: {
+                change: {
+                    fn: function(field, value, oldValue) {
+                        filter(tree.getRootNode(), getExp(value));
+                    },
+                    scope: this
+                },
                 keyup: {
                     fn: function(field, event) {
                         var value = field.getValue();
