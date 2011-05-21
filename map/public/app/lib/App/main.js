@@ -92,6 +92,35 @@ window.onload = function() {
         permalinkTitleBase = window.location.href + "#";
         permalinkBase = permalinkTitleBase + "#";
     }
+    
+    GeoExt.state.PermalinkProvider.prototype.readURL = function(url) {
+        var state = {};
+        url = url || window.location.href; 
+        var params = OpenLayers.Util.getParameters(url);
+
+        // If we have an chchor in the url use it to split the url 
+        var index = url.indexOf('#'); 
+        if (index > 0) { 
+            // create an url to parce on the getParameters 
+            url = '?' + url.substring(index + 1, url.length); 
+ 
+            OpenLayers.Util.extend(params, OpenLayers.Util.getParameters(url)); 
+        }
+        
+        var k, split, stateId;
+        for(k in params) {
+            if(params.hasOwnProperty(k)) {
+                split = k.split("_");
+                if(split.length > 1) {
+                    stateId = split[0];
+                    state[stateId] = state[stateId] || {};
+                    state[stateId][split.slice(1).join("_")] = this.encodeType ?
+                        this.decodeValue(params[k]) : params[k];
+                }
+            }
+        }
+        return state;
+    }
     permalinkProvider = new GeoExt.state.PermalinkProvider({encodeType: false });
     Ext.state.Manager.setProvider(permalinkProvider);
 
