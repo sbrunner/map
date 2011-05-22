@@ -10,18 +10,11 @@
  * @include App/Map.js
  * @include App/LayerTree.js
  * @include App/layers.js
- * @include App/style.js
  * @include App/utils.js
- * 
- * @include OpenLayers/Protocol/XAPI.js
- * @include OpenLayers/Protocol/OSMAPI.js
  * 
  * @include OpenLayers/Util.js
  * @include OpenLayers/Lang.js
  * @include OpenLayers/Map.js
- * @include OpenLayers/Strategy/Fixed.js
- * @include OpenLayers/Strategy/BBOX.js
- * @include OpenLayers/Protocol/HTTP.js
  * @include OpenLayers/Format/JSON.js
  * 
  * @include GeoExt/widgets/MapPanel.js

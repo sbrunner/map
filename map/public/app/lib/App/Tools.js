@@ -147,7 +147,7 @@ App.Tools = function(map) {
                 expanded: true,
                 border: false,
                 autoScroll: true,
-                root: new Ext.tree.AsyncTreeNode(getLayersTree())
+                root: new Ext.tree.AsyncTreeNode(getLayersTree(GeoExt.MapPanel.guess().map))
             },
             displaySearch: false,
             searchConfig: {

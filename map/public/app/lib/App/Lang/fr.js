@@ -9,6 +9,7 @@ OpenLayers.Util.extend(OpenLayers.Lang.fr, {
     "Measure an area": "Mesure une surface",
 
     "Various OSM map": "Diverses cartes OSM",
+    "Various OSM map - mobile": "Diverses cartes OSM - mobile",
     "Mapnik": "Mapnik",
     "White background": "Fond blanc",
     "Black background": "Fond Noir",
@@ -55,7 +56,7 @@ OpenLayers.Util.extend(OpenLayers.Lang.fr, {
     "Permalink": "Permalien",
     "Links": "Liens",
     "Edit with JOSM": "Éditer avec JOSM",
-    "Base Layers": "Couches de base",
+    "Base Layers": "Calques de base",
     "Dem": "Altitude",
     "Outdoor": "Sports extérieurs",
     "Utils": "Utiles",
@@ -65,7 +66,7 @@ OpenLayers.Util.extend(OpenLayers.Lang.fr, {
     "Nodes": "Nœuds",
     "Ways": "Chemins",
     "Relations": "Relations",
-    "Layers": "Couches",
+    "Layers": "Calques",
     "Catalogue": "Catalogue",
     "Selection": "Sélection",
     "Edit on Potlatch": "Éditer avec Potlatch",
@@ -122,7 +123,7 @@ OpenLayers.Util.extend(OpenLayers.Lang.fr, {
     'Genf': 'Genève',
 
     'About': 'À propos',
-    'All layers': 'Ajoute les calques',
+    'All layers': 'Tous les calques',
     'A mountain of heights': 'A mountain of heights',
     'Author site': 'Site de l\'auteur',
     'Bicycle preferd': 'Vélo, préférer',
@@ -239,7 +240,6 @@ OpenLayers.Util.extend(OpenLayers.Lang.fr, {
     'Railway stations': 'Gares',
     'Railway tracks': 'Les voies ferrées',
     'Railways': 'Chemins de fer',
-    'Railways': 'Chemins de fer',
     'Schools': 'Écoles',
     'Speed limits km/h': 'Vitesses limite km/h',
     'Speed limits km/h: major roads': 'Vitesses limite km/h: routes principales',
@@ -249,5 +249,8 @@ OpenLayers.Util.extend(OpenLayers.Lang.fr, {
     'Unknown roads': 'Routes inconnues',
     'Water': 'Eau',
     'Incomplete adresses, services': 'Adresses, voie de services incomplète',
-    'Add': 'Ajoute'
+    'Add': 'Ajoute',
+
+    'Locate': 'Localiser',
+    'Details': 'Détailles'
 });

@@ -3,13 +3,13 @@ root = ${vars:jsbuild-root}
 first =
     Ext/adapter/ext/ext-base${vars:extdebug}.js
     Ext/ext-all${vars:extdebug}.js
-    proj4js/lib/proj4js.js
-    proj4js/lib/projCode/merc.js
-    proj4js/lib/defs/EPSG900913.js
+#    proj4js/lib/proj4js.js
+#    proj4js/lib/projCode/merc.js
+#    proj4js/lib/defs/EPSG900913.js
     OpenLayers/SingleFile.js
-    OpenLayers/Util.js
     OpenLayers/BaseTypes.js
     OpenLayers/BaseTypes/Class.js
+    OpenLayers/Util.js
     OpenLayers/Lang.js
 include =
     OpenLayers/Location.js
@@ -21,6 +21,27 @@ exclude =
     OpenLayers.js
     OpenLayers/Lang/fr.js
     OpenLayers/Lang/en.js
+
+[mobile.js]
+root = ${vars:jsbuild-root}
+first =
+    jquery-1.6.1${vars:jqm-min}.js
+    jquery.mobile-1.0a4.1${vars:jqm-min}.js
+#    proj4js/lib/proj4js.js
+#    proj4js/lib/projCode/merc.js
+#    proj4js/lib/defs/EPSG900913.js
+    OpenLayers/SingleFile.js
+    OpenLayers/BaseTypes.js
+    OpenLayers/BaseTypes/Class.js
+    OpenLayers/Util.js
+include =
+#    OpenLayers/Location.js
+    OpenLayers/Lang/fr.js
+    OpenLayers/Renderer/Canvas.js
+#    OpenLayers/Control/Navigation.js
+    App/mobile.js
+exclude =
+    OpenLayers.js
 
 [trace.js]
 root = ${vars:jsbuild-root}
@@ -95,6 +116,20 @@ first =
     OpenLayers/Lang/fr.js
 include =
     Ext/src/locale/ext-lang-fr.js
+    App/Lang/fr.js
+exclude =
+    OpenLayers/Lang.js
+
+[en_m.js]
+root = ${vars:jsbuild-root}
+include =
+    App/Lang/en.js
+exclude =
+    OpenLayers/Lang.js
+
+[fr_m.js]
+root = ${vars:jsbuild-root}
+include =
     App/Lang/fr.js
 exclude =
     OpenLayers/Lang.js

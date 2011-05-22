@@ -9,9 +9,11 @@
 /*
  * @requires GeoExt/widgets/MapPanel.js
  * @include OpenLayers/Projection.js
+ * @include OpenLayers/Layer/SphericalMercator.js
  * @include OpenLayers/Map.js
  * @include OpenLayers/Layer/XYZ.js
  * @include OpenLayers/Control/Navigation.js
+ * @include OpenLayers/Kinetic.js
  * @include OpenLayers/Control/PanZoomBar.js
  * @include OpenLayers/Control/ZoomPanel.js
  * @include OpenLayers/Control/ArgParser.js
@@ -61,7 +63,13 @@ App.Map = Ext.extend(GeoExt.MapPanel, {
                 new OpenLayers.Control.KeyboardDefaults(),
                 new OpenLayers.Control.ScaleLine({geodesic: true, maxWidth: 120}),
                 new OpenLayers.Control.LoadingPanel(),
-                new OpenLayers.Control.OverviewMap({minRatio: 64, maxRatio: 64, layers: [new OpenLayers.Layer.OSM()]})
+                new OpenLayers.Control.OverviewMap({minRatio: 64, maxRatio: 64, layers: [new OpenLayers.Layer.OSM()]})/*,
+                new OpenLayers.Control.TouchNavigation({
+                    dragPanOptions: {
+                        interval: 100,
+                        enableKinetic: true
+                    }
+                })*/
             ]
         };
         

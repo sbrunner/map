@@ -6,6 +6,22 @@
  * of the license.
  */
 
+/*
+ * @include App/style.js
+ * @include App/utils-mobile.js
+ * 
+ * @include OpenLayers/Protocol/XAPI.js
+ * @include OpenLayers/Protocol/OSMAPI.js
+ * 
+ * @include OpenLayers/Strategy/Fixed.js
+ * @include OpenLayers/Strategy/BBOX.js
+ * @include OpenLayers/Protocol/HTTP.js
+ * 
+ * @include OpenLayers/Layer/Vector.js
+ * @include OpenLayers/Layer/XYZ.js
+ * @include OpenLayers/Layer/WMS.js
+ * @include OpenLayers/Format/OSM.js
+ */
 function getLayersTree(map) {
     var brutes = {
         text: OpenLayers.i18n("Raw (XAPI)"),

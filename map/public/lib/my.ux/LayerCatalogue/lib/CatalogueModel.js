@@ -12,7 +12,9 @@
  *  base_link = `Ext.Panel <http://extjs.com/deploy/dev/docs/?class=Ext.tree.TreePanel>`_
  */
 
-Ext.namespace('Geo');
+if (!window.Geo) {
+    window.Geo = {};
+}
 
 /** api: constructor
  *  .. class:: LayerCatalogue(config)
@@ -81,8 +83,13 @@ Geo.CatalogueModel = OpenLayers.Class({
             node = this._findChild(attribute, value, this.root);
         }
         if (node) {
-			delete node.attributes.id;
-            return node.attributes;
+            if (node.attributes) {
+                delete node.attributes.id;
+                return node.attributes;
+            }
+            else {
+                return node;
+            }
         }
         else {
             return null;
@@ -93,10 +100,12 @@ Geo.CatalogueModel = OpenLayers.Class({
         if (node[attribute] == value) {
             return node;
         }
-        for (var i = 0, len = node.children.length ; i < len ; i++) {
-            var result = this._findChild(attribute, value, node.children[i]);
-            if (result != null) {
-                return result;
+        if (node.children) {
+            for (var i = 0, len = node.children.length ; i < len ; i++) {
+                var result = this._findChild(attribute, value, node.children[i]);
+                if (result != null) {
+                    return result;
+                }
             }
         }
         return null;
