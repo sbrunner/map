@@ -14,6 +14,7 @@
  * @include App/layers.js
  */
 
+Ext.supports.History = false;
 var code = (OpenLayers.Util.getBrowserName() == "msie") ? navigator.userLanguage : navigator.language;
 var lang = code.substring(0, 2);
 if (!contains(['en', 'fr'], lang)) {
@@ -43,24 +44,17 @@ var init = function () {
     }
     OpenLayers.Lang.setCode(lang);
     delete lang;
-
-/*    OpenLayers.Util.getElement("search-btn").inner_html = OpenLayers.i18n("Search");
-    OpenLayers.Util.getElement("locate").inner_html = OpenLayers.i18n("Locate");
-    OpenLayers.Util.getElement("layers-btn").inner_html = OpenLayers.i18n("Layers");*/
-    OpenLayers.Util.getElement("search-title").inner_html = OpenLayers.i18n("Search");
-    OpenLayers.Util.getElement("layers-title").inner_html = OpenLayers.i18n("Layers");
-    OpenLayers.Util.getElement("details-title").inner_html = OpenLayers.i18n("Details");
     
     /*
      * Setting of OpenLayers global vars.
      */
     OpenLayers.Number.thousandsSeparator = ' ';
     OpenLayers.IMAGE_RELOAD_ATTEMPTS = 3;
-    OpenLayers.ProxyHost = "proxy.php?url="; 
+    OpenLayers.ProxyHost = "proxy.php?url=";
 
     document.title = OpenLayers.i18n("Various OSM map - mobile");
 
-    var vector = new OpenLayers.Layer.Vector("Vector Layer", {});
+    var vector = new OpenLayers.Layer.Vector(OpenLayers.i18n("Location"), {});
 
     var geolocate = new OpenLayers.Control.Geolocate({
         id: 'locate-control',
@@ -172,11 +166,6 @@ var init = function () {
         map.zoomToMaxExtent();
     }
 
-    var overlayLayers = map.getLayersBy("isBaseLayer", false);
-    $.each(overlayLayers, function() {
-        addLayerToList(this);
-    });
-
     var style = {
         fillOpacity: 0.1,
         fillColor: '#000',
@@ -212,131 +201,320 @@ var init = function () {
     });
 };
 
-
-var selectedFeature = null;
-
-$(document).ready(function() {
-
-    var index = window.location.href.indexOf('#');
-    if (index != -1) {
-        window.initial_href = window.location.href;
-        window.location.href = window.location.href.substring(0, index + 1);
-    }
-
-    // fix height of content
-    function fixContentHeight() {
-        var footer = $("div[data-role='footer']:visible"),
-        content = $("div[data-role='content']:visible:visible"),
-        viewHeight = $(window).height(),
-        contentHeight = viewHeight - footer.outerHeight();
-
-        if ((content.outerHeight() + footer.outerHeight()) !== viewHeight) {
-            contentHeight -= (content.outerHeight() - content.height());
-            content.height(contentHeight);
-        }
-        if (window.map) {
-            map.updateSize();
-        } else {
-            // initialize map
-            setTimeout(init, 100);
-        }
-    }
-    $(window).bind("orientationchange resize pageshow", fixContentHeight);
-    fixContentHeight(); 
-
-    // Map zoom  
-    $("#plus").click(function(){
-        map.zoomIn();
-    });
-    $("#minus").click(function(){
-        map.zoomOut();
-    });
-    $("#locate").click(function(){
-        var control = map.getControlsBy("id", "locate-control")[0];
-        if (control.active) {
-            control.getCurrentLocation();
-        } else {
-            control.activate();
-        }
-    });
-    
-    $('div#popup').live('pageshow',function(event, ui){
-        var li = "";
-        for(var attr in selectedFeature.attributes){
-            li += "<li><div style='width:25%;float:left'>" + attr + "</div><div style='width:75%;float:right'>" 
-            + selectedFeature.attributes[attr] + "</div></li>";
-        }
-        $("ul#details-list").empty().append(li).listview("refresh");
-    });
-
-    $('#searchpage').live('pageshow',function(event, ui){
-        $('#query').bind('change', function(e){
-            $('#search_results').empty();
-            if ($('#query')[0].value === '') {
-                return;
-            }
-            $.mobile.pageLoading();
-
-            // Prevent form send
-            e.preventDefault();
-
-            var searchUrl = 'http://ws.geonames.org/searchJSON?featureClass=P&maxRows=10';
-            searchUrl += '&name_startsWith=' + $('#query')[0].value;
-            $.getJSON(searchUrl, function(data) {
-                $.each(data.geonames, function() {
-                    var place = this;
-                    $('<li>')
-                        .hide()
-                        .append($('<h2 />', {
-                            text: place.name
-                        }))
-                        .append($('<p />', {
-                            html: '<b>' + place.countryName + '</b> ' + place.fcodeName
-                        }))
-                        .appendTo('#search_results')
-                        .click(function() {
-                            $.mobile.changePage('mappage');
-                            var lonlat = new OpenLayers.LonLat(place.lng, place.lat);
-                            map.setCenter(lonlat.transform(gg, sm), 10);
-                        }).show();
-                });
-                $('#search_results').listview('refresh');
-                $.mobile.pageLoading(true);
-            });
+var app = new Ext.Application({
+    name: "ol",
+    launch: function() {
+        this.viewport = new Ext.Panel({
+            fullscreen: true,
+            dockedItems: [{
+                dock: "bottom",
+                xtype: "toolbar",
+                ui: "light",
+                layout: {
+                    pack: "center"
+                },
+                items: [{
+                    iconCls: "search",
+                    iconMask: true,
+                    handler: function() {
+                        // this is the app
+                        if (!app.searchFormPopupPanel) {
+                            app.searchFormPopupPanel = new App.SearchFormPopupPanel({
+                                map: map
+                            });
+                        }
+                        app.searchFormPopupPanel.show('pop');
+                    }
+                }, {
+                    iconCls: "locate",
+                    iconMask: true,
+                    handler: function() {
+                        var geolocate = map.getControlsBy("id", "locate-control")[0];
+                        if (geolocate.active) {
+                            geolocate.getCurrentLocation();
+                        } else {
+                            geolocate.activate();
+                        }
+                    }
+                }, {
+                    xtype: "spacer"
+                }, {
+                    iconMask: true,
+                    iconCls: "add",
+                    handler: function() {
+                        map.zoomIn();
+                    }
+                }, {
+                    iconMask: true,
+                    iconCls: "minus",
+                    handler: function() {
+                        map.zoomOut();
+                    }
+                }, {
+                    xtype: "spacer"
+                }, {
+                    iconMask: true,
+                    iconCls: "layers",
+                    handler: function() {
+                        if (!app.popup) {
+                            app.popup = new Ext.Panel({
+                                floating: true,
+                                modal: true,
+                                centered: true,
+                                hideOnMaskTap: true,
+                                width: 240,
+                                items: [{
+                                    xtype: 'app_layerlist',
+                                    map: map
+                                }],
+                                scroll: 'vertical'
+                            });
+                        }
+                        app.popup.show('pop');
+                    }
+                }]
+            }],
+            items: [
+                {
+                    xtype: "component",
+                    scroll: false,
+                    monitorResize: true,
+                    id: "map",
+                    listeners: {
+                        render: function() {
+                            var self = this;
+                            init(function(feature) {
+                                var htmlContent = "";
+                                for (var property in feature.data) {
+                                    if (feature.data[property] != 'undefined') {
+                                        htmlContent = htmlContent + feature.data[property] + "<br>";
+                                    }
+                                }
+                                if (self.featurePopup) {
+                                    self.featurePopup.destroy();
+                                }
+                                self.featurePopup = new Ext.Panel({
+                                    floating: true,
+                                    modal: true,
+                                    centered: true,
+                                    hideOnMaskTap: true,
+                                    width: 240,
+                                    html: htmlContent,
+                                    scroll: 'vertical'
+                                });
+                                self.featurePopup.show();
+                            })
+                        },
+                        resize: function() {
+                            if (window.map) {
+                                map.updateSize();
+                            }
+                        },
+                        scope: {
+                            featurePopup: null
+                        }
+                    }
+                }
+            ]
         });
-        // only listen to the first event triggered
-        $('#searchpage').die('pageshow', arguments.callee);
-    });
-
-    $('#layerslist').listview();
-    $('<li>', {
-        "data-role": "list-divider",
-        text: OpenLayers.i18n("Layers")
-    }).appendTo('#layerslist');
-    $('#layerslist').listview('refresh');
+    }
 });
 
-function addLayerToList(layer) {
-    var item = $('<li>', {
-            "data-icon": "check",
-            "class": layer.visibility ? "checked" : ""
-        })
-        .append($('<a />', {
-            text: layer.name
-        })
-            .click(function() {
-                $.mobile.changePage('mappage');
+Ext.ns('App');
+
+/**
+ * The model for the geonames records used in the search
+ */
+Ext.regModel('Geonames', {
+    fields: ['countryName', 'toponymName', 'name', 'lat', 'lng']
+});
+
+/**
+ * Custom class for the Search 
+ */
+App.SearchFormPopupPanel = Ext.extend(Ext.Panel, {
+    map: null,
+    floating: true,
+    modal: true,
+    centered: true,
+    hideOnMaskTap: true,
+    width: Ext.is.Phone ? undefined : 400,
+    height: Ext.is.Phone ? undefined : 400,
+    scroll: false,
+    layout: 'fit',
+    fullscreen: Ext.is.Phone ? true : undefined,
+    url: 'http://ws.geonames.org/searchJSON?',
+    errorText: 'Sorry, we had problems communicating with geonames.org. Please try again.',
+    errorTitle: 'Communication error',
+    maxResults: 6,
+    featureClass: "P",
+    
+    createStore: function(){
+        this.store = new Ext.data.Store({
+            model: 'Geonames',
+            proxy: {
+                type: 'scripttag',
+                timeout: 5000,
+                listeners: {
+                    exception: function(){
+                        this.hide();
+                        Ext.Msg.alert(this.errorTitle, this.errorText, Ext.emptyFn);
+                    },
+                    scope: this
+                },
+                url: this.url,
+                reader: {
+                    type: 'json',
+                    root: 'geonames'
+                }
+            }
+        });
+    },
+    
+    doSearch: function(searchfield, evt){
+        var q = searchfield.getValue();
+        this.store.load({
+            params: {
+                featureClass: this.featureClass,
+                maxRows: this.maxResults,
+                name_startsWith: encodeURIComponent(q)
+            }
+        });
+    },
+    
+    onItemTap: function(dataView, index, item, event){
+        var record = this.store.getAt(index);
+        var lon = record.get('lng');
+        var lat = record.get('lat');
+        var lonlat = new OpenLayers.LonLat(lon, lat);
+        map.setCenter(lonlat.transform(gg, sm), 12);
+        this.hide("pop");
+    },
+    
+    initComponent: function(){
+        this.createStore();
+        this.resultList = new Ext.List({
+            scroll: 'vertical',
+            cls: 'searchList',
+            loadingText: "Searching ...",
+            store: this.store,
+            itemTpl: '<div>{name} ({countryName})</div>',
+            listeners: {
+                itemtap: this.onItemTap,
+                scope: this
+            }
+        });
+        this.formContainer = new Ext.form.FormPanel({
+            scroll: false,
+            items: [{
+                xtype: 'button',
+                cls: 'close-btn',
+                ui: 'decline-small',
+                text: 'Close',
+                handler: function(){
+                    this.hide();
+                },
+                scope: this 
+            }, {
+                xtype: 'fieldset',
+                scroll: false,
+                title: 'Search for a place',
+                items: [{
+                    xtype: 'searchfield',
+                    label: 'Search',
+                    placeHolder: 'placename',
+                    listeners: {
+                        action: this.doSearch,
+                        scope: this
+                    }
+                },
+                    this.resultList
+                ]
+            }]
+        });
+        this.items = [{
+            xtype: 'panel',
+            layout: 'fit',
+            items: [this.formContainer]
+        }];
+        App.SearchFormPopupPanel.superclass.initComponent.call(this);
+    }
+});
+
+App.LayerList = Ext.extend(Ext.List, {
+    
+    map: null,
+    
+    createStore: function(){
+        Ext.regModel('Layer', {
+            fields: ['id', 'name', 'visibility', 'zindex']
+        });
+        var data = [];
+        Ext.each(this.map.layers, function(layer){
+            if (layer.displayInLayerSwitcher === true) {
+                var visibility = layer.isBaseLayer ? (this.map.baseLayer == layer) : layer.getVisibility();
+                data.push({
+                    id: layer.id,
+                    name: layer.name,
+                    visibility: visibility,
+                    zindex: layer.getZIndex()
+                });
+            }
+        });
+        return new Ext.data.Store({
+            model: 'Layer',
+            sorters: 'zindex',
+            data: data
+        });
+    },
+    
+    initComponent: function(){
+        this.store = this.createStore();
+        this.itemTpl = new Ext.XTemplate(
+            '<tpl if="visibility == true">', 
+                '<img width="20" src="app/images/check-round-green.png">', 
+            '</tpl>', 
+            '<tpl if="visibility == false">', 
+                '<img width="20" src="app/images/check-round-grey.png">', 
+            '</tpl>', 
+            '<span class="gx-layer-item">{name}</span>'
+        );
+        this.listeners = {
+            itemtap: function(dataview, index, item, e){
+                var record = dataview.getStore().getAt(index);
+                var layer = this.map.getLayersBy("id", record.get("id"))[0];
                 if (layer.isBaseLayer) {
-                    layer.map.setBaseLayer(layer);
-                } else {
+                    this.map.setBaseLayer(layer);
+                }
+                else {
                     layer.setVisibility(!layer.getVisibility());
                 }
-            })
-        )
-        .appendTo('#layerslist');
-    layer.events.on({
-        'visibilitychanged': function() {
-            $(item).toggleClass('checked');
+                record.set("visibility", layer.getVisibility());
+            }
+        };
+        this.map.events.on({
+            "changelayer": this.onChangeLayer,
+            scope: this
+        });
+        App.LayerList.superclass.initComponent.call(this);
+    },
+
+    findLayerRecord: function(layer){
+        var found;
+        this.store.each(function(record){
+            if (record.get("id") === layer.id) {
+                found = record;
+            }
+        }, this);
+        return found;
+    },
+    
+    onChangeLayer: function(evt){
+        if (evt.property == "visibility") {
+            var record = this.findLayerRecord(evt.layer);
+            record.set("visibility", evt.layer.getVisibility());
         }
-    });
-}
+    }
+    
+});
+Ext.reg('app_layerlist', App.LayerList);

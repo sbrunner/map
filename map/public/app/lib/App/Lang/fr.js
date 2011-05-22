@@ -251,6 +251,7 @@ OpenLayers.Util.extend(OpenLayers.Lang.fr, {
     'Incomplete adresses, services': 'Adresses, voie de services incomplète',
     'Add': 'Ajoute',
 
-    'Locate': 'Localiser',
+    'Locate': 'Positionner',
+    'Location': 'Position',
     'Details': 'Détailles'
 });

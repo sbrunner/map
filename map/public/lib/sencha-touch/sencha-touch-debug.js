@@ -10167,7 +10167,7 @@ Ext.History = new Ext.util.Observable({
         me.setToken(window.location.hash);
         
         if (Ext.supports.History) {
-            window.addEventListener('hashchange', this.onChange);
+            window.addEventListener('hashchange', this.onChange, this);
         } else {
             setInterval(function() {
                 var newToken = me.cleanToken(window.location.hash),

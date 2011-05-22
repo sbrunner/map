@@ -3,42 +3,30 @@ root = ${vars:jsbuild-root}
 first =
     Ext/adapter/ext/ext-base${vars:extdebug}.js
     Ext/ext-all${vars:extdebug}.js
-#    proj4js/lib/proj4js.js
-#    proj4js/lib/projCode/merc.js
-#    proj4js/lib/defs/EPSG900913.js
     OpenLayers/SingleFile.js
     OpenLayers/BaseTypes.js
     OpenLayers/BaseTypes/Class.js
     OpenLayers/Util.js
     OpenLayers/Lang.js
 include =
-    OpenLayers/Location.js
     OpenLayers/Renderer/VML.js
     OpenLayers/Renderer/SVG.js
-    OpenLayers/Control/Navigation.js
     App/main.js
 exclude =
     OpenLayers.js
-    OpenLayers/Lang/fr.js
-    OpenLayers/Lang/en.js
 
 [mobile.js]
 root = ${vars:jsbuild-root}
 first =
-    jquery-1.6.1${vars:jqm-min}.js
-    jquery.mobile-1.0a4.1${vars:jqm-min}.js
-#    proj4js/lib/proj4js.js
-#    proj4js/lib/projCode/merc.js
-#    proj4js/lib/defs/EPSG900913.js
+    sencha-touch${vars:extdebug}.js
+#    jquery-1.6.1${vars:jqm-min}.js
+#    jquery.mobile-1.0a4.1${vars:jqm-min}.js
     OpenLayers/SingleFile.js
     OpenLayers/BaseTypes.js
     OpenLayers/BaseTypes/Class.js
     OpenLayers/Util.js
 include =
-#    OpenLayers/Location.js
-    OpenLayers/Lang/fr.js
     OpenLayers/Renderer/Canvas.js
-#    OpenLayers/Control/Navigation.js
     App/mobile.js
 exclude =
     OpenLayers.js
@@ -46,13 +34,10 @@ exclude =
 [trace.js]
 root = ${vars:jsbuild-root}
 first =
-#    proj4js/lib/proj4js.js
-#    proj4js/lib/projCode/merc.js
-#    proj4js/lib/defs/EPSG900913.js
     OpenLayers/SingleFile.js
-    OpenLayers/Util.js
     OpenLayers/BaseTypes.js
     OpenLayers/BaseTypes/Class.js
+    OpenLayers/Util.js
 include =
     OpenLayers/Location.js
     OpenLayers/Lang/fr.js
@@ -67,9 +52,9 @@ exclude =
 root = ${vars:jsbuild-root}
 first =
     OpenLayers/SingleFile.js
-    OpenLayers/Util.js
     OpenLayers/BaseTypes.js
     OpenLayers/BaseTypes/Class.js
+    OpenLayers/Util.js
 include =
     OpenLayers/Location.js
     OpenLayers/Map.js
@@ -120,14 +105,14 @@ include =
 exclude =
     OpenLayers/Lang.js
 
-[en_m.js]
+[en-m.js]
 root = ${vars:jsbuild-root}
 include =
     App/Lang/en.js
 exclude =
     OpenLayers/Lang.js
 
-[fr_m.js]
+[fr-m.js]
 root = ${vars:jsbuild-root}
 include =
     App/Lang/fr.js
