@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2010 The Open Source Geospatial Foundation
+ * Copyright (c) 2010-2011 The Open Source Geospatial Foundation
  * 
  * Published under the BSD license.
  * See http://svn.geoext.org/core/trunk/geoext/license.txt for the full text
@@ -75,7 +75,7 @@ App.Map = Ext.extend(GeoExt.MapPanel, {
         
         var map = new OpenLayers.Map(mapOptions);
         map.addLayers([new OpenLayers.Layer.OSM("back", "http://map.stephane-brunner.ch/white.png", {
-            numZoomLevels: 20, 
+            numZoomLevels: 18, 
             displayInLayerSwitcher: false,
             attribution: ""
         })]);

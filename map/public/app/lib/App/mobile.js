@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2010-2011 The Open Source Geospatial Foundation
+ * 
+ * Published under the BSD license.
+ * See http://svn.geoext.org/core/trunk/geoext/license.txt for the full text
+ * of the license.
+ */
 /*
  * @requires OpenLayers/Projection.js
  * @include OpenLayers/Layer/SphericalMercator.js
@@ -149,7 +156,7 @@ var init = function () {
         ],
         layers: [
             new OpenLayers.Layer.OSM("back", "http://map.stephane-brunner.ch/white.png", {
-                numZoomLevels: 20, 
+                numZoomLevels: 18, 
                 displayInLayerSwitcher: false,
                 attribution: "",
                 projection: sm
