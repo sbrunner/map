@@ -113,10 +113,7 @@ GeoExt.ux.RoutingProviders = {
             displayField: 'display_name',
             queryParam: 'q',
             tpl: '<tpl for="."><div class="x-combo-list-item"><h3>{display_name}</h3></div></tpl>',
-/*                        if (options.map) {
-                            var extent = options.map.getExtent();
-                            params.viewbox = extent.left + ',' + extent.top + ',' + extent.right + ',' + extent.bottom;
-                        }*/
+
             store: new Ext.data.Store({
                 proxy: new Ext.data.ScriptTagProxy({
                     url: url,

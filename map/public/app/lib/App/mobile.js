@@ -351,8 +351,8 @@ App.SearchFormPopupPanel = Ext.extend(Ext.Panel, {
     layout: 'fit',
     fullscreen: Ext.is.Phone ? true : undefined,
     url: 'http://nominatim.openstreetmap.org/search?',
-    errorText: 'Sorry, we had problems communicating with openstreetmap.org. Please try again.',
-    errorTitle: 'Communication error',
+    errorText: OpenLayers.i18n('Sorry, we had problems communicating with openstreetmap.org. Please try again.'),
+    errorTitle: OpenLayers.i18n('Communication error'),
     maxResults: 6,
     featureClass: "P",
     
@@ -402,7 +402,7 @@ App.SearchFormPopupPanel = Ext.extend(Ext.Panel, {
         this.resultList = new Ext.List({
             scroll: 'vertical',
             cls: 'searchList',
-            loadingText: "Searching ...",
+            loadingText: OpenLayers.i18n("Searching..."),
             store: this.store,
             itemTpl: '<div>{display_name}</div>',
             listeners: {
@@ -416,7 +416,7 @@ App.SearchFormPopupPanel = Ext.extend(Ext.Panel, {
                 xtype: 'button',
                 cls: 'close-btn',
                 ui: 'decline-small',
-                text: 'Close',
+                text: OpenLayers.i18n('Close'),
                 handler: function(){
                     this.hide();
                 },
@@ -424,11 +424,11 @@ App.SearchFormPopupPanel = Ext.extend(Ext.Panel, {
             }, {
                 xtype: 'fieldset',
                 scroll: false,
-                title: 'Search for a place',
+                title: OpenLayers.i18n('Search for a place'),
                 items: [{
                     xtype: 'searchfield',
-                    label: 'Search',
-                    placeHolder: 'placename',
+                    label: OpenLayers.i18n('Search'),
+                    placeHolder: OpenLayers.i18n('placename'),
                     listeners: {
                         action: this.doSearch,
                         scope: this
