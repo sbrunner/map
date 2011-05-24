@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2010-2011 The Open Source Geospatial Foundation
+ * 
+ * Published under the BSD license.
+ * See http://svn.geoext.org/core/trunk/geoext/license.txt for the full text
+ * of the license.
+ */
 /*
  * @requires OpenLayers/Projection.js
  * @include OpenLayers/Layer/SphericalMercator.js
@@ -149,7 +156,7 @@ var init = function () {
         ],
         layers: [
             new OpenLayers.Layer.OSM("back", "http://map.stephane-brunner.ch/white.png", {
-                numZoomLevels: 20, 
+                numZoomLevels: 18, 
                 displayInLayerSwitcher: false,
                 attribution: "",
                 projection: sm
@@ -323,10 +330,10 @@ var app = new Ext.Application({
 Ext.ns('App');
 
 /**
- * The model for the geonames records used in the search
+ * The model for the nominatim records used in the search
  */
-Ext.regModel('Geonames', {
-    fields: ['countryName', 'toponymName', 'name', 'lat', 'lng']
+Ext.regModel('nominatim', {
+    fields: ['display_name', 'boundingbox', 'lon', 'lat', 'polygonpoints']
 });
 
 /**
@@ -343,20 +350,21 @@ App.SearchFormPopupPanel = Ext.extend(Ext.Panel, {
     scroll: false,
     layout: 'fit',
     fullscreen: Ext.is.Phone ? true : undefined,
-    url: 'http://ws.geonames.org/searchJSON?',
-    errorText: 'Sorry, we had problems communicating with geonames.org. Please try again.',
-    errorTitle: 'Communication error',
+    url: 'http://nominatim.openstreetmap.org/search?',
+    errorText: OpenLayers.i18n('Sorry, we had problems communicating with openstreetmap.org. Please try again.'),
+    errorTitle: OpenLayers.i18n('Communication error'),
     maxResults: 6,
     featureClass: "P",
     
     createStore: function(){
         this.store = new Ext.data.Store({
-            model: 'Geonames',
+            model: 'nominatim',
             proxy: {
                 type: 'scripttag',
                 timeout: 5000,
+                callbackParam: 'json_callback',
                 listeners: {
-                    exception: function(){
+                    exception: function() {
                         this.hide();
                         Ext.Msg.alert(this.errorTitle, this.errorText, Ext.emptyFn);
                     },
@@ -364,8 +372,7 @@ App.SearchFormPopupPanel = Ext.extend(Ext.Panel, {
                 },
                 url: this.url,
                 reader: {
-                    type: 'json',
-                    root: 'geonames'
+                    type: 'json'
                 }
             }
         });
@@ -375,19 +382,18 @@ App.SearchFormPopupPanel = Ext.extend(Ext.Panel, {
         var q = searchfield.getValue();
         this.store.load({
             params: {
-                featureClass: this.featureClass,
-                maxRows: this.maxResults,
-                name_startsWith: encodeURIComponent(q)
+                'format': 'json',
+                'accept-language': OpenLayers.Lang.getCode(),
+                'limit': 5,
+                'q': encodeURIComponent(q)
             }
         });
     },
     
     onItemTap: function(dataView, index, item, event){
         var record = this.store.getAt(index);
-        var lon = record.get('lng');
-        var lat = record.get('lat');
-        var lonlat = new OpenLayers.LonLat(lon, lat);
-        map.setCenter(lonlat.transform(gg, sm), 12);
+        var bb = record.get('boundingbox');
+        map.zoomToExtent(new OpenLayers.Bounds(bb[2], bb[0], bb[3], bb[1]).transform(gg, sm));
         this.hide("pop");
     },
     
@@ -396,9 +402,9 @@ App.SearchFormPopupPanel = Ext.extend(Ext.Panel, {
         this.resultList = new Ext.List({
             scroll: 'vertical',
             cls: 'searchList',
-            loadingText: "Searching ...",
+            loadingText: OpenLayers.i18n("Searching..."),
             store: this.store,
-            itemTpl: '<div>{name} ({countryName})</div>',
+            itemTpl: '<div>{display_name}</div>',
             listeners: {
                 itemtap: this.onItemTap,
                 scope: this
@@ -410,7 +416,7 @@ App.SearchFormPopupPanel = Ext.extend(Ext.Panel, {
                 xtype: 'button',
                 cls: 'close-btn',
                 ui: 'decline-small',
-                text: 'Close',
+                text: OpenLayers.i18n('Close'),
                 handler: function(){
                     this.hide();
                 },
@@ -418,11 +424,11 @@ App.SearchFormPopupPanel = Ext.extend(Ext.Panel, {
             }, {
                 xtype: 'fieldset',
                 scroll: false,
-                title: 'Search for a place',
+                title: OpenLayers.i18n('Search for a place'),
                 items: [{
                     xtype: 'searchfield',
-                    label: 'Search',
-                    placeHolder: 'placename',
+                    label: OpenLayers.i18n('Search'),
+                    placeHolder: OpenLayers.i18n('placename'),
                     listeners: {
                         action: this.doSearch,
                         scope: this

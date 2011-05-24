@@ -2,6 +2,9 @@
  * @requires OpenLayers/Lang.js
  */
 
+if (!OpenLayers.Lang.fr) {
+    OpenLayers.Lang.fr = OpenLayers.Util.applyDefaults({});
+}
 OpenLayers.Util.extend(OpenLayers.Lang.fr, {
     "Go back to maximum extent": "Aller a la couverture maximale",
     "Get point coordinates": "Obtenir les coordonnées d'un point",
@@ -253,5 +256,12 @@ OpenLayers.Util.extend(OpenLayers.Lang.fr, {
 
     'Locate': 'Positionner',
     'Location': 'Position',
-    'Details': 'Détailles'
+    'Details': 'Détailles',
+    'Close': 'Fermer',
+    'placename': 'lieux',
+
+    'Sorry, we had problems communicating with openstreetmap.org. Please try again.': "Désolé, nous ne pouvoun communiquer avec openstreetmap.org, Merci d'essayer plus tard.",
+    'Communication error': 'Erreur de communication',
+    'Searching...': 'Recherche...',
+    'Search for a place': 'Recherche un lieux'
 });
