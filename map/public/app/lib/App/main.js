@@ -156,7 +156,7 @@ window.onload = function() {
     mapPanel.map.addControl(new OpenLayers.Control.PermalinkLayer("permalink.browser", "http://www.openstreetbrowser.org/"));
     mapPanel.map.addControl(new OpenLayers.Control.PermalinkLayer("permalink.letuffe", "http://beta.letuffe.org/"));
     mapPanel.map.addControl(new OpenLayers.Control.PermalinkLayer("permalink.wheelmap", "http://wheelmap.org/"));
-    mapPanel.map.addControl(new OpenLayers.Control.PermalinkLayer("permalink.kikebike", "http://hikebikemap.de/"));
+    mapPanel.map.addControl(new OpenLayers.Control.PermalinkLayer("permalink.hikebike", "http://hikebikemap.de/"));
     mapPanel.map.addControl(new OpenLayers.Control.PermalinkLayer("permalink.velo", "http://osm.t-i.ch/bicycle/map/"));
     mapPanel.map.addControl(new OpenLayers.Control.PermalinkLayer("permalink.osv", "http://openstreetview.org/"));
     mapPanel.map.addControl(new OpenLayers.Control.PermalinkLayer("permalink.ocm", "http://toolserver.org/~stephankn/cuisine/"));
@@ -165,4 +165,5 @@ window.onload = function() {
     mapPanel.map.addControl(new OpenLayers.Control.PermalinkLayer('permalink.rsk', 'http://www.rollstuhlkarte.ch/?layers=B00000FFTTFFFFFFT'));
     mapPanel.map.addControl(new OpenLayers.Control.PermalinkLayer('permalink.hist', 'http://www.histosm.org/'));
     mapPanel.map.addControl(new OpenLayers.Control.PermalinkLayer('permalink.post', 'http://post.openstreetmap.de/?layers=BTTTT'));
+    mapPanel.map.addControl(new OpenLayers.Control.PermalinkMobile());
 };

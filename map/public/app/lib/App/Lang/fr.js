@@ -263,5 +263,6 @@ OpenLayers.Util.extend(OpenLayers.Lang.fr, {
     'Sorry, we had problems communicating with openstreetmap.org. Please try again.': "Désolé, nous ne pouvoun communiquer avec openstreetmap.org, Merci d'essayer plus tard.",
     'Communication error': 'Erreur de communication',
     'Searching...': 'Recherche...',
+    'Prepare your map to use on the mobile by this link:': "Préparer votre carte pour l'utiliser sur votre mobile un utilisant ce lien :",
     'Search for a place': 'Recherche un lieux'
 });

@@ -108,6 +108,9 @@ App.Tools = function(map) {
     });
 
     this.getAdditionalButtons = function(map) {
+        var ap = map.getControlsByClass("OpenLayers.Control.ArgParser")[0];
+        var open = ap.getParameters()["open"];
+        
         /*
          * Selected feature (global)
          */
@@ -174,9 +177,11 @@ App.Tools = function(map) {
             width: 300,
             items: [layerTree, tree]
         }));
-        layers.on("render", function() {
-            layers.toggle();
-        });
+        if (open == undefined || open == "layers") {
+            layers.on("render", function() {
+                layers.toggle();
+            });
+        }
 
 
         /*
@@ -289,7 +294,7 @@ App.Tools = function(map) {
                 + "<li><a id='permalink.browser' href='http://www.openstreetbrowser.org/'>" + OpenLayers.i18n("OpenStreetBrowser") + "</a></li>"
                 + "<li><a id='permalink.letuffe' href='http://beta.letuffe.org/'>" + OpenLayers.i18n("Other test site") + "</a></li>"
                 + "<li><a id='permalink.wheelmap' href='http://wheelmap.org/'>" + OpenLayers.i18n("wheelmap.org") + "</a></li>"
-                + "<li><a id='permalink.kikebike' href='http://hikebikemap.de/'>" + OpenLayers.i18n("Hike bike map") + "</a></li>"
+                + "<li><a id='permalink.hikebike' href='http://hikebikemap.de/'>" + OpenLayers.i18n("Hike bike map") + "</a></li>"
                 + "<li><a id='permalink.velo' href='http://osm.t-i.ch/bicycle/map/'>" + OpenLayers.i18n("Velo Access map") + "</a></li>"
                 + "<li><a id='permalink.osv' href='http://openstreetview.org/'>" + OpenLayers.i18n("OpenStreetView") + "</a></li>"
                 + "<li><a id='permalink.ocm' href='http://toolserver.org/~stephankn/cuisine/'>" + OpenLayers.i18n("OpenCuisineMap") + "</a></li>"
@@ -330,6 +335,19 @@ App.Tools = function(map) {
                 + "</ul>"
         }));
 
-        return [selection, layers, routing, links, more];
+        var mobile = toolBuilder(OpenLayers.i18n("Mobile"), new Ext.Panel({
+            autoScroll: true,
+            width: 240,
+            style: "padding: 5px 7px; overflow: hidden;",
+            html: "<p>" + OpenLayers.i18n("Prepare your map to use on the mobile by this link:") + "</p>"
+                + '<p style="text-align: center; margin-top: 10px; margin-bottom: 10px"><a id="mobile-permalink" /></p>'
+        }));
+        if (open == "mobile") {
+            mobile.on("render", function() {
+                mobile.toggle();
+            });
+        }
+        
+        return [selection, layers, mobile, routing, links, more];
     }
 };

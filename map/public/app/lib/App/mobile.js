@@ -72,7 +72,7 @@ var init = function () {
         }
     });
 
-    var permalink = new OpenLayers.Control.Permalink({anchor: true, base: window.initial_href});
+    var permalink = new OpenLayers.Control.Permalink({anchor: true, base: window.location.href});
     permalink.createParams = function(center, zoom, layers) {
         center = center || this.map.getCenter();
         var params = OpenLayers.Util.getParameters(this.base);
@@ -95,11 +95,39 @@ var init = function () {
         }
         return params;
     };
+    var href = window.location.href;
     var argparser = new OpenLayers.Control.ArgParser();
     argparser.setMap = function(map) {
         OpenLayers.Control.prototype.setMap.apply(this, arguments);
 
-        var args = this.getParameters(window.initial_href);
+        var index = href.indexOf("=");
+        if (index < 0) { // short version
+            index = href.indexOf("#");
+            if (index < 0) {
+                return;
+            }
+            var args = href.substring(index + 1);
+            args = args.split("-");
+            
+            this.center = new OpenLayers.LonLat(parseFloat(args[0]),
+                                                parseFloat(args[1]));
+            this.zoom = parseInt(args[2]);
+            this.setCenter();
+
+            var model = new Geo.CatalogueModel({
+                map: map,
+                root: getLayersTree(map)
+            });
+            for (var i = 3, len = args.length; i + 1 < len; i += 2) {
+                var layer = model.getLayerNodeByRef(args[i]);
+                layer.opacity = parseInt(args[i + 1]) / 100.0;
+                model.addLayer(layer);
+            }
+            
+            return;
+        }
+        
+        var args = this.getParameters(window.location.href);
         // Be careful to set layer first, to not trigger unnecessary layer loads
         if (args.c_layers) {
             var model = new Geo.CatalogueModel({
