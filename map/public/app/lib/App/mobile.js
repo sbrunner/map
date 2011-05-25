@@ -120,10 +120,16 @@ var init = function () {
             });
             for (var i = 3, len = args.length; i + 1 < len; i += 2) {
                 var layer = model.getLayerNodeByRef(args[i]);
-                layer.opacity = parseInt(args[i + 1]) / 100.0;
-                model.addLayer(layer);
+                if (layer) {
+                    layer.opacity = parseInt(args[i + 1]) / 100.0;
+                    model.addLayer(layer);
+                }
             }
-            
+
+            var controls = map.getControlsByClass("OpenLayers.Control.Permalink");
+            for (var i = 0, len = controls.length; i < len; i++) {
+                controls[i].base = href.substring(0, index);
+            }
             return;
         }
         
