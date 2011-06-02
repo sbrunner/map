@@ -13,14 +13,21 @@ var epsg900913 = new OpenLayers.Projection("EPSG:900913");
 var epsg4326 = new OpenLayers.Projection("EPSG:4326");
 
 function addLayer(options) {
-    options.isBaseLayer = false;
-    options.transitionEffect = "resize";
+    Ext.applyIf(options, {
+        sphericalMercator: true,
+        wrapDateLine: true,
+        isBaseLayer: false,
+        transitionEffect: "resize"
+    });
     delete options.id;
     return new OpenLayers.Layer.XYZ(options.text, options.url, options);
 }
 function addWmsLayer(options) {
-    options.isBaseLayer = false;
-    options.transitionEffect = "resize";
+    Ext.applyIf(options, {
+        wrapDateLine: true,
+        isBaseLayer: false,
+        transitionEffect: "resize"
+    });
     delete options.id;
     var wmsOptions = options.wmsOptions ? options.wmsOptions : {layers: options.layers};
     return new OpenLayers.Layer.WMS(options.text, options.url, wmsOptions, options);
@@ -69,6 +76,7 @@ function addXapiStyleLayer(options) {
         protocol: protocol,
         styleMap: styleMap,
         numZoomLevels: 22,
+        wrapDateLine: true,
         attribution: "Data CC-By-SA by <a href='http://openstreetmap.org/'>OpenStreetMap</a>"
     });
     return layer;
