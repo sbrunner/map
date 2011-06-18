@@ -83,7 +83,16 @@ GeoExt.LayerCatalogue = Ext.extend(Ext.Panel, {
 
         var tree = new Ext.tree.TreePanel(treeConfig);
 
+        var expand = function (record) {
+            if (record) {
+                record.expand();
+                expand(record.parentNode);
+            }
+        };
         var filter = function (record, exp) {
+            if (exp == "" && record.isSelected()) {
+                expand(record);
+            }
             if (record.isLeaf()) {
                 var found = true;
                 for (var i = 0, len = exp.length; i < len; i++) {
@@ -95,6 +104,17 @@ GeoExt.LayerCatalogue = Ext.extend(Ext.Panel, {
                 record.attributes.hidden = !found;
             }
             else {
+                if (exp == "") {
+                    if (record.isSelected()) {
+                        record.expand(true);
+                    }
+                    else {
+                        record.collapse();
+                    }
+                }
+                else {
+                    record.expand(false, false);
+                }
                 var hidden = true;
                 for (var i = 0, len = record.childNodes.length ; i < len ; i++) {
                     filter(record.childNodes[i], exp);
