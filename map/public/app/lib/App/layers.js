@@ -450,7 +450,7 @@ function getLayersTree(map) {
                 numZoomLevels: 18,
                 leaf: true,
                 handler: addLayer,
-                url: "http://osm.lonvia.de/hiking/${z}/${x}/${y}.png",
+                url: "http://tile.lonvia.de/hiking/${z}/${x}/${y}.png",
                 ref: 'hike'
             },
             {
