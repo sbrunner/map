@@ -20,6 +20,7 @@ MAP
 
   PROJECTION
     "init=epsg:21781"
+    "init=epsg:2056"
   END
 
   LAYER
@@ -27,5 +28,21 @@ MAP
     TYPE RASTER
     STATUS ON
     DATA "/home/sbrunner/Desktop/DOP25_2009_1_1.tif"
+  END
+
+#shp2img -m map.map -i png -o admin.png -e -7419811 -13027781 12619089 17648744 -s 1600 2449 -l admin 
+  LAYER
+    NAME 'admin'
+    TYPE LINE
+    CONNECTIONTYPE POSTGIS
+    CONNECTION "host=localhost dbname=adminch user=postgres password=postgres"
+    DATA "way from (select name, way, osm_id as gid from planet_osm_line where admin_level = '2') as subquery using unique gid using srid=2056"
+    CLASS
+      STYLE
+        COLOR 0 0 0
+        WIDTH 0.3
+        ANTIALIAS true
+      END
+    END
   END
 END
