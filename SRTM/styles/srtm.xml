@@ -174,19 +174,19 @@
 </Style>
 
 
+<!--
 &color_shade_0;
 &color_shade_1;
 &color_shade_2;
-<!--
 &color_shade_3;
 &color_shade_4;
 
+-->
 &color_shade_5;
 &color_shade_6;
 &color_shade_7;
 &color_shade_8;
 &color_shade_9;
--->
   <!--Layer name="water_areas" status="on" srs="+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs +over">
     <StyleName>water_areas</StyleName>
     <Datasource>

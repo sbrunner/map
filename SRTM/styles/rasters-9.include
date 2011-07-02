@@ -2,7 +2,7 @@
   <StyleName>raster9</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/all.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/all.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-20037508.3428</Parameter>
     <Parameter name="loy">23412334.3471</Parameter>

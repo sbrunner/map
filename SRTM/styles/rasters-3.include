@@ -2,7 +2,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NW151.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NW151.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-17254567.4561</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -14,7 +14,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NW156.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NW156.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-17811164.91</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -26,7 +26,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NE078.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NE078.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">8682873.89875</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -38,7 +38,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SE050.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SE050.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">5565928.15654</Parameter>
     <Parameter name="loy">-445593.613284</Parameter>
@@ -50,7 +50,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NW019.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NW019.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-2671714.16216</Parameter>
     <Parameter name="loy">3375699.06736</Parameter>
@@ -62,7 +62,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NW025.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NW025.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-3228311.61613</Parameter>
     <Parameter name="loy">4866002.82855</Parameter>
@@ -74,7 +74,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SE036.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SE036.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">4007455.28544</Parameter>
     <Parameter name="loy">46.3831211646</Parameter>
@@ -86,7 +86,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NW061.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NW061.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-7235813.28468</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -98,7 +98,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SE096.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SE096.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">10686624.733</Parameter>
     <Parameter name="loy">46.3831211646</Parameter>
@@ -110,7 +110,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SW086.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SW086.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-10018800.5545</Parameter>
     <Parameter name="loy">46.3831211646</Parameter>
@@ -122,7 +122,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SW056.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SW056.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-6679215.83072</Parameter>
     <Parameter name="loy">46.3831211646</Parameter>
@@ -134,7 +134,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NW081.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NW081.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-9462203.10055</Parameter>
     <Parameter name="loy">8399830.65664</Parameter>
@@ -146,7 +146,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NE090.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NE090.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">10018707.7883</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -158,7 +158,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NW146.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NW146.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-16697970.0021</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -170,7 +170,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NE138.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NE138.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">15362043.3464</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -182,7 +182,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SE110.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SE110.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">12245097.6041</Parameter>
     <Parameter name="loy">46.3831211646</Parameter>
@@ -194,7 +194,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SW136.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SW136.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-15584775.0942</Parameter>
     <Parameter name="loy">-893416.912082</Parameter>
@@ -206,7 +206,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SW127.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SW127.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-14582899.677</Parameter>
     <Parameter name="loy">-2631968.24888</Parameter>
@@ -218,7 +218,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NE160.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NE160.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">17811072.1438</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -230,7 +230,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NW016.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NW016.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-2115116.70819</Parameter>
     <Parameter name="loy">4028857.97442</Parameter>
@@ -242,7 +242,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SE040.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SE040.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">4452733.24861</Parameter>
     <Parameter name="loy">46.3831211646</Parameter>
@@ -254,7 +254,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SW175.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SW175.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-20037461.9597</Parameter>
     <Parameter name="loy">-334064.724636</Parameter>
@@ -266,7 +266,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SE024.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SE024.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">2671621.39592</Parameter>
     <Parameter name="loy">46.3831211646</Parameter>
@@ -278,7 +278,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NW013.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NW013.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-2003797.2174</Parameter>
     <Parameter name="loy">7967405.06418</Parameter>
@@ -290,7 +290,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NE065.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NE065.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">7235720.51844</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -302,7 +302,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SE125.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SE125.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">13914889.966</Parameter>
     <Parameter name="loy">46.3831211646</Parameter>
@@ -314,7 +314,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NW176.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NW176.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-20037461.9597</Parameter>
     <Parameter name="loy">6983074.99282</Parameter>
@@ -326,7 +326,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SW157.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SW157.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-18033803.8916</Parameter>
     <Parameter name="loy">46.3831211646</Parameter>
@@ -338,7 +338,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SE174.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SE174.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">19369545.0149</Parameter>
     <Parameter name="loy">46.3831211646</Parameter>
@@ -350,7 +350,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SE175.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SE175.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">19480864.5057</Parameter>
     <Parameter name="loy">-111278.752683</Parameter>
@@ -362,7 +362,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NW091.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NW091.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-10575398.0085</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -374,7 +374,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SE100.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SE100.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">11131902.6962</Parameter>
     <Parameter name="loy">46.3831211646</Parameter>
@@ -386,7 +386,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NE072.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NE072.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">8014956.95399</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -398,7 +398,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SW013.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SW013.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-1669838.74502</Parameter>
     <Parameter name="loy">-781135.482759</Parameter>
@@ -410,7 +410,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NE162.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NE162.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">18033711.1254</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -422,7 +422,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NW115.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NW115.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-13358385.2783</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -434,7 +434,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SW025.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SW025.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-3339631.10692</Parameter>
     <Parameter name="loy">-2272981.56717</Parameter>
@@ -446,7 +446,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NW056.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NW056.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-6679215.83072</Parameter>
     <Parameter name="loy">7558498.60308</Parameter>
@@ -458,7 +458,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SE132.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SE132.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">14694126.4016</Parameter>
     <Parameter name="loy">46.3831211646</Parameter>
@@ -470,7 +470,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SE060.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SE060.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">7013081.53686</Parameter>
     <Parameter name="loy">-2154886.8594</Parameter>
@@ -482,7 +482,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NW051.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NW051.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-6122618.37675</Parameter>
     <Parameter name="loy">6446348.00066</Parameter>
@@ -494,7 +494,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SW079.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SW079.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-9128244.62817</Parameter>
     <Parameter name="loy">46.3831211646</Parameter>
@@ -506,7 +506,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SE055.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SE055.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">6122525.61051</Parameter>
     <Parameter name="loy">-334064.724636</Parameter>
@@ -518,7 +518,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SE150.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SE150.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">16697877.2359</Parameter>
     <Parameter name="loy">-111278.752683</Parameter>
@@ -530,7 +530,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NW106.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NW106.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-12245190.3704</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -542,7 +542,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NE024.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NE024.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">2671621.39592</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -554,7 +554,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SE015.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SE015.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">1669745.97878</Parameter>
     <Parameter name="loy">46.3831211646</Parameter>
@@ -566,7 +566,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NE108.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NE108.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">12022458.6226</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -578,7 +578,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SE165.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SE165.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">18367669.5978</Parameter>
     <Parameter name="loy">46.3831211646</Parameter>
@@ -590,7 +590,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NW166.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NW166.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-18924359.818</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -602,7 +602,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NW141.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NW141.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-16141372.5481</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -614,7 +614,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NW116.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NW116.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-13358385.2783</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -626,7 +626,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SW037.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SW037.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-4675464.99644</Parameter>
     <Parameter name="loy">-222637.797118</Parameter>
@@ -638,7 +638,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SW049.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SW049.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-6011298.88596</Parameter>
     <Parameter name="loy">46.3831211646</Parameter>
@@ -650,7 +650,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SW051.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SW051.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-6122618.37675</Parameter>
     <Parameter name="loy">46.3831211646</Parameter>
@@ -662,7 +662,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SE108.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SE108.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">12022458.6226</Parameter>
     <Parameter name="loy">46.3831211646</Parameter>
@@ -674,7 +674,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SE156.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SE156.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">17365794.1806</Parameter>
     <Parameter name="loy">-445593.613284</Parameter>
@@ -686,7 +686,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SE035.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SE035.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">3896135.79464</Parameter>
     <Parameter name="loy">46.3831211646</Parameter>
@@ -698,7 +698,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NE060.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NE060.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">6679123.06448</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -710,7 +710,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NE102.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NE102.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">11354541.6778</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -722,7 +722,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NW096.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NW096.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-11131995.4624</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -734,7 +734,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SE144.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SE144.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">16029960.2911</Parameter>
     <Parameter name="loy">46.3831211646</Parameter>
@@ -746,7 +746,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NE084.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NE084.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">9350790.84351</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -758,7 +758,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NE165.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NE165.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">18367669.5978</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -770,7 +770,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SW043.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SW043.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-5343381.9412</Parameter>
     <Parameter name="loy">46.3831211646</Parameter>
@@ -782,7 +782,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SW139.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SW139.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-16030053.0574</Parameter>
     <Parameter name="loy">-781135.482759</Parameter>
@@ -794,7 +794,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SE140.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SE140.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">15584682.3279</Parameter>
     <Parameter name="loy">-111278.752683</Parameter>
@@ -806,7 +806,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SE045.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SE045.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">5009330.70258</Parameter>
     <Parameter name="loy">-1005974.10149</Parameter>
@@ -818,7 +818,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SE138.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SE138.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">15362043.3464</Parameter>
     <Parameter name="loy">-111278.752683</Parameter>
@@ -830,7 +830,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NE035.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NE035.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">3896135.79464</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -842,7 +842,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SW106.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SW106.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-12245190.3704</Parameter>
     <Parameter name="loy">-2999029.33761</Parameter>
@@ -854,7 +854,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NE020.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NE020.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">2226343.43274</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -866,7 +866,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NW121.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NW121.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-13914982.7323</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -878,7 +878,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NE006.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NE006.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">667870.561638</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -890,7 +890,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SE168.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SE168.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">18701628.0701</Parameter>
     <Parameter name="loy">46.3831211646</Parameter>
@@ -902,7 +902,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NE025.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NE025.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">2782940.88671</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -914,7 +914,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SE075.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SE075.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">8571554.40796</Parameter>
     <Parameter name="loy">-4439048.70945</Parameter>
@@ -926,7 +926,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NW006.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NW006.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-1113241.29105</Parameter>
     <Parameter name="loy">8399830.65664</Parameter>
@@ -938,7 +938,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SW067.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SW067.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-8015049.72024</Parameter>
     <Parameter name="loy">46.3831211646</Parameter>
@@ -950,7 +950,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NE054.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NE054.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">6011206.11972</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -962,7 +962,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SW031.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SW031.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-3896228.56089</Parameter>
     <Parameter name="loy">-334064.724636</Parameter>
@@ -974,7 +974,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NE075.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NE075.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">8348915.42637</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -986,7 +986,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SW163.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SW163.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-18479081.8548</Parameter>
     <Parameter name="loy">-1118842.87623</Parameter>
@@ -998,7 +998,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NE066.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NE066.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">7347040.00923</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -1010,7 +1010,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SE155.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SE155.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">17254474.6898</Parameter>
     <Parameter name="loy">-445593.613284</Parameter>
@@ -1022,7 +1022,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NW136.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NW136.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-15584775.0942</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -1034,7 +1034,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SW166.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SW166.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-18924359.818</Parameter>
     <Parameter name="loy">-1118842.87623</Parameter>
@@ -1046,7 +1046,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NE114.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NE114.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">12690375.5673</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -1058,7 +1058,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NE030.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NE030.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">3339538.34068</Parameter>
     <Parameter name="loy">9608408.09397</Parameter>
@@ -1070,7 +1070,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SW171.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SW171.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-19480957.2719</Parameter>
     <Parameter name="loy">-222637.797118</Parameter>
@@ -1082,7 +1082,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NW175.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NW175.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-20037461.9597</Parameter>
     <Parameter name="loy">6983074.99282</Parameter>
@@ -1094,7 +1094,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SE102.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SE102.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">11354541.6778</Parameter>
     <Parameter name="loy">46.3831211646</Parameter>
@@ -1106,7 +1106,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SW026.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SW026.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-3339631.10692</Parameter>
     <Parameter name="loy">-2272981.56717</Parameter>
@@ -1118,7 +1118,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NE144.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NE144.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">16029960.2911</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -1130,7 +1130,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SW061.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SW061.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-7235813.28468</Parameter>
     <Parameter name="loy">46.3831211646</Parameter>
@@ -1142,7 +1142,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NE012.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NE012.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">1335787.5064</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -1154,7 +1154,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SW169.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SW169.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-19369637.7812</Parameter>
     <Parameter name="loy">-222637.797118</Parameter>
@@ -1166,7 +1166,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SE162.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SE162.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">18033711.1254</Parameter>
     <Parameter name="loy">46.3831211646</Parameter>
@@ -1178,7 +1178,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NW157.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NW157.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-18033803.8916</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -1190,7 +1190,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SE020.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SE020.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">2226343.43274</Parameter>
     <Parameter name="loy">46.3831211646</Parameter>
@@ -1202,7 +1202,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NE010.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NE010.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">1113148.52481</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -1214,7 +1214,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SE048.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SE048.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">5343289.17496</Parameter>
     <Parameter name="loy">-445593.613284</Parameter>
@@ -1226,7 +1226,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NE155.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NE155.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">17254474.6898</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -1238,7 +1238,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NE135.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NE135.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">15028084.874</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -1250,7 +1250,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NE120.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NE120.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">13358292.5121</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -1262,7 +1262,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NW001.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NW001.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-556643.837088</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -1274,7 +1274,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NE096.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NE096.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">10686624.733</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -1286,7 +1286,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SW103.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SW103.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-11799912.4072</Parameter>
     <Parameter name="loy">-2999029.33761</Parameter>
@@ -1298,7 +1298,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NW076.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NW076.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-8905605.64658</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -1310,7 +1310,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SW076.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SW076.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-8905605.64658</Parameter>
     <Parameter name="loy">46.3831211646</Parameter>
@@ -1322,7 +1322,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NW049.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NW049.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-6011298.88596</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -1334,7 +1334,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NW111.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NW111.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-12801787.8243</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -1346,7 +1346,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SE114.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SE114.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">12690375.5673</Parameter>
     <Parameter name="loy">46.3831211646</Parameter>
@@ -1358,7 +1358,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NW169.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NW169.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-19369637.7812</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -1370,7 +1370,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SE115.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SE115.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">12801695.0581</Parameter>
     <Parameter name="loy">46.3831211646</Parameter>
@@ -1382,7 +1382,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SW011.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SW011.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-1669838.74502</Parameter>
     <Parameter name="loy">-781135.482759</Parameter>
@@ -1394,7 +1394,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NW067.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NW067.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-8015049.72024</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -1406,7 +1406,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NW071.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NW071.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-8349008.19262</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -1418,7 +1418,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NW131.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NW131.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-15028177.6402</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -1430,7 +1430,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NW011.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NW011.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-1669838.74502</Parameter>
     <Parameter name="loy">7967405.06418</Parameter>
@@ -1442,7 +1442,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SE070.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SE070.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">7792317.97241</Parameter>
     <Parameter name="loy">46.3831211646</Parameter>
@@ -1454,7 +1454,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NE036.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NE036.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">4007455.28544</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -1466,7 +1466,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NW145.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NW145.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-16697970.0021</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -1478,7 +1478,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SW055.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SW055.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-6679215.83072</Parameter>
     <Parameter name="loy">46.3831211646</Parameter>
@@ -1490,7 +1490,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NE040.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NE040.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">4452733.24861</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -1502,7 +1502,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SW036.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SW036.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-4452826.01485</Parameter>
     <Parameter name="loy">-222637.797118</Parameter>
@@ -1514,7 +1514,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NW026.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NW026.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-3228311.61613</Parameter>
     <Parameter name="loy">4866002.82855</Parameter>
@@ -1526,7 +1526,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SW145.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SW145.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-16697970.0021</Parameter>
     <Parameter name="loy">-1574168.74513</Parameter>
@@ -1538,7 +1538,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NW133.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NW133.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-15362136.1126</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -1550,7 +1550,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NE015.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NE015.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">1669745.97878</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -1562,7 +1562,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NE055.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NE055.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">6122525.61051</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -1574,7 +1574,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NW127.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NW127.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-14694219.1678</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -1586,7 +1586,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NW101.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NW101.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-11688592.9164</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -1598,7 +1598,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SE120.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SE120.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">13358292.5121</Parameter>
     <Parameter name="loy">46.3831211646</Parameter>
@@ -1610,7 +1610,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SE012.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SE012.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">1335787.5064</Parameter>
     <Parameter name="loy">46.3831211646</Parameter>
@@ -1622,7 +1622,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SE054.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SE054.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">6011206.11972</Parameter>
     <Parameter name="loy">-334064.724636</Parameter>
@@ -1634,7 +1634,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SW131.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SW131.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-15028177.6402</Parameter>
     <Parameter name="loy">-2511475.20911</Parameter>
@@ -1646,7 +1646,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SE160.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SE160.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">17811072.1438</Parameter>
     <Parameter name="loy">-781135.482759</Parameter>
@@ -1658,7 +1658,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SW141.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SW141.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-16141372.5481</Parameter>
     <Parameter name="loy">-781135.482759</Parameter>
@@ -1670,7 +1670,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SW007.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SW007.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-1224560.78185</Parameter>
     <Parameter name="loy">-4865881.73082</Parameter>
@@ -1682,7 +1682,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NW161.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NW161.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-18367762.364</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -1694,7 +1694,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SE005.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SE005.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">556551.070845</Parameter>
     <Parameter name="loy">46.3831211646</Parameter>
@@ -1706,7 +1706,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SW146.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SW146.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-16697970.0021</Parameter>
     <Parameter name="loy">-1574168.74513</Parameter>
@@ -1718,7 +1718,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SE130.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SE130.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">14471487.42</Parameter>
     <Parameter name="loy">46.3831211646</Parameter>
@@ -1730,7 +1730,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SW041.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SW041.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-5009423.46882</Parameter>
     <Parameter name="loy">-111278.752683</Parameter>
@@ -1742,7 +1742,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NE150.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NE150.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">16697877.2359</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -1754,7 +1754,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NE115.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NE115.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">12801695.0581</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -1766,7 +1766,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NW085.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NW085.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-10018800.5545</Parameter>
     <Parameter name="loy">9608408.09397</Parameter>
@@ -1778,7 +1778,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NE048.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NE048.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">5343289.17496</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -1790,7 +1790,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NE140.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NE140.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">15584682.3279</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -1802,7 +1802,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NE170.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NE170.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">18924267.0517</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -1814,7 +1814,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NW066.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NW066.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-7792410.73865</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -1826,7 +1826,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SE018.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SE018.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">2003704.45116</Parameter>
     <Parameter name="loy">46.3831211646</Parameter>
@@ -1838,7 +1838,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NE018.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NE018.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">2003704.45116</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -1850,7 +1850,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SW161.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SW161.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-18256442.8732</Parameter>
     <Parameter name="loy">46.3831211646</Parameter>
@@ -1862,7 +1862,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NW086.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NW086.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-10018800.5545</Parameter>
     <Parameter name="loy">9608408.09397</Parameter>
@@ -1874,7 +1874,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NE145.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NE145.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">16141279.7819</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -1886,7 +1886,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NW055.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NW055.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-6679215.83072</Parameter>
     <Parameter name="loy">7558498.60308</Parameter>
@@ -1898,7 +1898,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SW109.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SW109.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-12245190.3704</Parameter>
     <Parameter name="loy">-3123419.69221</Parameter>
@@ -1910,7 +1910,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SW046.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SW046.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-5566020.92278</Parameter>
     <Parameter name="loy">46.3831211646</Parameter>
@@ -1922,7 +1922,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NW043.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NW043.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-5343381.9412</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -1934,7 +1934,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SW121.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SW121.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-13914982.7323</Parameter>
     <Parameter name="loy">-2753357.3368</Parameter>
@@ -1946,7 +1946,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SE105.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SE105.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">11688500.1502</Parameter>
     <Parameter name="loy">46.3831211646</Parameter>
@@ -1958,7 +1958,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SW176.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SW176.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-20037461.9597</Parameter>
     <Parameter name="loy">-1459684.66873</Parameter>
@@ -1970,7 +1970,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SE010.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SE010.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">1113148.52481</Parameter>
     <Parameter name="loy">46.3831211646</Parameter>
@@ -1982,7 +1982,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NE050.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NE050.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">5565928.15654</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -1994,7 +1994,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NW021.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NW021.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-2783033.65295</Parameter>
     <Parameter name="loy">4579484.67406</Parameter>
@@ -2006,7 +2006,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NE168.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NE168.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">18701628.0701</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -2018,7 +2018,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SE145.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SE145.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">16141279.7819</Parameter>
     <Parameter name="loy">46.3831211646</Parameter>
@@ -2030,7 +2030,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SW126.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SW126.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-14360260.6955</Parameter>
     <Parameter name="loy">-2753357.3368</Parameter>
@@ -2042,7 +2042,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SW156.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SW156.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-17811164.91</Parameter>
     <Parameter name="loy">-557258.696992</Parameter>
@@ -2054,7 +2054,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SE126.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SE126.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">14026209.4568</Parameter>
     <Parameter name="loy">46.3831211646</Parameter>
@@ -2066,7 +2066,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NE125.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NE125.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">13914889.966</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -2078,7 +2078,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NE000.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NE000.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-46.3831211638</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -2090,7 +2090,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NE085.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NE085.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">9462110.33431</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -2102,7 +2102,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NW031.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NW031.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-3562270.08851</Parameter>
     <Parameter name="loy">4866002.82855</Parameter>
@@ -2114,7 +2114,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SE072.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SE072.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">8014956.95399</Parameter>
     <Parameter name="loy">46.3831211646</Parameter>
@@ -2126,7 +2126,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SE135.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SE135.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">15028084.874</Parameter>
     <Parameter name="loy">46.3831211646</Parameter>
@@ -2138,7 +2138,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NW073.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NW073.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-8682966.665</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -2150,7 +2150,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SE170.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SE170.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">18924267.0517</Parameter>
     <Parameter name="loy">46.3831211646</Parameter>
@@ -2162,7 +2162,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NE070.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NE070.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">7792317.97241</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -2174,7 +2174,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SE095.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SE095.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">10686624.733</Parameter>
     <Parameter name="loy">46.3831211646</Parameter>
@@ -2186,7 +2186,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SE030.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SE030.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">3339538.34068</Parameter>
     <Parameter name="loy">46.3831211646</Parameter>
@@ -2198,7 +2198,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SW073.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SW073.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-8682966.665</Parameter>
     <Parameter name="loy">46.3831211646</Parameter>
@@ -2210,7 +2210,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SW071.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SW071.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-8349008.19262</Parameter>
     <Parameter name="loy">46.3831211646</Parameter>
@@ -2222,7 +2222,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SW006.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SW006.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-1113241.29105</Parameter>
     <Parameter name="loy">-1689152.12031</Parameter>
@@ -2234,7 +2234,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NW041.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NW041.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-5009423.46882</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -2246,7 +2246,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NW163.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NW163.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-18701720.8364</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -2258,7 +2258,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NE045.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NE045.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">5009330.70258</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -2270,7 +2270,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NW109.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NW109.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-12690468.3336</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -2282,7 +2282,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NE080.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NE080.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">8905512.88034</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -2294,7 +2294,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SE006.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SE006.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">667870.561638</Parameter>
     <Parameter name="loy">46.3831211646</Parameter>
@@ -2306,7 +2306,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NW171.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NW171.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-19480957.2719</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -2318,7 +2318,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NW079.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NW079.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-9350883.60976</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -2330,7 +2330,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NE100.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NE100.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">11131902.6962</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -2342,7 +2342,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NE132.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NE132.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">14694126.4016</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -2354,7 +2354,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NE156.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NE156.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">17365794.1806</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -2366,7 +2366,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NE126.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NE126.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">14026209.4568</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -2378,7 +2378,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NW046.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NW046.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-5566020.92278</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -2390,7 +2390,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SW001.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SW001.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-667963.327881</Parameter>
     <Parameter name="loy">-1689152.12031</Parameter>
@@ -2402,7 +2402,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NE005.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NE005.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">556551.070845</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -2414,7 +2414,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SW085.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SW085.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-10018800.5545</Parameter>
     <Parameter name="loy">46.3831211646</Parameter>
@@ -2426,7 +2426,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NE130.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NE130.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">14471487.42</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -2438,7 +2438,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SE042.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SE042.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">4675372.2302</Parameter>
     <Parameter name="loy">46.3831211646</Parameter>
@@ -2450,7 +2450,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SW091.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SW091.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-10241439.5361</Parameter>
     <Parameter name="loy">46.3831211646</Parameter>
@@ -2462,7 +2462,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NW126.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NW126.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-14471580.1862</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -2474,7 +2474,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NE105.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NE105.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">11688500.1502</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -2486,7 +2486,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SW081.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SW081.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-9128244.62817</Parameter>
     <Parameter name="loy">46.3831211646</Parameter>
@@ -2498,7 +2498,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SE000.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SE000.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">333912.089259</Parameter>
     <Parameter name="loy">-7170077.38272</Parameter>
@@ -2510,7 +2510,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SE066.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SE066.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">7569678.99082</Parameter>
     <Parameter name="loy">-557258.696992</Parameter>
@@ -2522,7 +2522,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NE095.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NE095.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">10575305.2422</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -2534,7 +2534,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NE042.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NE042.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">4675372.2302</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -2546,7 +2546,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SE065.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SE065.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">7569678.99082</Parameter>
     <Parameter name="loy">-6106785.51668</Parameter>
@@ -2558,7 +2558,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NE174.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NE174.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">19369545.0149</Parameter>
     <Parameter name="loy">6983074.99282</Parameter>
@@ -2570,7 +2570,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NE110.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NE110.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">12245097.6041</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -2582,7 +2582,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NE175.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NE175.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">19480864.5057</Parameter>
     <Parameter name="loy">6983074.99282</Parameter>
@@ -2594,7 +2594,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SW151.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SW151.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-17254567.4561</Parameter>
     <Parameter name="loy">-334064.724636</Parameter>
@@ -2606,7 +2606,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SW133.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SW133.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-15362136.1126</Parameter>
     <Parameter name="loy">-2037499.77471</Parameter>
@@ -2618,7 +2618,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SE025.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SE025.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">2782940.88671</Parameter>
     <Parameter name="loy">46.3831211646</Parameter>
@@ -2630,7 +2630,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NW139.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NW139.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-16030053.0574</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -2642,7 +2642,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/SW066.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/SW066.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-7792410.73865</Parameter>
     <Parameter name="loy">46.3831211646</Parameter>
@@ -2654,7 +2654,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NW103.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NW103.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-12022551.3888</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -2666,7 +2666,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NW097.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NW097.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-11354634.444</Parameter>
     <Parameter name="loy">8625918.87369</Parameter>
@@ -2678,7 +2678,7 @@
   <StyleName>raster3</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/SRTM/colorshade/4/NW007.tif</Parameter>
+    <Parameter name="file">/media/Tiles/SRTM/colorshade/4/NW007.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-1335880.27264</Parameter>
     <Parameter name="loy">8399830.65664</Parameter>

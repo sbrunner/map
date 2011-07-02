@@ -1,4 +1,7 @@
 #!/usr/bin/python
+
+# sudo -u postgres ./generate_tiles.py
+
 from subprocess import call
 import sys, os
 from Queue import Queue
@@ -187,6 +190,16 @@ if __name__ == "__main__":
     print fromMetreToPixel((522400.0,247600.0,624800.0,350000.0), 3)
     """
 
+    """
+    x = 881
+    y = 100
+    z = 10
+    p0 = (x * TILES_SIZE, (y + 1) * TILES_SIZE)
+    p1 = ((x + 1) * TILES_SIZE, y * TILES_SIZE)
+    print fromPixelToMetre(p0, p1, z)
+    """
+
+    bbox = (871000, 30000, 900000, 350000)
     render_tiles(bbox, mapfile, tile_dir, 10, 10, "Suisse")
 
 

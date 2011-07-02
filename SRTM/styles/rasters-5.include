@@ -2,7 +2,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/SW_1_048.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/SW_1_048.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-5352612.18231</Parameter>
     <Parameter name="loy">9276.6275034</Parameter>
@@ -14,7 +14,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/SW_1_060.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/SW_1_060.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-6688446.07183</Parameter>
     <Parameter name="loy">9276.6275034</Parameter>
@@ -26,7 +26,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/NW_1_024.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/NW_1_024.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-2680944.40327</Parameter>
     <Parameter name="loy">23412334.3471</Parameter>
@@ -38,7 +38,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/SE_1_138.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/SE_1_138.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">15352813.1052</Parameter>
     <Parameter name="loy">9276.6275034</Parameter>
@@ -50,7 +50,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/NW_1_048.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/NW_1_048.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-5352612.18231</Parameter>
     <Parameter name="loy">23412334.3471</Parameter>
@@ -62,7 +62,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/NE_1_144.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/NE_1_144.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">16020730.05</Parameter>
     <Parameter name="loy">23412334.3471</Parameter>
@@ -74,7 +74,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/SE_1_060.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/SE_1_060.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">6669892.82336</Parameter>
     <Parameter name="loy">9276.6275034</Parameter>
@@ -86,7 +86,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/SE_1_162.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/SE_1_162.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">18024480.8843</Parameter>
     <Parameter name="loy">9276.6275034</Parameter>
@@ -98,7 +98,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/SW_1_012.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/SW_1_012.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-1345110.51375</Parameter>
     <Parameter name="loy">9276.6275034</Parameter>
@@ -110,7 +110,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/NW_1_114.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/NW_1_114.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-12699698.5747</Parameter>
     <Parameter name="loy">23412334.3471</Parameter>
@@ -122,7 +122,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/NW_1_006.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/NW_1_006.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-677193.568992</Parameter>
     <Parameter name="loy">23412334.3471</Parameter>
@@ -134,7 +134,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/SE_1_012.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/SE_1_012.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">1326557.26529</Parameter>
     <Parameter name="loy">9276.6275034</Parameter>
@@ -146,7 +146,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/SE_1_006.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/SE_1_006.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">658640.320527</Parameter>
     <Parameter name="loy">9276.6275034</Parameter>
@@ -158,7 +158,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/SW_1_084.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/SW_1_084.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-9360113.85087</Parameter>
     <Parameter name="loy">9276.6275034</Parameter>
@@ -170,7 +170,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/SW_1_096.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/SW_1_096.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-10695947.7404</Parameter>
     <Parameter name="loy">9276.6275034</Parameter>
@@ -182,7 +182,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/SW_1_108.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/SW_1_108.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-12031781.6299</Parameter>
     <Parameter name="loy">9276.6275034</Parameter>
@@ -194,7 +194,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/SW_1_036.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/SW_1_036.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-4016778.29279</Parameter>
     <Parameter name="loy">9276.6275034</Parameter>
@@ -206,7 +206,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/NW_1_138.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/NW_1_138.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-15371366.3537</Parameter>
     <Parameter name="loy">23412334.3471</Parameter>
@@ -218,7 +218,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/SE_1_078.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/SE_1_078.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">8673643.65764</Parameter>
     <Parameter name="loy">9276.6275034</Parameter>
@@ -230,7 +230,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/SE_1_018.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/SE_1_018.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">1994474.21005</Parameter>
     <Parameter name="loy">9276.6275034</Parameter>
@@ -242,7 +242,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/NW_1_132.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/NW_1_132.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-14703449.4089</Parameter>
     <Parameter name="loy">23412334.3471</Parameter>
@@ -254,7 +254,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/SE_1_150.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/SE_1_150.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">16688646.9948</Parameter>
     <Parameter name="loy">9276.6275034</Parameter>
@@ -266,7 +266,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/SW_1_132.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/SW_1_132.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-14703449.4089</Parameter>
     <Parameter name="loy">9276.6275034</Parameter>
@@ -278,7 +278,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/NW_1_078.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/NW_1_078.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-8692196.90611</Parameter>
     <Parameter name="loy">23412334.3471</Parameter>
@@ -290,7 +290,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/SE_1_144.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/SE_1_144.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">16020730.05</Parameter>
     <Parameter name="loy">9276.6275034</Parameter>
@@ -302,7 +302,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/NE_1_042.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/NE_1_042.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">4666141.98908</Parameter>
     <Parameter name="loy">23412334.3471</Parameter>
@@ -314,7 +314,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/NW_1_108.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/NW_1_108.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-12031781.6299</Parameter>
     <Parameter name="loy">23412334.3471</Parameter>
@@ -326,7 +326,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/SW_1_018.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/SW_1_018.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-2013027.45851</Parameter>
     <Parameter name="loy">9276.6275034</Parameter>
@@ -338,7 +338,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/SW_1_156.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/SW_1_156.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-17375117.188</Parameter>
     <Parameter name="loy">9276.6275034</Parameter>
@@ -350,7 +350,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/NE_1_048.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/NE_1_048.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">5334058.93384</Parameter>
     <Parameter name="loy">23412334.3471</Parameter>
@@ -362,7 +362,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/NE_1_084.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/NE_1_084.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">9341560.6024</Parameter>
     <Parameter name="loy">23412334.3471</Parameter>
@@ -374,7 +374,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/NW_1_054.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/NW_1_054.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-6020529.12707</Parameter>
     <Parameter name="loy">23412334.3471</Parameter>
@@ -386,7 +386,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/SW_1_072.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/SW_1_072.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-8024279.96135</Parameter>
     <Parameter name="loy">9276.6275034</Parameter>
@@ -398,7 +398,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/SE_1_030.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/SE_1_030.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">3330308.09957</Parameter>
     <Parameter name="loy">9276.6275034</Parameter>
@@ -410,7 +410,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/SW_1_024.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/SW_1_024.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-2680944.40327</Parameter>
     <Parameter name="loy">9276.6275034</Parameter>
@@ -422,7 +422,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/SE_1_096.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/SE_1_096.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">10677394.4919</Parameter>
     <Parameter name="loy">9276.6275034</Parameter>
@@ -434,7 +434,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/NW_1_162.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/NW_1_162.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-18043034.1327</Parameter>
     <Parameter name="loy">23412334.3471</Parameter>
@@ -446,7 +446,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/SE_1_000.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/SE_1_000.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-9276.62423277</Parameter>
     <Parameter name="loy">9276.6275034</Parameter>
@@ -458,7 +458,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/SW_1_066.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/SW_1_066.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-7356363.01659</Parameter>
     <Parameter name="loy">9276.6275034</Parameter>
@@ -470,7 +470,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/SW_1_120.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/SW_1_120.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-13367615.5194</Parameter>
     <Parameter name="loy">9276.6275034</Parameter>
@@ -482,7 +482,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/NE_1_120.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/NE_1_120.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">13349062.271</Parameter>
     <Parameter name="loy">23412334.3471</Parameter>
@@ -494,7 +494,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/SE_1_084.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/SE_1_084.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">9341560.6024</Parameter>
     <Parameter name="loy">9276.6275034</Parameter>
@@ -506,7 +506,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/NE_1_102.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/NE_1_102.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">11345311.4367</Parameter>
     <Parameter name="loy">23412334.3471</Parameter>
@@ -518,7 +518,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/NE_1_168.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/NE_1_168.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">18692397.829</Parameter>
     <Parameter name="loy">23412334.3471</Parameter>
@@ -530,7 +530,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/NE_1_036.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/NE_1_036.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">3998225.04433</Parameter>
     <Parameter name="loy">23412334.3471</Parameter>
@@ -542,7 +542,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/NW_1_102.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/NW_1_102.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-11363864.6851</Parameter>
     <Parameter name="loy">23412334.3471</Parameter>
@@ -554,7 +554,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/NE_1_174.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/NE_1_174.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">19351038.1496</Parameter>
     <Parameter name="loy">23412334.3471</Parameter>
@@ -566,7 +566,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/SW_1_006.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/SW_1_006.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-677193.568992</Parameter>
     <Parameter name="loy">9276.6275034</Parameter>
@@ -578,7 +578,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/SW_1_174.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/SW_1_174.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-19378868.0223</Parameter>
     <Parameter name="loy">9276.6275034</Parameter>
@@ -590,7 +590,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/NE_1_060.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/NE_1_060.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">6669892.82336</Parameter>
     <Parameter name="loy">23412334.3471</Parameter>
@@ -602,7 +602,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/NE_1_108.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/NE_1_108.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">12013228.3814</Parameter>
     <Parameter name="loy">23412334.3471</Parameter>
@@ -614,7 +614,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/SW_1_090.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/SW_1_090.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-10028030.7956</Parameter>
     <Parameter name="loy">9276.6275034</Parameter>
@@ -626,7 +626,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/SW_1_042.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/SW_1_042.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-4684695.23755</Parameter>
     <Parameter name="loy">9276.6275034</Parameter>
@@ -638,7 +638,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/NW_1_090.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/NW_1_090.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-10028030.7956</Parameter>
     <Parameter name="loy">23412334.3471</Parameter>
@@ -650,7 +650,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/NW_1_096.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/NW_1_096.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-10695947.7404</Parameter>
     <Parameter name="loy">23412334.3471</Parameter>
@@ -662,7 +662,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/NE_1_138.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/NE_1_138.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">15352813.1052</Parameter>
     <Parameter name="loy">23412334.3471</Parameter>
@@ -674,7 +674,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/SE_1_156.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/SE_1_156.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">17356563.9395</Parameter>
     <Parameter name="loy">9276.6275034</Parameter>
@@ -686,7 +686,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/SW_1_102.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/SW_1_102.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-11363864.6851</Parameter>
     <Parameter name="loy">9276.6275034</Parameter>
@@ -698,7 +698,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/NE_1_156.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/NE_1_156.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">17356563.9395</Parameter>
     <Parameter name="loy">23412334.3471</Parameter>
@@ -710,7 +710,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/SW_1_114.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/SW_1_114.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-12699698.5747</Parameter>
     <Parameter name="loy">9276.6275034</Parameter>
@@ -722,7 +722,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/SE_1_036.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/SE_1_036.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">3998225.04433</Parameter>
     <Parameter name="loy">9276.6275034</Parameter>
@@ -734,7 +734,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/SE_1_108.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/SE_1_108.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">12013228.3814</Parameter>
     <Parameter name="loy">9276.6275034</Parameter>
@@ -746,7 +746,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/NE_1_006.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/NE_1_006.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">658640.320527</Parameter>
     <Parameter name="loy">23412334.3471</Parameter>
@@ -758,7 +758,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/NW_1_168.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/NW_1_168.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-18710951.0775</Parameter>
     <Parameter name="loy">23412334.3471</Parameter>
@@ -770,7 +770,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/NW_1_126.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/NW_1_126.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-14035532.4642</Parameter>
     <Parameter name="loy">23412334.3471</Parameter>
@@ -782,7 +782,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/SW_1_078.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/SW_1_078.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-8692196.90611</Parameter>
     <Parameter name="loy">9276.6275034</Parameter>
@@ -794,7 +794,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/SE_1_024.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/SE_1_024.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">2662391.15481</Parameter>
     <Parameter name="loy">9276.6275034</Parameter>
@@ -806,7 +806,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/SW_1_144.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/SW_1_144.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-16039283.2985</Parameter>
     <Parameter name="loy">9276.6275034</Parameter>
@@ -818,7 +818,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/SW_1_138.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/SW_1_138.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-15371366.3537</Parameter>
     <Parameter name="loy">9276.6275034</Parameter>
@@ -830,7 +830,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/NE_1_096.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/NE_1_096.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">10677394.4919</Parameter>
     <Parameter name="loy">23412334.3471</Parameter>
@@ -842,7 +842,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/SE_1_174.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/SE_1_174.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">19351038.1496</Parameter>
     <Parameter name="loy">9276.6275034</Parameter>
@@ -854,7 +854,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/NW_1_150.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/NW_1_150.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-16707200.2432</Parameter>
     <Parameter name="loy">23412334.3471</Parameter>
@@ -866,7 +866,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/SE_1_102.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/SE_1_102.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">11345311.4367</Parameter>
     <Parameter name="loy">9276.6275034</Parameter>
@@ -878,7 +878,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/NE_1_078.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/NE_1_078.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">8673643.65764</Parameter>
     <Parameter name="loy">23412334.3471</Parameter>
@@ -890,7 +890,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/NE_1_126.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/NE_1_126.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">14016979.2157</Parameter>
     <Parameter name="loy">23412334.3471</Parameter>
@@ -902,7 +902,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/NW_1_042.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/NW_1_042.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-4684695.23755</Parameter>
     <Parameter name="loy">23412334.3471</Parameter>
@@ -914,7 +914,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/NE_1_018.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/NE_1_018.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">1994474.21005</Parameter>
     <Parameter name="loy">23412334.3471</Parameter>
@@ -926,7 +926,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/NE_1_150.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/NE_1_150.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">16688646.9948</Parameter>
     <Parameter name="loy">23412334.3471</Parameter>
@@ -938,7 +938,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/NE_1_024.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/NE_1_024.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">2662391.15481</Parameter>
     <Parameter name="loy">23412334.3471</Parameter>
@@ -950,7 +950,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/SE_1_090.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/SE_1_090.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">10009477.5472</Parameter>
     <Parameter name="loy">9276.6275034</Parameter>
@@ -962,7 +962,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/SE_1_066.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/SE_1_066.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">7337809.76812</Parameter>
     <Parameter name="loy">9276.6275034</Parameter>
@@ -974,7 +974,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/SE_1_042.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/SE_1_042.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">4666141.98908</Parameter>
     <Parameter name="loy">9276.6275034</Parameter>
@@ -986,7 +986,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/NE_1_030.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/NE_1_030.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">3330308.09957</Parameter>
     <Parameter name="loy">23412334.3471</Parameter>
@@ -998,7 +998,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/NW_1_060.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/NW_1_060.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-6688446.07183</Parameter>
     <Parameter name="loy">23412334.3471</Parameter>
@@ -1010,7 +1010,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/NW_1_180.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/NW_1_180.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-20037508.3428</Parameter>
     <Parameter name="loy">23412334.3471</Parameter>
@@ -1022,7 +1022,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/SW_1_126.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/SW_1_126.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-14035532.4642</Parameter>
     <Parameter name="loy">9276.6275034</Parameter>
@@ -1034,7 +1034,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/SE_1_054.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/SE_1_054.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">6001975.8786</Parameter>
     <Parameter name="loy">9276.6275034</Parameter>
@@ -1046,7 +1046,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/NW_1_144.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/NW_1_144.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-16039283.2985</Parameter>
     <Parameter name="loy">23412334.3471</Parameter>
@@ -1058,7 +1058,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/NW_1_156.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/NW_1_156.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-17375117.188</Parameter>
     <Parameter name="loy">23412334.3471</Parameter>
@@ -1070,7 +1070,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/NW_1_066.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/NW_1_066.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-7356363.01659</Parameter>
     <Parameter name="loy">23412334.3471</Parameter>
@@ -1082,7 +1082,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/NW_1_036.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/NW_1_036.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-4016778.29279</Parameter>
     <Parameter name="loy">23412334.3471</Parameter>
@@ -1094,7 +1094,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/NE_1_114.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/NE_1_114.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">12681145.3262</Parameter>
     <Parameter name="loy">23412334.3471</Parameter>
@@ -1106,7 +1106,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/NW_1_174.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/NW_1_174.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-19378868.0223</Parameter>
     <Parameter name="loy">23412334.3471</Parameter>
@@ -1118,7 +1118,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/SE_1_120.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/SE_1_120.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">13349062.271</Parameter>
     <Parameter name="loy">9276.6275034</Parameter>
@@ -1130,7 +1130,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/SE_1_126.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/SE_1_126.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">14016979.2157</Parameter>
     <Parameter name="loy">9276.6275034</Parameter>
@@ -1142,7 +1142,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/SE_1_048.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/SE_1_048.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">5334058.93384</Parameter>
     <Parameter name="loy">9276.6275034</Parameter>
@@ -1154,7 +1154,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/SE_1_132.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/SE_1_132.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">14684896.1605</Parameter>
     <Parameter name="loy">9276.6275034</Parameter>
@@ -1166,7 +1166,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/NE_1_066.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/NE_1_066.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">7337809.76812</Parameter>
     <Parameter name="loy">23412334.3471</Parameter>
@@ -1178,7 +1178,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/NE_1_054.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/NE_1_054.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">6001975.8786</Parameter>
     <Parameter name="loy">23412334.3471</Parameter>
@@ -1190,7 +1190,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/NW_1_012.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/NW_1_012.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-1345110.51375</Parameter>
     <Parameter name="loy">23412334.3471</Parameter>
@@ -1202,7 +1202,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/NE_1_072.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/NE_1_072.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">8005726.71288</Parameter>
     <Parameter name="loy">23412334.3471</Parameter>
@@ -1214,7 +1214,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/SE_1_072.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/SE_1_072.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">8005726.71288</Parameter>
     <Parameter name="loy">9276.6275034</Parameter>
@@ -1226,7 +1226,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/NE_1_012.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/NE_1_012.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">1326557.26529</Parameter>
     <Parameter name="loy">23412334.3471</Parameter>
@@ -1238,7 +1238,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/SW_1_168.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/SW_1_168.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-18710951.0775</Parameter>
     <Parameter name="loy">9276.6275034</Parameter>
@@ -1250,7 +1250,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/NE_1_000.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/NE_1_000.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-9276.62423277</Parameter>
     <Parameter name="loy">23412334.3471</Parameter>
@@ -1262,7 +1262,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/NW_1_120.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/NW_1_120.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-13367615.5194</Parameter>
     <Parameter name="loy">23412334.3471</Parameter>
@@ -1274,7 +1274,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/NW_1_018.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/NW_1_018.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-2013027.45851</Parameter>
     <Parameter name="loy">23412334.3471</Parameter>
@@ -1286,7 +1286,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/SE_1_168.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/SE_1_168.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">18692397.829</Parameter>
     <Parameter name="loy">9276.6275034</Parameter>
@@ -1298,7 +1298,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/NW_1_072.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/NW_1_072.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-8024279.96135</Parameter>
     <Parameter name="loy">23412334.3471</Parameter>
@@ -1310,7 +1310,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/SW_1_162.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/SW_1_162.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-18043034.1327</Parameter>
     <Parameter name="loy">9276.6275034</Parameter>
@@ -1322,7 +1322,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/NW_1_084.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/NW_1_084.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-9360113.85087</Parameter>
     <Parameter name="loy">23412334.3471</Parameter>
@@ -1334,7 +1334,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/SE_1_114.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/SE_1_114.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">12681145.3262</Parameter>
     <Parameter name="loy">9276.6275034</Parameter>
@@ -1346,7 +1346,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/SW_1_030.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/SW_1_030.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-3348861.34803</Parameter>
     <Parameter name="loy">9276.6275034</Parameter>
@@ -1358,7 +1358,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/NE_1_132.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/NE_1_132.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">14684896.1605</Parameter>
     <Parameter name="loy">23412334.3471</Parameter>
@@ -1370,7 +1370,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/SW_1_054.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/SW_1_054.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-6020529.12707</Parameter>
     <Parameter name="loy">9276.6275034</Parameter>
@@ -1382,7 +1382,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/SW_1_150.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/SW_1_150.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-16707200.2432</Parameter>
     <Parameter name="loy">9276.6275034</Parameter>
@@ -1394,7 +1394,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/SW_1_180.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/SW_1_180.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-20037508.3428</Parameter>
     <Parameter name="loy">9276.6275034</Parameter>
@@ -1406,7 +1406,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/NE_1_090.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/NE_1_090.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">10009477.5472</Parameter>
     <Parameter name="loy">23412334.3471</Parameter>
@@ -1418,7 +1418,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/NW_1_030.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/NW_1_030.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">-3348861.34803</Parameter>
     <Parameter name="loy">23412334.3471</Parameter>
@@ -1430,7 +1430,7 @@
   <StyleName>raster5</StyleName>
   <Datasource>
     <Parameter name="type">raster</Parameter>
-    <Parameter name="file">/media/Mapnik/Fond-marin/GEBCO_08/multi/1/NE_1_162.tif</Parameter>
+    <Parameter name="file">/media/Tiles/Fond-marin/GEBCO_08/multi/1/NE_1_162.tif</Parameter>
     <Parameter name="format">tiff</Parameter>
     <Parameter name="lox">18024480.8843</Parameter>
     <Parameter name="loy">23412334.3471</Parameter>
