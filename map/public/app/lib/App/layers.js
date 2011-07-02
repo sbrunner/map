@@ -49,7 +49,7 @@ function getLayersTree(map) {
                 style: null,
                 ref: type + "_" + cat,
                 element: type,
-                predicate: cat
+                predicate: cat + "=*"
             };
             typeNode.children.push(catNode);
         }

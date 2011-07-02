@@ -73,7 +73,9 @@ OpenLayers.Protocol.XAPI = OpenLayers.Class(OpenLayers.Protocol, {
     initialize: function(options) {
         options = options || {};
         this.element = 'node';
-        this.url = "http://xapi.openstreetmap.org/api/0.6/";
+        this.url = "http://open.mapquestapi.com/xapi/api/0.6/";
+//        this.url = "http://jxapi.openstreetmap.org/xapi/api/0.6";
+//        this.url = "http://xapi.openstreetmap.org/api/0.6/";
 //        this.url = "http://www.informationfreeway.org/api/0.6/";
         this.format = options.format || new OpenLayers.Format.OSM();
         OpenLayers.Protocol.prototype.initialize.apply(this, arguments);
