@@ -182,7 +182,7 @@ def render_tiles(bbox, mapfile, tile_dir, minZoom=1,maxZoom=18, name="unknown", 
                 if (y < 0) or (y >= 2**z):
                     continue
                 str_y = "%s" % y
-                tile_uri = tile_dir + zoom + '/' + str_x + '/' + str_y + '.' + FILE_EXCTENSION
+                tile_uri = tile_dir + zoom + '/' + str_x + '/' + str_y + '.' + FILE_EXTENSION
                 # Submit tile to be rendered into the queue
                 t = (name, tile_uri, x, y, z)
                 try:
@@ -201,7 +201,7 @@ def render_tiles(bbox, mapfile, tile_dir, minZoom=1,maxZoom=18, name="unknown", 
 
 
 FORMAT = 'jpeg'
-FILE_EXCTENSION = 'jpeg'
+FILE_EXTENSION = 'jpeg'
 
 if __name__ == "__main__":
     mapfile = "/home/sbrunner/workspace/map-git/SRTM/styles/ocean.xml"
