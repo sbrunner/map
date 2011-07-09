@@ -252,6 +252,15 @@ function getLayersTree(map) {
                     url: 'http://129.206.229.158/cached/osm',
                     attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>",
                     layers: 'osm_auto'
+                },
+                {
+                    text: OpenLayers.i18n("OpenStreetMap-in-a-Box"),
+                    leaf: true,
+                    ref: "osm_box",
+                    handler: addWmsLayer,
+                    url: 'http://geometa.hsr.ch/geoserver/gwc/service/wms',
+                    attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>",
+                    layers: 'osm'
                 }]
             },
             {
@@ -404,6 +413,15 @@ function getLayersTree(map) {
                 attribution: "Data by <a href='ftp://e0srp01u.ecs.nasa.gov/srtm/version2/SRTM3/'>NASA</a>, <a href='http://asterweb.jpl.nasa.gov/gdem.asp'>ASTER</a>, <a href='http://www.gebco.net/'>GEBCO</a> and <a href='http://www.osm.org/'>OSM</a>", 
                 ref: "cont" 
             }*/,
+            {
+                text: OpenLayers.i18n("Contours"),
+                leaf: true,
+                ref: "cont",
+                handler: addWmsLayer,
+                url: "http://tiles.openpistemap.org/contours-only/${z}/${x}/${y}.png",
+                attribution: "Data by <a href='ftp://e0srp01u.ecs.nasa.gov/srtm/version2/SRTM3/'>NASA</a>", 
+                layers: '' 
+            },
             {
                 text: OpenLayers.i18n("Contours"),
                 leaf: true,

@@ -265,5 +265,6 @@ OpenLayers.Util.extend(OpenLayers.Lang.fr, {
     'Communication error': 'Erreur de communication',
     'Searching...': 'Recherche...',
     'Prepare your map to use on the mobile by this link:': "Préparer votre carte pour l'utiliser sur votre mobile un utilisant ce lien :",
-    'Search for a place': 'Recherche un lieux'
+    'Search for a place': 'Recherche un lieux',
+    'OpenStreetMap-in-a-Box': 'OpenStreetMap-in-a-Box'
 });
