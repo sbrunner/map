@@ -22,7 +22,6 @@
  * @include GeoExt/widgets/tree/LayerLoader.js
  * @include GeoExt/state/PermalinkProvider.js
  * 
- * @include OpenLayers/Location.js
  * @include OpenLayers/Control/Navigation.js
  */
 
