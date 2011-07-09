@@ -75,6 +75,7 @@ OpenLayers.Util.extend(OpenLayers.Lang.fr, {
     "Edit on Potlatch": "Éditer avec Potlatch",
     "Utilities links": "Liens utiles",
     "Amenity (POI) Editor": "Amenity (POI) Editor",
+    "Opening hours": "Heures d'ouvertures",
     "Keep right!": "Keep right!",
     "Restrictions": "Restrictions",
     "Max speed": "Vitesse Maximales",

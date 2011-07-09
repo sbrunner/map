@@ -144,6 +144,7 @@ window.onload = function() {
     mapPanel.map.addControl(new OpenLayers.Control.PermalinkLayer("permalink.potlatch", "http://www.openstreetmap.org/edit"));
     mapPanel.map.addControl(new OpenLayers.Control.PermalinkLayer("permalink.osm", "http://openstreetmap.org"));
     mapPanel.map.addControl(new OpenLayers.Control.PermalinkLayer("permalink.amenity.editor", " http://ae.osmsurround.org/"));
+    mapPanel.map.addControl(new OpenLayers.Control.PermalinkLayer("permalink.opening.hours", "http://www.netzwolf.info/kartografie/osm/time_domain/map_openingge"));
     mapPanel.map.addControl(new OpenLayers.Control.PermalinkLayer("permalink.keepright", "http://keepright.ipax.at/report_map.php"));
     mapPanel.map.addControl(new OpenLayers.Control.PermalinkLayer("permalink.osmose", "http://osmose.openstreetmap.fr/map/cgi-bin/index.py"));
     mapPanel.map.addControl(new OpenLayers.Control.PermalinkLayer("permalink.restrictions", "http://osm.virtuelle-loipe.de/restrictions/"));

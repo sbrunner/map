@@ -286,6 +286,7 @@ App.Tools = function(map) {
                 + "<li><a id='permalink.restrictions' href='http://osm.virtuelle-loipe.de/restrictions/'>" + OpenLayers.i18n("Restrictions") + "</a></li>"
                 + "<li><a id='permalink.geofabrik' href='http://tools.geofabrik.de/map/?type=Geofabrik'>" + OpenLayers.i18n("Geofabrik") + "</a></li>"
                 + "<li><a id='permalink.amenity.editor' href='http://ae.osmsurround.org/'>" + OpenLayers.i18n("Amenity (POI) Editor") + "</a></li>"
+                + "<li><a id='permalink.opening.hours' href='http://www.netzwolf.info/kartografie/osm/time_domain/map_opening'>" + OpenLayers.i18n("Opening hours") + "</a></li>"
                 + "<li><a id='permalink.openrouteservice' href='http://www.openrouteservice.org'>" + OpenLayers.i18n("OpenRouteService.org") + "</a></li>"
                 + "<li><a id='permalink.osb' href='http://openstreetbugs.schokokeks.org/'>" + OpenLayers.i18n("OpenStreetBug") + "</a></li>"
                 + "<li><a id='permalink.qsm' href='http://www.qualitystreetmap.org/osmqa/'>" + OpenLayers.i18n("OSM QA app") + "</a></li>"
