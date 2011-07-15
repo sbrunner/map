@@ -7,7 +7,7 @@ from subprocess import call
 import sys, os
 from Queue import Queue
 import mapnik
-import threading
+import multiprocessing
 from subprocess import call
 
 DEG_TO_RAD = pi/180
@@ -54,12 +54,13 @@ class GoogleProjection:
 
 
 class RenderThread:
-    def __init__(self, tile_dir, mapfile, q, printLock, maxZoom, tms_scheme=False):
+    def __init__(self, tile_dir, mapfile, q, printLock, maxZoom):
         self.tile_dir = tile_dir
         self.q = q
-        self.m = mapnik.Map(TILES_SIZE, TILES_SIZE)
+        self.mapfile = mapfile
+        self.maxZoom = maxZoom
         self.printLock = printLock
-        self.tms_scheme = tms_scheme
+        self.m = mapnik.Map(TILES_SIZE, TILES_SIZE)
         # Load style XML
         mapnik.load_map(self.m, mapfile, True)
         # Obtain <Map> projection
@@ -67,13 +68,7 @@ class RenderThread:
         # Projects between tile pixel co-ordinates and LatLong (EPSG:4326)
         self.tileproj = GoogleProjection(maxZoom+1)
 
-
     def render_tile(self, tile_uri, x, y, z):
-
-        # flip y to match OSGEO TMS spec
-        if self.tms_scheme:
-            y = (2**z-1) - y
-
         # Calculate pixel positions of bottom-left & top-right
         p0 = (x * TILES_SIZE, (y + 1) * TILES_SIZE)
         p1 = ((x + 1) * TILES_SIZE, y * TILES_SIZE)
@@ -101,7 +96,6 @@ class RenderThread:
         mapnik.render(self.m, im)
         im.save(tile_uri, FORMAT)
 
-
     def loop(self):
         while True:
             #Fetch a tile from the queue and render it
@@ -116,18 +110,18 @@ class RenderThread:
             if os.path.isfile(tile_uri):
                 exists= "exists"
             else:
-                self.render_tile(tile_uri, x, y, z)
-            bytes=os.stat(tile_uri)[6]
+                self.render_tile('/tmp/mapnik', x, y, z)
+
+            bytes=os.stat('/tmp/mapnik')[6]
             empty= ''
             if bytes == 222:
             #if bytes == 116:
             #if bytes == 103:
                 empty = " Empty Tile "
                 os.remove(tile_uri)
+            else:
+                call(COMMAND % {'src': '/tmp/mapnik', 'dst': tile_uri}, shell=True)
 
-            call("jpegoptim -o --strip-all -m50 " + tile_uri, shell=True)
-            #jpegoptim -d t --strip-all -m50
-            
             self.printLock.acquire()
             print name, ":", z, x, y, exists, empty
             self.printLock.release()
@@ -139,12 +133,12 @@ def render_tiles(bbox, mapfile, tile_dir, minZoom=1,maxZoom=18, name="unknown", 
     print "render_tiles(",bbox, mapfile, tile_dir, minZoom,maxZoom, name,")"
 
     # Launch rendering threads
-    queue = Queue(32)
-    printLock = threading.Lock()
+    queue = multiprocessing.JoinableQueue(32)
+    printLock = multiprocessing.Lock()
     renderers = {}
     for i in range(num_threads):
-        renderer = RenderThread(tile_dir, mapfile, queue, printLock, maxZoom, tms_scheme=tms_scheme)
-        render_thread = threading.Thread(target=renderer.loop)
+        renderer = RenderThread(tile_dir, mapfile, queue, printLock, maxZoom)
+        render_thread = multiprocessing.Process(target=renderer.loop)
         render_thread.start()
         #print "Started render thread %s" % render_thread.getName()
         renderers[i] = render_thread
@@ -199,14 +193,16 @@ def render_tiles(bbox, mapfile, tile_dir, minZoom=1,maxZoom=18, name="unknown", 
         renderers[i].join()
 
 
-
-FORMAT = 'jpeg'
-FILE_EXTENSION = 'jpeg'
-
 if __name__ == "__main__":
+    FORMAT = 'png256'
+    FILE_EXTENSION = 'png'
+    COMMAND = "convert -fuzz 10%% -channel RGBA -alpha on -transparent '#a3d797' -treedepth 1 %(src)s %(dst)s"
     mapfile = "/home/sbrunner/workspace/map-git/SRTM/styles/ocean.xml"
-    tile_dir = "/media/Tiles/tiles/ocean/"
+    tile_dir = "/media/Tiles/tiles/1024/ocean/"
 
+#   FORMAT = 'jpeg'
+#   FILE_EXTENSION = 'jpeg'
+#    COMMAND = "jpegoptim -o --strip-all -m50 %s %s"
 #    mapfile = "/home/sbrunner/workspace/map-git/SRTM/styles/srtm.xml"
 #    tile_dir = "/media/Tiles/tiles/srtm/"
 

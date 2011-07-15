@@ -89,7 +89,7 @@ class RenderThread:
         im.save(tile_uri, FORMAT)
 
 
-    def loop(self):
+    def loop(self, nb):
         
         self.m = mapnik.Map(TILES_SIZE, TILES_SIZE)
         # Load style XML
@@ -98,7 +98,7 @@ class RenderThread:
         self.prj = mapnik.Projection(self.m.srs)
         # Projects between tile pixel co-ordinates and LatLong (EPSG:4326)
         self.tileproj = GoogleProjection(self.maxZoom+1)
-                
+        
         while True:
             #Fetch a tile from the queue and render it
             r = self.q.get()
@@ -112,11 +112,15 @@ class RenderThread:
             if os.path.isfile(tile_uri):
                 exists= "exists"
             else:
-                self.render_tile(tile_uri, x, y, z)
-            bytes=os.stat(tile_uri)[6]
+                self.render_tile('/tmp/mapnik%i'%nb, x, y, z)
+            bytes=os.stat('/tmp/mapnik%i'%nb)[6]
             empty= ''
-            if bytes == 103:
+#            if bytes == 103:
+            if bytes == 222:
                 empty = " Empty Tile "
+#                os.remove(tile_uri)
+            else:
+                call("optipng -q -zc 9 -zm 7 -zs 0 -f 0 -i 0 -out %(dst)s %(src)s;" % {'src': '/tmp/mapnik%i'%nb, 'dst': tile_uri}, shell=True)
             self.printLock.acquire()
             print name, ":", z, x, y, exists, empty
             self.printLock.release()
@@ -133,7 +137,7 @@ def render_tiles(bbox, mapfile, tile_dir, minZoom=1,maxZoom=18, name="unknown", 
     renderers = {}
     for i in range(num_threads):
         renderer = RenderThread(tile_dir, mapfile, queue, printLock, maxZoom)
-        render_thread = multiprocessing.Process(target=renderer.loop)
+        render_thread = multiprocessing.Process(target=renderer.loop, args=(i,))
         render_thread.start()
         #print "Started render thread %s" % render_thread.getName()
         renderers[i] = render_thread
@@ -187,8 +191,8 @@ FILE_EXTENSION = 'png'
 if __name__ == "__main__":
 
     mapfile = "/home/sbrunner/workspace/map-git/mapnik/mapnik/osm.xml"
-    tile_dir = "/media/Tiles/tiles/1024/ch-2011-06/"
+    tile_dir = "/media/Tiles/tiles/1024/ch-2008-09/"
 
-    # World
-    bbox = (5.14, 45.398, 11.48, 48.23)
-    render_tiles(bbox, mapfile, tile_dir, 7, 18, "Swiss")
+#    bbox = (5.14, 45.398, 11.48, 48.23)
+    bbox = (5.9, 45.7, 10.5, 47.9)
+    render_tiles(bbox, mapfile, tile_dir, 16, 18, "Swiss")
