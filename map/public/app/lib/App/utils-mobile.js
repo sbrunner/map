@@ -22,6 +22,15 @@ function addLayer(options) {
     delete options.id;
     return new OpenLayers.Layer.XYZ(options.text, options.url, options);
 }
+function addCloudmadeLayer(options) {
+    Ext.applyIf(options, {
+        sphericalMercator: true,
+        isBaseLayer: false,
+        transitionEffect: "resize"
+    });
+    delete options.id;
+    return new OpenLayers.Layer.XYZ(options.text, options.url, options);
+}
 function addWmsLayer(options) {
     Ext.applyIf(options, {
         wrapDateLine: true,

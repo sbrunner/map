@@ -20,6 +20,7 @@
  * @include OpenLayers/Layer/Vector.js
  * @include OpenLayers/Layer/XYZ.js
  * @include OpenLayers/Layer/WMS.js
+ * @include OpenLayers/Tile/ViewGrid.js
  * @include OpenLayers/Format/OSM.js
  */
 function getLayersTree(map) {
@@ -62,7 +63,7 @@ function getLayersTree(map) {
         url: "http://a.www.toolserver.org/tiles/osm-no-labels/${z}/${x}/${y}.png",
         displayOutsideMaxExtent: true,
         numZoomLevels: 18,
-        attribution: "<a href='http://www.openstreetmap.org/'>CC-BY-SA OpenStreetMap &amp; Contributors</a> -- tiles from <a href='http://www.cloudmade.com/'>CloudMade</a>",
+        attribution: "<a href='http://www.openstreetmap.org/'>CC-BY-SA OpenStreetMap &amp; Contributors</a>",
         ref: "nolabel"
     }];
     var wikipedia = [];
@@ -208,14 +209,9 @@ function getLayersTree(map) {
                 {
                     text: OpenLayers.i18n("CloudMade"),
                     leaf: true,
-                    handler: addLayer,
-                    url: [
-                        "http://a.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/1/256/${z}/${x}/${y}.png",
-                        "http://b.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/1/256/${z}/${x}/${y}.png",
-                        "http://c.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/1/256/${z}/${x}/${y}.png"
-                    ],
-                    numZoomLevels: 18,
-                    attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", 
+                    handler: addCloudmadeLayer,
+                    key: 'BC9A493B41014CAABB98F0471D759707',
+                    styleId: '1',
                     ref: "cloudmade" 
                 },
                 {
@@ -1129,15 +1125,10 @@ function getLayersTree(map) {
             {
                 text: OpenLayers.i18n("CloudMade nonames"),
                 leaf: true,
-                handler: addLayer,
-                url: [
-                    "http://a.tile.cloudmade.com/D563D910896D4B67B22BC1088920C483/3/256/${z}/${x}/${y}.png",
-                    "http://b.tile.cloudmade.com/D563D910896D4B67B22BC1088920C483/3/256/${z}/${x}/${y}.png"
-                ],
-                displayOutsideMaxExtent: true,
-                numZoomLevels: 18,
-                attribution: "<a href='http://www.openstreetmap.org/'>CC-BY-SA OpenStreetMap &amp; Contributors</a> -- tiles from <a href='http://www.cloudmade.com/'>CloudMade</a>",
-                ref: "non"
+                handler: addCloudmadeLayer,
+                key: 'BC9A493B41014CAABB98F0471D759707',
+                styleId: '3',
+                ref: "non" 
             },
             {
                 text: OpenLayers.i18n("Text of fixme and note"),
@@ -1159,13 +1150,12 @@ function getLayersTree(map) {
                 ref: "dbl"
             },
             {
-                text: OpenLayers.i18n("Cloudmade navdebug"),
+                text: OpenLayers.i18n("CloudMade navdebug"),
                 leaf: true,
-                handler: addLayer,
-                url: "http://ec2-184-73-15-218.compute-1.amazonaws.com/6700/256/${z}/${x}/${y}.png",
-                numZoomLevels: 18,
-                attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", 
-                ref: "navdebug"
+                handler: addCloudmadeLayer,
+                key: 'BC9A493B41014CAABB98F0471D759707',
+                styleId: '6700',
+                ref: "navdebug" 
             },
             {
                 text: OpenLayers.i18n("Incomplete adresses, services"),
@@ -1175,6 +1165,13 @@ function getLayersTree(map) {
                 numZoomLevels: 18,
                 attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", 
                 ref: "adrs"
+            },
+            {
+                text: OpenLayers.i18n("Grid"),
+                leaf: true,
+                handler: function (options) {
+                    return OpenLayers.Tile.ViewGrid(options. text);
+                }
             },
             {
                 text: OpenLayers.i18n("Swiss history"),

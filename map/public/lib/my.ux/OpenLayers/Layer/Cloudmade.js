@@ -7,7 +7,7 @@ OpenLayers.Layer.CloudMade = OpenLayers.Class(OpenLayers.Layer.TMS, {
             attribution: "Data &copy; 2009 <a href='http://openstreetmap.org/'>OpenStreetMap</a>. Rendering &copy; 2009 <a href='http://cloudmade.com'>CloudMade</a>.",
             maxExtent: new OpenLayers.Bounds(-20037508.34,-20037508.34,20037508.34,20037508.34),
             maxResolution: 156543.0339,
-            units: "m",090205104332_cloudmade
+            units: "m",
             projection: "EPSG:900913",
 			isBaseLayer: true,
 			numZoomLevels: 19,
