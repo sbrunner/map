@@ -159,3 +159,26 @@ div.routing div.itinary {
 div.routing div.form {
     padding: 5px;
 }
+
+.olLayerViewGridTile256 {
+    height: 134px;
+    padding-top: 120px;
+    width: 254px;
+}
+.olLayerViewGridTile1024 {
+    height: 518px;
+    padding-top: 520px;
+    width: 1024px;
+}
+.olLayerViewGridTile {
+    border: 1px dotted black;
+    text-align: center;
+}
+.olLayerViewGridTile span {
+    background-color: #FFFFFF;
+    opacity: 0.6;
+    padding: 0 4px;
+}
+.olLayerViewGridTile {
+    text-align: center;
+}

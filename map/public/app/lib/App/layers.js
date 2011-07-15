@@ -213,6 +213,7 @@ function getLayersTree(map) {
                     handler: addCloudmadeLayer,
                     key: 'BC9A493B41014CAABB98F0471D759707',
                     styleId: '1',
+                    tags: "cloudmade",
                     ref: "cloudmade" 
                 },
                 {
@@ -1129,6 +1130,7 @@ function getLayersTree(map) {
                 handler: addCloudmadeLayer,
                 key: 'BC9A493B41014CAABB98F0471D759707',
                 styleId: '3',
+                tags: "cloudmade nonames",
                 ref: "non" 
             },
             {
@@ -1156,6 +1158,7 @@ function getLayersTree(map) {
                 handler: addCloudmadeLayer,
                 key: 'BC9A493B41014CAABB98F0471D759707',
                 styleId: '6700',
+                tags: "cloudmade navdebug",
                 ref: "navdebug" 
             },
             {
@@ -1171,6 +1174,7 @@ function getLayersTree(map) {
                 text: OpenLayers.i18n("Grid"),
                 leaf: true,
                 ref: "grid",
+                tags: "grid 256",
                 handler: function (options) {
                     return new OpenLayers.Layer.ViewGrid(options.text);
                 }
@@ -1179,6 +1183,7 @@ function getLayersTree(map) {
                 text: OpenLayers.i18n("Grid 1024"),
                 leaf: true,
                 ref: "grid1024",
+                tags: "grid 1024",
                 handler: function (options) {
                     return new OpenLayers.Layer.ViewGrid(options.text, {tileSize: new OpenLayers.Size(1024, 1024)});
                 }
@@ -1187,22 +1192,15 @@ function getLayersTree(map) {
                 text: OpenLayers.i18n("Swiss history"),
                 leaf: false,
                 children: [{
-                    text: OpenLayers.i18n("September 2008"),
+                    text: OpenLayers.i18n("June 2011"),
                     leaf: true,
                     handler: addLayer,
-                    url: "lausanne/lausanne-20080926/${z}/${x}/${y}.png",
+                    url: "https://s3-eu-west-1.amazonaws.com/tiles-ch-2011-06/${z}/${x}/${y}.png",
                     numZoomLevels: 18,
-                    attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", 
-                    ref: "20080926"
-                },
-                {
-                    text: OpenLayers.i18n("June 2009"),
-                    leaf: true,
-                    handler: addLayer,
-                    url: "lausanne/lausanne-20090606/${z}/${x}/${y}.png",
-                    numZoomLevels: 18,
-                    attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", 
-                    ref: "20090606"
+                    attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>",
+                    tileSize: new OpenLayers.Size(1024, 1024),
+                    tags: "swiss history 2011",
+                    ref: "201106"
                 },
                 {
                     text: OpenLayers.i18n("June 2010"),
@@ -1211,7 +1209,28 @@ function getLayersTree(map) {
                     url: "lausanne/lausanne-20100622/${z}/${x}/${y}.png",
                     numZoomLevels: 18,
                     attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", 
+                    tags: "swiss history 2010",
                     ref: "20100622"
+                },
+                {
+                    text: OpenLayers.i18n("June 2009"),
+                    leaf: true,
+                    handler: addLayer,
+                    url: "lausanne/lausanne-20090606/${z}/${x}/${y}.png",
+                    numZoomLevels: 18,
+                    attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>",
+                    tags: "swiss history 2009",
+                    ref: "20090606"
+                },
+                {
+                    text: OpenLayers.i18n("September 2008"),
+                    leaf: true,
+                    handler: addLayer,
+                    url: "lausanne/lausanne-20080926/${z}/${x}/${y}.png",
+                    numZoomLevels: 18,
+                    attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>",
+                    tags: "swiss history 2008",
+                    ref: "20080926"
                 }]
             }]
         },

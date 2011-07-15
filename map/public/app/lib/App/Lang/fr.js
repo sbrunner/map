@@ -25,6 +25,7 @@ OpenLayers.Util.extend(OpenLayers.Lang.fr, {
     "September 2008": "Septembre 2008",
     "June 2009": "Juin 2009",
     "June 2010": "Juin 2010",
+    'June 2011': 'June 2011',
     "Contours": "Contours",
     "Speed": "Vitesse",
     "Weight": "Poids",
