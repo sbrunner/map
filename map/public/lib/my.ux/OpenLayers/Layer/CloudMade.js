@@ -1,3 +1,7 @@
+/*
+ * @requires OpenLayers/Layer/TMS.js
+ */
+
 OpenLayers.Layer.CloudMade = OpenLayers.Class(OpenLayers.Layer.TMS, {
     initialize: function(name, options) {
 		if (!options.key) {

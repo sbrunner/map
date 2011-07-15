@@ -267,5 +267,6 @@ OpenLayers.Util.extend(OpenLayers.Lang.fr, {
     'Prepare your map to use on the mobile by this link:': "Préparer votre carte pour l'utiliser sur votre mobile un utilisant ce lien :",
     'Search for a place': 'Recherche un lieux',
     'OpenStreetMap-in-a-Box': 'OpenStreetMap-in-a-Box',
-    'Grid', 'Grille'
+    'Grid': 'Grille',
+    'Grid 1024': 'Grille 1024'
 });

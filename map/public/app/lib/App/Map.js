@@ -55,7 +55,7 @@ App.Map = Ext.extend(GeoExt.MapPanel, {
             maxResolution: 156543.0339,
             maxExtent: new OpenLayers.Bounds(-20037508, -20037508, 20037508, 20037508.34),
             controls: [
-                new OpenLayers.Control.PanZoomBar(),
+                new OpenLayers.Control.PanZoomBar({panIcons: false}),
                 new OpenLayers.Control.MousePosition(),
                 new OpenLayers.Control.Navigation(),
                 new OpenLayers.Control.ArgParser(),

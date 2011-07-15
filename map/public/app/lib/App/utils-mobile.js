@@ -6,8 +6,6 @@
  * of the license.
  */
 
-/*
- */
 
 var epsg900913 = new OpenLayers.Projection("EPSG:900913");
 var epsg4326 = new OpenLayers.Projection("EPSG:4326");
@@ -29,7 +27,7 @@ function addCloudmadeLayer(options) {
         transitionEffect: "resize"
     });
     delete options.id;
-    return new OpenLayers.Layer.XYZ(options.text, options.url, options);
+    return new OpenLayers.Layer.CloudMade(options.text, options);
 }
 function addWmsLayer(options) {
     Ext.applyIf(options, {

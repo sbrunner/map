@@ -20,7 +20,8 @@
  * @include OpenLayers/Layer/Vector.js
  * @include OpenLayers/Layer/XYZ.js
  * @include OpenLayers/Layer/WMS.js
- * @include OpenLayers/Tile/ViewGrid.js
+ * @include OpenLayers/Layer/CloudMade.js
+ * @include OpenLayers/Layer/ViewGrid.js
  * @include OpenLayers/Format/OSM.js
  */
 function getLayersTree(map) {
@@ -1169,8 +1170,17 @@ function getLayersTree(map) {
             {
                 text: OpenLayers.i18n("Grid"),
                 leaf: true,
+                ref: "grid",
                 handler: function (options) {
-                    return OpenLayers.Tile.ViewGrid(options. text);
+                    return new OpenLayers.Layer.ViewGrid(options.text);
+                }
+            },
+            {
+                text: OpenLayers.i18n("Grid 1024"),
+                leaf: true,
+                ref: "grid1024",
+                handler: function (options) {
+                    return new OpenLayers.Layer.ViewGrid(options.text, {tileSize: new OpenLayers.Size(1024, 1024)});
                 }
             },
             {
