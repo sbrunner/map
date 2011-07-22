@@ -1,14 +1,12 @@
 #!/usr/bin/python
 
-## time python generate_tiles_1024.py
+## sudo -u postgres time ionice -c3 nice -n 19 ./generate_tiles_hist1024.py
 
 from math import pi,cos,sin,log,exp,atan
 from subprocess import call
 import sys, os
-from Queue import Queue
 import mapnik
 import multiprocessing
-from subprocess import call
 
 DEG_TO_RAD = pi/180
 RAD_TO_DEG = 180/pi
@@ -16,6 +14,7 @@ RAD_TO_DEG = 180/pi
 # Default number of rendering threads to spawn, should be roughly equal to number of CPU cores available
 NUM_THREADS = 4
 TILES_SIZE = 1024
+
 
 def minmax (a,b,c):
     a = max(a,b)
@@ -60,13 +59,6 @@ class RenderThread:
         self.mapfile = mapfile
         self.maxZoom = maxZoom
         self.printLock = printLock
-        self.m = mapnik.Map(TILES_SIZE, TILES_SIZE)
-        # Load style XML
-        mapnik.load_map(self.m, mapfile, True)
-        # Obtain <Map> projection
-        self.prj = mapnik.Projection(self.m.srs)
-        # Projects between tile pixel co-ordinates and LatLong (EPSG:4326)
-        self.tileproj = GoogleProjection(maxZoom+1)
 
     def render_tile(self, tile_uri, x, y, z):
         # Calculate pixel positions of bottom-left & top-right
@@ -96,7 +88,17 @@ class RenderThread:
         mapnik.render(self.m, im)
         im.save(tile_uri, FORMAT)
 
-    def loop(self):
+
+    def loop(self, nb):
+        
+        self.m = mapnik.Map(TILES_SIZE, TILES_SIZE)
+        # Load style XML
+        mapnik.load_map(self.m, self.mapfile, True)
+        # Obtain <Map> projection
+        self.prj = mapnik.Projection(self.m.srs)
+        # Projects between tile pixel co-ordinates and LatLong (EPSG:4326)
+        self.tileproj = GoogleProjection(self.maxZoom+1)
+        
         while True:
             #Fetch a tile from the queue and render it
             r = self.q.get()
@@ -107,20 +109,19 @@ class RenderThread:
                 (name, tile_uri, x, y, z) = r
 
             exists= ""
+            empty= ''
             if os.path.isfile(tile_uri):
                 exists= "exists"
             else:
-                self.render_tile('/tmp/mapnik', x, y, z)
-
-            bytes=os.stat('/tmp/mapnik')[6]
-            empty= ''
-            if bytes == 222:
-            #if bytes == 116:
-            #if bytes == 103:
-                empty = " Empty Tile "
-                os.remove(tile_uri)
-            else:
-                call(COMMAND % {'src': '/tmp/mapnik', 'dst': tile_uri}, shell=True)
+                self.render_tile('/tmp/mapnik%i'%nb, x, y, z)
+                
+                bytes=os.stat('/tmp/mapnik%i'%nb)[6]
+    #            if bytes == 103:
+                if bytes == 222:
+                    empty = " Empty Tile "
+                    os.remove(tile_uri)
+                else:
+                    call("optipng -q -zc 9 -zm 7 -zs 0 -f 0 -i 0 -out %(dst)s %(src)s;" % {'src': '/tmp/mapnik%i'%nb, 'dst': tile_uri}, shell=True)
 
             self.printLock.acquire()
             print name, ":", z, x, y, exists, empty
@@ -129,7 +130,7 @@ class RenderThread:
 
 
 
-def render_tiles(bbox, mapfile, tile_dir, minZoom=1,maxZoom=18, name="unknown", num_threads=NUM_THREADS, tms_scheme=False):
+def render_tiles(bbox, mapfile, tile_dir, minZoom=1,maxZoom=18, name="unknown", num_threads=NUM_THREADS):
     print "render_tiles(",bbox, mapfile, tile_dir, minZoom,maxZoom, name,")"
 
     # Launch rendering threads
@@ -138,7 +139,7 @@ def render_tiles(bbox, mapfile, tile_dir, minZoom=1,maxZoom=18, name="unknown", 
     renderers = {}
     for i in range(num_threads):
         renderer = RenderThread(tile_dir, mapfile, queue, printLock, maxZoom)
-        render_thread = multiprocessing.Process(target=renderer.loop)
+        render_thread = multiprocessing.Process(target=renderer.loop, args=(i,))
         render_thread.start()
         #print "Started render thread %s" % render_thread.getName()
         renderers[i] = render_thread
@@ -159,11 +160,7 @@ def render_tiles(bbox, mapfile, tile_dir, minZoom=1,maxZoom=18, name="unknown", 
         zoom = "%s" % z
         if not os.path.isdir(tile_dir + zoom):
             os.mkdir(tile_dir + zoom)
-
-        xmax = px1[0]/TILES_SIZE
-        if xmax != round(xmax):
-            xmax += 1
-        for x in range(int(px0[0]/TILES_SIZE),int(xmax)):
+        for x in range(int(px0[0]/TILES_SIZE),int(px1[0]/TILES_SIZE)+1):
             # Validate x co-ordinate
             if (x < 0) or (x >= 2**z):
                 continue
@@ -179,10 +176,7 @@ def render_tiles(bbox, mapfile, tile_dir, minZoom=1,maxZoom=18, name="unknown", 
                 tile_uri = tile_dir + zoom + '/' + str_x + '/' + str_y + '.' + FILE_EXTENSION
                 # Submit tile to be rendered into the queue
                 t = (name, tile_uri, x, y, z)
-                try:
-                    queue.put(t)
-                except KeyboardInterrupt:
-                    raise SystemExit("Ctrl-c detected, exiting...")
+                queue.put(t)
 
     # Signal render threads to exit by sending empty request to queue
     for i in range(num_threads):
@@ -193,20 +187,28 @@ def render_tiles(bbox, mapfile, tile_dir, minZoom=1,maxZoom=18, name="unknown", 
         renderers[i].join()
 
 
+FORMAT = 'png256'
+FILE_EXTENSION = 'png'
+
 if __name__ == "__main__":
-    FORMAT = 'png256'
-    FILE_EXTENSION = 'png'
-    COMMAND = "convert -fuzz 10%% -channel RGBA -alpha on -transparent '#a3d797' -treedepth 1 %(src)s %(dst)s"
-    mapfile = "/home/sbrunner/workspace/map-git/SRTM/styles/ocean.xml"
-    tile_dir = "/media/Tiles/tiles/1024/ocean/"
 
-#   FORMAT = 'jpeg'
-#   FILE_EXTENSION = 'jpeg'
-#    COMMAND = "jpegoptim -o --strip-all -m50 %s %s"
-#    mapfile = "/home/sbrunner/workspace/map-git/SRTM/styles/srtm.xml"
-#    tile_dir = "/media/Tiles/tiles/srtm/"
+    bbox = (5.9, 45.7, 10.5, 47.9)
 
-    # World
-    bbox = (-180,-85, 180,85)
-    render_tiles(bbox, mapfile, tile_dir, 0, 6, "World")
+    bbox = (9.45, 45.7, 10.5, 47.9)
+    mapfile = "/home/sbrunner/workspace/map-git/mapnik/mapnik/osm.xml"
+    tile_dir = "/media/Tiles/tiles/1024/ch-2010-06/"
+    render_tiles(bbox, mapfile, tile_dir, 18, 18, "Swiss")
+
+#    mapfile = "adrs.mapnik"
+#    tile_dir = "/media/Tiles/tiles/1024/adrs/"
+#    render_tiles(bbox, mapfile, tile_dir, 0, 18, "adrs")
+
+#    mapfile = "service.mapnik"
+#    tile_dir = "/media/Tiles/tiles/1024/service/"
+#    render_tiles(bbox, mapfile, tile_dir, 0, 18, "service")
+
+#    mapfile = "parking.mapnik"
+#    tile_dir = "/media/Tiles/tiles/1024/parking/"
+#    render_tiles(bbox, mapfile, tile_dir, 0, 18, "parking")
+
 

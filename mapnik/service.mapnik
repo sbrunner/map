@@ -1,0 +1,26 @@
+<Map srs="+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs +over">
+    <Style name="service">
+        <Rule name="service">
+          <LineSymbolizer>
+            <CssParameter name="stroke">#F00</CssParameter>
+            <CssParameter name="stroke-width">3</CssParameter>
+          </LineSymbolizer>
+        </Rule>
+    </Style>
+    <Layer name="service">
+        <StyleName>service</StyleName>
+        <Datasource>
+          <Parameter name="table">
+            (select * from adrs_line where highway = 'service' AND service IS NULL) AS service
+          </Parameter>
+<Parameter name="type">postgis</Parameter>
+<Parameter name="dbname">osm</Parameter>
+<Parameter name="password">osm</Parameter>
+<Parameter name="host">localhost</Parameter>
+<Parameter name="port">5432</Parameter>
+<Parameter name="user">osm</Parameter>
+<Parameter name="estimate_extent">false</Parameter>
+        </Datasource>
+    </Layer>
+</Map>
+

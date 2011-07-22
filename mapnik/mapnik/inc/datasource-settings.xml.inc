@@ -9,7 +9,7 @@ Note: feel free to leave password, host, port, or use blank
 <Parameter name="host">localhost</Parameter>
 <Parameter name="port">5432</Parameter>
 <!--Parameter name="user">postgres</Parameter-->
-<Parameter name="dbname">lausanne-20080926</Parameter>
+<Parameter name="dbname">lausanne-20100622</Parameter>
 <!-- this should be 'false' if you are manually providing the 'extent' -->
 <Parameter name="estimate_extent">false</Parameter>
 <!-- manually provided extent in epsg 900913 for whole globe -->

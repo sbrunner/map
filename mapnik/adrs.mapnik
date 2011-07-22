@@ -4,6 +4,7 @@
           <PolygonSymbolizer>
             <CssParameter name="fill">#F00</CssParameter>
           </PolygonSymbolizer>
+          <PointSymbolizer file="point.png" />
         </Rule>
     </Style>
     <Style name="npa">
@@ -11,14 +12,7 @@
           <PolygonSymbolizer>
             <CssParameter name="fill">#C0F</CssParameter>
           </PolygonSymbolizer>
-        </Rule>
-    </Style>
-    <Style name="service">
-        <Rule name="service">
-          <LineSymbolizer>
-            <CssParameter name="stroke">#F00</CssParameter>
-            <CssParameter name="stroke-width">3</CssParameter>
-          </LineSymbolizer>
+          <PointSymbolizer file="warn.png" />
         </Rule>
     </Style>
     <Layer name="npa">
@@ -55,11 +49,30 @@
 <Parameter name="estimate_extent">false</Parameter>
         </Datasource>
     </Layer>
-    <Layer name="service">
-        <StyleName>service</StyleName>
+    <Layer name="npa_point">
+        <StyleName>npa</StyleName>
         <Datasource>
           <Parameter name="table">
-            (select * from adrs_line where highway = 'service' AND service IS NULL) AS service
+            (select * from adrs_point where ("addr:country" IS NOT NULL OR "addr:city" IS NOT NULL OR "addr:postcode" IS NOT NULL OR 
+            "addr:street" IS NOT NULL OR "addr:housenumber" IS NOT NULL) AND 
+            ("addr:country" IS NULL OR "addr:city" IS NULL OR "addr:postcode" IS NULL OR "addr:street" IS NULL OR "addr:housenumber" IS NULL)) as adrs
+          </Parameter>
+<Parameter name="type">postgis</Parameter>
+<Parameter name="dbname">osm</Parameter>
+<Parameter name="password">osm</Parameter>
+<Parameter name="host">localhost</Parameter>
+<Parameter name="port">5432</Parameter>
+<Parameter name="user">osm</Parameter>
+<Parameter name="estimate_extent">false</Parameter>
+        </Datasource>
+    </Layer>
+    <Layer name="adrs_point">
+        <StyleName>adrs</StyleName>
+        <Datasource>
+          <Parameter name="table">
+            (select * from adrs_point where ("addr:country" IS NOT NULL OR "addr:city" IS NOT NULL OR "addr:postcode" IS NOT NULL OR 
+            "addr:street" IS NOT NULL OR "addr:housenumber" IS NOT NULL) AND 
+            ("addr:country" IS NULL OR "addr:city" IS NULL OR "addr:street" IS NULL OR "addr:housenumber" IS NULL)) as adrs
           </Parameter>
 <Parameter name="type">postgis</Parameter>
 <Parameter name="dbname">osm</Parameter>
