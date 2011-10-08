@@ -1197,8 +1197,8 @@ function getLayersTree(map) {
                     handler: addLayer,
                     url: "https://s3-eu-west-1.amazonaws.com/tiles-ch-2011-06/${z}/${x}/${y}.png",
                     numZoomLevels: 19,
-                    attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>",
                     tileSize: new OpenLayers.Size(1024, 1024),
+                    attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>",
                     tags: "swiss history 2011",
                     ref: "201106"
                 },
@@ -1206,8 +1206,9 @@ function getLayersTree(map) {
                     text: OpenLayers.i18n("June 2010"),
                     leaf: true,
                     handler: addLayer,
-                    url: "lausanne/lausanne-20100622/${z}/${x}/${y}.png",
+                    url: "https://s3-eu-west-1.amazonaws.com/tiles-ch-2010-06/${z}/${x}/${y}.png",
                     numZoomLevels: 19,
+                    tileSize: new OpenLayers.Size(1024, 1024),
                     attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", 
                     tags: "swiss history 2010",
                     ref: "20100622"
@@ -1216,8 +1217,9 @@ function getLayersTree(map) {
                     text: OpenLayers.i18n("June 2009"),
                     leaf: true,
                     handler: addLayer,
-                    url: "lausanne/lausanne-20090606/${z}/${x}/${y}.png",
+                    url: "https://s3-eu-west-1.amazonaws.com/tiles-ch-2009-06/${z}/${x}/${y}.png",
                     numZoomLevels: 19,
+                    tileSize: new OpenLayers.Size(1024, 1024),
                     attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>",
                     tags: "swiss history 2009",
                     ref: "20090606"
@@ -1226,8 +1228,9 @@ function getLayersTree(map) {
                     text: OpenLayers.i18n("September 2008"),
                     leaf: true,
                     handler: addLayer,
-                    url: "lausanne/lausanne-20080926/${z}/${x}/${y}.png",
+                    url: "https://s3-eu-west-1.amazonaws.com/tiles-ch-2008-09/${z}/${x}/${y}.png",
                     numZoomLevels: 19,
+                    tileSize: new OpenLayers.Size(1024, 1024),
                     attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>",
                     tags: "swiss history 2008",
                     ref: "20080926"
