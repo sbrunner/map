@@ -1,6 +1,6 @@
-[submodule "map/public/lib/openlayers"]
-	path = map/public/lib/openlayers
-	url = https://github.com/sbrunner/openlayers.git
 [submodule "map/public/app/images/openlayers_themes"]
 	path = map/public/app/images/openlayers_themes
 	url = https://github.com/developmentseed/openlayers_themes.git
+[submodule "map/public/lib/openlayers"]
+	path = map/public/lib/openlayers
+	url = https://github.com/openlayers/openlayers.git
