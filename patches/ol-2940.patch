@@ -1,0 +1,675 @@
+diff --git a/lib/OpenLayers/Format/OSM.js b/lib/OpenLayers/Format/OSM.js
+index 9e02949..91be72e 100644
+--- lib/OpenLayers/Format/OSM.js
++++ lib/OpenLayers/Format/OSM.js
+@@ -45,7 +45,19 @@ OpenLayers.Format.OSM = OpenLayers.Class(OpenLayers.Format.XML, {
+      * checkTags is true.
+      */
+     areaTags: null, 
+-    
++
++    /**
++     * APIProperty: relationsParsers
++     * {Map({String, Function})} Map relation type to a functions that parce the relation.
++     * This can be set for example to:
++     * {
++     *     multipolygon: OpenLayera.Format.OSM.multipolygonParser,
++     *     boundary:     OpenLayera.Format.OSM.multipolygonParser,
++     *     route:        OpenLayera.Format.OSM.routeParser
++     * }
++     */
++    relationsParsers: {}, 
++
+     /**
+      * Constructor: OpenLayers.Format.OSM
+      * Create a new parser for OSM.
+@@ -61,6 +73,7 @@ OpenLayers.Format.OSM = OpenLayers.Class(OpenLayers.Format.XML, {
+           'areaTags': ['area', 'building', 'leisure', 'tourism', 'ruins',
+               'historic', 'landuse', 'military', 'natural', 'sport'] 
+         };
++        options = options ? options : {};
+           
+         layer_defaults = OpenLayers.Util.extend(layer_defaults, options);
+         
+@@ -99,79 +112,189 @@ OpenLayers.Format.OSM = OpenLayers.Class(OpenLayers.Format.XML, {
+ 
+         var nodes = this.getNodes(doc);
+         var ways = this.getWays(doc);
+-        
++        var relations = this.getRelations(doc);
++                
+         // Geoms will contain at least ways.length entries.
+-        var feat_list = new Array(ways.length);
++        var feat_list = [];
+         
+-        for (var i = 0; i < ways.length; i++) {
+-            // We know the minimal of this one ahead of time. (Could be -1
+-            // due to areas/polygons)
+-            var point_list = new Array(ways[i].nodes.length);
+-            
+-            var poly = this.isWayArea(ways[i]) ? 1 : 0; 
+-            for (var j = 0; j < ways[i].nodes.length; j++) {
+-               var node = nodes[ways[i].nodes[j]];
+-               
+-               var point = new OpenLayers.Geometry.Point(node.lon, node.lat);
+-               
+-               // Since OSM is topological, we stash the node ID internally. 
+-               point.osm_id = parseInt(ways[i].nodes[j]);
+-               point_list[j] = point;
+-               
+-               // We don't display nodes if they're used inside other 
+-               // elements.
+-               node.used = true; 
++        for (var relation_id in relations) {
++            var relation = relations[relation_id];
++            if (this.relationsParsers[relation.tags.type]) {
++                features = this.relationsParsers[relation.tags.type](relation, this, nodes, ways, relations);
++                for (var i = 0, len = features.length ; i < len ; i++) {
++                    if (this.internalProjection && this.externalProjection) {
++                        features[i].geometry.transform(
++                                this.externalProjection, 
++                                this.internalProjection);
++                    }
++                    feat_list.push(features[i]);
++                }
+             }
+-            var geometry = null;
+-            if (poly) { 
+-                geometry = new OpenLayers.Geometry.Polygon(
+-                    new OpenLayers.Geometry.LinearRing(point_list));
+-            } else {    
+-                geometry = new OpenLayers.Geometry.LineString(point_list);
++        }
++
++        for (var way_id in ways) {
++            var way = ways[way_id];
++
++            if (way.interesting) {
++                var poly = this.isWayArea(way) ? 1 : 0; 
++                var point_list = this.getPointList(way, nodes);
++                var geometry = null;
++                if (poly) { 
++                    geometry = new OpenLayers.Geometry.Polygon(
++                        new OpenLayers.Geometry.LinearRing(point_list));
++                }
++                else {
++                    geometry = new OpenLayers.Geometry.LineString(point_list);
++                }
++                var feat = new OpenLayers.Feature.Vector(geometry,
++                    way.tags);
++                feat.osm_id = parseInt(way.id);
++                feat.type = "way";
++                feat.fid = "way." + feat.osm_id;
++                feat_list.push(feat);
+             }
+-            if (this.internalProjection && this.externalProjection) {
+-                geometry.transform(this.externalProjection, 
+-                    this.internalProjection);
+-            }        
+-            var feat = new OpenLayers.Feature.Vector(geometry,
+-                ways[i].tags);
+-            feat.osm_id = parseInt(ways[i].id);
+-            feat.fid = "way." + feat.osm_id;
+-            feat_list[i] = feat;
+         } 
+         for (var node_id in nodes) {
+             var node = nodes[node_id];
+             if (!node.used || this.checkTags) {
+                 var tags = null;
+-                
++
+                 if (this.checkTags) {
+                     var result = this.getTags(node.node, true);
+                     if (node.used && !result[1]) {
+                         continue;
+                     }
+                     tags = result[0];
+-                } else { 
++                }
++                else {
+                     tags = this.getTags(node.node);
+-                }    
+-                
++                }
++
+                 var feat = new OpenLayers.Feature.Vector(
+                     new OpenLayers.Geometry.Point(node['lon'], node['lat']),
+                     tags);
+                 if (this.internalProjection && this.externalProjection) {
+                     feat.geometry.transform(this.externalProjection, 
+                         this.internalProjection);
+-                }        
+-                feat.osm_id = parseInt(node_id); 
++                }
++                feat.osm_id = parseInt(node_id);
++                feat.type = "node";
+                 feat.fid = "node." + feat.osm_id;
+                 feat_list.push(feat);
+-            }   
++            }
+             // Memory cleanup
+             node.node = null;
+-        }        
++        }
+         return feat_list;
+     },
+ 
+     /**
++     * Method: getPointList
++     * Return a list of points corresponds with with the way.
++     *
++     * Parameters:
++     * way - way where we can find the nodes id.
++     * nodes - nodes the nodes map where we can find the nodes by id.
++     */
++    getPointList: function(way, nodes) {
++        if (!way) {
++            // the way will not be on the bbox
++            return [];
++        }
++        // way cannot be reuse due projection conversion
++//        if (way.pointList) {
++//            return way.pointList;
++//        }
++        // We know the minimal of this one ahead of time. (Could be -1
++        // due to areas/polygons)
++        var point_list = new Array(way.nodes.length);
++        for (var j = 0; j < way.nodes.length; j++) {
++            var node = nodes[way.nodes[j]];
++            node.used = true;
++           
++            var point = new OpenLayers.Geometry.Point(node.lon, node.lat);
++            if (this.internalProjection && this.externalProjection) {
++                point.transform(this.externalProjection, this.internalProjection);
++            }
++           
++            // Since OSM is topological, we stash the node ID internally. 
++            point.osm_id = parseInt(way.nodes[j]);
++            point_list[j] = point;
++        }
++        // way cannot be reuse due projection conversion
++//        way.point_list = point_list;
++        return point_list;
++    },
++
++    /**
++     * Method: concatPathsIfLinear
++     * Return result.succed if pass are linear, result.lastPointList with the new way.
++     *
++     * Parameters:
++     * lastPointList - array of <OpenLayer.Geometry.Points>, the old concanated path
++     * pointList - array of <OpenLayer.Geometry.Points>, the new path
++     */
++    concatPathsIfLinear: function(lastPointList, pointList) {
++        var result = {};
++        if (lastPointList.length == 0) {
++            result.succed = true;
++            result.lastPointList = pointList;
++            return result;
++        }
++        if (pointList.length == 0) {
++            result.succed = true;
++            result.lastPointList = lastPointList;
++            return result;
++        }
++        if (lastPointList[lastPointList.length-1].x == pointList[0].x 
++         && lastPointList[lastPointList.length-1].y == pointList[0].y) {
++            pointList = pointList.slice(1, pointList.length);
++            lastPointList = Array.concat(lastPointList, pointList);
++            result.succed = true;
++            result.lastPointList = lastPointList;
++            return result;
++        }
++        else if (lastPointList[0].x == pointList[pointList.length-1].x 
++              && lastPointList[0].y == pointList[pointList.length-1].y) {
++            lastPointList = lastPointList.slice(1, lastPointList.length);
++            lastPointList = Array.concat(pointList, lastPointList);
++            result.succed = true;
++            result.lastPointList = lastPointList;
++            return result;
++        }
++        else if (lastPointList[0].x == pointList[0].x 
++              && lastPointList[0].y == pointList[0].y) {
++            if (lastPointList.length > pointList-length) {
++                pointList = pointList.slice(1, pointList.length);
++                lastPointList = Array.concat(pointList.reverse(), lastPointList);
++            }
++            else {
++                lastPointList = lastPointList.slice(1, lastPointList.length);
++                lastPointList = Array.concat(lastPointList.reverse(), pointList);
++            }
++            result.succed = true;
++            result.lastPointList = lastPointList;
++            return result;
++        }
++        else if (lastPointList[lastPointList.length-1].x == pointList[pointList.length-1].x 
++              && lastPointList[lastPointList.length-1].y == pointList[pointList.length-1].y) {
++            if (lastPointList.length > pointList-length) {
++                pointList = pointList.slice(0, pointList.length - 1);
++                lastPointList = Array.concat(lastPointList, pointList.reverse());
++            }
++            else {
++                lastPointList = lastPointList.slice(0, lastPointList.length - 1);
++                lastPointList = Array.concat(pointList, lastPointList.reverse());
++            }
++            result.succed = true;
++            result.lastPointList = lastPointList;
++            return result;
++        }
++        result.succed = false;
++        return result;
++    },
++    
++    /**
+      * Method: getNodes
+      * Return the node items from a doc.  
+      *
+@@ -194,6 +317,49 @@ OpenLayers.Format.OSM = OpenLayers.Class(OpenLayers.Format.XML, {
+     },
+ 
+     /**
++     * Method: getRelations
++     * Return the relation items from a doc.  
++     *
++     * Parameters:
++     * node - {DOMElement} node to parse tags from
++     */
++    getRelations: function(doc) {
++        var relation_list = doc.getElementsByTagName("relation");
++        var return_relations = {};
++        for (var i = 0; i < relation_list.length; i++) {
++            var relation = relation_list[i];
++            var id = relation.getAttribute("id");
++            var relation_object = {
++              id: id
++            };
++            
++            relation_object.tags = this.getTags(relation);
++            relation_object.nodes = [];
++            relation_object.ways = [];
++            relation_object.relations = [];
++            
++            var member_list = relation.getElementsByTagName("member");
++            
++            for (var j = 0; j < member_list.length; j++) {
++                var member = member_list[j];
++                var type = member.getAttribute("type");
++                if (type == 'node') {
++                    relation_object.nodes[relation_object.nodes.length] = member;
++                }
++                else if (type == 'way') {
++                    relation_object.ways[relation_object.ways.length] = member;
++                }
++                else if (type == 'relation') {
++                    relation_object.relations[relation_object.relations.length] = member;
++                }
++            }
++            return_relations[id] = relation_object;
++        }
++        return return_relations; 
++        
++    },  
++    
++    /**
+      * Method: getWays
+      * Return the way items from a doc.  
+      *
+@@ -202,14 +368,22 @@ OpenLayers.Format.OSM = OpenLayers.Class(OpenLayers.Format.XML, {
+      */
+     getWays: function(doc) {
+         var way_list = doc.getElementsByTagName("way");
+-        var return_ways = [];
++        var return_ways = {};
+         for (var i = 0; i < way_list.length; i++) {
+             var way = way_list[i];
++            var id = way.getAttribute("id");
+             var way_object = {
+-              id: way.getAttribute("id")
++              id: id
+             };
+             
+-            way_object.tags = this.getTags(way);
++            if (this.checkTags) {
++                var result = this.getTags(way, true);
++                way_object.interesting = result[1];
++                way_object.tags = result[0];
++            } else {
++                way_object.interesting = true;
++                way_object.tags = this.getTags(way);
++            }
+             
+             var node_list = way.getElementsByTagName("nd");
+             
+@@ -218,7 +392,7 @@ OpenLayers.Format.OSM = OpenLayers.Class(OpenLayers.Format.XML, {
+             for (var j = 0; j < node_list.length; j++) {
+                 way_object.nodes[j] = node_list[j].getAttribute("ref");
+             }  
+-            return_ways.push(way_object);
++            return_ways[id] = way_object;
+         }
+         return return_ways; 
+         
+@@ -463,3 +637,238 @@ OpenLayers.Format.OSM = OpenLayers.Class(OpenLayers.Format.XML, {
+ 
+     CLASS_NAME: "OpenLayers.Format.OSM" 
+ });     
++
++/**
++ * Function that parse a multypolygone. Use the roles inner and enclave
++ * for inner border. all others will be considère as outer border.
++ *
++ * Parameters:
++ * relation - {DOMElement} the relation to parse
++ * parser - <OpenLayers.parser.OSM> the parser
++ * nodes - {Array({DOMElement})} all the available nodes
++ * ways - {Array({DOMElement})} all the available ways
++ * relations - {Array({DOMElement})} all the available relations
++ * 
++ * Returns:
++ * {Array(<OpenLayers.Feature.Vector>)} a list of one element that represent the multypolygone
++ */
++OpenLayers.Format.OSM.multipolygonParser = function(relation, parser, nodes, ways, relations) {
++    var lastRole = '';
++    var lastPointList = [];
++    var innerLignes = [];
++    var outerLignes = [];
++   
++    for (var j = 0; j < relation.ways.length; j++) {
++        var way = relation.ways[j]
++        var ref = way.getAttribute("ref");
++        var role = way.getAttribute("role");
++        
++        var pointList = parser.getPointList(ways[ref], nodes);
++        if (pointList.length == 0) {
++            continue;
++        }
++        var newPath = true;
++        if (lastRole == '') {
++            lastRole = role;
++        }
++        if (lastRole == role) {
++            result = parser.concatPathsIfLinear(lastPointList, pointList);
++            if (result.succed) {
++                newPath = false;
++                lastPointList = result.lastPointList;
++            }
++        }
++
++        if (newPath) {
++            if (lastPointList.length > 0) {
++                if (lastRole == 'inner' || lastRole == 'enclave') {
++                    var geometry = new OpenLayers.Geometry.LinearRing(lastPointList)
++                    innerLignes.push(geometry);
++                }
++                else { // if (lastRole == 'outer') {
++                    var geometry = new OpenLayers.Geometry.LinearRing(lastPointList)
++                    outerLignes.push(geometry);
++                }
++            }
++            lastPointList = pointList;
++            lastRole = role;
++        }
++    }
++    if (lastPointList.length > 0) {
++        if (lastRole == 'inner' || lastRole == 'enclave') {
++            var geometry = new OpenLayers.Geometry.LinearRing(lastPointList)
++            innerLignes.push(geometry);
++        }
++        else { // if (lastRole == 'outer') {
++            var geometry = new OpenLayers.Geometry.LinearRing(lastPointList)
++            outerLignes.push(geometry);
++        }
++    }
++    
++    var polygons = [];
++    for (var j = 0 ; j < outerLignes.length ; j++) {
++        if (innerLignes.length == 0) {
++            polygons.push(new OpenLayers.Geometry.Polygon([outerLignes[j]]));
++        }
++        else {
++            var currentInners = [];
++            for (var k = 0 ; k < innerLignes.length ; k++) {
++                var inner = innerLignes[k];
++                if (outerLignes[j].containsPoint(inner.getCentroid())) {
++                    currentInners.push(inner);
++                }
++            }
++            polygons.push(new OpenLayers.Geometry.Polygon(
++                    [outerLignes[j]].concat(currentInners)));
++        }
++    }
++    var geometry = new OpenLayers.Geometry.MultiPolygon(polygons);
++    var feat = new OpenLayers.Feature.Vector(geometry, relation.tags);
++    feat.osm_id = parseInt(relation.id);
++    feat.type = "relation";
++    feat.fid = "relation." + feat.osm_id;
++    return [feat];
++},
++
++/**
++ * Function that convert all the ways of a relation into a LineStrings.
++ *
++ * Parameters:
++ * relation - {DOMElement} the relation to parse
++ * parser - <OpenLayers.parser.OSM> the parser
++ * nodes - {Array({DOMElement})} all the available nodes
++ * ways - {Array({DOMElement})} all the available ways
++ * 
++ * Returns:
++ * {Array(<OpenLayers.Geometry.LineString>)}
++ */
++OpenLayers.Format.OSM.getLineStrings = function(relation, parser, nodes, ways) {
++    var geometries = [];
++    for (var j = 0; j < relation.ways.length; j++) {
++        var way = relation.ways[j]
++        var ref = way.getAttribute("ref");
++        
++        // TODO considere to create some area
++        var pointList = parser.getPointList(ways[ref], nodes);
++        if (pointList.length == 0) {
++            continue;
++        }
++
++        geometries.push(new OpenLayers.Geometry.LineString(pointList));
++    }
++    return geometries;
++}
++
++/**
++ * Function that parse a route. All the inner ways will be converted into a MultiLineString.
++ *
++ * Parameters:
++ * relation - {DOMElement} the relation to parse
++ * parser - <OpenLayers.parser.OSM> the parser
++ * nodes - {Array({DOMElement})} all the available nodes
++ * ways - {Array({DOMElement})} all the available ways
++ * relations - {Array({DOMElement})} all the available relations
++ * 
++ * Returns:
++ * {Array(<OpenLayers.Feature.Vector>)} a list of one element that represent the route.
++ */
++OpenLayers.Format.OSM.routeParser = function(relation, parser, nodes, ways, relations) {
++    var geometries = OpenLayers.Format.OSM.getLineStrings(relation, parser, nodes, ways);
++    var geometry = new OpenLayers.Geometry.MultiLineString(geometries);
++    var feat = new OpenLayers.Feature.Vector(geometry, relation.tags);
++    feat.osm_id = parseInt(relation.id);
++    feat.type = "relation";
++    feat.fid = "relation." + feat.osm_id;
++    return [feat];
++}
++
++/**
++ * Function that parse a relation. All inerr way will be converten into LineLtrings,
++ * and all inner nodes into Points.
++ *
++ * Parameters:
++ * relation - {DOMElement} the relation to parse
++ * parser - <OpenLayers.parser.OSM> the parser
++ * nodes - {Array({DOMElement})} all the available nodes
++ * ways - {Array({DOMElement})} all the available ways
++ * relations - {Array({DOMElement})} all the available relations
++ * 
++ * Returns:
++ * {Array(<OpenLayers.Feature.Vector>)} a lint of one element that represent the relation.
++ */
++OpenLayers.Format.OSM.genericParser = function(relation, parser, nodes, ways, relations) {
++    var geometries = OpenLayers.Format.OSM.getLineStrings(relation, parser, nodes, ways);
++    for (var j = 0; j < relation.nodes.length; j++) {
++        var node = relation.nodes[j]
++        geometries.push(new OpenLayers.Geometry.Node(node));
++    }
++    var geometry = new OpenLayers.Geometry.Collection(geometries);
++    var feat = new OpenLayers.Feature.Vector(geometry, relation.tags);
++    feat.osm_id = parseInt(relation.id);
++    feat.type = "relation";
++    feat.fid = "relation." + feat.osm_id;
++    return [feat];
++}
++
++/**
++ * Function that parse a route. All linear ways with the same role
++ * will be converted into one LineString.
++ *
++ * Parameters:
++ * relation - {DOMElement} the relation to parse
++ * parser - <OpenLayers.parser.OSM> the parser
++ * nodes - {Array({DOMElement})} all the available nodes
++ * ways - {Array({DOMElement})} all the available ways
++ * relations - {Array({DOMElement})} all the available relations
++ * 
++ * Returns:
++ * {Array(<OpenLayers.Feature.Vector>)} a list of linear LineString.
++ */
++OpenLayers.Format.OSM.routeParserWithRoles = function(relation, parser, nodes, ways, relations) {
++    var geometries = [];
++
++    for (var j = 0; j < relation.ways.length; j++) {
++        var way = relation.ways[j]
++        var ref = way.getAttribute("ref");
++        var role = way.getAttribute("role");
++
++        var pointList = parser.getPointList(ways[ref], nodes);
++        if (pointList.length == 0) {
++            continue;
++        }
++        var newPath = true;
++        if (lastRole == '') {
++            lastRole = role;
++        }
++        if (lastRole == role) {
++            result = parser.concatPathsIfLinear(lastPointList, pointList);
++            if (result.succed) {
++                newPath = false;
++                lastPointList = result.lastPointList;
++            }
++        }
++        if (newPath) {
++            var geometry = new OpenLayers.Geometry.LineString(lastPointList)
++            var feat = new OpenLayers.Feature.Vector(geometry, relation.tags);
++            if (role) {
++                feat.attributes.role = role;
++            }
++            feat.osm_id = parseInt(relation.id);
++            feat.type = "relation";
++            feat.fid = "relation." + feat.osm_id + "." + j;
++            features.push(feat);
++            lastPointList = pointList;
++            lastRole = role;
++        }
++    }
++    var geometry = new OpenLayers.Geometry.LineString(lastPointList)
++    var feat = new OpenLayers.Feature.Vector(geometry, relation.tags);
++    if (role) {
++        feat.attributes.role = role;
++    }
++    feat.osm_id = parseInt(relation.id);
++    feat.type = "relation";
++    feat.fid = "relation." + feat.osm_id;
++    features.push(feat);
++    return features;
++}
+diff --git a/tests/Format/OSM.html b/tests/Format/OSM.html
+index 6ceb316..bdd057f 100644
+--- tests/Format/OSM.html
++++ tests/Format/OSM.html
+@@ -95,7 +95,7 @@
+             output = output.replace(/<\?[^>]*\?>/, '');
+             t.eq(output, osm_serialized_data[key], key + " serialized correctly");
+         }
+-    }   
++    }
+     function test_Format_OSM_write_reproject(t) {
+         t.plan(1);
+         var f = new OpenLayers.Format.OSM({'internalProjection': new OpenLayers.Projection("EPSG:900913")});
+@@ -105,9 +105,52 @@
+         var data = f.write([feat]);
+         var f = new OpenLayers.Format.OSM();
+         var features = f.read(data);
+-
+         t.eq(OpenLayers.Util.toFloat(features[0].geometry.x, 3), .898, "exported to lonlat and re-read as lonlat correctly")
+-    }    
++    }
++    
++    function test_Format_OSM_route(t) {
++        t.plan(8)
++        var f = new OpenLayers.Format.OSM({relationsParsers: {route: OpenLayers.Format.OSM.routeParser}});
++        var features = f.read(osm_test_data['route_simple']);
++        t.eq(features.length, 3, "Nb features");
++        var feat = features[0];
++        t.eq(feat.osm_id, -1131, "OSM ID set correctly");
++        t.eq(feat.attributes.type, "route", "type is correct."); 
++        t.eq(feat.attributes.route, "bicycle", "highway is correct."); 
++        t.eq(feat.geometry.CLASS_NAME, "OpenLayers.Geometry.MultiLineString", "returned as linestring");
++        t.eq(feat.geometry.components.length, 2, "correct number of lines");
++        t.eq(feat.geometry.components[0].components.length, 2, "correct number of componemt");
++        t.eq(feat.geometry.components[1].components.length, 3, "correct number of componemt");
++    }
++
++    function test_Format_OSM_boundary(t) {
++        t.plan(7)
++        var f = new OpenLayers.Format.OSM({relationsParsers: {boundary: OpenLayers.Format.OSM.multipolygonParser}});
++        var features = f.read(osm_test_data['boundary']);
++        t.eq(features.length, 4, "Nb features");
++        var feat = features[0];
++        t.eq(feat.osm_id, 365555, "OSM ID set correctly");
++        t.eq(feat.attributes.name, "Name", "name is correct."); 
++        t.eq(feat.attributes.type, "boundary", "type is correct."); 
++        t.eq(feat.attributes.admin_level, "8", "admin_level is correct."); 
++        t.eq(feat.geometry.CLASS_NAME, "OpenLayers.Geometry.MultiPolygon", "returned as MultiPolygon");
++        t.eq(feat.geometry.components.length, 1, "correct number of componemt");
++    }
++
++    function test_Format_OSM_multipolygon(t) {
++        t.plan(8)
++        var f = new OpenLayers.Format.OSM({relationsParsers: {multipolygon: OpenLayers.Format.OSM.multipolygonParser}});
++        var features = f.read(osm_test_data['multipolygon']);
++        t.eq(features.length, 6, "Nb features");
++        var feat = features[0];
++        t.eq(feat.osm_id, -1131, "OSM ID set correctly");
++        t.eq(feat.attributes.name, "Name", "name is correct."); 
++        t.eq(feat.attributes.type, "multipolygon", "type is correct."); 
++        t.eq(feat.attributes.landuse, "forest", "landuse is correct."); 
++        t.eq(feat.geometry.CLASS_NAME, "OpenLayers.Geometry.MultiPolygon", "returned as multipolygon");
++        t.eq(feat.geometry.components.length, 1, "correct number of componemt");
++        t.eq(feat.geometry.components[0].components.length, 2, "correct number of sub componemt");
++    }
+     </script> 
+ </head> 
+ <body> 
+diff --git a/tests/data/osm.js b/tests/data/osm.js
+index 6c94459..f8670ae 100644
+--- tests/data/osm.js
++++ tests/data/osm.js
+@@ -2,7 +2,11 @@ var osm_test_data = {
+     'node': '<?xml version="1.0" encoding="UTF-8"?><osm version="0.5" generator="OpenStreetMap server">  <node id="200545" lat="52.5503033" lon="-1.8166417" user="blackadder" visible="true" timestamp="2006-03-22T16:33:41+00:00"/></osm>',     
+     'node_with_tags': '<?xml version="1.0" encoding="UTF-8"?><osm version="0.5" generator="OpenStreetMap server">  <node id="200545" lat="52.5503033" lon="-1.8166417" user="blackadder" visible="true" timestamp="2006-03-22T16:33:41+00:00"><tag k="a" v="b" /></node></osm>',     
+     'way': '<?xml version="1.0" encoding="UTF-8"?><osm version="0.5" generator="OpenStreetMap server">  <node id="29783468" lat="52.5506446" lon="-1.8141177" user="blackadder" visible="true" timestamp="2007-05-30T14:22:33+01:00">    <tag k="created_by" v="JOSM"/>  </node>  <node id="29783470" lat="52.5501275" lon="-1.8151451" user="blackadder" visible="true" timestamp="2007-05-30T14:22:33+01:00">    <tag k="created_by" v="JOSM"/>  </node>  <node id="29783471" lat="52.5505521" lon="-1.8157703" user="blackadder" visible="true" timestamp="2007-12-18T15:33:59+00:00">    <tag k="created_by" v="JOSM"/>  </node>  <node id="29783472" lat="52.5501836" lon="-1.8164007" user="blackadder" visible="true" timestamp="2007-12-18T15:33:59+00:00">    <tag k="created_by" v="JOSM"/>  </node>  <node id="29783473" lat="52.5506035" lon="-1.8170311" user="blackadder" visible="true" timestamp="2007-05-30T14:21:32+01:00">    <tag k="created_by" v="JOSM"/>  </node>  <node id="29783474" lat="52.5509559" lon="-1.8164092" user="blackadder" visible="true" timestamp="2007-05-30T14:21:33+01:00">    <tag k="created_by" v="JOSM"/>  </node>  <node id="29783476" lat="52.5513103" lon="-1.8169385" user="blackadder" visible="true" timestamp="2007-05-30T14:21:33+01:00">    <tag k="created_by" v="JOSM"/>  </node>  <node id="29783477" lat="52.5517893" lon="-1.8159626" user="blackadder" visible="true" timestamp="2007-05-30T14:21:33+01:00">    <tag k="created_by" v="JOSM"/>  </node>  <node id="29783478" lat="52.5518461" lon="-1.8145067" user="blackadder" visible="true" timestamp="2007-05-30T14:21:33+01:00">    <tag k="created_by" v="JOSM"/>  </node>  <node id="29783479" lat="52.5511883" lon="-1.8143197" user="blackadder" visible="true" timestamp="2007-05-30T14:21:33+01:00">    <tag k="created_by" v="JOSM"/>  </node>  <way id="4685537" visible="true" timestamp="2007-05-30T14:21:35+01:00" user="blackadder">    <nd ref="29783472"/>    <nd ref="29783473"/>    <nd ref="29783474"/>    <nd ref="29783476"/>    <nd ref="29783477"/>    <nd ref="29783478"/>    <nd ref="29783479"/>    <nd ref="29783468"/>    <nd ref="29783470"/>    <nd ref="29783471"/>    <nd ref="29783472"/>    <tag k="name" v="Maney Hill School"/>    <tag k="created_by" v="JOSM"/>    <tag k="landuse" v="school"/>    <tag k="amenity" v="school"/>  </way></osm>',     
+-    'node_way': '<?xml version="1.0" encoding="UTF-8"?><osm version="0.5" generator="OpenStreetMap server">  <node id="200565" lat="52.5526654" lon="-1.8146664" user="blackadder" visible="true" timestamp="2006-03-22T16:34:29+00:00"/>  <node id="200571" lat="52.5535575" lon="-1.8148566" user="blackadder" visible="true" timestamp="2007-11-15T12:54:40+00:00"/>  <node id="200572" lat="52.5522848" lon="-1.8145676" user="blackadder" visible="true" timestamp="2008-01-15T17:36:32+00:00">    <tag k="ref" v="0562901"/>    <tag k="both_sides" v="true"/>    <tag k="route_ref" v="167|757"/>    <tag k="highway" v="bus_stop"/>    <tag k="location" v="East View Road, Shooters Hill"/>  </node>  <node id="200573" lat="52.5520736" lon="-1.8145054" user="blackadder" visible="true" timestamp="2006-03-22T16:34:49+00:00"/>  <node id="200751" lat="52.5511951" lon="-1.8142246" user="blackadder" visible="true" timestamp="2006-03-22T16:36:18+00:00"/>  <node id="200752" lat="52.5505598" lon="-1.8140051" user="blackadder" visible="true" timestamp="2006-03-22T16:36:20+00:00"/>  <node id="200753" lat="52.5496876" lon="-1.8136891" user="blackadder" visible="true" timestamp="2006-03-22T21:55:13+00:00"/>  <node id="200754" lat="52.549009" lon="-1.8133906" user="blackadder" visible="true" timestamp="2006-03-22T16:36:24+00:00"/>  <node id="200755" lat="52.5478879" lon="-1.8128287" user="blackadder" visible="true" timestamp="2006-03-22T16:36:26+00:00"/>  <node id="200759" lat="52.5464722" lon="-1.8119684" user="blackadder" visible="true" timestamp="2006-03-22T16:36:34+00:00"/>  <node id="200771" lat="52.5466788" lon="-1.8121387" user="blackadder" visible="true" timestamp="2008-01-15T16:56:49+00:00"/>  <node id="645730" lat="52.5491787" lon="-1.8134657" user="blackadder" visible="true" timestamp="2008-01-15T17:36:32+00:00">    <tag k="created_by" v="JOSM"/>    <tag k="ref" v="0562201"/>    <tag k="both_sides" v="true"/>    <tag k="route_ref" v="167|757"/>    <tag k="highway" v="bus_stop"/>    <tag k="location" v="East View Road, Recretaion Ground"/>    <tag k="amenity" v="bus_stop"/>  </node>  <way id="21329267" visible="true" timestamp="2008-01-15T16:24:55+00:00" user="blackadder">    <nd ref="200571"/>    <nd ref="200565"/>    <nd ref="200572"/>    <nd ref="200573"/>    <nd ref="200751"/>    <nd ref="200752"/>    <nd ref="200753"/>    <nd ref="645730"/>    <nd ref="200754"/>    <nd ref="200755"/>    <nd ref="200771"/>    <nd ref="200759"/>    <tag k="name" v="East View Road"/>    <tag k="postal_code" v="B72"/>    <tag k="place_name" v="Sutton Coldfield"/>    <tag k="created_by" v="JOSM"/>    <tag k="highway" v="unclassified"/>  </way></osm>'
++    'node_way': '<?xml version="1.0" encoding="UTF-8"?><osm version="0.5" generator="OpenStreetMap server">  <node id="200565" lat="52.5526654" lon="-1.8146664" user="blackadder" visible="true" timestamp="2006-03-22T16:34:29+00:00"/>  <node id="200571" lat="52.5535575" lon="-1.8148566" user="blackadder" visible="true" timestamp="2007-11-15T12:54:40+00:00"/>  <node id="200572" lat="52.5522848" lon="-1.8145676" user="blackadder" visible="true" timestamp="2008-01-15T17:36:32+00:00">    <tag k="ref" v="0562901"/>    <tag k="both_sides" v="true"/>    <tag k="route_ref" v="167|757"/>    <tag k="highway" v="bus_stop"/>    <tag k="location" v="East View Road, Shooters Hill"/>  </node>  <node id="200573" lat="52.5520736" lon="-1.8145054" user="blackadder" visible="true" timestamp="2006-03-22T16:34:49+00:00"/>  <node id="200751" lat="52.5511951" lon="-1.8142246" user="blackadder" visible="true" timestamp="2006-03-22T16:36:18+00:00"/>  <node id="200752" lat="52.5505598" lon="-1.8140051" user="blackadder" visible="true" timestamp="2006-03-22T16:36:20+00:00"/>  <node id="200753" lat="52.5496876" lon="-1.8136891" user="blackadder" visible="true" timestamp="2006-03-22T21:55:13+00:00"/>  <node id="200754" lat="52.549009" lon="-1.8133906" user="blackadder" visible="true" timestamp="2006-03-22T16:36:24+00:00"/>  <node id="200755" lat="52.5478879" lon="-1.8128287" user="blackadder" visible="true" timestamp="2006-03-22T16:36:26+00:00"/>  <node id="200759" lat="52.5464722" lon="-1.8119684" user="blackadder" visible="true" timestamp="2006-03-22T16:36:34+00:00"/>  <node id="200771" lat="52.5466788" lon="-1.8121387" user="blackadder" visible="true" timestamp="2008-01-15T16:56:49+00:00"/>  <node id="645730" lat="52.5491787" lon="-1.8134657" user="blackadder" visible="true" timestamp="2008-01-15T17:36:32+00:00">    <tag k="created_by" v="JOSM"/>    <tag k="ref" v="0562201"/>    <tag k="both_sides" v="true"/>    <tag k="route_ref" v="167|757"/>    <tag k="highway" v="bus_stop"/>    <tag k="location" v="East View Road, Recretaion Ground"/>    <tag k="amenity" v="bus_stop"/>  </node>  <way id="21329267" visible="true" timestamp="2008-01-15T16:24:55+00:00" user="blackadder">    <nd ref="200571"/>    <nd ref="200565"/>    <nd ref="200572"/>    <nd ref="200573"/>    <nd ref="200751"/>    <nd ref="200752"/>    <nd ref="200753"/>    <nd ref="645730"/>    <nd ref="200754"/>    <nd ref="200755"/>    <nd ref="200771"/>    <nd ref="200759"/>    <tag k="name" v="East View Road"/>    <tag k="postal_code" v="B72"/>    <tag k="place_name" v="Sutton Coldfield"/>    <tag k="created_by" v="JOSM"/>    <tag k="highway" v="unclassified"/>  </way></osm>',
++    'boundary': "<?xml version='1.0' encoding='UTF-8'?><osm version='0.6' generator='OpenStreetMap server'>  <node id='-1083' lat='46.5134349879662' lon='6.552016533417165' />  <node id='-928' lat='46.50718790887415' lon='6.5519445571654' />  <node id='263286633' lat='46.5071874' lon='6.539368' />  <node id='595552349' lat='46.5136857' lon='6.5416954' />  <way id='-1086'>    <nd ref='-1083' />    <nd ref='595552349' />  </way>  <way id='23387850'>    <nd ref='263286633' />    <nd ref='595552349' />  </way>  <way id='46599224'>    <nd ref='263286633' />    <nd ref='-928' />    <nd ref='-1083' />  </way>  <relation id='365555'>    <member type='way' ref='-1086' role='' />    <member type='way' ref='46599224' role='' />    <member type='way' ref='23387850' role='' />    <tag k='admin_level' v='8' />    <tag k='boundary' v='administrative' />    <tag k='name' v='Name' />    <tag k='type' v='boundary' />  </relation></osm>",
++    'multipolygon': "<?xml version='1.0' encoding='UTF-8'?><osm version='0.6' generator='OpenStreetMap server'>  <node id='-1137' visible='true' lat='46.509161109772535' lon='6.544068328412906' />  <node id='-1135' visible='true' lat='46.50888527790929' lon='6.548215618860512' />  <node id='-1133' visible='true' lat='46.51185959363164' lon='6.548450957830836' />  <node id='-1132' visible='true' lat='46.51171613695582' lon='6.544472844448852' />  <node id='-1123' timestamp='2010-11-20T13:31:37Z' visible='true' lat='46.5136857' lon='6.5416954' />  <node id='-1121' timestamp='2010-11-20T13:31:37Z' visible='true' lat='46.5071874' lon='6.539368' />  <node id='-1119' timestamp='2010-11-20T13:31:37Z' visible='true' lat='46.50718790887415' lon='6.5519445571654' />  <node id='-1117' timestamp='2010-11-20T13:31:37Z' visible='true' lat='46.5134349879662' lon='6.552016533417165' />  <way id='-1144' visible='true'>    <nd ref='-1133' />    <nd ref='-1135' />    <nd ref='-1137' />  </way>  <way id='-1134' action='modify' visible='true'>    <nd ref='-1137' />    <nd ref='-1132' />    <nd ref='-1133' />  </way>  <way id='-1129' timestamp='2010-11-20T13:31:37Z' visible='true'>    <nd ref='-1121' />    <nd ref='-1119' />    <nd ref='-1117' />  </way>  <way id='-1127' timestamp='2010-11-20T13:31:37Z' visible='true'>    <nd ref='-1121' />    <nd ref='-1123' />  </way>  <way id='-1125' timestamp='2010-11-20T13:31:37Z' visible='true'>    <nd ref='-1117' />    <nd ref='-1123' />  </way>  <relation id='-1131' action='modify' timestamp='2010-11-20T13:31:37Z' visible='true'>    <member type='way' ref='-1125' role='outer' />    <member type='way' ref='-1129' role='outer' />    <member type='way' ref='-1127' role='outer' />    <member type='way' ref='-1134' role='inner' />    <member type='way' ref='-1144' role='inner' />    <tag k='landuse' v='forest' />    <tag k='name' v='Name' />    <tag k='type' v='multipolygon' />  </relation></osm>",
++    'route_simple': "<?xml version='1.0' encoding='UTF-8'?><osm version='0.6' generator='OpenStreetMap server'>  <node id='-1123' timestamp='2010-11-20T13:31:37Z' visible='true' lat='46.5136857' lon='6.5416954' />  <node id='-1121' timestamp='2010-11-20T13:31:37Z' visible='true' lat='46.5071874' lon='6.539368' />  <node id='-1119' timestamp='2010-11-20T13:31:37Z' visible='true' lat='46.50718790887415' lon='6.5519445571654' />  <node id='-1117' timestamp='2010-11-20T13:31:37Z' visible='true' lat='46.5134349879662' lon='6.552016533417165' />  <way id='-1129' timestamp='2010-11-20T13:31:37Z' visible='true'>    <nd ref='-1121' />    <nd ref='-1119' />    <nd ref='-1117' />  </way>  <way id='-1125' timestamp='2010-11-20T13:31:37Z' visible='true'>    <nd ref='-1117' />    <nd ref='-1123' />  </way>  <relation id='-1131' timestamp='2010-11-20T13:31:37Z' visible='true'>    <member type='way' ref='-1125' role='' />    <member type='way' ref='-1129' role='' />    <tag k='name' v='Name' />    <tag k='route' v='bicycle' />    <tag k='type' v='route' />  </relation></osm>",
++    'route_complex': "<?xml version='1.0' encoding='UTF-8'?><osm version='0.6' generator='OpenStreetMap server'>  <node id='-1167' visible='true' lat='46.51881472255323' lon='6.520388159913888' />  <node id='-1164' visible='true' lat='46.51399347318593' lon='6.534605421744218' />  <node id='-1162' visible='true' lat='46.51677208142628' lon='6.527897119783108' />  <node id='-1160' visible='true' lat='46.51638709318958' lon='6.535865259422915' />  <node id='-1123' timestamp='2010-11-20T13:31:37Z' visible='true' lat='46.5136857' lon='6.5416954' />  <node id='-1121' timestamp='2010-11-20T13:31:37Z' visible='true' lat='46.5071874' lon='6.539368' />  <node id='-1119' timestamp='2010-11-20T13:31:37Z' visible='true' lat='46.50718790887415' lon='6.5519445571654' />  <node id='-1117' timestamp='2010-11-20T13:31:37Z' visible='true' lat='46.5134349879662' lon='6.552016533417165' />  <way id='-1170' visible='true'>    <nd ref='-1123' />    <nd ref='-1164' />    <nd ref='-1162' />  </way>  <way id='-1169' visible='true'>    <nd ref='-1123' />    <nd ref='-1160' />    <nd ref='-1162' />  </way>  <way id='-1168' visible='true'>    <nd ref='-1167' />    <nd ref='-1162' />  </way>  <way id='-1129' timestamp='2010-11-20T13:31:37Z' visible='true'>    <nd ref='-1121' />    <nd ref='-1119' />    <nd ref='-1117' />  </way>  <way id='-1125' timestamp='2010-11-20T13:31:37Z' visible='true'>    <nd ref='-1117' />    <nd ref='-1123' />  </way>  <relation id='-1131' timestamp='2010-11-20T13:31:37Z' visible='true'>    <member type='way' ref='-1168' role='' />    <member type='way' ref='-1170' role='backward' />    <member type='way' ref='-1169' role='forward' />    <member type='way' ref='-1125' role='' />    <member type='way' ref='-1129' role='' />    <tag k='name' v='Name' />    <tag k='route' v='bicycle' />    <tag k='type' v='route' />  </relation></osm>"
+ };
+ 
+ var osm_serialized_data = {

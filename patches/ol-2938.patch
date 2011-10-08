@@ -1,0 +1,64 @@
+diff --git a/lib/OpenLayers/Filter/Comparison.js b/lib/OpenLayers/Filter/Comparison.js
+index 9271cc5..72bbdb7 100644
+--- lib/OpenLayers/Filter/Comparison.js
++++ lib/OpenLayers/Filter/Comparison.js
+@@ -109,6 +109,9 @@ OpenLayers.Filter.Comparison = OpenLayers.Class(OpenLayers.Filter, {
+         }
+         var result = false;
+         var got = context[this.property];
++        if(got === undefined) {
++            return false;
++        }
+         var exp;
+         switch(this.type) {
+             case OpenLayers.Filter.Comparison.EQUAL_TO:
+diff --git a/tests/Filter/Comparison.html b/tests/Filter/Comparison.html
+index b9505db..8699304 100644
+--- tests/Filter/Comparison.html
++++ tests/Filter/Comparison.html
+@@ -164,6 +164,22 @@
+             }),
+             context: {prop: "FOO"},
+             expect: false
++        }, {
++            filter: new OpenLayers.Filter.Comparison({
++                type: OpenLayers.Filter.Comparison.LIKE,
++                property: "prop",
++                value: ".+"
++            }),
++            context: {prop: "FOO"},
++            expect: true
++        }, {
++            filter: new OpenLayers.Filter.Comparison({
++                type: OpenLayers.Filter.Comparison.LIKE,
++                property: "prop",
++                value: ".+"
++            }),
++            context: {},
++            expect: false
+         }];
+         
+         t.plan(cases.length);
+@@ -274,6 +290,22 @@
+             }),
+             context: new OpenLayers.Feature.Vector(null, {prop: "FOO"}),
+             expect: false
++        }, {
++            filter: new OpenLayers.Filter.Comparison({
++                type: OpenLayers.Filter.Comparison.LIKE,
++                property: "prop",
++                value: ".+"
++            }),
++            context: new OpenLayers.Feature.Vector(null, {prop: "FOO"}),
++            expect: true
++        }, {
++            filter: new OpenLayers.Filter.Comparison({
++                type: OpenLayers.Filter.Comparison.LIKE,
++                property: "prop",
++                value: ".+"
++            }),
++            context: new OpenLayers.Feature.Vector(null, {}),
++            expect: false
+         }];
+         
+         t.plan(cases.length);
