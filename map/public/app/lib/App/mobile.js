@@ -248,7 +248,7 @@ var app = new Ext.Application({
         this.viewport = new Ext.Panel({
             fullscreen: true,
             dockedItems: [{
-                dock: "bottom",
+                dock: "top",
                 xtype: "toolbar",
                 ui: "light",
                 layout: {

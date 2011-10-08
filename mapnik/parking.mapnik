@@ -15,14 +15,12 @@
           </Parameter>
 <Parameter name="type">postgis</Parameter>
 <Parameter name="dbname">osm</Parameter>
-<Parameter name="password">osm</Parameter>
 <Parameter name="host">localhost</Parameter>
 <Parameter name="port">5432</Parameter>
-<Parameter name="user">osm</Parameter>
 <Parameter name="estimate_extent">false</Parameter>
         </Datasource>
     </Layer>
-    <Layer name="parking_point">
+    <!--Layer name="parking_point">
         <StyleName>parking</StyleName>
         <Datasource>
           <Parameter name="table">
@@ -30,12 +28,10 @@
           </Parameter>
 <Parameter name="type">postgis</Parameter>
 <Parameter name="dbname">osm</Parameter>
-<Parameter name="password">osm</Parameter>
 <Parameter name="host">localhost</Parameter>
 <Parameter name="port">5432</Parameter>
-<Parameter name="user">osm</Parameter>
 <Parameter name="estimate_extent">false</Parameter>
         </Datasource>
-    </Layer>
+    </Layer-->
 </Map>
 

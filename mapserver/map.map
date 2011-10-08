@@ -20,7 +20,7 @@ MAP
 
   PROJECTION
     "init=epsg:21781"
-    "init=epsg:2056"
+#    "init=epsg:2056"
   END
 
   LAYER

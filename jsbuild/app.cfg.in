@@ -68,11 +68,31 @@ include =
     OpenLayers/Strategy/Fixed.js
     OpenLayers/Format/GPX.js
     OpenLayers/Format/OSM.js
+    OpenLayers/Layer/WMTS.js
     OpenLayers/Layer/TileCache.js
     OpenLayers/Layer/XYZ.js
     OpenLayers/Layer/Vector.js
     OpenLayers/Renderer/VML.js
     OpenLayers/Renderer/SVG.js
+    OpenLayers/Layer/SphericalMercator.js
+exclude =
+    OpenLayers.js
+
+[streetview.js]
+root = ${vars:jsbuild-root}
+first =
+    Ext/adapter/ext/ext-base${vars:extdebug}.js
+    Ext/ext-all${vars:extdebug}.js
+    OpenLayers/SingleFile.js
+    OpenLayers/BaseTypes.js
+    OpenLayers/BaseTypes/Class.js
+    OpenLayers/Util.js
+include =
+    OpenLayers/Renderer/VML.js
+    OpenLayers/Renderer/SVG.js
+    App/streetview.js
+exclude =
+    OpenLayers.js
 
 [proj.js]
 root = ${vars:jsbuild-root}

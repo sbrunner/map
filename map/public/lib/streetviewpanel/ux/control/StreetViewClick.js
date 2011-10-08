@@ -4,6 +4,10 @@
  * Published under the BSD license.
  * See http://svn.geoext.org/core/trunk/geoext/license.txt for the full text
  * of the license.
+ *
+ * @requires OpenLayers/Control.js
+ * @include OpenLayers/Handler/Click.js
+ * @include OpenLayers/Projection.js
  */
 
 /** api: (define)

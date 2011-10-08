@@ -1,14 +1,16 @@
 wget http://download.geofabrik.de/osm/europe/switzerland.osm.bz2
 rm switzerland.osm
+DATE="`date +'%F'`"
+mv switzerland.osm.bz2 switzerland-$DATE.osm.bz2
 #bunzip2 switzerland.osm.bz2
-sudo -u postgres osm2pgsql -p adrs -S err.style -d osm -cs switzerland.osm.bz2
-./generate_tiles_1024.py
-#rm switzerland.osm
+sudo -u postgres osm2pgsql -p adrs -S ~/workspace/map-git/mapnik/err.osm2pgsql -d osm -cs switzerland-$DATE.osm.bz2
+sudo -u postgres ./generate_tiles_1024.py
+#dpkg -l rm switzerland.osm
 
 
 rm switzerland.osm
 wget http://download.geofabrik.de/osm/europe/switzerland.osm.pbf
 DATE="`date +'%F'`"
 mv switzerland.osm.pbf switzerland-$DATE.osm.pbf
-sudo -u postgres osm2pgsql -p adrs -S err.style -d osm -cs switzerland-$DATE.osm.pbf
-./generate_tiles_1024.py
+sudo -u postgres osm2pgsql -p adrs -S ~/workspace/map-git/mapnik/err.osm2pgsql -d osm -cs switzerland-$DATE.osm.pbf
+sudo -u postgres ./generate_tiles_1024.py

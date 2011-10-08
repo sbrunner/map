@@ -51,7 +51,7 @@ App.Map = Ext.extend(GeoExt.MapPanel, {
             displayProjection: new OpenLayers.Projection("EPSG:4326"),
             units: "m",
             theme: null,
-            numZoomLevels: 18,
+            numZoomLevels: 19,
             maxResolution: 156543.0339,
             maxExtent: new OpenLayers.Bounds(-20037508, -20037508, 20037508, 20037508.34),
             controls: [
@@ -63,19 +63,13 @@ App.Map = Ext.extend(GeoExt.MapPanel, {
                 new OpenLayers.Control.KeyboardDefaults(),
                 new OpenLayers.Control.ScaleLine({geodesic: true, maxWidth: 120}),
                 new OpenLayers.Control.LoadingPanel(),
-                new OpenLayers.Control.OverviewMap({minRatio: 64, maxRatio: 64, layers: [new OpenLayers.Layer.OSM()]})/*,
-                new OpenLayers.Control.TouchNavigation({
-                    dragPanOptions: {
-                        interval: 100,
-                        enableKinetic: true
-                    }
-                })*/
+                new OpenLayers.Control.OverviewMap({minRatio: 64, maxRatio: 64, layers: [new OpenLayers.Layer.OSM()]})
             ]
         };
         
         var map = new OpenLayers.Map(mapOptions);
         map.addLayers([new OpenLayers.Layer.OSM("back", "http://map.stephane-brunner.ch/white.png", {
-            numZoomLevels: 18, 
+            numZoomLevels: 19, 
             displayInLayerSwitcher: false,
             attribution: ""
         })]);

@@ -12,7 +12,7 @@ DEG_TO_RAD = pi/180
 RAD_TO_DEG = 180/pi
 
 # Default number of rendering threads to spawn, should be roughly equal to number of CPU cores available
-NUM_THREADS = 4
+NUM_THREADS = 8
 TILES_SIZE = 1024
 
 
@@ -88,6 +88,9 @@ class RenderThread:
         mapnik.render(self.m, im)
         im.save(tile_uri, FORMAT)
 
+        self.printLock.acquire()
+        print (l0, l1)
+        self.printLock.release()
 
     def loop(self, nb):
         
@@ -194,21 +197,21 @@ if __name__ == "__main__":
 
     bbox = (5.9, 45.7, 10.5, 47.9)
 
-    bbox = (9.45, 45.7, 10.5, 47.9)
-    mapfile = "/home/sbrunner/workspace/map-git/mapnik/mapnik/osm.xml"
-    tile_dir = "/media/Tiles/tiles/1024/ch-2010-06/"
-    render_tiles(bbox, mapfile, tile_dir, 18, 18, "Swiss")
+#    mapfile = "/home/sbrunner/workspace/map-git/mapnik/mapnik/osm.xml"
+#    tile_dir = "/media/Tiles/tiles/1024/ch-2010-06/"
+#    render_tiles(bbox, mapfile, tile_dir, 18, 18, "Swiss")
 
 #    mapfile = "adrs.mapnik"
 #    tile_dir = "/media/Tiles/tiles/1024/adrs/"
-#    render_tiles(bbox, mapfile, tile_dir, 0, 18, "adrs")
+#    render_tiles(bbox, mapfile, tile_dir, 18, 18, "adrs")
 
-#    mapfile = "service.mapnik"
-#    tile_dir = "/media/Tiles/tiles/1024/service/"
-#    render_tiles(bbox, mapfile, tile_dir, 0, 18, "service")
+    mapfile = "service.mapnik"
+    tile_dir = "/media/Tiles/tiles/1024/service/"
+    render_tiles(bbox, mapfile, tile_dir, 0, 18, "service")
 
-#    mapfile = "parking.mapnik"
-#    tile_dir = "/media/Tiles/tiles/1024/parking/"
-#    render_tiles(bbox, mapfile, tile_dir, 0, 18, "parking")
+    mapfile = "parking.mapnik"
+    tile_dir = "/media/Tiles/tiles/1024/parking/"
+    render_tiles(bbox, mapfile, tile_dir, 0, 18, "parking")
+
 
 

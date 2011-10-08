@@ -2,12 +2,12 @@
 node,way   note         text         delete   # These tags can be long but are useless for rendering
 node,way   source       text         delete   # This indicates that we shouldn't store them
 
-way   addr:country       text         polygon,node
-way   addr:city          text         polygon,node
-way   addr:postcode      text         polygon,node
-way   addr:street        text         polygon,node
-way   addr:housenumber   text         polygon,node
-way   highway            text         linear
-way   service            text         linear
-way   amenity            text         polygon,node
-way   parking            text         polygon,node
+node,way   addr:country       text         polygon
+node,way   addr:city          text         polygon
+node,way   addr:postcode      text         polygon
+node,way   addr:street        text         polygon
+node,way   addr:housenumber   text         polygon
+node,way   highway            text         linear
+node,way   service            text         linear
+node,way   amenity            text         polygon
+node,way   parking            text         polygon

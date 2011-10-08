@@ -4,6 +4,13 @@
  * Published under the BSD license.
  * See http://svn.geoext.org/core/trunk/geoext/license.txt for the full text
  * of the license.
+ *
+ * @include OpenLayers/Geometry/Point.js
+ * @include OpenLayers/Projection.js
+ * @include OpenLayers/Feature/Vector.js
+ * @include OpenLayers/StyleMap.js
+ * @include OpenLayers/Control/DragFeature.js
+ * @include OpenLayers/Control/SelectFeature.js
  */
 
 /** api: (define)
@@ -317,7 +324,8 @@ GeoExt.ux.StreetViewPanel = Ext.extend(Ext.Panel, {
                 this.streetviewclient.getPanoramaById(gstreetviewlocation.panoId, this.callbackDrawTools.createDelegate(this));
             }
         });
-
+        
+        pano = this.panorama
         // Callback to manage panorama when used with getNearestPanorama
         this.panorama.callback = function (data) {
             this.deleteFeatures = function() {
