@@ -1,4 +1,4 @@
-diff --git a/lib/OpenLayers/Format/OSM.js b/lib/OpenLayers/Format/OSM.js
+diff --git lib/OpenLayers/Format/OSM.js lib/OpenLayers/Format/OSM.js
 index 9e02949..91be72e 100644
 --- lib/OpenLayers/Format/OSM.js
 +++ lib/OpenLayers/Format/OSM.js
@@ -588,7 +588,7 @@ index 9e02949..91be72e 100644
 +    features.push(feat);
 +    return features;
 +}
-diff --git a/tests/Format/OSM.html b/tests/Format/OSM.html
+diff --git tests/Format/OSM.html tests/Format/OSM.html
 index 6ceb316..bdd057f 100644
 --- tests/Format/OSM.html
 +++ tests/Format/OSM.html
@@ -656,7 +656,7 @@ index 6ceb316..bdd057f 100644
      </script> 
  </head> 
  <body> 
-diff --git a/tests/data/osm.js b/tests/data/osm.js
+diff --git tests/data/osm.js tests/data/osm.js
 index 6c94459..f8670ae 100644
 --- tests/data/osm.js
 +++ tests/data/osm.js
