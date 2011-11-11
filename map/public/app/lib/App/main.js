@@ -116,7 +116,7 @@ window.onload = function() {
         }
         return state;
     }
-    permalinkProvider = new GeoExt.state.PermalinkProvider({encodeType: false });
+    permalinkProvider = new GeoExt.state.PermalinkProvider({ encodeType: false });
     Ext.state.Manager.setProvider(permalinkProvider);
 
     permalinkProvider.on({statechange: onStatechange});

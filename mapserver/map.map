@@ -20,14 +20,49 @@ MAP
 
   PROJECTION
     "init=epsg:21781"
+    "init=epsg:3857"
 #    "init=epsg:2056"
+  END
+
+    SYMBOL
+        NAME "square"
+        TYPE vector
+        POINTS
+            0 0
+            0 1
+            1 1
+            1 0
+            0 0
+        END
+        FILLED true
+    END
+
+  LAYER
+    NAME 'HYDRANT'
+    TYPE POINT
+    DATA '/home/sbrunner/tmp/test/WA_HYDRANT.shp'
+#        PROJECTION
+#           "init=epsg:21781"
+#        END
+        CLASS
+            NAME "point"
+            STYLE
+                SYMBOL "square"
+                SIZE 16
+                COLOR 0 0 0
+                OUTLINECOLOR 0 0 0
+            END
+        END
   END
 
   LAYER
     NAME 'ortho'
     TYPE RASTER
     STATUS ON
-    DATA "/home/sbrunner/Desktop/DOP25_2009_1_1.tif"
+    DATA "/media/Big/DOP25_2009_1_1.tif"
+        PROJECTION
+           "init=epsg:21781"
+        END
   END
 
 #shp2img -m map.map -i png -o admin.png -e -7419811 -13027781 12619089 17648744 -s 1600 2449 -l admin 

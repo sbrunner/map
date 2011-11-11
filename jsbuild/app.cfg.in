@@ -39,7 +39,6 @@ first =
     OpenLayers/BaseTypes/Class.js
     OpenLayers/Util.js
 include =
-    OpenLayers/Location.js
     OpenLayers/Lang/fr.js
     OpenLayers/Renderer/SVG.js
     OpenLayers/Control/Navigation.js
@@ -56,7 +55,6 @@ first =
     OpenLayers/BaseTypes/Class.js
     OpenLayers/Util.js
 include =
-    OpenLayers/Location.js
     OpenLayers/Map.js
     OpenLayers/Control/Navigation.js
     OpenLayers/Control/PanZoomBar.js
@@ -75,6 +73,32 @@ include =
     OpenLayers/Renderer/VML.js
     OpenLayers/Renderer/SVG.js
     OpenLayers/Layer/SphericalMercator.js
+exclude =
+    OpenLayers.js
+
+[geompl.js]
+root = ${vars:jsbuild-root}
+first =
+    Ext/adapter/ext/ext-base${vars:extdebug}.js
+    Ext/ext-all${vars:extdebug}.js
+    OpenLayers/SingleFile.js
+    OpenLayers/BaseTypes.js
+    OpenLayers/BaseTypes/Class.js
+    OpenLayers/Util.js
+include =
+    OpenLayers/Control/Navigation.js
+    OpenLayers/Control/PanZoomBar.js
+    OpenLayers/Control/MousePosition.js
+    OpenLayers/Control/Attribution.js
+    OpenLayers/Control/ArgParser.js
+    OpenLayers/Control/EditingToolbar.js
+    OpenLayers/Layer/XYZ.js
+    OpenLayers/Layer/Vector.js
+    OpenLayers/Renderer/VML.js
+    OpenLayers/Renderer/SVG.js
+    OpenLayers/Format/URLCompressed.js
+    GeoExt/widgets/MapPanel.js
+    GeoExt/state/PermalinkProvider.js
 exclude =
     OpenLayers.js
 
