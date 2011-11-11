@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <!--[if lt IE 7]><script src="http://openstreetmap.org/javascripts/pngfix.js" type="text/javascript"></script><![endif]--> <!-- thanks, microsoft! -->
+    <title>SwissGrid OSM map</title>
+
+    <meta NAME="keywords" Content="Carte, Map, Historique, OSM, OpenStreetMap, Lausanne, Suisse, Switzerland, Flash, Informatique" />
+
+    <meta NAME="author" CONTENT="Stéphane Brunner" />
+    <meta NAME="Copyright" CONTENT="Stéphane Brunner, 2011" />
+    <meta NAME="Robot" CONTENT="INDEX,FOLLOW" />
+    <meta HTTP-EQUIV="Content-Language" CONTENT="fr" />
+    <meta name="verify-v1" content="syP8XFMkXjlqcZAwWi+v+943YidZzaCgRsAWI1leDQE=" />
+
+    <script type="text/javascript" src="build/smallol.js"></script>
+    <link type="text/css" rel="stylesheet" media="screen" href="build/app.css">
+    <!--script type="text/javascript">
+    Proj4js.defs['EPSG:21781'] = "+title=Swiss Grid CH1903 / LV03 +proj=somerc +lat_0=46.95240555555556 +lon_0=7.439583333333333 +x_0=600000 +y_0=200000 +ellps=bessel +towgs84=674.374,15.056,405.346,0,0,0,0 +units=m +no_defs";
+    </script-->
+
+    <link rel="shortcut icon" href="http://map.stephane-brunner.ch/app/images/favicon.png" />
+    <style>
+    /* OSM */
+html, body, .map {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #f0ede8;
+}
+.olControlPanZoom {
+  display: none;
+}
+.olControlAttribution {
+  bottom: 0em !important;
+}
+.olControlMousePosition {
+  bottom: 1.25em !important;
+}
+.olControlPermalink {
+  bottom: 2.5em !important;
+}
+
+#permalinks {
+    position: absolute;
+    bottom: 35px;
+    right: 10px;
+    text-align: right;
+    z-index: 1008;
+    font-size:12px;
+    margin:0;
+    padding:0;
+}
+#permalinks li {
+    list-style-type: none;
+}
+#permalinks * {
+    margin:0;
+    padding:0;
+}
+#links {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    font-size:12px;
+    text-align: right;
+    z-index: 1020;
+    background-color: white;
+    padding:2px;
+}
+#links * {
+    margin:0;
+    padding:0;
+}
+.olControlScaleLine {
+    margin-bottom: 10px;
+}
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+#map {
+    background-color: #F1EEE8;
+}
+
+</style>
+    <div id="map" class="map olMap"></div>
+<div id="permalinks">
+  <ul>
+    <li><a id="permalink" 
+href="http://map.stephane-brunner.ch/test/">Permalink</a></li>
+  </ul>
+</div>
+
+    <script type="text/javascript">
+    var map;
+    window.onload = function() {
+        /*
+         * Setting of OpenLayers global vars.
+         */
+        OpenLayers.Number.thousandsSeparator = ' ';
+        OpenLayers.IMAGE_RELOAD_ATTEMPTS = 2;
+        OpenLayers.ImgPath = "http://map.stephane-brunner.ch/app/images/oltheme/";
+        OpenLayers.Util.onImageLoadError = function() {
+            this.src = "http://map.stephane-brunner.ch/no.png";
+        }
+
+        map = new OpenLayers.Map("map", {
+            units: "m",
+            projection: new OpenLayers.Projection("EPSG:21781"),
+            displayProjection: new OpenLayers.Projection("EPSG:21781"),
+            resolutions: [1000,500,250,100,50,20,10,5,2,1,0.5],
+            maxExtent: new OpenLayers.Bounds(420000, 30000, 900000, 350000) });
+        map.addControl(new OpenLayers.Control.PanZoomBar());
+        map.addControl(new OpenLayers.Control.MousePosition({numDigits: 0}));
+        map.addControl(new OpenLayers.Control.Permalink("permalink"));
+        map.addControl(new OpenLayers.Control.Attribution());
+        map.addControl(new OpenLayers.Control.ScaleLine());
+
+
+        map.addLayer(new OpenLayers.Layer.XYZ("OSM - SwissGrid", "http://map.stephane-brunner.ch/tiles/ch/${z}/${x}/${y}.png", {
+            attribution: "<a href='http://www.openstreetmap.org/'>CC-BY-SA OpenStreetMap &amp; Contributors</a>",
+            maxExtent: new OpenLayers.Bounds(420000, 30000, 900000, 350000),
+            serverResolutions: [1000,500,250,100,50,20,10,5,2,1,0.5],
+            transitionEffect: "resize",
+            tileSize: new OpenLayers.Size(1024, 1024),
+            projection: "EPSG:21781",
+            tileOriginCorner: "tl",
+            tileOrigin: new OpenLayers.LonLat(420000, 350000)
+        }));
+
+        if (!map.getCenter()) map.zoomToMaxExtent();
+    }
+    </script>
+<!-- phpmyvisites -->
+<a href="http://www.phpmyvisites.net/" title="Free web analytics, website statistics"
+onclick="window.open(this.href);return(false);"><script type="text/javascript">
+<!--
+var a_vars = Array();
+var pagename='SwissGrid map';
+
+var phpmyvisitesSite = 1;
+var phpmyvisitesURL = "http://www.stephane-brunner.ch/phpmv2/phpmyvisites.php";
+//-->
+</script>
+<script language="javascript" src="http://www.stephane-brunner.ch/phpmv2/phpmyvisites.js" type="text/javascript"></script>
+<object><noscript><p>Free web analytics, website statistics
+<img src="http://www.stephane-brunner.ch/phpmv2/phpmyvisites.php" alt="Statistics" style="border:0" />
+</p></noscript></object></a>
+<!-- /phpmyvisites -->
+
+</body></html>
