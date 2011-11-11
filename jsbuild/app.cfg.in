@@ -90,6 +90,7 @@ include =
     OpenLayers/Control/PanZoomBar.js
     OpenLayers/Control/MousePosition.js
     OpenLayers/Control/Attribution.js
+    OpenLayers/Control/ScaleLine.js
     OpenLayers/Control/ArgParser.js
     OpenLayers/Control/EditingToolbar.js
     OpenLayers/Layer/XYZ.js

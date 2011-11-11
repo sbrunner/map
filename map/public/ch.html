@@ -30,28 +30,31 @@ html, body, .map {
   height: 100%;
   background-color: #f0ede8;
 }
-.olControlPanZoom {
-  display: none;
+div.olControlAttribution {
+    right: 10px;
+    bottom: 0.25em;
 }
-.olControlAttribution {
-  bottom: 0em !important;
+div.olControlMousePosition {
+    bottom: 1.5em !important;
+    right: 10px;
 }
-.olControlMousePosition {
-  bottom: 1.25em !important;
-}
-.olControlPermalink {
+div.olControlPermalink {
   bottom: 2.5em !important;
+    right: 10px;
 }
-
+div.olControlPanZoom {
+  display: none;
+    right: 10px;
+}
 #permalinks {
     position: absolute;
-    bottom: 35px;
+    bottom: 30px;
     right: 10px;
     text-align: right;
     z-index: 1008;
-    font-size:12px;
-    margin:0;
-    padding:0;
+    font-size: 12px;
+    margin: 0;
+    padding: 0;
 }
 #permalinks li {
     list-style-type: none;
@@ -68,26 +71,18 @@ html, body, .map {
     text-align: right;
     z-index: 1020;
     background-color: white;
-    padding:2px;
+    padding: 2px;
 }
 #links * {
     margin:0;
     padding:0;
 }
-.olControlScaleLine {
-    margin-bottom: 10px;
-}
 a {
     text-decoration: none;
 }
-
 a:hover {
     text-decoration: underline;
 }
-#map {
-    background-color: #F1EEE8;
-}
-
 </style>
     <div id="map" class="map olMap"></div>
 <div id="permalinks">
