@@ -158,8 +158,13 @@ a:hover {
         mapPanel.map.addControl(new OpenLayers.Control.MousePosition({numDigits: 0}));
         mapPanel.map.addControl(new OpenLayers.Control.Attribution());
         mapPanel.map.addControl(new OpenLayers.Control.ScaleLine());
-        mapPanel.map.addControl(new OpenLayers.Control.EditingToolbar(vlayer));
-
+        tool = new OpenLayers.Control.EditingToolbar(vlayer);
+        tool.addControls(new OpenLayers.Control.ModifyFeature(vlayer, {
+            displayClass: "olControlModifyFeature",
+            title: "Modify Features"
+        }));
+        mapPanel.map.addControl(tool);
+        
         // update link when state chnages
         var onStatechange = function(provider) {
             var l = provider.getLink();

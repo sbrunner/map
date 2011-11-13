@@ -1,3 +1,46 @@
+[geoext.js]
+root =
+    map/public/lib/openlayers/lib
+    map/public/lib/geoext/lib
+first =
+    OpenLayers/SingleFile.js
+    OpenLayers/BaseTypes.js
+    OpenLayers/BaseTypes/Class.js
+    OpenLayers/Util.js
+    OpenLayers/Lang.js
+exclude =
+    Firebug
+    OpenLayers.js
+    OpenLayers/Lang
+    OpenLayers/Popup/AnchoredBubble.js
+    GeoExt.js
+    GeoExt/locale
+    GeoExt/SingleFile.js
+    Gears
+[gxp_alone.js]
+root =
+    map/public/lib/gxp/src/script
+exclude =
+    loader.js
+[gxp.js]
+root =
+    map/public/lib/ext
+    map/public/build
+first =
+    Ext/adapter/ext/ext-base${vars:extdebug}.js
+    Ext/ext-all${vars:extdebug}.js
+    geoext.js
+include =
+    gxp_alone.js
+exclude =
+    OpenLayers
+    GeoExt
+    widgets
+    data
+    plugins
+    menu
+    Gears
+    Rico
 [app.js]
 root = ${vars:jsbuild-root}
 first =
@@ -93,6 +136,7 @@ include =
     OpenLayers/Control/ScaleLine.js
     OpenLayers/Control/ArgParser.js
     OpenLayers/Control/EditingToolbar.js
+    OpenLayers/Control/ModifyFeature.js
     OpenLayers/Layer/XYZ.js
     OpenLayers/Layer/Vector.js
     OpenLayers/Renderer/VML.js
@@ -100,6 +144,23 @@ include =
     OpenLayers/Format/URLCompressed.js
     GeoExt/widgets/MapPanel.js
     GeoExt/state/PermalinkProvider.js
+exclude =
+    OpenLayers.js
+
+[creator.js]
+root = ${vars:jsbuild-root}
+first =
+    OpenLayers/SingleFile.js
+    OpenLayers/BaseTypes.js
+    OpenLayers/BaseTypes/Class.js
+    OpenLayers/Util.js
+include =
+    OpenLayers/Format/URLCompressed.js
+    OpenLayers/Format/GeoJSON.js
+    OpenLayers/Format/GPX.js
+    OpenLayers/Format/KML.js
+    OpenLayers/Format/OSM.js
+    OpenLayers/Layer/SphericalMercator.js
 exclude =
     OpenLayers.js
 

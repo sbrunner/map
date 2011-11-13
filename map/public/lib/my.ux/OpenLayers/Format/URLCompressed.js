@@ -20,6 +20,17 @@
  *     <OpenLayers.Format.URLCompressed> constructor.
  */
 OpenLayers.Format.URLCompressed = OpenLayers.Class(OpenLayers.Format, {
+
+    /**
+     * Enccoding accuracy, also needed with the same value for decoding.
+     */
+    accuracy: 1,
+    
+    /**
+     * Simplify the geometrys before encoffing, 0 mean disable (default).
+     * In external projection unit.
+     */
+    simplify: 0,
     
     /**
      * Caracteres used to encode the data.
@@ -73,11 +84,12 @@ OpenLayers.Format.URLCompressed = OpenLayers.Class(OpenLayers.Format, {
 
         for (var i = 0; i < points.length; ++i) {
             var point = points[i];
+
             var lon = point.x;
             var lat = point.y;
 
-            var lone5 = Math.floor(lon);
-            var late5 = Math.floor(lat);
+            var lone5 = Math.floor(lon / this.accuracy);
+            var late5 = Math.floor(lat / this.accuracy);
 
             dlon = lone5 - this._plon;
             dlat = late5 - this._plat;
@@ -118,11 +130,18 @@ OpenLayers.Format.URLCompressed = OpenLayers.Class(OpenLayers.Format, {
             var dlat = ((result & 1) ? ~(result >> 1) : (result >> 1));
             this._plat += dlat;
 
-            array.push(new OpenLayers.Geometry.Point(this._plon, this._plat));
+            var p = new OpenLayers.Geometry.Point(
+                    this._plon * this.accuracy,
+                    this._plat * this.accuracy);
+            if (this.internalProjection && this.externalProjection) {
+                p = p.transform(this.externalProjection, 
+                        this.internalProjection); 
+            }
+            array.push(p);
         }
         return array;
     },
-
+    
     /**
      * Method: read
      * Read data from a string, and return an object whose type depends on the
@@ -280,14 +299,14 @@ OpenLayers.Format.URLCompressed = OpenLayers.Class(OpenLayers.Format, {
             var numFeatures = obj.length;
             for(var i=0; i<numFeatures; ++i) {
                 var element = obj[i];
-                if (!element instanceof OpenLayers.Feature.Vector) {
-                    var msg = "FeatureCollection only supports collections " +
-                              "of features: " + element;
-                    throw msg;
+                if (element instanceof OpenLayers.Feature.Vector) {
+                    URLCompressed += this.extract.feature.apply(
+                        this, [element]);
                 }
-                URLCompressed += this.extract.feature.apply(
-                    this, [element]
-                );
+                else {
+                    URLCompressed += this.extract.geometry.apply(
+                        this, [element]);
+                }
             }
         } else if (obj.CLASS_NAME.indexOf("OpenLayers.Geometry") === 0) {
             URLCompressed += this.extract.geometry.apply(this, [obj]);
@@ -363,13 +382,16 @@ OpenLayers.Format.URLCompressed = OpenLayers.Class(OpenLayers.Format, {
          */
         'geometry': function(geometry) {
             if (geometry === null) {
-                return null;
+                return "";
             }
             if (this.internalProjection && this.externalProjection) {
                 geometry = geometry.clone();
                 geometry.transform(this.internalProjection, 
                                    this.externalProjection);
             }                       
+            if (geometry.simplify && this.simplify > 0) {
+                geometry = geometry.clone().simplify(this.simplify);
+            }
             var geometryType = geometry.CLASS_NAME.split('.')[2];
             return this.extract[geometryType.toLowerCase()].apply(this, [geometry]);
         },
