@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2010 The Open Source Geospatial Foundation
+ * Copyright (c) 2008-2011 The Open Source Geospatial Foundation
  * 
  * Published under the BSD license.
  * See http://svn.geoext.org/core/trunk/geoext/license.txt for the full text
@@ -10,7 +10,7 @@ Ext.namespace("GeoExt.data");
 /** api: (define)
  *  module = GeoExt.data
  *  class = PrintPage
- *  base_link = `Ext.util.Observable <http://extjs.com/deploy/dev/docs/?class=Ext.util.Observable>`_
+ *  base_link = `Ext.util.Observable <http://dev.sencha.com/deploy/dev/docs/?class=Ext.util.Observable>`_
  */
 
 /** api: constructor
@@ -34,7 +34,9 @@ GeoExt.data.PrintPage = Ext.extend(Ext.util.Observable, {
     printProvider: null,
     
     /** api: property[feature]
-     *  ``OpenLayers.Feature.Vector`` Feature representing the page extent.
+     *  ``OpenLayers.Feature.Vector`` Feature representing the page extent. To
+     *  get the extent of the print page for a specific map, use
+     *  ``getPrintExtent``.
      *  Read-only.
      */
     feature: null,
@@ -77,10 +79,11 @@ GeoExt.data.PrintPage = Ext.extend(Ext.util.Observable, {
         }
         
         this.addEvents(
-            /** api: events[change]
+            /** api: event[change]
              *  Triggered when any of the page properties have changed
              *  
              *  Listener arguments:
+             *
              *  * printPage - :class:`GeoExt.data.PrintPage` this printPage
              *  * modifications - ``Object`` Object with one or more of
              *      ``scale``, ``center`` and ``rotation``, notifying
@@ -94,10 +97,34 @@ GeoExt.data.PrintPage = Ext.extend(Ext.util.Observable, {
         this.feature = new OpenLayers.Feature.Vector(
             OpenLayers.Geometry.fromWKT("POLYGON((-1 -1,1 -1,1 1,-1 1,-1 -1))"));
 
+        if(this.printProvider.capabilities) {
+            this.setScale(this.printProvider.scales.getAt(0));
+        } else {
+            this.printProvider.on({
+                "loadcapabilities": function() {
+                    this.setScale(this.printProvider.scales.getAt(0));
+                },
+                scope: this,
+                single: true
+            });
+        }
+
         this.printProvider.on({
             "layoutchange": this.onLayoutChange,
             scope: this
         });
+    },
+    
+    /** api: method[getPrintExtent]
+     *  :param map: ``OpenLayers.Map`` or :class:`GeoExt.MapPanel` the map to
+     *      get the print extent for. 
+     *  :returns: ``OpenLayers.Bounds``
+     *
+     *  Gets this page's print extent for the provided map.
+     */
+    getPrintExtent: function(map) {
+        map = map instanceof GeoExt.MapPanel ? map.map : map;
+        return this.calculatePageBounds(this.scale, map.getUnits());
     },
 
     /** api: method[setScale]
@@ -152,15 +179,23 @@ GeoExt.data.PrintPage = Ext.extend(Ext.util.Observable, {
     /** api: method[fit]
      *  :param fitTo: :class:`GeoExt.MapPanel` or ``OpenLayers.Map`` or ``OpenLayers.Feature.Vector``
      *      The map or feature to fit the page to.
-     *  :param loose: ``Boolean`` If true, the closest matching print extent
-     *      will be chosen. If set to false, the chosen print extent will
-     *      be the closest one that entirely fits into the visible map extent.
-     *      Default is false.
-     * 
+     *  :param options: ``Object`` Additional options to determine how to fit
+     *
      *  Fits the page layout to a map or feature extent. If the map extent has
      *  not been centered yet, this will do nothing.
+     * 
+     *  Available options:
+     *
+     *  * mode - ``String`` How to calculate the print extent? If "closest",
+     *    the closest matching print extent will be chosen. If "printer", the
+     *    chosen print extent will be the closest one that can show the entire
+     *    ``fitTo`` extent on the printer. If "screen", it will be the closest
+     *    one that is entirely visible inside the ``fitTo`` extent. Default is
+     *    "printer".
+     * 
      */
-    fit: function(fitTo, loose) {
+    fit: function(fitTo, options) {
+        options = options || {};
         var map = fitTo, extent;
         if(fitTo instanceof GeoExt.MapPanel) {
             map = fitTo.map;
@@ -178,15 +213,30 @@ GeoExt.data.PrintPage = Ext.extend(Ext.util.Observable, {
         var center = extent.getCenterLonLat();
         this.setCenter(center);
         var units = map.getUnits();
-        var scale, looseScale, contains;
+        var scale = this.printProvider.scales.getAt(0);
+        var closest = Number.POSITIVE_INFINITY;
+        var mapWidth = extent.getWidth();
+        var mapHeight = extent.getHeight();
         this.printProvider.scales.each(function(rec) {
-            looseScale = scale || rec;
-            scale = rec;
-            contains = extent.containsBounds(
-                this.calculatePageBounds(scale, units));
-            return !contains
+            var bounds = this.calculatePageBounds(rec, units);
+            if (options.mode == "closest") {
+                var diff = 
+                    Math.abs(bounds.getWidth() - mapWidth) +
+                    Math.abs(bounds.getHeight() - mapHeight);
+                if (diff < closest) {
+                    closest = diff;
+                    scale = rec;
+                }
+            } else {
+                var contains = options.mode == "screen" ?
+                    !extent.containsBounds(bounds) :
+                    bounds.containsBounds(extent);
+                if (contains || (options.mode == "screen" && !contains)) {
+                    scale = rec;
+                }
+                return contains;
+            }
         }, this);
-        scale = loose && contains ? looseScale : scale;
         this.setScale(scale, units);
         delete this._updating;
         this.updateFeature(this.feature.geometry, {
@@ -207,11 +257,11 @@ GeoExt.data.PrintPage = Ext.extend(Ext.util.Observable, {
      */
     updateFeature: function(geometry, mods) {
         var f = this.feature;
+        var modified = f.geometry !== geometry;
         geometry.id = f.geometry.id;
         f.geometry = geometry;
         
         if(!this._updating) {
-            var modified = false;
             for(var property in mods) {
                 if(mods[property] === this[property]) {
                     delete mods[property];
@@ -262,7 +312,11 @@ GeoExt.data.PrintPage = Ext.extend(Ext.util.Observable, {
         if(this.printProvider.layout.get("rotation") === false) {
             this.setRotation(0, true);
         }
-        this.setScale(this.scale);
+        // at init time the print provider triggers layoutchange
+        // before loadcapabilities, i.e. before we set this.scale
+        // to the first scale in the scales store, we need to
+        // guard against that
+        this.scale && this.setScale(this.scale);
     },
     
     /** private: method[destroy]

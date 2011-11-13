@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2010 The Open Source Geospatial Foundation
+ * Copyright (c) 2008-2011 The Open Source Geospatial Foundation
  *
  * Published under the BSD license.
  * See http://svn.geoext.org/core/trunk/geoext/license.txt for the full text
@@ -17,7 +17,7 @@
 /** api: (define)
  *  module = GeoExt
  *  class = LayerOpacitySliderTip
- *  base_link = `Ext.Tip <http://extjs.com/deploy/dev/docs/?class=Ext.Tip>`_
+ *  base_link = `Ext.Tip <http://dev.sencha.com/deploy/dev/docs/?class=Ext.Tip>`_
  */
 Ext.namespace("GeoExt");
 
@@ -67,11 +67,11 @@ GeoExt.LayerOpacitySliderTip = Ext.extend(GeoExt.SliderTip, {
     },
 
     /** private: method[getText]
-     *  :param slider: ``Ext.Slider`` The slider this tip is attached to.
+     *  :param slider: ``Ext.slider.SingleSlider`` The slider this tip is attached to.
      */
-    getText: function(slider) {
+    getText: function(thumb) {
         var data = {
-            opacity: slider.getValue()
+            opacity: thumb.value
         };
         return this.compiledTemplate.apply(data);
     }

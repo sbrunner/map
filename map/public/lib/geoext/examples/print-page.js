@@ -1,5 +1,5 @@
  /**
- * Copyright (c) 2008-2010 The Open Source Geospatial Foundation
+ * Copyright (c) 2008-2011 The Open Source Geospatial Foundation
  * 
  * Published under the BSD license.
  * See http://svn.geoext.org/core/trunk/geoext/license.txt for the full text
@@ -7,9 +7,9 @@
  */
 
 /** api: example[print-page]
- *  Printing contents from a MapPanel
- *  ---------------------------------
- *  Using PrintPage and PrintProvider to print the visible extent of a MapPanel.
+ *  Print Your Map
+ *  --------------
+ *  Print the visible extent of a MapPanel with PrintPage and PrintProvider.
  */
 
 var mapPanel, printPage;
@@ -18,16 +18,16 @@ Ext.onReady(function() {
     // The printProvider that connects us to the print service
     var printProvider = new GeoExt.data.PrintProvider({
         method: "GET", // "POST" recommended for production use
-        capabilities: printCapabilities // from the info.json script in the html
-    });
-    // Our print page. Tells the PrintProvider about the scale and center of
-    // our page.
-    printPage = new GeoExt.data.PrintPage({
-        printProvider: printProvider,
+        capabilities: printCapabilities, // from the info.json script in the html
         customParams: {
             mapTitle: "Printing Demo",
             comment: "This is a simple map printed from GeoExt."
         }
+    });
+    // Our print page. Tells the PrintProvider about the scale and center of
+    // our page.
+    printPage = new GeoExt.data.PrintPage({
+        printProvider: printProvider
     });
 
     // The map we want to print

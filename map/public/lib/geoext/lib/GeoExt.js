@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2010 The Open Source Geospatial Foundation
+ * Copyright (c) 2008-2011 The Open Source Geospatial Foundation
  * 
  * Published under the BSD license.
  * See http://svn.geoext.org/core/trunk/geoext/license.txt for the full text
@@ -93,13 +93,17 @@
             "GeoExt/widgets/tips/LayerOpacitySliderTip.js",
             "GeoExt/widgets/tips/ZoomSliderTip.js",
             "GeoExt/widgets/tree/LayerNode.js",
-            "GeoExt/widgets/tree/RadioButtonMixin.js",
+            "GeoExt/widgets/tree/TreeNodeUIEventMixin.js",
+            "GeoExt/plugins/TreeNodeComponent.js",
+            "GeoExt/plugins/TreeNodeRadioButton.js",
+            "GeoExt/plugins/TreeNodeActions.js",
             "GeoExt/widgets/tree/LayerLoader.js",
             "GeoExt/widgets/tree/LayerContainer.js",
             "GeoExt/widgets/tree/BaseLayerContainer.js",
             "GeoExt/widgets/tree/OverlayLayerContainer.js",
             "GeoExt/widgets/tree/LayerParamNode.js",
             "GeoExt/widgets/tree/LayerParamLoader.js",
+            "GeoExt/widgets/tree/WMSCapabilitiesLoader.js",
             "GeoExt/widgets/LayerOpacitySlider.js",
             "GeoExt/widgets/LayerLegend.js",
             "GeoExt/widgets/LegendImage.js",
@@ -116,30 +120,16 @@
             "GeoExt/plugins/PrintExtent.js",
             "GeoExt/plugins/AttributeForm.js",
             "GeoExt/widgets/PrintMapPanel.js",
-            "GeoExt/state/PermalinkProvider.js"
+            "GeoExt/state/PermalinkProvider.js",
+            "GeoExt/Lang.js"
         );
 
-        var agent = navigator.userAgent;
-        var docWrite = (agent.match("MSIE") || agent.match("Safari"));
-        if(docWrite) {
-            var allScriptTags = new Array(jsfiles.length);
-        }
+        var len = jsfiles.length;
+        var allScriptTags = new Array(len);
         var host = getScriptLocation() + "lib/";    
-        for (var i=0, len=jsfiles.length; i<len; i++) {
-            if (docWrite) {
-                allScriptTags[i] = "<script src='" + host + jsfiles[i] +
-                                   "'></script>"; 
-            } else {
-                var s = document.createElement("script");
-                s.src = host + jsfiles[i];
-                var h = document.getElementsByTagName("head").length ? 
-                           document.getElementsByTagName("head")[0] : 
-                           document.body;
-                h.appendChild(s);
-            }
+        for (var i=0; i<len; i++) {
+            allScriptTags[i] = "<script src='" + host + jsfiles[i] +"'></script>"; 
         }
-        if (docWrite) {
-            document.write(allScriptTags.join(""));
-        }
+        document.write(allScriptTags.join(""));
     }
 })();

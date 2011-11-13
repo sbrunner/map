@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2010 The Open Source Geospatial Foundation
+ * Copyright (c) 2008-2011 The Open Source Geospatial Foundation
  * 
  * Published under the BSD license.
  * See http://svn.geoext.org/core/trunk/geoext/license.txt for the full text
@@ -9,7 +9,7 @@
 /** api: (define)
  *  module = GeoExt
  *  class = FeatureRenderer
- *  base_link = `Ext.Panel <http://extjs.com/deploy/dev/docs/?class=Ext.BoxComponent>`_
+ *  base_link = `Ext.BoxComponent <http://dev.sencha.com/deploy/dev/docs/?class=Ext.BoxComponent>`_
  */
 Ext.namespace('GeoExt');
 
@@ -22,26 +22,30 @@ GeoExt.FeatureRenderer = Ext.extend(Ext.BoxComponent, {
 
     /** api: config[feature]
      *  ``OpenLayers.Feature.Vector``
-     *  Optional vector to be drawn.  If a feature is not provided, 
-     * ``symbolType`` should be specified.
+     *  Optional vector to be drawn.  If not provided, and if ``symbolizers``
+     *  is configured with an array of plain symbolizer objects, ``symbolType``
+     *  should be configured.
      */
     feature: undefined,
     
     /** api: config[symbolizers]
      *  ``Array(Object)``
-     *  An array of symbolizer objects (in painters order) for rendering a 
-     *  feature.  If no symbolizers are provided, the OpenLayers default will be
-     *  used.
+     *  An array of ``OpenLayers.Symbolizer`` instances or plain symbolizer
+     *  objects (in painters order) for rendering a  feature.  If no
+     *  symbolizers are provided, the OpenLayers default will be used. If a
+     *  symbolizer is an instance of ``OpenLayers.Symbolizer``, its type will
+     *  override the symbolType for rendering.
      */
     symbolizers: [OpenLayers.Feature.Vector.style["default"]],
 
     /** api: config[symbolType]
      *  ``String``
-     *  One of ``"Point"``, ``"Line"``, or ``"Polygon"``.  If ``feature``
-     *  is provided, it will be preferred.  Default is ``"Point"``.
+     *  One of ``"Point"``, ``"Line"``, or ``"Polygon"``.  Only pertinent if 
+     *  OpenLayers.Symbolizer objects are not used.  If ``feature``
+     *  is provided, it will be preferred.  The default is "Polygon".
      */
-    symbolType: "Point",
-
+    symbolType: "Polygon",
+    
     /** private: property[resolution]
      *  ``Number``
      *  The resolution for the renderer.
@@ -181,8 +185,9 @@ GeoExt.FeatureRenderer = Ext.extend(Ext.BoxComponent, {
             }).createDelegate(this)
         };
         
-        this.drawFeature();
         GeoExt.FeatureRenderer.superclass.onRender.apply(this, arguments);
+
+        this.drawFeature();
     },
 
     /** private: method[afterRender]
@@ -303,11 +308,30 @@ GeoExt.FeatureRenderer = Ext.extend(Ext.BoxComponent, {
     drawFeature: function() {
         this.renderer.clear();
         this.setRendererDimensions();
+        // TODO: remove this when OpenLayers.Symbolizer is required
+        var Symbolizer = OpenLayers.Symbolizer;
+        var Text = Symbolizer && Symbolizer.Text;
+        var symbolizer, feature, geomType;
         for (var i=0, len=this.symbolizers.length; i<len; ++i) {
-            this.renderer.drawFeature(
-                this.feature.clone(),
-                Ext.apply({}, this.symbolizers[i])
-            );
+            symbolizer = this.symbolizers[i];
+            feature = this.feature;
+            // don't render text symbolizers
+            if (!Text || !(symbolizer instanceof Text)) {
+                if (Symbolizer && (symbolizer instanceof Symbolizer)) {
+                    symbolizer = symbolizer.clone();
+                    if (!this.initialConfig.feature) {
+                        geomType = symbolizer.CLASS_NAME.split(".").pop().toLowerCase();
+                        feature = this[geomType + "Feature"];
+                    }
+                } else {
+                    // TODO: remove this when OpenLayers.Symbolizer is used everywhere
+                    symbolizer = Ext.apply({}, symbolizer);
+                }
+                this.renderer.drawFeature(
+                    feature.clone(),
+                    symbolizer
+                );
+            }
         }
     },
     

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2010 The Open Source Geospatial Foundation
+ * Copyright (c) 2008-2011 The Open Source Geospatial Foundation
  * 
  * Published under the BSD license.
  * See http://svn.geoext.org/core/trunk/geoext/license.txt for the full text
@@ -10,7 +10,7 @@ Ext.namespace("GeoExt.tree");
 /** api: (define)
  *  module = GeoExt.tree
  *  class = LayerParamLoader
- *  base_link = `Ext.util.Observable <http://extjs.com/deploy/dev/docs/?class=Ext.util.Observable>`_
+ *  base_link = `Ext.util.Observable <http://dev.sencha.com/deploy/dev/docs/?class=Ext.util.Observable>`_
  */
 
 /** api: constructor
@@ -24,21 +24,23 @@ GeoExt.tree.LayerParamLoader = function(config) {
     Ext.apply(this, config);
     this.addEvents(
     
-        /** api: events[beforeload]
+        /** api: event[beforeload]
          *  Triggered before loading children. Return false to avoid
          *  loading children.
          *  
          *  Listener arguments:
+         *  
          *  * loader - :class:`GeoExt.tree.LayerLoader` this loader
          *  * node - ``Ex.tree.TreeNode`` the node that this loader is
          *      configured with
          */
         "beforeload",
         
-        /** api: events[load]
+        /** api: event[load]
          *  Triggered after children were loaded.
          *  
          *  Listener arguments:
+         *  
          *  * loader - :class:`GeoExt.tree.LayerLoader` this loader
          *  * node - ``Ex.tree.TreeNode`` the node that this loader is
          *      configured with
@@ -46,7 +48,7 @@ GeoExt.tree.LayerParamLoader = function(config) {
         "load"
     );
 
-    GeoExt.tree.LayerLoader.superclass.constructor.call(this);
+    GeoExt.tree.LayerParamLoader.superclass.constructor.call(this);
 };
 
 Ext.extend(GeoExt.tree.LayerParamLoader, Ext.util.Observable, {
@@ -89,11 +91,11 @@ Ext.extend(GeoExt.tree.LayerParamLoader, Ext.util.Observable, {
                 node.layer.params[this.param];
             if(paramValue) {
                 var items = (paramValue instanceof Array) ?
-                    paramValue :
+                    paramValue.slice() :
                     paramValue.split(this.delimiter);
 
-                Ext.each(items, function(item) {
-                    this.addParamNode(item, node);
+                Ext.each(items, function(item, index, allItems) {
+                    this.addParamNode(item, allItems, node);
                 }, this);
             }
     
@@ -108,16 +110,18 @@ Ext.extend(GeoExt.tree.LayerParamLoader, Ext.util.Observable, {
     /** private: method[addParamNode]
      *  :param paramItem: ``String`` The param item that the child node will
      *      represent.
+     *  :param allParamItems: ``Array`` The full list of param items.
      *  :param node: :class:`GeoExt.tree.LayerNode`` The node that the param
      *      node will be added to as child.
      *  
      *  Adds a child node representing a param value of the layer
      */
-    addParamNode: function(paramItem, node) {
+    addParamNode: function(paramItem, allParamItems, node) {
         var child = this.createNode({
             layer: node.layer,
             param: this.param,
             item: paramItem,
+            allItems: allParamItems,
             delimiter: this.delimiter
         });
         var sibling = node.item(0);
@@ -128,8 +132,11 @@ Ext.extend(GeoExt.tree.LayerParamLoader, Ext.util.Observable, {
         }
     },
 
-    /** private: method[createNode]
+    /** api: method[createNode]
      *  :param attr: ``Object`` attributes for the new node
+     *
+     *  Override this function for custom TreeNode node implementation, or to
+     *  modify the attributes at creation time.
      */
     createNode: function(attr){
         if(this.baseAttrs){

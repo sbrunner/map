@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2010 The Open Source Geospatial Foundation
+ * Copyright (c) 2008-2011 The Open Source Geospatial Foundation
  * 
  * Published under the BSD license.
  * See http://svn.geoext.org/core/trunk/geoext/license.txt for the full text
@@ -9,7 +9,7 @@
 /** api: (define)
  *  module = GeoExt.data
  *  class = LayerRecord
- *  base_link = `Ext.data.Record <http://extjs.com/deploy/dev/docs/?class=Ext.data.Record>`_
+ *  base_link = `Ext.data.Record <http://dev.sencha.com/deploy/dev/docs/?class=Ext.data.Record>`_
  */
 Ext.namespace("GeoExt.data");
 
@@ -19,7 +19,6 @@ Ext.namespace("GeoExt.data");
  *      A record that represents an ``OpenLayers.Layer``. This record
  *      will always have at least the following fields:
  *
- *      * layer ``OpenLayers.Layer``
  *      * title ``String``
  */
 GeoExt.data.LayerRecord = Ext.data.Record.create([
@@ -27,14 +26,44 @@ GeoExt.data.LayerRecord = Ext.data.Record.create([
     {name: "title", type: "string", mapping: "name"}
 ]);
 
+/** api: method[getLayer]
+ *  :return: ``OpenLayers.Layer``
+ *
+ *  Gets the layer for this record.
+ */
+GeoExt.data.LayerRecord.prototype.getLayer = function() {
+    return this.get("layer");
+};
+
+/** api: method[setLayer]
+ *  :param layer: ``OpenLayers.Layer``
+ *
+ *  Sets the layer for this record.
+ */
+GeoExt.data.LayerRecord.prototype.setLayer = function(layer) {
+    if (layer !== this.data.layer) {
+        this.dirty = true;
+        if(!this.modified) {
+            this.modified = {};
+        }
+        if(this.modified.layer === undefined) {
+            this.modified.layer = this.data.layer;
+        }
+        this.data.layer = layer;
+        if(!this.editing) {
+            this.afterEdit();
+        }
+    }
+};
+
 /** api: method[clone]
  *  :param id: ``String`` (optional) A new Record id.
- *  :return: ``GeoExt.data.LayerRecord`` A new layer record.
+ *  :return: class:`GeoExt.data.LayerRecord` A new layer record.
  *  
  *  Creates a clone of this LayerRecord. 
  */
 GeoExt.data.LayerRecord.prototype.clone = function(id) { 
-    var layer = this.get("layer") && this.get("layer").clone(); 
+    var layer = this.getLayer() && this.getLayer().clone(); 
     return new this.constructor( 
         Ext.applyIf({layer: layer}, this.data), 
         id || layer.id

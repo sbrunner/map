@@ -4,3 +4,9 @@
 [submodule "map/public/lib/openlayers"]
 	path = map/public/lib/openlayers
 	url = https://github.com/openlayers/openlayers.git
+[submodule "map/public/lib/gxp"]
+	path = map/public/lib/gxp
+	url = git://github.com/opengeo/gxp.git
+[submodule "map/public/lib/ext/Ext"]
+	path = map/public/lib/ext/Ext
+	url = git://github.com/probonogeek/extjs.git

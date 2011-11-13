@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2010 The Open Source Geospatial Foundation
+ * Copyright (c) 2008-2011 The Open Source Geospatial Foundation
  * 
  * Published under the BSD license.
  * See http://svn.geoext.org/core/trunk/geoext/license.txt for the full text
@@ -10,7 +10,7 @@ Ext.namespace("GeoExt.data");
 /** api: (define)
  *  module = GeoExt.data
  *  class = PrintProvider
- *  base_link = `Ext.util.Observable <http://extjs.com/deploy/dev/docs/?class=Ext.util.Observable>`_
+ *  base_link = `Ext.util.Observable <http://dev.sencha.com/deploy/dev/docs/?class=Ext.util.Observable>`_
  */
 
 /** api: example
@@ -66,6 +66,13 @@ GeoExt.data.PrintProvider = Ext.extend(Ext.util.Observable, {
      */
     url: null,
     
+    /** api: config[autoLoad]
+     *  ``Boolean`` If set to true, the capabilities will be loaded upon
+     *  instance creation, and ``loadCapabilities`` does not need to be called
+     *  manually. Setting this when ``capabilities`` and no ``url`` is provided
+     *  has no effect. Default is false.
+     */
+
     /** api: config[capabilities]
      *  ``Object`` Capabilities of the print service. Only required if ``url``
      *  is not provided. This is the object returned by the ``info.json``
@@ -99,11 +106,20 @@ GeoExt.data.PrintProvider = Ext.extend(Ext.util.Observable, {
      */
     method: "POST",
 
-    /** api: config[customParams]
-     *  ``Object`` Key-value pairs of custom data to be sent to the print
-     *  service. Optional. This is e.g. useful for complex layout definitions
-     *  on the server side that require additional parameters.
+    /** api: config[encoding]
+     * ``String`` The encoding to set in the headers when requesting the print
+     * service. Prevent character encoding issues, especially when using IE.
+     * Default is retrieved from document charset or characterSet if existing
+     * or ``UTF-8`` if not.
      */
+    encoding: document.charset || document.characterSet || "UTF-8",
+
+    /** api: config[timeout]
+     *  ``Number`` Timeout of the POST Ajax request used for the print request
+     *  (in milliseconds). Default of 30 seconds. Has no effect if ``method``
+     *  is set to ``GET``.
+     */
+    timeout: 30000,
     
     /** api: property[customParams]
      *  ``Object`` Key-value pairs of custom data to be sent to the print
@@ -111,6 +127,11 @@ GeoExt.data.PrintProvider = Ext.extend(Ext.util.Observable, {
      *  on the server side that require additional parameters.
      */
     customParams: null,
+    
+    /** api: config[baseParams]
+     *  ``Object`` Key-value pairs of base params to be add to every 
+     *  request to the service. Optional. 
+     */
     
     /** api: property[scales]
      *  ``Ext.data.JsonStore`` read-only. A store representing the scales
@@ -170,41 +191,46 @@ GeoExt.data.PrintProvider = Ext.extend(Ext.util.Observable, {
         }
 
         this.addEvents(
-            /** api: events[loadcapabilities]
+            /** api: event[loadcapabilities]
              *  Triggered when the capabilities have finished loading. This
              *  event will only fire when ``capabilities`` is not  configured.
              *  
              *  Listener arguments:
+             *
              *  * printProvider - :class:`GeoExt.data.PrintProvider` this
              *    PrintProvider
              *  * capabilities - ``Object`` the capabilities
              */
             "loadcapabilities",
             
-            /** api: events[layoutchange]
+            /** api: event[layoutchange]
              *  Triggered when the layout is changed.
              *  
              *  Listener arguments:
+             *
              *  * printProvider - :class:`GeoExt.data.PrintProvider` this
              *    PrintProvider
              *  * layout - ``Ext.data.Record`` the new layout
              */
             "layoutchange",
 
-            /** api: events[dpichange]
+            /** api: event[dpichange]
              *  Triggered when the dpi value is changed.
              *  
              *  Listener arguments:
+             *
              *  * printProvider - :class:`GeoExt.data.PrintProvider` this
              *    PrintProvider
              *  * dpi - ``Ext.data.Record`` the new dpi record
              */
             "dpichange",
             
-            /** api: events[beforeprint]
+            /** api: event[beforeprint]
              *  Triggered when the print method is called.
+             *  TODO: rename this event to beforeencode
              *  
              *  Listener arguments:
+             *
              *  * printProvider - :class:`GeoExt.data.PrintProvider` this
              *    PrintProvider
              *  * map - ``OpenLayers.Map`` the map being printed
@@ -214,33 +240,36 @@ GeoExt.data.PrintProvider = Ext.extend(Ext.util.Observable, {
              */
             "beforeprint",
             
-            /** api: events[print]
+            /** api: event[print]
              *  Triggered when the print document is opened.
              *  
              *  Listener arguments:
+             *
              *  * printProvider - :class:`GeoExt.data.PrintProvider` this
              *    PrintProvider
              *  * url - ``String`` the url of the print document
              */
             "print",
 
-            /** api: events[printexception]
+            /** api: event[printexception]
              *  Triggered when using the ``POST`` method, when the print
              *  backend returns an exception.
              *  
              *  Listener arguments:
+             *
              *  * printProvider - :class:`GeoExt.data.PrintProvider` this
              *    PrintProvider
              *  * response - ``Object`` the response object of the XHR
              */
             "printexception",
 
-            /** api: events[beforeencodelayer]
+            /** api: event[beforeencodelayer]
              *  Triggered before a layer is encoded. This can be used to
              *  exclude layers from the printing, by having the listener
              *  return false.
              *
              *  Listener arguments:
+             *
              *  * printProvider - :class:`GeoExt.data.PrintProvider` this
              *    PrintProvider
              *  * layer - ``OpenLayers.Layer`` the layer which is about to be 
@@ -248,12 +277,13 @@ GeoExt.data.PrintProvider = Ext.extend(Ext.util.Observable, {
              */
             "beforeencodelayer",
             
-            /** api: events[encodelayer]
+            /** api: event[encodelayer]
              *  Triggered when a layer is encoded. This can be used to modify
              *  the encoded low-level layer object that will be sent to the
              *  print service.
              *  
              *  Listener arguments:
+             *
              *  * printProvider - :class:`GeoExt.data.PrintProvider` this
              *    PrintProvider
              *  * layer - ``OpenLayers.Layer`` the layer which is about to be 
@@ -261,7 +291,21 @@ GeoExt.data.PrintProvider = Ext.extend(Ext.util.Observable, {
              *  * encodedLayer - ``Object`` the encoded layer that will be
              *    sent to the print service.
              */
-            "encodelayer"
+            "encodelayer",
+
+            /** api: events[beforedownload]
+             *  Triggered before the PDF is downloaded. By returning false from
+             *  a listener, the default handling of the PDF can be cancelled
+             *  and applications can take control over downloading the PDF.
+             *  TODO: rename to beforeprint after the current beforeprint event
+             *  has been renamed to beforeencode.
+             *
+             *  Listener arguments:
+             *  * printProvider - :class:`GeoExt.data.PrintProvider` this
+             *    PrintProvider
+             *  * url - ``String`` the url of the print document
+             */
+            "beforedownload"
 
         );
         
@@ -293,7 +337,7 @@ GeoExt.data.PrintProvider = Ext.extend(Ext.util.Observable, {
             if(this.url.split("/").pop()) {
                 this.url += "/";            
             }
-            this.loadCapabilities();
+            this.initialConfig.autoLoad && this.loadCapabilities();
         }
     },
     
@@ -330,14 +374,18 @@ GeoExt.data.PrintProvider = Ext.extend(Ext.util.Observable, {
      *
      *      * ``legend`` - :class:`GeoExt.LegendPanel` If provided, the legend
      *        will be added to the print document. For the printed result to
-     *        look like the LegendPanel, the following settings in the
-     *        ``!legends`` block of the print module are recommended:
+     *        look like the LegendPanel, the following ``!legends`` block
+     *        should be included in the ``items`` of your page layout in the
+     *        print module's configuration file:
      *        
      *        .. code-block:: none
      *        
-     *          maxIconWidth: 0
-     *          maxIconHeight: 0
-     *          classIndentation: 0
+     *          - !legends
+     *              maxIconWidth: 0
+     *              maxIconHeight: 0
+     *              classIndentation: 0
+     *              layerSpace: 5
+     *              layerFontSize: 10
      *
      *      * ``overview`` - :class:`OpenLayers.Control.OverviewMap` If provided,
      *        the layers for the overview map in the printout will be taken from
@@ -364,7 +412,13 @@ GeoExt.data.PrintProvider = Ext.extend(Ext.util.Observable, {
 
         var pagesLayer = pages[0].feature.layer;
         var encodedLayers = [];
-        Ext.each(map.layers, function(layer){
+
+        // ensure that the baseLayer is the first one in the encoded list
+        var layers = map.layers.concat();
+        layers.remove(map.baseLayer);
+        layers.unshift(map.baseLayer);
+
+        Ext.each(layers, function(layer){
             if(layer !== pagesLayer && layer.getVisibility() === true) {
                 var enc = this.encodeLayer(layer);
                 enc && encodedLayers.push(enc);
@@ -392,61 +446,97 @@ GeoExt.data.PrintProvider = Ext.extend(Ext.util.Observable, {
         }
 
         if(options.legend) {
+            var legend = options.legend;
+            var rendered = legend.rendered;
+            if (!rendered) {
+                legend = legend.cloneConfig({
+                    renderTo: document.body,
+                    hidden: true
+                });
+            }
             var encodedLegends = [];
-            options.legend.items.each(function(cmp) {
+            legend.items && legend.items.each(function(cmp) {
                 if(!cmp.hidden) {
                     var encFn = this.encoders.legends[cmp.getXType()];
+                    // MapFish Print doesn't currently support per-page
+                    // legends, so we use the scale of the first page.
                     encodedLegends = encodedLegends.concat(
-                        encFn.call(this, cmp));
+                        encFn.call(this, cmp, jsonData.pages[0].scale));
                 }
             }, this);
+            if (!rendered) {
+                legend.destroy();
+            }
             jsonData.legends = encodedLegends;
         }
 
         if(this.method === "GET") {
-            var url = this.capabilities.printURL + "?spec=" +
-                encodeURIComponent(Ext.encode(jsonData));
-            window.open(url);
-            this.fireEvent("print", this, url);
+            var url = Ext.urlAppend(this.capabilities.printURL,
+                "spec=" + encodeURIComponent(Ext.encode(jsonData)));
+            this.download(url);
         } else {
             Ext.Ajax.request({
                 url: this.capabilities.createURL,
+                timeout: this.timeout,
                 jsonData: jsonData,
+                headers: {"Content-Type": "application/json; charset=" + this.encoding},
                 success: function(response) {
                     // In IE, using a Content-disposition: attachment header
                     // may make it hard or impossible to download the pdf due
                     // to security settings. So we'll display the pdf inline.
-                    var url = Ext.decode(response.responseText).getURL +
-                        (Ext.isIE ? "?inline=true" : "");
-                    if(Ext.isOpera || Ext.isIE) {
-                        // Make sure that Opera and IE don't replace the
-                        // content tab with the pdf
-                        window.open(url);
-                    } else {
-                        // This avoids popup blockers for all other browers
-                        window.location.href = url;                        
-                    } 
-                    this.fireEvent("print", this, url);
+                    var url = Ext.urlAppend(
+                        Ext.decode(response.responseText).getURL,
+                        (Ext.isIE ? "inline=true" : "")
+                    );
+                    this.download(url);
                 },
                 failure: function(response) {
                     this.fireEvent("printexception", this, response);
                 },
+                params: this.initialConfig.baseParams,
                 scope: this
             });
         }
     },
     
-    /** private: method[loadCapabilities]
+    /** private: method[download]
+     *  :param url: ``String``
+     */
+    download: function(url) {
+        if (this.fireEvent("beforedownload", this, url) !== false) {
+            if (Ext.isOpera) {
+                // Make sure that Opera don't replace the content tab with
+                // the pdf
+                window.open(url);
+            } else {
+                // This avoids popup blockers for all other browsers
+                window.location.href = url;                        
+            } 
+        }
+        this.fireEvent("print", this, url);
+    },
+    
+    /** api: method[loadCapabilities]
+     *
+     *  Loads the capabilities from the print service. If this instance is
+     *  configured with either ``capabilities`` or a ``url`` and ``autoLoad``
+     *  set to true, then this method does not need to be called from the
+     *  application.
      */
     loadCapabilities: function() {
+        if (!this.url) {
+            return;
+        }
         var url = this.url + "info.json";
         Ext.Ajax.request({
             url: url,
+            method: "GET",
             disableCaching: false,
             success: function(response) {
                 this.capabilities = Ext.decode(response.responseText);
                 this.loadStores();
             },
+            params: this.initialConfig.baseParams,
             scope: this
         });
     },
@@ -494,7 +584,7 @@ GeoExt.data.PrintProvider = Ext.extend(Ext.util.Observable, {
      */
     getAbsoluteUrl: function(url) {
         var a;
-        if(Ext.isIE) {
+        if(Ext.isIE6 || Ext.isIE7 || Ext.isIE8) {
             a = document.createElement("<a href='" + url + "'/>");
             a.style.display = "none";
             document.body.appendChild(a);
@@ -512,6 +602,16 @@ GeoExt.data.PrintProvider = Ext.extend(Ext.util.Observable, {
      */
     encoders: {
         "layers": {
+            "Layer": function(layer) {
+                var enc = {};
+                if (layer.options && layer.options.maxScale) {
+                    enc.minScaleDenominator = layer.options.maxScale;
+                }
+                if (layer.options && layer.options.minScale) {
+                    enc.maxScaleDenominator = layer.options.minScale;
+                }
+                return enc;
+            },
             "WMS": function(layer) {
                 var enc = this.encoders.layers.HTTPRequest.call(this, layer);
                 Ext.apply(enc, {
@@ -559,23 +659,67 @@ GeoExt.data.PrintProvider = Ext.extend(Ext.util.Observable, {
                     resolutions: layer.serverResolutions || layer.resolutions
                 });
             },
+            "WMTS": function(layer) {
+                var enc = this.encoders.layers.HTTPRequest.call(this, layer);
+                return Ext.apply(enc, {
+                    type: 'WMTS',
+                    layer: layer.layer,
+                    version: layer.version,
+                    requestEncoding: layer.requestEncoding,
+                    tileOrigin: [layer.tileOrigin.lon, layer.tileOrigin.lat],
+                    tileSize: [layer.tileSize.w, layer.tileSize.h],
+                    style: layer.style,
+                    formatSuffix: layer.formatSuffix,
+                    dimensions: layer.dimensions,
+                    params: layer.params,
+                    maxExtent: (layer.tileFullExtent != null) ? layer.tileFullExtent.toArray() : layer.maxExtent.toArray(),
+                    matrixSet: layer.matrixSet,
+                    zoomOffset: layer.zoomOffset,
+                    resolutions: layer.serverResolutions || layer.resolutions
+                });
+            },
+            "KaMapCache": function(layer) {
+                var enc = this.encoders.layers.KaMap.call(this, layer);
+                return Ext.apply(enc, {
+                    type: 'KaMapCache',
+                    // group param is mandatory when using KaMapCache
+                    group: layer.params['g'],
+                    metaTileWidth: layer.params['metaTileSize']['w'],
+                    metaTileHeight: layer.params['metaTileSize']['h']
+                });
+            },
+            "KaMap": function(layer) {
+                var enc = this.encoders.layers.HTTPRequest.call(this, layer);
+                return Ext.apply(enc, {
+                    type: 'KaMap',
+                    map: layer.params['map'],
+                    extension: layer.params['i'],
+                    // group param is optional when using KaMap
+                    group: layer.params['g'] || "",
+                    maxExtent: layer.maxExtent.toArray(),
+                    tileSize: [layer.tileSize.w, layer.tileSize.h],
+                    resolutions: layer.serverResolutions || layer.resolutions
+                });
+            },
             "HTTPRequest": function(layer) {
-                return {
+                var enc = this.encoders.layers.Layer.call(this, layer);
+                return Ext.apply(enc, {
                     baseURL: this.getAbsoluteUrl(layer.url instanceof Array ?
                         layer.url[0] : layer.url),
                     opacity: (layer.opacity != null) ? layer.opacity : 1.0,
                     singleTile: layer.singleTile
-                };
+                });
             },
             "Image": function(layer) {
-                return {
+                var enc = this.encoders.layers.Layer.call(this, layer);
+                return Ext.apply(enc, {
                     type: 'Image',
                     baseURL: this.getAbsoluteUrl(layer.getURL(layer.extent)),
                     opacity: (layer.opacity != null) ? layer.opacity : 1.0,
                     extent: layer.extent.toArray(),
                     pixelSize: [layer.size.w, layer.size.h],
                     name: layer.name
-                };
+                });
             },
             "Vector": function(layer) {
                 if(!layer.features.length) {
@@ -620,8 +764,8 @@ GeoExt.data.PrintProvider = Ext.extend(Ext.util.Observable, {
                     
                     encFeatures.push(featureGeoJson);
                 }
-                
-                return {
+                var enc = this.encoders.layers.Layer.call(this, layer);                
+                return Ext.apply(enc, {
                     type: 'Vector',
                     styles: encStyles,
                     styleProperty: '_gx_style',
@@ -631,16 +775,25 @@ GeoExt.data.PrintProvider = Ext.extend(Ext.util.Observable, {
                     },
                     name: layer.name,
                     opacity: (layer.opacity != null) ? layer.opacity : 1.0
-                };
+                });
             }
         },
         "legends": {
-            "gx_wmslegend": function(legend) {
+            "gx_wmslegend": function(legend, scale) {
                 var enc = this.encoders.legends.base.call(this, legend);
                 var icons = [];
                 for(var i=1, len=legend.items.getCount(); i<len; ++i) {
-                    icons.push(this.getAbsoluteUrl(legend.items.get(i).url));
-                };
+                    var url = legend.items.get(i).url;
+                    if(legend.useScaleParameter === true &&
+                       url.toLowerCase().indexOf(
+                           'request=getlegendgraphic') != -1) {
+                        var split = url.split("?");
+                        var params = Ext.urlDecode(split[1]);
+                        params['SCALE'] = scale;
+                        url = split[0] + "?" + Ext.urlEncode(params);
+                    }
+                    icons.push(this.getAbsoluteUrl(url));
+                }
                 enc[0].classes[0] = {
                     name: "",
                     icons: icons

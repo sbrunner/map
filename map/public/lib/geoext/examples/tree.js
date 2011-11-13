@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2010 The Open Source Geospatial Foundation
+ * Copyright (c) 2008-2011 The Open Source Geospatial Foundation
  * 
  * Published under the BSD license.
  * See http://svn.geoext.org/core/trunk/geoext/license.txt for the full text
@@ -12,7 +12,7 @@
  *  Create all kinds of tree nodes.
  */
 
-var mapPanel;
+var mapPanel, tree;
 Ext.onReady(function() {
     // create a map panel with some layers that we will show in our layer tree
     // below.
@@ -92,14 +92,12 @@ Ext.onReady(function() {
         ]
     });
 
-    // create our own layer node UI class, using the RadioButtonMixin
-    var LayerNodeUI = Ext.extend(
-        GeoExt.tree.LayerNodeUI, new GeoExt.tree.RadioButtonMixin()
-    );
+    // create our own layer node UI class, using the TreeNodeUIEventMixin
+    var LayerNodeUI = Ext.extend(GeoExt.tree.LayerNodeUI, new GeoExt.tree.TreeNodeUIEventMixin());
         
     // using OpenLayers.Format.JSON to create a nice formatted string of the
     // configuration for editing it in the UI
-    var treeConfig = new OpenLayers.Format.JSON().write([{
+    var treeConfig = [{
         nodeType: "gx_baselayercontainer"
     }, {
         nodeType: "gx_overlaylayercontainer",
@@ -109,7 +107,7 @@ Ext.onReady(function() {
         loader: {
             baseAttrs: {
                 radioGroup: "foo",
-                uiProvider: "use_radio"
+                uiProvider: "layernodeui"
             }
         }
     }, {
@@ -122,10 +120,14 @@ Ext.onReady(function() {
         loader: {
             param: "LAYERS"
         }
-    }], true);
+    }];
+    // The line below is only needed for this example, because we want to allow
+    // interactive modifications of the tree configuration using the
+    // "Show/Edit Tree Config" button. Don't use this line in your code.
+    treeConfig = new OpenLayers.Format.JSON().write(treeConfig, true);
 
     // create the tree with the configuration from above
-    var tree = new Ext.tree.TreePanel({
+    tree = new Ext.tree.TreePanel({
         border: true,
         region: "west",
         title: "Layers",
@@ -134,12 +136,21 @@ Ext.onReady(function() {
         collapsible: true,
         collapseMode: "mini",
         autoScroll: true,
+        plugins: [
+            new GeoExt.plugins.TreeNodeRadioButton({
+                listeners: {
+                    "radiochange": function(node) {
+                        alert(node.text + " is now the active layer.");
+                    }
+                }
+            })
+        ],
         loader: new Ext.tree.TreeLoader({
             // applyLoader has to be set to false to not interfer with loaders
             // of nodes further down the tree hierarchy
             applyLoader: false,
             uiProviders: {
-                "use_radio": LayerNodeUI
+                "layernodeui": LayerNodeUI
             }
         }),
         root: {
@@ -148,6 +159,9 @@ Ext.onReady(function() {
             // provide an initial set of layer nodes. We use the treeConfig
             // from above, that we created with OpenLayers.Format.JSON.write.
             children: Ext.decode(treeConfig)
+            // Don't use the line above in your application. Instead, use
+            //children: treeConfig
+            
         },
         listeners: {
             "radiochange": function(node){

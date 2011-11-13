@@ -1,15 +1,19 @@
 /**
- * Copyright (c) 2008-2010 The Open Source Geospatial Foundation
+ * Copyright (c) 2008-2011 The Open Source Geospatial Foundation
  * 
  * Published under the BSD license.
  * See http://svn.geoext.org/core/trunk/geoext/license.txt for the full text
  * of the license.
  */
 
+/**
+ * @include GeoExt/widgets/MapPanel.js
+ */
+
 /** api: (define)
  *  module = GeoExt.data
  *  class = ScaleStore
- *  base_link = `Ext.data.DataStore <http://extjs.com/deploy/dev/docs/?class=Ext.data.DataStore>`_
+ *  base_link = `Ext.data.Store <http://dev.sencha.com/deploy/dev/docs/?class=Ext.data.Store>`_
  */
 Ext.namespace("GeoExt.data");
 

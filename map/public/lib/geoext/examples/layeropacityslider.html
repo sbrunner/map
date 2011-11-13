@@ -2,12 +2,12 @@
     <head>
         <title>GeoExt LayerOpacitySlider</title>
 
-        <script type="text/javascript" src="http://extjs.cachefly.net/ext-2.2.1/adapter/ext/ext-base.js"></script>
-        <script type="text/javascript" src="http://extjs.cachefly.net/ext-2.2.1/ext-all.js"></script>
-        <link rel="stylesheet" type="text/css" href="http://extjs.cachefly.net/ext-2.2.1/resources/css/ext-all.css" />
-        <link rel="stylesheet" type="text/css" href="http://extjs.com/deploy/dev/examples/shared/examples.css"></link>
-        <script src="http://www.openlayers.org/api/2.9/OpenLayers.js"></script>
-        <script type="text/javascript" src="../script/GeoExt.js"></script>
+        <script type="text/javascript" src="http://extjs.cachefly.net/ext-3.4.0/adapter/ext/ext-base.js"></script>
+        <script type="text/javascript" src="http://extjs.cachefly.net/ext-3.4.0/ext-all.js"></script>
+        <link rel="stylesheet" type="text/css" href="http://extjs.cachefly.net/ext-3.4.0/resources/css/ext-all.css" />
+        <link rel="stylesheet" type="text/css" href="http://extjs.cachefly.net/ext-3.4.0/examples/shared/examples.css" />
+        <script src="http://www.openlayers.org/api/2.11/OpenLayers.js"></script>
+        <script type="text/javascript" src="../lib/GeoExt.js"></script>
         <style type="text/css">
             .x-tree-node-leaf .gx-tree-layer-icon {
                 width: 0px;
@@ -27,7 +27,8 @@
         <p>In this example, the slider in below the map is in aggressive mode: the
         opacity is changed as soon as the slider is moved. The slider inside
         Map 1 is not aggressive: the opacity is changed when the slider is
-        released.</p>
+        released. Also, the slider below the map is an inverse slider, which means
+        it uses transparency instead of opacity.</p>
 
         <p>In Map 2 we have a fading effect between two layers. The slider is configured
         with changeVisibility:true and a complementaryLayer. This avoids downloading images

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2010 The Open Source Geospatial Foundation
+ * Copyright (c) 2008-2011 The Open Source Geospatial Foundation
  * 
  * Published under the BSD license.
  * See http://svn.geoext.org/core/trunk/geoext/license.txt for the full text
@@ -44,8 +44,10 @@ Ext.onReady(function() {
                 var record = grid.getSelectionModel().getSelected();
                 if(record) {
                     var copy = record.copy();
-                    copy.set("layer", record.get("layer"));
-                    copy.get("layer").mergeNewParams({
+                    // Ext 3.X does not allow circular references in objects passed 
+                    // to record.set 
+                    copy.data["layer"] = record.getLayer();
+                    copy.getLayer().mergeNewParams({
                         format: "image/png",
                         transparent: "true"
                     });

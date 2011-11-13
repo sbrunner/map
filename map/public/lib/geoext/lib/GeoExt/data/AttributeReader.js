@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2010 The Open Source Geospatial Foundation
+ * Copyright (c) 2008-2011 The Open Source Geospatial Foundation
  * 
  * Published under the BSD license.
  * See http://svn.geoext.org/core/trunk/geoext/license.txt for the full text
@@ -9,7 +9,7 @@
 /** api: (define)
  *  module = GeoExt.data
  *  class = AttributeReader
- *  base_link = `Ext.data.DataReader <http://extjs.com/deploy/dev/docs/?class=Ext.data.DataReader>`_
+ *  base_link = `Ext.data.DataReader <http://dev.sencha.com/deploy/dev/docs/?class=Ext.data.DataReader>`_
  */
 Ext.namespace("GeoExt.data");
 
@@ -29,6 +29,9 @@ Ext.namespace("GeoExt.data");
  *        an ``OpenLayers.Format.WFSDescribeFeatureType`` parser.
  *      * ignore - ``Object`` Properties of the ignore object should be field names.
  *        Values are either arrays or regular expressions.
+ *      * feature - ``OpenLayers.Feature.Vector`` A vector feature. If provided
+ *        records created by the reader will include a field named "value"
+ *        referencing the attribute value as set in the feature.
  */
 GeoExt.data.AttributeReader = function(meta, recordType) {
     meta = meta || {};
@@ -38,6 +41,9 @@ GeoExt.data.AttributeReader = function(meta, recordType) {
     GeoExt.data.AttributeReader.superclass.constructor.call(
         this, meta, recordType || meta.fields
     );
+    if(meta.feature) {
+        this.recordType.prototype.fields.add(new Ext.data.Field("value"));
+    }
 };
 
 Ext.extend(GeoExt.data.AttributeReader, Ext.data.DataReader, {
@@ -77,31 +83,34 @@ Ext.extend(GeoExt.data.AttributeReader, Ext.data.DataReader, {
             // only works with one featureType in the doc
             attributes = this.meta.format.read(data).featureTypes[0].properties;
         }
+        var feature = this.meta.feature;
         var recordType = this.recordType;
         var fields = recordType.prototype.fields;
         var numFields = fields.length;
-        var attr, values, name, record, ignore, matches, value, records = [];
+        var attr, values, name, record, ignore, value, field, records = [];
         for(var i=0, len=attributes.length; i<len; ++i) {
             ignore = false;
             attr = attributes[i];
             values = {};
             for(var j=0; j<numFields; ++j) {
-                name = fields.items[j].name;
-                value = attr[name];
-                if(this.meta.ignore && this.meta.ignore[name]) {
-                    matches = this.meta.ignore[name];
-                    if(typeof matches == "string") {
-                        ignore = (matches === value);
-                    } else if(matches instanceof Array) {
-                        ignore = (matches.indexOf(value) > -1);
-                    } else if(matches instanceof RegExp) {
-                        ignore = (matches.test(value));
-                    }
-                    if(ignore) {
-                        break;
+                field = fields.items[j];
+                name = field.name;
+                value = field.convert(attr[name]);
+                if(this.ignoreAttribute(name, value)) {
+                    ignore = true;
+                    break;
+                }
+                values[name] = value;
+            }
+            if(feature) {
+                value = feature.attributes[values["name"]];
+                if(value !== undefined) {
+                    if(this.ignoreAttribute("value", value)) {
+                        ignore = true;
+                    } else {
+                        values["value"] = value;
                     }
                 }
-                values[name] = attr[name];
             }
             if(!ignore) {
                 records[records.length] = new recordType(values);
@@ -113,7 +122,26 @@ Ext.extend(GeoExt.data.AttributeReader, Ext.data.DataReader, {
             records: records,
             totalRecords: records.length
         };
+    },
 
+    /** private: method[ignoreAttribute]
+     *  :arg name: ``String`` The field name.
+     *  :arg value: ``String`` The field value.
+     *
+     *  :return: ``Boolean`` true if the attribute should be ignored.
+     */
+    ignoreAttribute: function(name, value) {
+        var ignore = false;
+        if(this.meta.ignore && this.meta.ignore[name]) {
+            var matches = this.meta.ignore[name];
+            if(typeof matches == "string") {
+                ignore = (matches === value);
+            } else if(matches instanceof Array) {
+                ignore = (matches.indexOf(value) > -1);
+            } else if(matches instanceof RegExp) {
+                ignore = (matches.test(value));
+            }
+        }
+        return ignore;
     }
-
 });

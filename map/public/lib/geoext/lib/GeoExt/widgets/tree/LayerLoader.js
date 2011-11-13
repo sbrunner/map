@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2010 The Open Source Geospatial Foundation
+ * Copyright (c) 2008-2011 The Open Source Geospatial Foundation
  * 
  * Published under the BSD license.
  * See http://svn.geoext.org/core/trunk/geoext/license.txt for the full text
@@ -7,14 +7,16 @@
  */
 
 /**
+ * @include GeoExt/widgets/MapPanel.js
  * @include GeoExt/widgets/tree/LayerNode.js
+ * @include GeoExt/widgets/tree/LayerContainer.js
  */
 Ext.namespace("GeoExt.tree");
 
 /** api: (define)
  *  module = GeoExt.tree
  *  class = LayerLoader
- *  base_link = `Ext.util.Observable <http://extjs.com/deploy/dev/docs/?class=Ext.util.Observable>`_
+ *  base_link = `Ext.util.Observable <http://dev.sencha.com/deploy/dev/docs/?class=Ext.util.Observable>`_
  */
 
 /** api: constructor
@@ -29,21 +31,23 @@ GeoExt.tree.LayerLoader = function(config) {
     Ext.apply(this, config);
     this.addEvents(
     
-        /** api: events[beforeload]
+        /** api: event[beforeload]
          *  Triggered before loading children. Return false to avoid
          *  loading children.
          *  
          *  Listener arguments:
+         *  
          *  * loader - :class:`GeoExt.tree.LayerLoader` this loader
          *  * node - ``Ex.tree.TreeNode`` the node that this loader is
          *      configured with
          */
         "beforeload",
         
-        /** api: events[load]
+        /** api: event[load]
          *  Triggered after children wer loaded.
          *  
          *  Listener arguments:
+         *  
          *  * loader - :class:`GeoExt.tree.LayerLoader` this loader
          *  * node - ``Ex.tree.TreeNode`` the node that this loader is
          *      configured with
@@ -71,12 +75,18 @@ Ext.extend(GeoExt.tree.LayerLoader, Ext.util.Observable, {
      *  .. code-block:: javascript
      *  
      *      filter: function(record) {
-     *          return record.get("layer").displayInLayerSwitcher == true
+     *          return record.getLayer().displayInLayerSwitcher == true
      *      }
      */
     filter: function(record) {
-        return record.get("layer").displayInLayerSwitcher == true;
+        return record.getLayer().displayInLayerSwitcher == true;
     },
+    
+    /** api: config[baseAttrs]
+     *  An object containing attributes to be added to all nodes created by
+     *  this loader.
+     */
+    baseAttrs: null,
     
     /** api: config[uiProviders]
      *  ``Object``
@@ -85,7 +95,7 @@ Ext.extend(GeoExt.tree.LayerLoader, Ext.util.Observable, {
      *  attribute for child nodes is a string rather than a reference to a
      *  TreeNodeUI implementation, then that string value is used as a
      *  property name in the uiProviders object. If not provided, the
-     *  uiProviders object will be taken from the ownerTree.
+     *  uiProviders object will be taken from the ownerTree's loader.
      */
     uiProviders: null,
     
@@ -165,7 +175,7 @@ Ext.extend(GeoExt.tree.LayerLoader, Ext.util.Observable, {
         if (this.filter(layerRecord) === true) {
             var child = this.createNode({
                 nodeType: 'gx_layer',
-                layer: layerRecord.get("layer"),
+                layer: layerRecord.getLayer(),
                 layerStore: this.store
             });
             var sibling = node.item(index);
@@ -189,7 +199,7 @@ Ext.extend(GeoExt.tree.LayerLoader, Ext.util.Observable, {
     removeLayerNode: function(node, layerRecord) {
         if (this.filter(layerRecord) === true) {
             var child = node.findChildBy(function(node) {
-                return node.layer == layerRecord.get("layer");
+                return node.layer == layerRecord.getLayer();
             });
             if(child) {
                 child.un("move", this.onChildMove, this);
@@ -212,11 +222,8 @@ Ext.extend(GeoExt.tree.LayerLoader, Ext.util.Observable, {
      */
     onChildMove: function(tree, node, oldParent, newParent, index) {
         this._reordering = true;
-        var oldRecordIndex = this.store.findBy(function(record) {
-            return record.get("layer") === node.layer;
-        });
         // remove the record and re-insert it at the correct index
-        var record = this.store.getAt(oldRecordIndex);
+        var record = this.store.getByLayer(node.layer);
 
         if(newParent instanceof GeoExt.tree.LayerContainer && 
                                     this.store === newParent.loader.store) {
@@ -227,7 +234,7 @@ Ext.extend(GeoExt.tree.LayerLoader, Ext.util.Observable, {
                 // find index by neighboring node in the same container
                 var searchIndex = (index === 0) ? index + 1 : index - 1;
                 newRecordIndex = this.store.findBy(function(r) {
-                    return newParent.childNodes[searchIndex].layer === r.get("layer");
+                    return newParent.childNodes[searchIndex].layer === r.getLayer();
                 });
                 index === 0 && newRecordIndex++;
             } else if(oldParent.parentNode === newParent.parentNode){
@@ -238,7 +245,7 @@ Ext.extend(GeoExt.tree.LayerLoader, Ext.util.Observable, {
                 } while (prev && !(prev instanceof GeoExt.tree.LayerContainer && prev.lastChild));
                 if(prev) {
                     newRecordIndex = this.store.findBy(function(r) {
-                        return prev.lastChild.layer === r.get("layer");
+                        return prev.lastChild.layer === r.getLayer();
                     });
                 } else {
                     // find indext by first node of a container below
@@ -248,7 +255,7 @@ Ext.extend(GeoExt.tree.LayerLoader, Ext.util.Observable, {
                     } while (next && !(next instanceof GeoExt.tree.LayerContainer && next.firstChild));
                     if(next) {
                         newRecordIndex = this.store.findBy(function(r) {
-                            return next.firstChild.layer === r.get("layer");
+                            return next.firstChild.layer === r.getLayer();
                         });
                     }
                     newRecordIndex++;
@@ -294,10 +301,13 @@ Ext.extend(GeoExt.tree.LayerLoader, Ext.util.Observable, {
         }
     },
 
-    /** private: method[createNode]
+    /** api: method[createNode]
      *  :param attr: ``Object`` attributes for the new node
+     *
+     *  Override this function for custom TreeNode node implementation, or to
+     *  modify the attributes at creation time.
      */
-    createNode: function(attr){
+    createNode: function(attr) {
         if(this.baseAttrs){
             Ext.apply(attr, this.baseAttrs);
         }

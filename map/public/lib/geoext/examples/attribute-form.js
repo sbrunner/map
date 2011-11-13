@@ -6,6 +6,13 @@
  * of the license.
  */
 
+/** api: example[attribute-form]
+ *  Attribute Form
+ *  --------------
+ *  Create a form with fields from attributes read from a WFS
+ *  DescribeFeatureType response
+ */
+
 var form;
 
 Ext.onReady(function() {
@@ -28,7 +35,18 @@ Ext.onReady(function() {
         },
         plugins: [
             new GeoExt.plugins.AttributeForm({
-                attributeStore: attributeStore
+                attributeStore: attributeStore,
+                recordToFieldOptions: {
+                    labelTpl: new Ext.XTemplate(
+                        '{name}{[this.getStar(values)]}', {
+                            compiled: true,
+                            disableFormats: true,
+                            getStar: function(v) {
+                                return v.nillable ? '' : ' *';
+                            }
+                        }
+                    )
+                }
             })
         ]
     });

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2010 The Open Source Geospatial Foundation
+ * Copyright (c) 2008-2011 The Open Source Geospatial Foundation
  * 
  * Published under the BSD license.
  * See http://svn.geoext.org/core/trunk/geoext/license.txt for the full text
@@ -31,14 +31,6 @@ Ext.namespace('GeoExt');
  */
 GeoExt.WMSLegend = Ext.extend(GeoExt.LayerLegend, {
 
-    /** api: config[imageFormat]
-     *  ``String``  
-     *  The image format to request the legend image in if the url cannot be
-     *  determined from the styles field of the layer record. Defaults to
-     *  image/gif.
-     */
-    imageFormat: "image/gif",
-    
     /** api: config[defaultStyleIsFirst]
      *  ``Boolean``
      *  The WMS spec does not say if the first style advertised for a layer in
@@ -51,29 +43,56 @@ GeoExt.WMSLegend = Ext.extend(GeoExt.LayerLegend, {
     defaultStyleIsFirst: true,
 
     /** api: config[useScaleParameter]
-     * ``Boolean``
-     * Should we use the optional SCALE parameter in the SLD WMS
-     * GetLegendGraphic request? Defaults to true.
+     *  ``Boolean``
+     *  Should we use the optional SCALE parameter in the SLD WMS
+     *  GetLegendGraphic request? Defaults to true.
      */
     useScaleParameter: true,
-    
-    /** private: property[map]
-     *  ``OpenLayers.Map`` The map to register events to.
-     */
-    map: null,
 
+    /** api: config[baseParams]
+     * ``Object``
+     *  Optional parameters to add to the legend url, this can e.g. be used to
+     *  support vendor-specific parameters in a SLD WMS GetLegendGraphic
+     *  request. To override the default MIME type of image/gif use the
+     *  FORMAT parameter in baseParams.
+     *     
+     *  .. code-block:: javascript
+     *     
+     *      var legendPanel = new GeoExt.LegendPanel({
+     *          map: map,
+     *          title: 'Legend Panel',
+     *          defaults: {
+     *              style: 'padding:5px',
+     *              baseParams: {
+     *                  FORMAT: 'image/png',
+     *                  LEGEND_OPTIONS: 'forceLabels:on'
+     *              }
+     *          }
+     *      });   
+     */
+    baseParams: null,
+    
     /** private: method[initComponent]
      *  Initializes the WMS legend. For group layers it will create multiple
      *  image box components.
      */
     initComponent: function() {
         GeoExt.WMSLegend.superclass.initComponent.call(this);
-        var layer = this.layerRecord.get("layer");
-        this.map = layer.map;
-        if (this.useScaleParameter === true) {
-            this.map.events.register("zoomend", this, this.update);
-        }
+        var layer = this.layerRecord.getLayer();
+        this._noMap = !layer.map;
+        layer.events.register("moveend", this, this.onLayerMoveend);
         this.update();
+    },
+    
+    /** private: method[onLayerMoveend]
+     *  :param e: ``Object``
+     */
+    onLayerMoveend: function(e) {
+        if ((e.zoomChanged === true && this.useScaleParameter === true) ||
+                                                                this._noMap) {
+            delete this._noMap;
+            this.update();
+        }
     },
 
     /** private: method[getLegendUrl]
@@ -88,7 +107,7 @@ GeoExt.WMSLegend = Ext.extend(GeoExt.LayerLegend, {
         var rec = this.layerRecord;
         var url;
         var styles = rec && rec.get("styles");
-        var layer = rec.get("layer");
+        var layer = rec.getLayer();
         layerNames = layerNames || [layer.params.LAYERS].join(",").split(",");
 
         var styleNames = layer.params.STYLES &&
@@ -119,17 +138,27 @@ GeoExt.WMSLegend = Ext.extend(GeoExt.LayerLegend, {
                 STYLE: (styleName !== '') ? styleName: null,
                 STYLES: null,
                 SRS: null,
-                FORMAT: this.imageFormat
+                FORMAT: null,
+                TIME: null
             });
         }
-        // add scale parameter - also if we have the url from the record's
-        // styles data field and it is actually a GetLegendGraphic request.
-        if(this.useScaleParameter === true &&
-                url.toLowerCase().indexOf("request=getlegendgraphic") != -1) {
-            var scale = this.map.getScale();
-            //TODO replace with Ext.urlAppend when we drop support for Ext 2.x
-            url = OpenLayers.Util.urlAppend(url, "SCALE=" + scale);
+        if (url.toLowerCase().indexOf("request=getlegendgraphic") != -1) {
+            if (url.toLowerCase().indexOf("format=") == -1) {
+                url = Ext.urlAppend(url, "FORMAT=image/gif");
+            }
+            // add scale parameter - also if we have the url from the record's
+            // styles data field and it is actually a GetLegendGraphic request.
+            if (this.useScaleParameter === true) {
+                var scale = layer.map.getScale();
+                url = Ext.urlAppend(url, "SCALE=" + scale);
+            }
         }
+        var params = Ext.apply({}, this.baseParams);
+        if (layer.params._OLSALT) {
+            // update legend after a forced layer redraw
+            params._OLSALT = layer.params._OLSALT;
+        }
+        url = Ext.urlAppend(url, Ext.urlEncode(params));
         
         return url;
     },
@@ -139,7 +168,7 @@ GeoExt.WMSLegend = Ext.extend(GeoExt.LayerLegend, {
      *  the per-sublayer box component.
      */
     update: function() {
-        var layer = this.layerRecord.get("layer");
+        var layer = this.layerRecord.getLayer();
         // In some cases, this update function is called on a layer
         // that has just been removed, see ticket #238.
         // The following check bypass the update if map is not set.
@@ -191,11 +220,10 @@ GeoExt.WMSLegend = Ext.extend(GeoExt.LayerLegend, {
      */
     beforeDestroy: function() {
         if (this.useScaleParameter === true) {
-            var layer = this.layerRecord.get("layer")
-            this.map && this.map.events &&
-                this.map.events.unregister("zoomend", this, this.update);
+            var layer = this.layerRecord.getLayer();
+            layer && layer.events &&
+                layer.events.unregister("moveend", this, this.onLayerMoveend);
         }
-        delete this.map;
         GeoExt.WMSLegend.superclass.beforeDestroy.apply(this, arguments);
     }
 
@@ -205,7 +233,7 @@ GeoExt.WMSLegend = Ext.extend(GeoExt.LayerLegend, {
  *  Private override
  */
 GeoExt.WMSLegend.supports = function(layerRecord) {
-    return layerRecord.get("layer") instanceof OpenLayers.Layer.WMS;
+    return layerRecord.getLayer() instanceof OpenLayers.Layer.WMS ? 1 : 0;
 };
 
 /** api: legendtype = gx_wmslegend */

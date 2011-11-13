@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2010 The Open Source Geospatial Foundation
+ * Copyright (c) 2008-2011 The Open Source Geospatial Foundation
  * 
  * Published under the BSD license.
  * See http://svn.geoext.org/core/trunk/geoext/license.txt for the full text
@@ -10,7 +10,7 @@ Ext.namespace("GeoExt.plugins");
 /** api: (define)
  *  module = GeoExt.plugins
  *  class = PrintProviderField
- *  base_link = `Ext.util.Observable <http://extjs.com/deploy/dev/docs/?class=Ext.util.Observable>`_
+ *  base_link = `Ext.util.Observable <http://dev.sencha.com/deploy/dev/docs/?class=Ext.util.Observable>`_
  */
 
 /** api: example
@@ -101,7 +101,8 @@ GeoExt.plugins.PrintProviderField = Ext.extend(Ext.util.Observable, {
         this.target = target;
         var onCfg = {
             scope: this,
-            "render": this.onRender
+            "render": this.onRender,
+            "beforedestroy": this.onBeforeDestroy
         };
         onCfg[target instanceof Ext.form.ComboBox ? "select" : "valid"] =
             this.onFieldChange;
@@ -168,18 +169,20 @@ GeoExt.plugins.PrintProviderField = Ext.extend(Ext.util.Observable, {
         }
     },
     
-    /** private: method[destroy]
+    /** private: method[onBeforeDestroy]
      */
-    destroy: function() {
-        this.target.un("render", this.onRender, this);
-        this.target.un("select", this.onFieldChange, this);
-        this.target.un("valid", this.onFieldChange, this);
-        this.printProvider.un("layoutchange", this.onProviderChange, this);
-        this.printProvider.un("dpichange", this.onProviderChange,
-            this);
+    onBeforeDestroy: function() {
+        var target = this.target;
+        target.un("beforedestroy", this.onBeforeDestroy, this);
+        target.un("render", this.onRender, this);
+        target.un("select", this.onFieldChange, this);
+        target.un("valid", this.onFieldChange, this);
+        var printProvider = this.printProvider || target.ownerCt.printProvider;
+        printProvider.un("layoutchange", this.onProviderChange, this);
+        printProvider.un("dpichange", this.onProviderChange, this);
     }
 
 });
 
 /** api: ptype = gx_printproviderfield */
-Ext.preg && Ext.preg("gx_printproviderfield", GeoExt.plugins.PrintProviderField);
+Ext.preg("gx_printproviderfield", GeoExt.plugins.PrintProviderField);

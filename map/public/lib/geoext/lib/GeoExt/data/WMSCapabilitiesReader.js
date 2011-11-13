@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2010 The Open Source Geospatial Foundation
+ * Copyright (c) 2008-2011 The Open Source Geospatial Foundation
  * 
  * Published under the BSD license.
  * See http://svn.geoext.org/core/trunk/geoext/license.txt for the full text
@@ -13,23 +13,25 @@
 /** api: (define)
  *  module = GeoExt.data
  *  class = WMSCapabilitiesReader
- *  base_link = `Ext.data.DataReader <http://extjs.com/deploy/dev/docs/?class=Ext.data.DataReader>`_
+ *  base_link = `Ext.data.DataReader <http://dev.sencha.com/deploy/dev/docs/?class=Ext.data.DataReader>`_
  */
 Ext.namespace("GeoExt.data");
 
 /** api: constructor
  *  .. class:: WMSCapabilitiesReader(meta, recordType)
  *  
- *      :param meta: ``Object`` Reader configuration from which 
+ *      :param meta: ``Object`` Reader configuration from which:
  *          ``layerOptions`` is an optional object passed as default options
  *          to the ``OpenLayers.Layer.WMS`` constructor.
+ *          ``layerParams`` is an optional set of parameters to pass into the
+ *          ``OpenLayers.Layer.WMS`` constructor.
  *      :param recordType: ``Array | Ext.data.Record`` An array of field
  *          configuration objects or a record object.  Default is
  *          :class:`GeoExt.data.LayerRecord` with the following fields:
  *          name, title, abstract, queryable, opaque, noSubsets, cascaded,
  *          fixedWidth, fixedHeight, minScale, maxScale, prefix, formats,
  *          styles, srs, dimensions, bbox, llbbox, attribution, keywords,
- *          identifiers, authorityURLs, metadataURLs.
+ *          identifiers, authorityURLs, metadataURLs, infoFormats.
  *          The type of these fields is the same as for the matching fields in
  *          the object returned from
  *          ``OpenLayers.Format.WMSCapabilities::read()``.
@@ -68,7 +70,8 @@ GeoExt.data.WMSCapabilitiesReader = function(meta, recordType) {
                 {name: "keywords"}, // array
                 {name: "identifiers"}, // object
                 {name: "authorityURLs"}, // object
-                {name: "metadataURLs"} // array
+                {name: "metadataURLs"}, // array
+                {name: "infoFormats"} // array
             ]
         );
     }
@@ -163,6 +166,9 @@ Ext.extend(GeoExt.data.WMSCapabilitiesReader, Ext.data.DataReader, {
         if(typeof data === "string" || data.nodeType) {
             data = this.meta.format.read(data);
         }
+        if (!!data.error) {
+            throw new Ext.data.DataReader.Error("invalid-response", data.error);
+        }
         var version = data.version;
         var capability = data.capability || {};
         var url = capability.request && capability.request.getmap &&
@@ -174,7 +180,7 @@ Ext.extend(GeoExt.data.WMSCapabilitiesReader, Ext.data.DataReader, {
         
         if(url && layers) {
             var fields = this.recordType.prototype.fields; 
-            var layer, values, options, field, v;
+            var layer, values, options, params, field, v;
 
             for(var i=0, lenI=layers.length; i<lenI; i++){
                 layer = layers[i];
@@ -197,14 +203,18 @@ Ext.extend(GeoExt.data.WMSCapabilitiesReader, Ext.data.DataReader, {
                     if(this.meta.layerOptions) {
                         Ext.apply(options, this.meta.layerOptions);
                     }
-                    values.layer = new OpenLayers.Layer.WMS(
-                        layer.title || layer.name, url, {
+                    params = {
                             layers: layer.name,
                             exceptions: exceptions,
                             format: this.imageFormat(layer),
                             transparent: this.imageTransparent(layer),
                             version: version
-                        }, options
+                    };
+                    if (this.meta.layerParams) {
+                        Ext.apply(params, this.meta.layerParams);
+                    }
+                    values.layer = new OpenLayers.Layer.WMS(
+                        layer.title || layer.name, url, params, options
                     );
                     records.push(new this.recordType(values, values.layer.id));
                 }

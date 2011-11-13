@@ -1,5 +1,5 @@
  /**
- * Copyright (c) 2008-2010 The Open Source Geospatial Foundation
+ * Copyright (c) 2008-2011 The Open Source Geospatial Foundation
  * 
  * Published under the BSD license.
  * See http://svn.geoext.org/core/trunk/geoext/license.txt for the full text
@@ -7,10 +7,9 @@
  */
 
 /** api: example[print-form]
- *  Advanced Printing with a Form
- *  -----------------------------
- *  Using form fields with PrintPageField and PrintProviderField plugins to
- *  control print output.
+ *  Print Configuration with a Form
+ *  -------------------------------
+ *  Use form field plugins to control print output.
  */
 
 var mapPanel, printPage;
@@ -19,15 +18,15 @@ Ext.onReady(function() {
     // The printProvider that connects us to the print service
     var printProvider = new GeoExt.data.PrintProvider({
         method: "GET", // "POST" recommended for production use
-        capabilities: printCapabilities // from the info.json script in the html
+        capabilities: printCapabilities, // from the info.json script in the html
+        customParams: {
+            mapTitle: "Printing Demo"
+        }
     });
     // Our print page. Stores scale, center and rotation and gives us a page
     // extent feature that we can add to a layer.
     printPage = new GeoExt.data.PrintPage({
-        printProvider: printProvider,
-        customParams: {
-            mapTitle: "Printing Demo"
-        }
+        printProvider: printProvider
     });
     // A layer to display the print page extent
     var pageLayer = new OpenLayers.Layer.Vector();
@@ -39,7 +38,7 @@ Ext.onReady(function() {
         map: {
             eventListeners: {
                 // recenter/resize page extent after pan/zoom
-                "moveend": function(){ printPage.fit(this); }
+                "moveend": function(){ printPage.fit(this, {mode: "screen"}); }
             }
         },
         layers: [

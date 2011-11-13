@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2010 The Open Source Geospatial Foundation
+ * Copyright (c) 2008-2011 The Open Source Geospatial Foundation
  * 
  * Published under the BSD license.
  * See http://svn.geoext.org/core/trunk/geoext/license.txt for the full text
@@ -9,7 +9,7 @@
 /** api: (define)
  *  module = GeoExt
  *  class = LayerLegend
- *  base_link = `Ext.Container <http://extjs.com/deploy/dev/docs/?class=Ext.Container>`_
+ *  base_link = `Ext.Container <http://dev.sencha.com/deploy/dev/docs/?class=Ext.Container>`_
  */
 
 Ext.namespace('GeoExt');
@@ -45,6 +45,11 @@ GeoExt.LayerLegend = Ext.extend(Ext.Container, {
      *  Optional css class to use for the layer title labels.
      */
     labelCls: null,
+    
+    /** private: property[layerStore]
+     *  :class:`GeoExt.data.LayerStore`
+     */
+    layerStore: null,
 
     /** private: method[initComponent]
      */
@@ -57,8 +62,40 @@ GeoExt.LayerLegend = Ext.extend(Ext.Container, {
             cls: 'x-form-item x-form-item-label' +
                 (this.labelCls ? ' ' + this.labelCls : '')
         });
-        this.layerRecord &&
-            this.layerRecord.store.on("update", this.onStoreUpdate, this);
+        if (this.layerRecord && this.layerRecord.store) {
+            this.layerStore = this.layerRecord.store;
+            this.layerStore.on("update", this.onStoreUpdate, this);
+            this.layerStore.on("add", this.onStoreAdd, this);
+            this.layerStore.on("remove", this.onStoreRemove, this);
+        }
+    },
+
+    /** private: method[onStoreRemove]
+     *  Handler for remove event of the layerStore
+     *
+     *  :param store: ``Ext.data.Store`` The store from which the record was
+     *      removed.
+     *  :param record: ``Ext.data.Record`` The record object corresponding
+     *      to the removed layer.
+     *  :param index: ``Integer`` The index in the store at which the record
+     *      was remvoed.
+     */
+    onStoreRemove: function(store, record, index) {
+        // to be implemented by subclasses if needed
+    },
+
+    /** private: method[onStoreAdd]
+     *  Handler for add event of the layerStore
+     *
+     *  :param store: ``Ext.data.Store`` The store to which the record was
+     *      added.
+     *  :param record: ``Ext.data.Record`` The record object corresponding
+     *      to the added layer.
+     *  :param index: ``Integer`` The index in the store at which the record
+     *      was added.
+     */
+    onStoreAdd: function(store, record, index) {
+        // to be implemented by subclasses if needed
     },
 
     /** private: method[onStoreUpdate]
@@ -73,8 +110,11 @@ GeoExt.LayerLegend = Ext.extend(Ext.Container, {
      *  :param operation: ``String`` The type of operation.
      */
     onStoreUpdate: function(store, record, operation) {
-        if(record === this.layerRecord) {
-            var layer = record.get('layer');
+        // if we don't have items, we are already awaiting garbage
+        // collection after being removed by LegendPanel::removeLegend, and
+        // updating will cause errors
+        if (record === this.layerRecord && this.items.getCount() > 0) {
+            var layer = record.getLayer();
             this.setVisible(layer.getVisibility() &&
                 layer.calculateInRange() && layer.displayInLayerSwitcher &&
                 !record.get('hideInLegend'));
@@ -87,9 +127,10 @@ GeoExt.LayerLegend = Ext.extend(Ext.Container, {
      */
     update: function() {
         var title = this.getLayerTitle(this.layerRecord);
-        if (this.items.get(0).text !== title) {
+        var item = this.items.get(0);
+        if (item instanceof Ext.form.Label && item.text !== title) {
             // we need to update the title
-            this.items.get(0).setText(title);
+            item.setText(title);
         }
     },
     
@@ -106,7 +147,7 @@ GeoExt.LayerLegend = Ext.extend(Ext.Container, {
             if (record && !record.get("hideTitle")) {
                 title = record.get("title") || 
                     record.get("name") || 
-                    record.get("layer").name || "";
+                    record.getLayer().name || "";
             }
         }
         return title;
@@ -115,9 +156,20 @@ GeoExt.LayerLegend = Ext.extend(Ext.Container, {
     /** private: method[beforeDestroy]
      */
     beforeDestroy: function() {
-        this.layerRecord && this.layerRecord.store &&
-            this.layerRecord.store.un("update", this.onStoreUpdate, this);
+        if (this.layerStore) {
+            this.layerStore.un("update", this.onStoreUpdate, this);
+            this.layerStore.un("remove", this.onStoreRemove, this);
+            this.layerStore.un("add", this.onStoreAdd, this);
+        }
         GeoExt.LayerLegend.superclass.beforeDestroy.apply(this, arguments);
+    },
+
+    /** private: method[onDestroy]
+     */
+    onDestroy: function() {
+        this.layerRecord = null;
+        this.layerStore = null;
+        GeoExt.LayerLegend.superclass.onDestroy.apply(this, arguments);
     }
 
 });
@@ -127,8 +179,8 @@ GeoExt.LayerLegend = Ext.extend(Ext.Container, {
  *      legend types for. If not provided, all registered types will be
  *      returned.
  *  :param preferredTypes: ``Array(String)`` Types that should be considered.
- *      first. If not provided, all legend types will be returned in the order
- *      they were registered.
+ *      first. If not provided, all registered legend types will be returned
+ *      in the order of their score for support of the provided layerRecord.
  *  :return: ``Array(String)`` xtypes of legend types that can be used with
  *      the provided ``layerRecord``.
  *  
@@ -136,16 +188,29 @@ GeoExt.LayerLegend = Ext.extend(Ext.Container, {
  *  with optionally provided preferred types listed first.
  */
 GeoExt.LayerLegend.getTypes = function(layerRecord, preferredTypes) {
-    var types = (preferredTypes || []).concat();
-    var goodTypes = [];
-    for(var type in GeoExt.LayerLegend.types) {
-        if(GeoExt.LayerLegend.types[type].supports(layerRecord)) {
-            // add to goodTypes if not preferred
-            types.indexOf(type) == -1 && goodTypes.push(type);
+    var types = (preferredTypes || []).concat(),
+        scoredTypes = [], score, type;
+    for (type in GeoExt.LayerLegend.types) {
+        score = GeoExt.LayerLegend.types[type].supports(layerRecord);
+        if(score > 0) {
+            // add to scoredTypes if not preferred
+            if (types.indexOf(type) == -1) {
+                scoredTypes.push({
+                    type: type,
+                    score: score
+                });
+            }
         } else {
             // preferred, but not supported
             types.remove(type);
         }
+    }
+    scoredTypes.sort(function(a, b) {
+        return a.score < b.score ? 1 : (a.score == b.score ? 0 : -1);
+    });
+    var len = scoredTypes.length, goodTypes = new Array(len);
+    for (var i=0; i<len; ++i) {
+        goodTypes[i] = scoredTypes[i].type;
     }
     // take the remaining preferred types, and add other good types 
     return types.concat(goodTypes);
@@ -154,8 +219,8 @@ GeoExt.LayerLegend.getTypes = function(layerRecord, preferredTypes) {
 /** private: method[supports]
  *  :param layerRecord: :class:`GeoExt.data.LayerRecord` The layer record
  *      to check support for.
- *  :return: ``Boolean`` true if this legend type supports the layer
- *      record.
+ *  :return: ``Integer`` score indicating how good the legend supports the
+ *      provided record. 0 means not supported.
  *  
  *  Checks whether this legend type supports the provided layerRecord.
  */

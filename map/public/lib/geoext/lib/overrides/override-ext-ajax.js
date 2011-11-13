@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2010 The Open Source Geospatial Foundation
+ * Copyright (c) 2008-2011 The Open Source Geospatial Foundation
  * 
  * Published under the BSD license.
  * See http://svn.geoext.org/core/trunk/geoext/license.txt for the full text
@@ -15,11 +15,9 @@
     var createComplete = function(fn, cb) {
         return function(request) {
             if(cb && cb[fn]) {
-                cb[fn].call(cb.scope || window, {
-                    responseText: request.responseText,
-                    responseXML: request.responseXML,
+                cb[fn].call(cb.scope || window, Ext.applyIf({
                     argument: cb.argument
-                });
+                }, request));
             }
         };
     };

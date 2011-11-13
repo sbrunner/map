@@ -5,6 +5,11 @@
  * See http://svn.geoext.org/core/trunk/geoext/license.txt for the full text
  * of the license.
  */
+
+/*
+ * @include GeoExt/widgets/form.js
+ */
+
 Ext.namespace("GeoExt.plugins");
 
 /** api: (define)
@@ -71,25 +76,10 @@ GeoExt.plugins.AttributeForm.prototype = {
      *  ``Ext.form.FormPanel`` This form panel.
      */
     formPanel: null,
-
-    /** private: property[regExes]
-     *  ``Object`` Regular expressions for determining what type
-     *  of field to create from an attribute record.
+    
+    /** api: config[recordToFieldOptions]
+     *  ``Object`` Options to pass on to :function:`GeoExt.form.recordToField`.
      */
-    regExes: {
-        "text": new RegExp(
-            "^(string)$", "i"
-        ),
-        "number": new RegExp(
-            "^(float|decimal|double|int|long|integer|short)$", "i"
-        ),
-        "boolean": new RegExp(
-            "^(boolean)$", "i"
-        ),
-        "date": new RegExp(
-            "^(dateTime)$", "i"
-        )
-    },
 
     /** private: method[init]
      *  :param formPanel: class:`Ext.form.FormPanel`
@@ -149,45 +139,11 @@ GeoExt.plugins.AttributeForm.prototype = {
      */
     fillForm: function() {
         this.attributeStore.each(function(record) {
-            var name = record.get("name");
-            var type = record.get("type").split(":").pop(); // remove ns prefix
-            var restriction = record.get("restriction") || {};
-            if(type.match(this.regExes["text"])) {
-                var maxLength = restriction["maxLength"] !== undefined ?
-                    parseFloat(restriction["maxLength"]) : undefined;
-                var minLength = restriction["minLength"] !== undefined ?
-                    parseFloat(restriction["minLength"]) : undefined;
-                this.formPanel.add({
-                    xtype: "textfield",
-                    name: name,
-                    fieldLabel: name,
-                    maxLength: maxLength,
-                    minLength: minLength
-                });
-            } else if(type.match(this.regExes["number"])) {
-                var maxValue = restriction["maxInclusive"] !== undefined ?
-                    parseFloat(restriction["maxInclusive"]) : undefined;
-                var minValue = restriction["minInclusive"] !== undefined ?
-                    parseFloat(restriction["minInclusive"]) : undefined;
-                this.formPanel.add({
-                    xtype: "numberfield",
-                    name: name,
-                    fieldLabel: name,
-                    maxValue: maxValue,
-                    minValue: minValue
-                });
-            } else if(type.match(this.regExes["boolean"])) {
-                this.formPanel.add({
-                    xtype: "checkbox",
-                    name: name,
-                    boxLabel: name
-                });
-            } else if(type.match(this.regExes["date"])) {
-                this.formPanel.add({
-                    xtype: "datefield",
-                    fieldLabel: name,
-                    name: name
-                });
+            var field = GeoExt.form.recordToField(record, Ext.apply({
+                checkboxLabelProperty: 'fieldLabel'
+            }, this.recordToFieldOptions || {}));
+            if(field) {
+                this.formPanel.add(field);
             }
         }, this);
         this.formPanel.doLayout();
@@ -201,4 +157,4 @@ GeoExt.plugins.AttributeForm.prototype = {
 };
 
 /** api: ptype = gx_attributeform */
-Ext.preg && Ext.preg("gx_attributeform", GeoExt.plugins.AttributeForm);
+Ext.preg("gx_attributeform", GeoExt.plugins.AttributeForm);

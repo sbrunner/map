@@ -7,7 +7,7 @@ svn:externals properties on subdirectories).
 License
 =======
 
-Copyright (c) 2008-2010, The Open Source Geospatial Foundation
+Copyright (c) 2008-2011, The Open Source Geospatial Foundation
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -40,5 +40,5 @@ Notice about ExtJS
 ==================
 
 The GeoExt library is for use with the ExtJS library.  ExtJS is distributed
-under the terms of the GPL v3.  See http://extjs.com/products/license.php for
-details on ExtJS licensing.
+under the terms of the GPL v3.  See http://www.sencha.com/products/license.php
+for details on ExtJS licensing.

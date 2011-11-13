@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2010 The Open Source Geospatial Foundation
+ * Copyright (c) 2008-2011 The Open Source Geospatial Foundation
  * 
  * Published under the BSD license.
  * See http://svn.geoext.org/core/trunk/geoext/license.txt for the full text
@@ -14,7 +14,10 @@
 /** api: (define)
  *  module = GeoExt
  *  class = VectorLegend
- *  base_link = `Ext.Panel <http://extjs.com/deploy/dev/docs/?class=Ext.Panel>`_
+ */
+
+/** api: (extends)
+ * GeoExt/widgets/LayerLegend.js
  */
 
 Ext.namespace('GeoExt');
@@ -54,7 +57,11 @@ GeoExt.VectorLegend = Ext.extend(GeoExt.LayerLegend, {
      *  The symbol type for legend swatches.  Must be one of ``"Point"``, 
      *  ``"Line"``, or ``"Polygon"``.  If not provided, the ``layer`` or
      *  ``layerRecord`` config property must be specified, and the geometry type
-     *  of the first feature found on the layer will be used.
+     *  of the first feature found on the layer will be used. If a rule does
+     *  not have a symbolizer for ``symbolType``, we look at the symbolizers
+     *  for the rule, and see if it has a ``"Point"``, ``"Line"`` or
+     *  ``"Polygon"`` symbolizer, which we use for rendering a swatch of the
+     *  respective geometry type. 
      */
     symbolType: null,
 
@@ -62,7 +69,7 @@ GeoExt.VectorLegend = Ext.extend(GeoExt.LayerLegend, {
      *  ``String``
      *  The prefix to use as a title for rules with no title or
      *  name.  Default is ``"Untitled "``.  Prefix will be appended with a
-     *  number.
+     *  number that corresponds to the index of the rule (1 for first rule).
      */
     untitledPrefix: "Untitled ",
     
@@ -126,20 +133,15 @@ GeoExt.VectorLegend = Ext.extend(GeoExt.LayerLegend, {
      */
     currentScaleDenominator: null,
     
-    /** private: property[untitledCount]
-     *  ``Number``
-     *  Last number used for untitled rule.
-     */
-    untitledCount: 0,
-    
     /** private: method[initComponent]
      *  Initializes the Vector legend.
      */
     initComponent: function() {
         GeoExt.VectorLegend.superclass.initComponent.call(this);
         if (this.layerRecord) {
-            this.layer = this.layerRecord.get("layer");
+            this.layer = this.layerRecord.getLayer();
             if (this.layer.map) {
+                this.map = this.layer.map;
                 this.currentScaleDenominator = this.layer.map.getScale();
                 this.layer.map.events.on({
                     "zoomend": this.onMapZoom,
@@ -183,6 +185,7 @@ GeoExt.VectorLegend = Ext.extend(GeoExt.LayerLegend, {
              *  Fires when a rule title is clicked.
              *
              *  Listener arguments:
+             *  
              *  * comp - :class:`GeoExt.VectorLegend`` This component.
              *  * rule - ``OpenLayers.Rule`` The rule whose title was clicked.
              */
@@ -192,6 +195,7 @@ GeoExt.VectorLegend = Ext.extend(GeoExt.LayerLegend, {
              *  Fires when a rule symbolizer is clicked.
              *
              *  Listener arguments:
+             *  
              *  * comp - :class:`GeoExt.VectorLegend`` This component.
              *  * rule - ``OpenLayers.Rule`` The rule whose symbol was clicked.
              */
@@ -202,6 +206,7 @@ GeoExt.VectorLegend = Ext.extend(GeoExt.LayerLegend, {
              *  title click).
              *
              *  Listener arguments:
+             *  
              *  * comp - :class:`GeoExt.VectorLegend`` This component.
              *  * rule - ``OpenLayers.Rule`` The rule that was clicked.
              */
@@ -212,6 +217,7 @@ GeoExt.VectorLegend = Ext.extend(GeoExt.LayerLegend, {
              *  ``true``.
              * 
              *  Listener arguments:
+             *  
              *  * comp - :class:`GeoExt.VectorLegend`` This component.
              *  * rule - ``OpenLayers.Rule`` The rule that was selected.
              */
@@ -223,6 +229,7 @@ GeoExt.VectorLegend = Ext.extend(GeoExt.LayerLegend, {
              *  different one.
              * 
              *  Listener arguments:
+             *  
              *  * comp - :class:`GeoExt.VectorLegend`` This component.
              *  * rule - ``OpenLayers.Rule`` The rule that was unselected.
              */
@@ -232,6 +239,7 @@ GeoExt.VectorLegend = Ext.extend(GeoExt.LayerLegend, {
              *  Fires when a rule is moved.
              * 
              *  Listener arguments:
+             *  
              *  * comp - :class:`GeoExt.VectorLegend`` This component.
              *  * rule - ``OpenLayers.Rule`` The rule that was moved.
              */
@@ -292,6 +300,7 @@ GeoExt.VectorLegend = Ext.extend(GeoExt.LayerLegend, {
         if (style.rules.length === 0) {
             this.rules = [
                 new OpenLayers.Rule({
+                    title: style.title,
                     symbolizer: style.createSymbolizer(this.feature)
                 })
             ];
@@ -433,14 +442,40 @@ GeoExt.VectorLegend = Ext.extend(GeoExt.LayerLegend, {
      *  Create a renderer for the rule.
      */
     createRuleRenderer: function(rule) {
-        var symbolizer = rule.symbolizer;
-        if (symbolizer[this.symbolType]) {
-            symbolizer = symbolizer[this.symbolType];
+        var types = [this.symbolType, "Point", "Line", "Polygon"];
+        var type, haveType;
+        var symbolizers = rule.symbolizers;
+        if (!symbolizers) {
+            // TODO: remove this when OpenLayers.Symbolizer is used everywhere
+            var symbolizer = rule.symbolizer;
+            for (var i=0, len=types.length; i<len; ++i) {
+                type = types[i];
+                if (symbolizer[type]) {
+                    symbolizer = symbolizer[type];
+                    haveType = true;
+                    break;
+                }
+            }
+            symbolizers = [symbolizer];
+        } else {
+            var Type;
+            outer: for (var i=0, ii=types.length; i<ii; ++i) {
+                type = types[i];
+                Type = OpenLayers.Symbolizer[type];
+                if (Type) {
+                    for (var j=0, jj=symbolizers.length; j<jj; ++j) {
+                        if (symbolizers[j] instanceof Type) {
+                            haveType = true;
+                            break outer;
+                        }
+                    }
+                }
+            }
         }
         return {
             xtype: "gx_renderer",
-            symbolType: this.symbolType,
-            symbolizers: [symbolizer],
+            symbolType: haveType ? type : this.symbolType,
+            symbolizers: symbolizers,
             style: this.clickableSymbol ? {cursor: "pointer"} : undefined,
             listeners: {
                 click: function() {
@@ -554,6 +589,10 @@ GeoExt.VectorLegend = Ext.extend(GeoExt.LayerLegend, {
                 this.addRuleEntry(this.rules[i], true);
             }
             this.doLayout();
+            // make sure that the selected rule is still selected after update
+            if (this.selectedRule) {
+                this.getRuleEntry(this.selectedRule).body.addClass("x-grid3-row-selected");
+            }
         }
     },
 
@@ -588,7 +627,11 @@ GeoExt.VectorLegend = Ext.extend(GeoExt.LayerLegend, {
      *  Get a rule title given a rule.
      */
     getRuleTitle: function(rule) {
-        return rule.title || rule.name || (this.untitledPrefix + (++this.untitledCount));
+        var title = rule.title || rule.name || "";
+        if (!title && this.untitledPrefix) {
+            title = this.untitledPrefix + (this.rules.indexOf(rule) + 1);
+        }
+        return title;
     },
 
     /** private: method[beforeDestroy]
@@ -610,8 +653,53 @@ GeoExt.VectorLegend = Ext.extend(GeoExt.LayerLegend, {
             }
         }
         delete this.layer;
+        delete this.map;
         delete this.rules;
         GeoExt.VectorLegend.superclass.beforeDestroy.apply(this, arguments);
+    },
+
+    /** private: method[onStoreRemove]
+     *  Handler for remove event of the layerStore
+     *
+     *  :param store: ``Ext.data.Store`` The store from which the record was
+     *      removed.
+     *  :param record: ``Ext.data.Record`` The record object corresponding
+     *      to the removed layer.
+     *  :param index: ``Integer`` The index in the store.
+     */
+    onStoreRemove: function(store, record, index) {
+        if (record.getLayer() === this.layer) {
+            if (this.map && this.map.events) {
+                this.map.events.un({
+                    "zoomend": this.onMapZoom,
+                    scope: this
+                });
+    }
+        }
+    },
+
+    /** private: method[onStoreAdd]
+     *  Handler for add event of the layerStore
+     *
+     *  :param store: ``Ext.data.Store`` The store to which the record was
+     *      added.
+     *  :param records: Array(``Ext.data.Record``) The record object(s) corresponding
+     *      to the added layer(s).
+     *  :param index: ``Integer`` The index in the store at which the record
+     *      was added.
+     */
+    onStoreAdd: function(store, records, index) {
+        for (var i=0, len=records.length; i<len; i++) {
+            var record = records[i];
+            if (record.getLayer() === this.layer) {
+                if (this.layer.map && this.layer.map.events) {
+                    this.layer.map.events.on({
+                        "zoomend": this.onMapZoom,
+                        scope: this
+});
+                }
+            }
+        }
     }
 
 });
@@ -620,7 +708,7 @@ GeoExt.VectorLegend = Ext.extend(GeoExt.LayerLegend, {
  *  Private override
  */
 GeoExt.VectorLegend.supports = function(layerRecord) {
-    return layerRecord.get("layer") instanceof OpenLayers.Layer.Vector;
+    return layerRecord.getLayer() instanceof OpenLayers.Layer.Vector ? 1 : 0;
 };
 
 /** api: legendtype = gx_vectorlegend */

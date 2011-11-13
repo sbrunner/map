@@ -1,17 +1,21 @@
 /**
- * Copyright (c) 2008-2010 The Open Source Geospatial Foundation
+ * Copyright (c) 2008-2011 The Open Source Geospatial Foundation
  * 
  * Published under the BSD license.
  * See http://svn.geoext.org/core/trunk/geoext/license.txt for the full text
  * of the license.
  */
-Ext.namespace("GeoExt.tree");
+
+/*
+ * @include GeoExt/widgets/MapPanel.js
+ */
 
 /** api: (define)
  *  module = GeoExt.tree
  *  class = LayerParamNode
- *  base_link = `Ext.tree.TreeNode <http://extjs.com/deploy/dev/docs/?class=Ext.tree.TreeNode>`_
+ *  base_link = `Ext.tree.TreeNode <http://dev.sencha.com/deploy/dev/docs/?class=Ext.tree.TreeNode>`_
  */
+Ext.namespace("GeoExt.tree");
 
 /** api: constructor
  *  .. class:: LayerParamNode
@@ -90,35 +94,42 @@ GeoExt.tree.LayerParamNode = Ext.extend(Ext.tree.TreeNode, {
         this.param = config.param;
         this.item = config.item;
         this.delimiter = config.delimiter || ",";
+        this.allItems = config.allItems;
                 
         GeoExt.tree.LayerParamNode.superclass.constructor.apply(this, arguments);
 
-        // see if we have a layer already, and set allItems.
-        if(this.getLayer()) {
-            this.allItems = this.getItems();
-        }
-    },
-    
-    /** private: method[render]
-     *  Private override.
-     */
-    render: function(bulkRender) {
-        var layer = this.getLayer();
-        
-        // set allItems now if we weren't able to do so in the c'tor
-        if(!this.allItems) {
-            this.allItems = this.getItems();
-        }
-        
-        var visibility = layer.getVisibility();
-        this.attributes.checked = this.attributes.checked == null ?
-            visibility : this.attributes.checked;
-        if(this.attributes.checked !== visibility) {
-            this.onCheckChange(this, !visibility);
-        }
+        this.getLayer();
 
-        this.addVisibilityEventHandlers();
-        GeoExt.tree.LayerParamNode.superclass.render.apply(this, arguments);
+        if(this.layer) {
+
+            // read items from layer if allItems isn't set
+            // in the attributes
+            if(!this.allItems) {
+                this.allItems = this.getItemsFromLayer();
+            }
+
+            // if the "checked" attribute isn't set we derive
+            // it from what we have in the layer. Else, we need
+            // to update the layer param based on the value of
+            // the "checked" attribute
+            if(this.attributes.checked == null) {
+                this.attributes.checked =
+                    this.layer.getVisibility() &&
+                    this.getItemsFromLayer().indexOf(this.item) >= 0;
+            } else {
+                this.onCheckChange(this, this.attributes.checked);
+            }
+
+            this.layer.events.on({
+                "visibilitychanged": this.onLayerVisibilityChanged,
+                scope: this
+            });
+
+            this.on({
+                "checkchange": this.onCheckChange,
+                scope: this
+            });
+        }
     },
     
     /** private: method[getLayer]
@@ -135,17 +146,17 @@ GeoExt.tree.LayerParamNode = Ext.extend(Ext.tree.TreeNode, {
                 var i = store.findBy(function(o) {
                     return o.get("title") == layer;
                 });
-                layer = i != -1 ? store.getAt(i).get("layer") : null;
+                layer = i != -1 ? store.getAt(i).getLayer() : null;
             }
             this.layer = layer;
         }
         return this.layer;
     },
     
-    /** private: method[getItems]
+    /** private: method[getItemsFromLayer]
      *  :return: ``Array`` the items of this node's layer's param
      */
-    getItems: function() {
+    getItemsFromLayer: function() {
         var paramValue = this.layer.params[this.param];
         return paramValue instanceof Array ?
             paramValue :
@@ -163,31 +174,16 @@ GeoExt.tree.LayerParamNode = Ext.extend(Ext.tree.TreeNode, {
             items.join(this.delimiter);
         return params;
     },
-    
-    /** private: method[addVisibilityHandlers]
-     *  Adds handlers that sync the checkbox state with the layer's visibility
-     *  state
-     */
-    addVisibilityEventHandlers: function() {        
-        this.layer.events.on({
-            "visibilitychanged": this.onLayerVisibilityChanged,
-            scope: this
-        }); 
-        this.on({
-            "checkchange": this.onCheckChange,
-            scope: this
-        });
-    },
-    
+
     /** private: method[onLayerVisibilityChanged]
      *  Handler for visibilitychanged events on the layer.
      */
     onLayerVisibilityChanged: function() {
-        if(this.getItems().length === 0) {
+        if(this.getItemsFromLayer().length === 0) {
             this.layer.mergeNewParams(this.createParams(this.allItems));
         }
         var visible = this.layer.getVisibility();
-        if(visible && this.getItems().indexOf(this.item) !== -1) {
+        if(visible && this.getItemsFromLayer().indexOf(this.item) !== -1) {
             this.getUI().toggleCheck(true);
         }
         if(!visible) {
@@ -206,7 +202,7 @@ GeoExt.tree.LayerParamNode = Ext.extend(Ext.tree.TreeNode, {
         var layer = this.layer;
 
         var newItems = [];
-        var curItems = this.getItems();
+        var curItems = this.getItemsFromLayer();
         // if the layer is invisible, and a subnode is checked for the first
         // time, we need to pretend that no subnode param items are set.
         if(checked === true && layer.getVisibility() === false &&
@@ -248,7 +244,7 @@ GeoExt.tree.LayerParamNode = Ext.extend(Ext.tree.TreeNode, {
         
         this.un("checkchange", this.onCheckChange, this);
 
-        GeoExt.tree.LayerNode.superclass.destroy.apply(this, arguments);
+        GeoExt.tree.LayerParamNode.superclass.destroy.apply(this, arguments);
     }
 });
 

@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <!--[if lt IE 7]><script src="http://openstreetmap.org/javascripts/pngfix.js" type="text/javascript"></script><![endif]--> <!-- thanks, microsoft! -->
+    <title>Premalink creator</title>
+
+    <meta NAME="keywords" Content="Carte, Map, Historique, OSM, OpenStreetMap" />
+
+    <meta NAME="author" CONTENT="Stéphane Brunner" />
+    <meta NAME="Copyright" CONTENT="Stéphane Brunner, 2011" />
+    <meta NAME="Robot" CONTENT="INDEX,FOLLOW" />
+    <meta HTTP-EQUIV="Content-Language" CONTENT="fr" />
+    <meta name="verify-v1" content="syP8XFMkXjlqcZAwWi+v+943YidZzaCgRsAWI1leDQE=" />
+
+    <script type="text/javascript" src="build/creator.js"></script>
+    <link type="text/css" rel="stylesheet" media="screen" href="build/app.css">
+    
+    <!--script type="text/javascript">
+    Proj4js.defs['EPSG:21781'] = "+title=Swiss Grid CH1903 / LV03 +proj=somerc +lat_0=46.95240555555556 +lon_0=7.439583333333333 +x_0=600000 +y_0=200000 +ellps=bessel +towgs84=674.374,15.056,405.346,0,0,0,0 +units=m +no_defs";
+    </script-->
+
+    <link rel="shortcut icon" href="http://map.stephane-brunner.ch/app/images/favicon.png" />
+    <style></style>
+</header>
+<body>
+    <p>Export Points<input id="point" type="checkbox" checked></p>
+    <p>Export Lines<input id="line" type="checkbox" checked></p>
+    <p>Export Polygons<input id="polygon" type="checkbox" checked></p>
+    <p>Export attributes<input id="attribute" type="checkbox"></p>
+    <p>Accuracy<input id="accuracy" type="input" size="5", value="5"></p>
+    <hr>
+    <p>Select GeoJSON <input id="json" type="file" accept="application/json"></p>
+    <p>Select GPX <input id="gpx" type="file" accept="text/xml text/gpx-xml text/gpx application/gpx-xml application/gpx"></p>
+    <p>Select KML <input id="kml" type="file" accept="text/xml text/kml-xml text/kml application/kml-xml application/kml"></p>
+    <p>Select OSM <input id="osm" type="file" accept="text/xml text/osm-xml text/osm application/osm-xml application/osm"></p>
+    <hr>
+    <p id="output"></p>
+    
+    <script type="text/javascript">
+    var mapPanel
+    window.onload = function() {
+        var urlFormat = new OpenLayers.Format.URLCompressed({
+            internalProjection: new OpenLayers.Projection("EPSG:4326"),
+            externalProjection: new OpenLayers.Projection("EPSG:900913")
+        });
+        var jsonFormat = new OpenLayers.Format.GeoJSON();
+        var gpxFormat = new OpenLayers.Format.GPX();
+        var kmlFormat = new OpenLayers.Format.KML();
+        var osmFormat = new OpenLayers.Format.OSM({
+            relationsParsers: {
+                multipolygon: OpenLayers.Format.OSM.multipolygonParser,
+                boundary: OpenLayers.Format.OSM.multipolygonParser,
+                route: OpenLayers.Format.OSM.routeParser
+            }
+        });
+        var output = OpenLayers.Util.getElement("output");
+
+        function toOutput(features) {
+            var line = OpenLayers.Util.getElement("line").checked;
+            var point = OpenLayers.Util.getElement("point").checked;
+            var polygon = OpenLayers.Util.getElement("polygon").checked;
+            var attribute = OpenLayers.Util.getElement("attribute").checked;
+            var accuracy = parseFloat(OpenLayers.Util.getElement("accuracy").value);
+
+            var nfeatures = [];
+            for (var i = 0 ; i < features.length ; i++) {
+                feature = features[i];
+                geometry = feature.geometry
+
+                if (!attribute) {
+                    feature = geometry;
+                }
+
+                if (point && (geometry instanceof OpenLayers.Geometry.Point
+                    || geometry instanceof OpenLayers.Geometry.MultiPoint)) {
+                    nfeatures.push(feature);
+                }
+                if (line && (geometry instanceof OpenLayers.Geometry.LineString
+                    || geometry instanceof OpenLayers.Geometry.MultiLineString)) {
+                    nfeatures.push(feature);
+                }
+                if (polygon && (geometry instanceof OpenLayers.Geometry.Polygon
+                    || geometry instanceof OpenLayers.Geometry.MultiPolygon)) {
+                    nfeatures.push(feature);
+                }
+            }
+
+            urlFormat.accuracy = accuracy;
+            urlFormat.simplify = accuracy;
+            var f = urlFormat.write(nfeatures)
+            var href = 'viewer.html?m_a=' + accuracy + '&m_f=' + f;
+            output.innerHTML += '<a href="' + href + '">Link (accuracy: ' + accuracy + ', length: ' + href.length + ')</a><br>';
+        }
+        
+        function jsonFileSelectHandler(e) {
+            var files = e.target.files || e.dataTransfer.files;
+            for (var i = 0, f; f = files[i]; i++) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    toOutput(jsonFormat.read(e.target.result));
+                }
+                reader.readAsText(f);
+            }
+        }
+        var json = OpenLayers.Util.getElement("json");
+        json.addEventListener("change", jsonFileSelectHandler, false);
+
+        function gpxFileSelectHandler(e) {
+            var files = e.target.files || e.dataTransfer.files;
+            for (var i = 0, f; f = files[i]; i++) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    toOutput(gpxFormat.read(e.target.result));
+                }
+                reader.readAsText(f);
+            }
+        }
+        OpenLayers.Util.getElement("gpx").addEventListener("change", gpxFileSelectHandler, false);
+
+        function kmlFileSelectHandler(e) {
+            var files = e.target.files || e.dataTransfer.files;
+            for (var i = 0, f; f = files[i]; i++) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    toOutput(kmlFormat.read(e.target.result));
+                }
+                reader.readAsText(f);
+            }
+        }
+        OpenLayers.Util.getElement("kml").addEventListener("change", kmlFileSelectHandler, false);
+
+        function osmFileSelectHandler(e) {
+            var files = e.target.files || e.dataTransfer.files;
+            for (var i = 0, f; f = files[i]; i++) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    toOutput(osmFormat.read(e.target.result));
+                }
+                reader.readAsText(f);
+            }
+        }
+        OpenLayers.Util.getElement("osm").addEventListener("change", kmlFileSelectHandler, false);
+
+    }
+    </script>
+<!-- phpmyvisites -->
+<a href="http://www.phpmyvisites.net/" title="Free web analytics, website statistics"
+onclick="window.open(this.href);return(false);"><script type="text/javascript">
+<!--
+var a_vars = Array();
+var pagename='Geometries Permalink';
+
+var phpmyvisitesSite = 1;
+var phpmyvisitesURL = "http://www.stephane-brunner.ch/phpmv2/phpmyvisites.php";
+//-->
+</script>
+<script language="javascript" src="http://www.stephane-brunner.ch/phpmv2/phpmyvisites.js" type="text/javascript"></script>
+<object><noscript><p>Free web analytics, website statistics
+<img src="http://www.stephane-brunner.ch/phpmv2/phpmyvisites.php" alt="Statistics" style="border:0" />
+</p></noscript></object></a>
+<!-- /phpmyvisites -->
+
+</body></html>

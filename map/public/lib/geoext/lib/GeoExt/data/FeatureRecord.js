@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2010 The Open Source Geospatial Foundation
+ * Copyright (c) 2008-2011 The Open Source Geospatial Foundation
  * 
  * Published under the BSD license.
  * See http://svn.geoext.org/core/trunk/geoext/license.txt for the full text
@@ -9,7 +9,7 @@
 /** api: (define)
  *  module = GeoExt.data
  *  class = FeatureRecord
- *  base_link = `Ext.data.Record <http://extjs.com/deploy/dev/docs/?class=Ext.data.Record>`_
+ *  base_link = `Ext.data.Record <http://dev.sencha.com/deploy/dev/docs/?class=Ext.data.Record>`_
  */
 Ext.namespace("GeoExt.data");
 
@@ -19,7 +19,6 @@ Ext.namespace("GeoExt.data");
  *      A record that represents an ``OpenLayers.Feature.Vector``. This record
  *      will always have at least the following fields:
  *
- *      * feature ``OpenLayers.Feature.Vector``
  *      * state ``String``
  *      * fid ``String``
  *
@@ -27,6 +26,36 @@ Ext.namespace("GeoExt.data");
 GeoExt.data.FeatureRecord = Ext.data.Record.create([
     {name: "feature"}, {name: "state"}, {name: "fid"}
 ]);
+
+/** api: method[getFeature]
+ *  :return: ``OpenLayers.Feature.Vector``
+ *
+ *  Gets the feature for this record.
+ */
+GeoExt.data.FeatureRecord.prototype.getFeature = function() {
+    return this.get("feature");
+};
+
+/** api: method[setFeature]
+ *  :param feature: ``OpenLayers.Feature.Vector``
+ *
+ *  Sets the feature for this record.
+ */
+GeoExt.data.FeatureRecord.prototype.setFeature = function(feature) {
+    if (feature !== this.data.feature) {
+        this.dirty = true;
+        if (!this.modified) {
+            this.modified = {};
+        }
+        if (this.modified.feature === undefined) {
+            this.modified.feature = this.data.feature;
+        }
+        this.data.feature = feature;
+        if (!this.editing){
+            this.afterEdit();
+        }
+    }
+};
 
 /** api: classmethod[create]
  *  :param o: ``Array`` Field definition as in ``Ext.data.Record.create``. Can

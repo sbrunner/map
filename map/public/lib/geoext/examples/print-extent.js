@@ -1,5 +1,5 @@
  /**
- * Copyright (c) 2008-2010 The Open Source Geospatial Foundation
+ * Copyright (c) 2008-2011 The Open Source Geospatial Foundation
  * 
  * Published under the BSD license.
  * See http://svn.geoext.org/core/trunk/geoext/license.txt for the full text
@@ -7,10 +7,9 @@
  */
 
 /** api: example[print-extent]
- *  Setting the Print Extent interactively
- *  --------------------------------------
- *  Using the PrintExtent component to interactively change scale, center and
- *  rotation of a print page.
+ *  Interactive Print Extent
+ *  ------------------------
+ *  Change print scale, center and rotation with the PrintExtent plugin.
  */
 
 var mapPanel, printProvider;
@@ -26,6 +25,10 @@ Ext.onReady(function() {
         }
     });
 
+    var printExtent = new GeoExt.plugins.PrintExtent({
+        printProvider: printProvider
+    });
+
     // The map we want to print, with the PrintExtent added as item.
     mapPanel = new GeoExt.MapPanel({
         renderTo: "content",
@@ -35,11 +38,7 @@ Ext.onReady(function() {
             {layers: "topp:tasmania_state_boundaries"}, {singleTile: true})],
         center: [146.56, -41.56],
         zoom: 6,
-        plugins: [
-            new GeoExt.plugins.PrintExtent({
-                printProvider: printProvider
-            })
-        ],
+        plugins: [printExtent],
         bbar: [{
             text: "Create PDF",
             handler: function() {
@@ -48,4 +47,5 @@ Ext.onReady(function() {
             }
         }]
     });
+    printExtent.addPage();
 });

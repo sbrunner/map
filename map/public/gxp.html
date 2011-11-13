@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <!--[if lt IE 7]><script src="http://openstreetmap.org/javascripts/pngfix.js" type="text/javascript"></script><![endif]--> <!-- thanks, microsoft! -->
+    <title>GXP examples</title>
+
+    <meta NAME="keywords" Content="Carte, Map, GXP" />
+
+    <meta NAME="author" CONTENT="Stéphane Brunner" />
+    <meta NAME="Copyright" CONTENT="Stéphane Brunner, 2011" />
+    <meta NAME="Robot" CONTENT="INDEX,FOLLOW" />
+    <meta HTTP-EQUIV="Content-Language" CONTENT="fr" />
+    <meta name="verify-v1" content="syP8XFMkXjlqcZAwWi+v+943YidZzaCgRsAWI1leDQE=" />
+
+    <script type="text/javascript" src="build/gxp.js"></script>
+    <link type="text/css" rel="stylesheet" media="screen" href="build/app.css">
+    <link type="text/css" rel="stylesheet" media="screen" href="lib/gxp/src/theme/all.css">
+    
+    <!--script type="text/javascript">
+    Proj4js.defs['EPSG:21781'] = "+title=Swiss Grid CH1903 / LV03 +proj=somerc +lat_0=46.95240555555556 +lon_0=7.439583333333333 +x_0=600000 +y_0=200000 +ellps=bessel +towgs84=674.374,15.056,405.346,0,0,0,0 +units=m +no_defs";
+    </script-->
+
+    <link rel="shortcut icon" href="http://map.stephane-brunner.ch/app/images/favicon.png" />
+    <style>
+.olMap {
+    background-color: #f0ede8;
+}
+div.olControlAttribution {
+    right: 10px;
+    bottom: 0.25em;
+}
+div.olControlMousePosition {
+    bottom: 1.5em !important;
+    right: 10px;
+}
+div.olControlEditingToolbar {
+    right: 10px;
+    top: 10px;
+}
+#permalinks {
+    position: absolute;
+    bottom: 2.5em !important;
+    right: 10px;
+    text-align: right;
+    z-index: 1008;
+    font-size: 12px;
+    margin: 0;
+    padding: 0;
+}
+#permalinks li {
+    list-style-type: none;
+}
+#permalinks * {
+    margin: 0;
+    padding: 0;
+}
+#links {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    font-size:12px;
+    text-align: right;
+    z-index: 1020;
+    background-color: white;
+    padding: 2px;
+}
+#links * {
+    margin: 0;
+    padding: 0;
+}
+a {
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+p {
+    border-top: 1px solid blue;
+    clear: both;
+}
+</style>
+</header>
+<body>
+    <p>gxp.NewSourceWindow</p><div id="gxp.NewSourceWindow"></div>
+    <p>gxp.ScaleOverlay</p><div id="gxp.ScaleOverlay"></div>
+    <p>gxp.form.AutoCompleteComboBox</p><div id="gxp.form.AutoCompleteComboBox"></div>
+
+    <script>
+        window.onload = function() {
+            new Ext.Button({
+                renderTo: 'gxp.NewSourceWindow',
+                text: 'Open',
+                listeners: {
+                    'click': function() { new gxp.NewSourceWindow().show(); },
+                    scope: this
+                }
+            });
+            var app = new gxp.Viewer({
+                portalConfig: {
+                    renderTo: 'gxp.Viewer',
+                    id: 'app',
+                    layout: "border",
+                    width: 1300,
+                    height: 800,
+                    border: false,
+                    items: ["map", {
+                        id: "west",
+                        xtype: "container",
+                        layout: "accordion",
+                        region: "west",
+                        width: 200
+                    }, {
+                        id: "grid-container",
+                        xtype: "container",
+                        layout: "fit",
+                        region: "south",
+                        height: 150
+                    }]
+                },
+                sources: {
+                    osm: {
+                        ptype: "gxp_osmsource"
+                    }
+                },
+                map: {
+                    id: "map",
+                    region: "center",
+                    center: [0, 0],
+                    zoom: 2,
+                    layers: [{
+                        source: "osm",
+                        name: "mapnik"
+                    }],
+                    control: [
+                        new OpenLayers.Control.PanZoomBar(),
+                        new OpenLayers.Control.MousePosition({numDigits: 0}),
+                        new OpenLayers.Control.ScaleLine()
+                    ],
+                    bbar: []
+                },
+                tools: [{
+                    ptype: "gxp_layertree",
+                    outputConfig: { id: "tree" },
+                    outputTarget: "west"
+                }, {
+                    ptype: 'gxp_layerproperties',
+                    actionTarget: ["tree.tbar", "tree.contextMenu"]
+                }, {
+                    ptype: "gxp_addlayers",
+                    actionTarget: "tree.tbar"
+                }, {
+                    ptype: "gxp_removelayer",
+                    actionTarget: ["tree.tbar", "tree.contextMenu"]
+                }, {
+                    ptype: "gxp_zoomtoextent",
+                    actionTarget: "map.tbar"
+                }, {
+                    ptype: "gxp_zoom",
+                    actionTarget: "map.tbar"
+                }, {
+                    ptype: "gxp_navigationhistory",
+                    actionTarget: "map.fbar"
+                }, {
+                    ptype: "gxp_measure",
+                    actionTarget: "map.tbar"
+
+                    
+                }, {
+                    ptype: "gxp_timeline",
+                    actionTarget: "map.tbar"
+                }, {
+                    ptype: "gxp_print",
+                    actionTarget: "map.tbar",
+                    outputTarget: "west"
+                }, {
+                    ptype: "gxp_playback",
+                    actionTarget: "map.tbar",
+                    outputTarget: "map.tbar"
+                    /*
+                }, {
+                    ptype: "gxp_loadingindicator",
+                    actionTarget: "map.tbar",
+                    actions: [{text: "loading..."}]*/
+                }, {
+                    actionTarget: "map.bbar",
+                    actions: [{text: "Click me - I'm a tool on the portal's bbar"}]
+                }]
+                
+            });
+            new gxp.ScaleOverlay({
+                renderTo: 'gxp.ScaleOverlay',
+                map: app.mapPanel
+            });
+
+            new gxp.form.AutoCompleteComboBox({
+                renderTo: 'gxp.form.AutoCompleteComboBox',
+                customSortInfo: {
+                    matcher: "^(\\d+)\\s(.*)$",
+                    parts: [
+                        {order: 1, sortType: "asInt"},
+                        {order: 0, sortType: "asUCString"}
+                    ],
+                    fieldName: 'displayText',
+                    store: new Ext.data.ArrayStore({
+                        fields: [
+                            'myId',
+                            'displayText'
+                        ],
+                        data: [[1, '123 item1'], [2, '456 item2']]
+                    }),
+                }
+            });
+        }
+    </script>
+
+
+<!-- phpmyvisites -->
+<a href="http://www.phpmyvisites.net/" title="Free web analytics, website statistics"
+onclick="window.open(this.href);return(false);"><script type="text/javascript">
+<!--
+var a_vars = Array();
+var pagename='GXP examples';
+
+var phpmyvisitesSite = 1;
+var phpmyvisitesURL = "http://www.stephane-brunner.ch/phpmv2/phpmyvisites.php";
+//-->
+</script>
+<script language="javascript" src="http://www.stephane-brunner.ch/phpmv2/phpmyvisites.js" type="text/javascript"></script>
+<object><noscript><p>Free web analytics, website statistics
+<img src="http://www.stephane-brunner.ch/phpmv2/phpmyvisites.php" alt="Statistics" style="border:0" />
+</p></noscript></object></a>
+<!-- /phpmyvisites -->
+
+</body></html>

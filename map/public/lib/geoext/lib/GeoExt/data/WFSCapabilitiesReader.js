@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2010 The Open Source Geospatial Foundation
+ * Copyright (c) 2008-2011 The Open Source Geospatial Foundation
  * 
  * Published under the BSD license.
  * See http://svn.geoext.org/core/trunk/geoext/license.txt for the full text
@@ -13,14 +13,19 @@
 /** api: (define)
  *  module = GeoExt.data
  *  class = WFSCapabilitiesReader
- *  base_link = `Ext.data.DataReader <http://extjs.com/deploy/dev/docs/?class=Ext.data.DataReader>`_
+ *  base_link = `Ext.data.DataReader <http://dev.sencha.com/deploy/dev/docs/?class=Ext.data.DataReader>`_
  */
 Ext.namespace("GeoExt.data");
 
 /** api: constructor
  *  .. class:: WFSCapabilitiesReader(meta, recordType)
  *  
- *      :param meta: ``Object`` Reader configuration.
+ *      :param meta: ``Object`` Reader configuration from which:
+ *          ``layerOptions`` is an optional object (or function that returns
+ *          an object) passed as default options to the
+ *          ``OpenLayers.Layer.Vector`` constructor.
+ *          ``protocolOptions`` is an optional set of parameters to pass to the
+ *          ``OpenLayers.Protocol.WFS`` constructor.
  *      :param recordType: ``Array | Ext.data.Record`` An array of field
  *          configuration objects or a record object.  Default is
  *          :class:`GeoExt.data.LayerRecord`.
@@ -38,6 +43,8 @@ GeoExt.data.WFSCapabilitiesReader = function(meta, recordType) {
         recordType = GeoExt.data.LayerRecord.create(
             recordType || meta.fields || [
                 {name: "name", type: "string"},
+                {name: "title", type: "string"},
+                {name: "namespace", type: "string", mapping: "featureNS"},
                 {name: "abstract", type: "string"}
             ]
         );
@@ -78,48 +85,59 @@ Ext.extend(GeoExt.data.WFSCapabilitiesReader, Ext.data.DataReader, {
         if(typeof data === "string" || data.nodeType) {
             data = this.meta.format.read(data);
         }
-        var records = [], layer, l, parts, layerOptions, protocolOptions;
+
         var featureTypes = data.featureTypeList.featureTypes;
+        var fields = this.recordType.prototype.fields;
+
+        var featureType, values, field, v, parts, layer;
+        var layerOptions, protocolOptions;
+
         var protocolDefaults = {
             url: data.capability.request.getfeature.href.post
         };
-        for(var i=0, len=featureTypes.length; i<len; i++) {
-            layer = featureTypes[i];
-            if(layer.name) {
-                // create protocol
-                parts = layer.name.split(":");
-                if (parts.length > 1) {
-                    protocolOptions = {
-                        featureType: parts[1],
-                        featurePrefix: parts[0]
-                    };
-                } else {
-                    protocolOptions = {
-                        featureType: parts[0],
-                        featurePrefix: null
-                    };
+
+        var records = [];
+
+        for(var i=0, lenI=featureTypes.length; i<lenI; i++) {
+            featureType = featureTypes[i];
+            if(featureType.name) {
+                values = {};
+
+                for(var j=0, lenJ=fields.length; j<lenJ; j++) {
+                    field = fields.items[j];
+                    v = featureType[field.mapping || field.name] ||
+                        field.defaultValue;
+                    v = field.convert(v);
+                    values[field.name] = v;
                 }
+
+                protocolOptions = {
+                    featureType: featureType.name,
+                    featureNS: featureType.featureNS
+                };
                 if(this.meta.protocolOptions) {
                     Ext.apply(protocolOptions, this.meta.protocolOptions, 
                         protocolDefaults);
                 } else {
                     Ext.apply(protocolOptions, {}, protocolDefaults);
                 }
-                // create vector layer with protocol
+
                 layerOptions = {
                     protocol: new OpenLayers.Protocol.WFS(protocolOptions),
                     strategies: [new OpenLayers.Strategy.Fixed()]
                 };
-                if(this.meta.layerOptions) {
-                    Ext.apply(layerOptions, this.meta.layerOptions);
+                var metaLayerOptions = this.meta.layerOptions;
+                if (metaLayerOptions) {
+                    Ext.apply(layerOptions, Ext.isFunction(metaLayerOptions) ?
+                        metaLayerOptions() : metaLayerOptions);
                 }
-                l = new OpenLayers.Layer.Vector(
-                    layer.title || layer.name, 
+
+                values.layer = new OpenLayers.Layer.Vector(
+                    featureType.title || featureType.name,
                     layerOptions
                 );
-                records.push(new this.recordType(Ext.apply(layer, {
-                    layer: l
-                }), l.id));
+
+                records.push(new this.recordType(values, values.layer.id));
             }
         }
         return {

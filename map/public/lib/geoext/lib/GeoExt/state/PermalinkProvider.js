@@ -9,7 +9,7 @@
 /** api: (define)
  *  module = GeoExt.state
  *  class = PermalinkProvider
- *  base_link = `Ext.state.Provider <http://extjs.com/deploy/dev/docs/?class=Ext.state.Provider>`_
+ *  base_link = `Ext.state.Provider <http://dev.sencha.com/deploy/dev/docs/?class=Ext.state.Provider>`_
  */
 Ext.namespace("GeoExt.state");
 
@@ -133,6 +133,6 @@ Ext.extend(GeoExt.state.PermalinkProvider, Ext.state.Provider, {
             base = base.substring(0, qMark);
         }
 
-        return OpenLayers.Util.urlAppend(base, paramsStr);
+        return Ext.urlAppend(base, paramsStr);
     }
 });

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2010 The Open Source Geospatial Foundation
+ * Copyright (c) 2008-2011 The Open Source Geospatial Foundation
  * 
  * Published under the BSD license.
  * See http://svn.geoext.org/core/trunk/geoext/license.txt for the full text
@@ -40,7 +40,7 @@ Ext.onReady(function() {
             height: 120,
             x: 10,
             y: 10,
-            plugins: new GeoExt.LayerOpacitySliderTip()
+            plugins: new GeoExt.LayerOpacitySliderTip({template: '<div>Opacity: {opacity}%</div>'})
         }]
     });
     // create a separate slider bound to the map but displayed elsewhere
@@ -49,14 +49,16 @@ Ext.onReady(function() {
         aggressive: true, 
         width: 200,
         isFormField: true,
+        inverse: true,
         fieldLabel: "opacity",
-        renderTo: "slider"
+        renderTo: "slider",
+        plugins: new GeoExt.LayerOpacitySliderTip({template: '<div>Transparency: {opacity}%</div>'})
     });
         
     var clone = wms.clone();
     var wms2 = new OpenLayers.Layer.WMS(
         "OpenLayers WMS",
-        "http://labs.metacarta.com/wms/vmap0",
+        "http://vmap0.tiles.osgeo.org/wms/vmap0",
         {layers: 'basic'}
     );
     panel2 = new GeoExt.MapPanel({

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2010 The Open Source Geospatial Foundation
+ * Copyright (c) 2008-2011 The Open Source Geospatial Foundation
  * 
  * Published under the BSD license.
  * See http://svn.geoext.org/core/trunk/geoext/license.txt for the full text
@@ -32,7 +32,7 @@ Ext.onReady(function() {
     function createPopup(feature) {
         popup = new GeoExt.Popup({
             title: 'My Popup',
-            feature: feature,
+            location: feature,
             width:200,
             html: bogusMarkup,
             maximizable: true,
@@ -73,7 +73,7 @@ Ext.onReady(function() {
             layers: [
                 new OpenLayers.Layer.WMS( 
                     "OpenLayers WMS",
-                    "http://labs.metacarta.com/wms/vmap0",
+                    "http://vmap0.tiles.osgeo.org/wms/vmap0",
                     {layers: 'basic'} ),
                 vectorLayer
             ]

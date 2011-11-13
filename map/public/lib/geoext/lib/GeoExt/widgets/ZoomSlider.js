@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2010 The Open Source Geospatial Foundation
+ * Copyright (c) 2008-2011 The Open Source Geospatial Foundation
  * 
  * Published under the BSD license.
  * See http://svn.geoext.org/core/trunk/geoext/license.txt for the full text
@@ -13,7 +13,7 @@
 /** api: (define)
  *  module = GeoExt
  *  class = ZoomSlider
- *  base_link = `Ext.Slider <http://extjs.com/deploy/dev/docs/?class=Ext.Slider>`_
+ *  base_link = `Ext.slider.SingleSlider <http://dev.sencha.com/deploy/dev/docs/?class=Ext.slider.SingleSlider>`_
  */
 Ext.namespace("GeoExt");
 
@@ -61,7 +61,7 @@ Ext.namespace("GeoExt");
  *   
  *      Create a slider for controlling a map's zoom level.
  */
-GeoExt.ZoomSlider = Ext.extend(Ext.Slider, {
+GeoExt.ZoomSlider = Ext.extend(Ext.slider.SingleSlider, {
     
     /** api: config[map]
      *  ``OpenLayers.Map`` or :class:`GeoExt.MapPanel`
@@ -122,7 +122,7 @@ GeoExt.ZoomSlider = Ext.extend(Ext.Slider, {
      *  to call update.
      */
     afterRender : function(){
-        Ext.Slider.superclass.afterRender.apply(this, arguments);
+        Ext.slider.SingleSlider.superclass.afterRender.apply(this, arguments);
         this.update();
     },
     
@@ -132,24 +132,6 @@ GeoExt.ZoomSlider = Ext.extend(Ext.Slider, {
      *  Called by a MapPanel if this component is one of the items in the panel.
      */
     addToMapPanel: function(panel) {
-        /**
-         * TODO: Remove this when we drop support for Ext 2.
-         * We need special treatment for Ext 2 because components don't have
-         * the "afterrender" event.  Here we wait until the render sequence
-         * finishes before binding the component to the map.
-         */
-        // START SPECIAL TREATMENT FOR EXT 2
-        if (!this.events.afterrender) {
-            this.on({
-                render: function() {
-                    window.setTimeout(
-                        this.bind.createDelegate(this, [panel.map]), 0
-                    );
-                },
-                scope: this
-            });
-        }
-        // END SPECIAL TREATMENT FOR EXT 2
         this.on({
             render: function() {
                 var el = this.getEl();
@@ -207,7 +189,7 @@ GeoExt.ZoomSlider = Ext.extend(Ext.Slider, {
     /** private: method[unbind]
      */
     unbind: function() {
-        if(this.map) {
+        if(this.map && this.map.events) {
             this.map.events.un({
                 zoomend: this.update,
                 changebaselayer: this.initZoomValues,

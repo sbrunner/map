@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2010 The Open Source Geospatial Foundation
+ * Copyright (c) 2008-2011 The Open Source Geospatial Foundation
  * 
  * Published under the BSD license.
  * See http://svn.geoext.org/core/trunk/geoext/license.txt for the full text
@@ -36,6 +36,10 @@ Ext.onReady(function() {
                     strokeWidth: 2
                 }) }) })
     ]);
+    map.layers[2].addFeatures([
+        new OpenLayers.Feature.Vector(OpenLayers.Geometry.fromWKT(
+            "POLYGON(146.1 -41, 146.2 -41, 146.2 -41.1, 146.1 -41.1)"))
+    ]);
     map.addControl(new OpenLayers.Control.LayerSwitcher());
 
     var addRemoveLayer = function() {
@@ -47,14 +51,14 @@ Ext.onReady(function() {
     };
 
     var moveLayer = function(idx) {
-        var layer = layerRec0.get("layer");
+        var layer = layerRec0.getLayer();
         var idx = mapPanel.map.layers.indexOf(layer) == 0 ?
             mapPanel.map.layers.length : 0;
-        mapPanel.map.setLayerIndex(layerRec0.get("layer"), idx);
+        mapPanel.map.setLayerIndex(layerRec0.getLayer(), idx);
     };
 
     var toggleVisibility = function() {
-        var layer = layerRec1.get("layer");
+        var layer = layerRec1.getLayer();
         layer.setVisibility(!layer.getVisibility());
     };
 
@@ -97,7 +101,7 @@ Ext.onReady(function() {
     legendPanel = new GeoExt.LegendPanel({
         defaults: {
             labelCls: 'mylabel',
-            style: 'padding:5px'            
+            style: 'padding:5px'
         },
         bodyStyle: 'padding:5px',
         width: 350,

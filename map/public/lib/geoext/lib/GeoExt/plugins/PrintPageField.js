@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2010 The Open Source Geospatial Foundation
+ * Copyright (c) 2008-2011 The Open Source Geospatial Foundation
  * 
  * Published under the BSD license.
  * See http://svn.geoext.org/core/trunk/geoext/license.txt for the full text
@@ -10,7 +10,7 @@ Ext.namespace("GeoExt.plugins");
 /** api: (define)
  *  module = GeoExt.plugins
  *  class = PrintPageField
- *  base_link = `Ext.util.Observable <http://extjs.com/deploy/dev/docs/?class=Ext.util.Observable>`_
+ *  base_link = `Ext.util.Observable <http://dev.sencha.com/deploy/dev/docs/?class=Ext.util.Observable>`_
  */
 
 /** api: example
@@ -33,6 +33,7 @@ Ext.namespace("GeoExt.plugins");
  *              xtype: "combo",
  *              displayField: "name",
  *              store: printPage.scales, // printPage.scale
+ *              name: "scale",
  *              fieldLabel: "Scale",
  *              typeAhead: true,
  *              mode: "local",
@@ -57,14 +58,15 @@ Ext.namespace("GeoExt.plugins");
  *                  printPage: printPage
  *              })
  *          }]
- *      }):
+ *      });
  */
 
 /** api: constructor
  *  .. class:: PrintPageField
  * 
  *  A plugin for ``Ext.form.Field`` components which provides synchronization
- *  with a :class:`GeoExt.data.PrintPage`.
+ *  with a :class:`GeoExt.data.PrintPage`. The field name has to match the
+ *  respective property of the printPage (e.g. ``scale``, ``rotation``).
  */
 GeoExt.plugins.PrintPageField = Ext.extend(Ext.util.Observable, {
     
@@ -99,9 +101,14 @@ GeoExt.plugins.PrintPageField = Ext.extend(Ext.util.Observable, {
      */
     init: function(target) {
         this.target = target;
-        var onCfg = {scope: this};
-        onCfg[target instanceof Ext.form.ComboBox ? "select" : "valid"] =
-            this.onFieldChange;
+        var onCfg = {
+            "beforedestroy": this.onBeforeDestroy,
+            scope: this
+        };
+        var eventName = target instanceof Ext.form.ComboBox ?
+                            "select" : target instanceof Ext.form.Checkbox ?
+                                "check" : "valid";
+        onCfg[eventName] = this.onFieldChange;
         target.on(onCfg);
         this.printPage.on({
             "change": this.onPageChange,
@@ -111,6 +118,7 @@ GeoExt.plugins.PrintPageField = Ext.extend(Ext.util.Observable, {
             "layoutchange": this.onLayoutChange,
             scope: this
         });
+        this.setValue(this.printPage);
     },
 
     /** private: method[onFieldChange]
@@ -123,7 +131,7 @@ GeoExt.plugins.PrintPageField = Ext.extend(Ext.util.Observable, {
         var printProvider = this.printPage.printProvider;
         var value = field.getValue();
         this._updating = true;
-        if(field.store === printProvider.scales) {
+        if(field.store === printProvider.scales || field.name === "scale") {
             this.printPage.setScale(record);
         } else if(field.name == "rotation") {
             !isNaN(value) && this.printPage.setRotation(value);
@@ -141,14 +149,7 @@ GeoExt.plugins.PrintPageField = Ext.extend(Ext.util.Observable, {
      */
     onPageChange: function(printPage) {
         if(!this._updating) {
-            var t = this.target;
-            t.suspendEvents();
-            if(t.store === printPage.printProvider.scales) {
-                t.setValue(printPage.scale.get(t.displayField));
-            } else if(t.name == "rotation") {
-                t.setValue(printPage.rotation);
-            }
-            t.resumeEvents();
+            this.setValue(printPage);
         }
     },
     
@@ -162,10 +163,29 @@ GeoExt.plugins.PrintPageField = Ext.extend(Ext.util.Observable, {
         var t = this.target;
         t.name == "rotation" && t.setDisabled(!layout.get("rotation"));
     },
-    
-    /** private: method[destroy]
+
+    /** private: method[setValue]
+     *  :param printPage: :class:`GeoExt.data.PrintPage`
+     *
+     *  Sets the value in the target field.
      */
-    destroy: function() {
+    setValue: function(printPage) {
+        var t = this.target;
+        t.suspendEvents();
+        if(t.store === printPage.printProvider.scales || t.name === "scale") {
+            if(printPage.scale) {
+                t.setValue(printPage.scale.get(t.displayField));
+            }
+        } else if(t.name == "rotation") {
+            t.setValue(printPage.rotation);
+        }
+        t.resumeEvents();
+    },
+
+    /** private: method[onBeforeDestroy]
+     */
+    onBeforeDestroy: function() {
+        this.target.un("beforedestroy", this.onBeforeDestroy, this);
         this.target.un("select", this.onFieldChange, this);
         this.target.un("valid", this.onFieldChange, this);
         this.printPage.un("change", this.onPageChange, this);
@@ -176,4 +196,4 @@ GeoExt.plugins.PrintPageField = Ext.extend(Ext.util.Observable, {
 });
 
 /** api: ptype = gx_printpagefield */
-Ext.preg && Ext.preg("gx_printpagefield", GeoExt.plugins.PrintPageField);
+Ext.preg("gx_printpagefield", GeoExt.plugins.PrintPageField);
