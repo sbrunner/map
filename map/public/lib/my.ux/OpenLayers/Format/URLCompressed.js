@@ -261,16 +261,16 @@ OpenLayers.Format.URLCompressed = OpenLayers.Class(OpenLayers.Format, {
                 return new OpenLayers.Geometry.MultiLineString(lines);
             case 'A':
                 var polygons = [];
-                var polygonsData = innerdata.substr(1, data.length - 2)
+                var polygonsData = innerData.substr(1, innerData.length - 2)
                         .split(")(");
-                for (var i=0, leni=poligonsData; i<leni; ++i) {
+                for (var i=0, leni=polygonsData.length; i<leni; ++i) {
                     var rings = [];
-                    var ringData = polygonsData[i].split("'");
+                    var ringsData = polygonsData[i].split("'");
                     for (var j=0, lenj=ringsData.length; j<lenj; ++j) { 
                         rings.push(new OpenLayers.Geometry.LinearRing(
-                                this.decodePoints(linesData[i])));
+                                this.decodePoints(ringsData[j])));
                     }
-                    polygons.push(new OpenLayers.Geometry.Polygon(lines));
+                    polygons.push(new OpenLayers.Geometry.Polygon(rings));
                 }
                 return new OpenLayers.Geometry.MultiPolygon(polygons);
         }
@@ -335,6 +335,18 @@ OpenLayers.Format.URLCompressed = OpenLayers.Class(OpenLayers.Format, {
         return result;
     },
 
+    doSimplify: function(geometry) {
+        if (geometry.simplify) {
+            geometry = geometry.clone().simplify(this.simplify);
+        }
+        else if (geometry instanceof OpenLayers.Geometry.Collection) {
+            for (var i = 0, len = geometry.components.length ; i < len ; i++) {
+                geometry.components[i] = this.doSimplify(geometry.components[i]);
+            }
+        }
+        return geometry;
+    },
+    
     /**
      * Property: extract
      * Object with properties corresponding to the URLCompressed types.
@@ -388,9 +400,9 @@ OpenLayers.Format.URLCompressed = OpenLayers.Class(OpenLayers.Format, {
                 geometry = geometry.clone();
                 geometry.transform(this.internalProjection, 
                                    this.externalProjection);
-            }                       
-            if (geometry.simplify && this.simplify > 0) {
-                geometry = geometry.clone().simplify(this.simplify);
+            }
+            if (this.simplify > 0) {
+                geometry = this.doSimplify(geometry);
             }
             var geometryType = geometry.CLASS_NAME.split('.')[2];
             return this.extract[geometryType.toLowerCase()].apply(this, [geometry]);
