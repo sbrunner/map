@@ -210,7 +210,7 @@ OpenLayers.Format.URLCompressed = OpenLayers.Class(OpenLayers.Format, {
             data = data.substring(0, index);
             for (var i=0, len=attributesdata.length; i<len; ++i) {
                 var kv = attributesdata[i].split('*');
-                attributes[kv[0]] = kv[1];
+                attributes[decodeURIComponent(kv[0])] = decodeURIComponent(kv[1]);
             }
         }
 
