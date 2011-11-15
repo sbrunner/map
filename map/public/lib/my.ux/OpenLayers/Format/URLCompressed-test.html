@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+    <script type="text/javascript" src="../../../openlayers/lib/OpenLayers/SingleFile.js"></script>
+    <script type="text/javascript" src="../../../openlayers/lib/OpenLayers/BaseTypes/Class.js"></script>
+    <script type="text/javascript" src="../../../openlayers/lib/OpenLayers/Util.js"></script>
+    <script type="text/javascript" src="../../../openlayers/lib/OpenLayers/Format.js"></script>
+    <script type="text/javascript" src="URLCompressed.js"></script>
+    <script type="text/javascript" src="../../../openlayers/lib/OpenLayers/Format/JSON.js"></script>
+    <script type="text/javascript" src="../../../openlayers/lib/OpenLayers/Format/GeoJSON.js"></script>
+    <script type="text/javascript" src="../../../openlayers/lib/OpenLayers/Feature.js"></script>
+    <script type="text/javascript" src="../../../openlayers/lib/OpenLayers/Feature/Vector.js"></script>
+    <script type="text/javascript" src="../../../openlayers/lib/OpenLayers/Geometry.js"></script>
+    <script type="text/javascript" src="../../../openlayers/lib/OpenLayers/Geometry/Point.js"></script>
+    <script type="text/javascript" src="../../../openlayers/lib/OpenLayers/Geometry/Collection.js"></script>
+    <script type="text/javascript" src="../../../openlayers/lib/OpenLayers/Geometry/MultiPoint.js"></script>
+    <script type="text/javascript" src="../../../openlayers/lib/OpenLayers/Geometry/Curve.js"></script>
+    <script type="text/javascript" src="../../../openlayers/lib/OpenLayers/Geometry/LineString.js"></script>
+    <script type="text/javascript" src="../../../openlayers/lib/OpenLayers/Geometry/MultiLineString.js"></script>
+    <script type="text/javascript" src="../../../openlayers/lib/OpenLayers/Geometry/LinearRing.js"></script>
+    <script type="text/javascript" src="../../../openlayers/lib/OpenLayers/Geometry/Polygon.js"></script>
+    <script type="text/javascript" src="../../../openlayers/lib/OpenLayers/Geometry/MultiPolygon.js"></script>
+</head>
+<body>
+<script>
+window.onload = function() {
+    var uf = new OpenLayers.Format.URLCompressed();
+    var jf = new OpenLayers.Format.GeoJSON();
+
+    function test(geom) {
+        var enc = uf.write(geom);
+        document.write("<hr>");
+        document.write(enc);
+        document.write("<br>");
+        var dec = uf.read(enc);
+        document.write(jf.write(dec));
+    }
+    
+    test([new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(10, 20), {'as': 'éàè', 'éàè': 'sd'})]);
+    test(new OpenLayers.Geometry.Point(10, 20));
+    test(new OpenLayers.Geometry.LineString([new OpenLayers.Geometry.Point(10, 20), new OpenLayers.Geometry.Point(30, 40)]));
+    test(new OpenLayers.Geometry.Polygon([
+        new OpenLayers.Geometry.LinearRing([new OpenLayers.Geometry.Point(10, 20), new OpenLayers.Geometry.Point(30, 40), new OpenLayers.Geometry.Point(10, 20)]),
+        new OpenLayers.Geometry.LinearRing([new OpenLayers.Geometry.Point(50, 60), new OpenLayers.Geometry.Point(70, 80), new OpenLayers.Geometry.Point(50, 60)])]));
+    
+    test(new OpenLayers.Geometry.MultiPoint([new OpenLayers.Geometry.Point(10, 20), new OpenLayers.Geometry.Point(30, 40)]));
+    test(new OpenLayers.Geometry.MultiLineString([
+        new OpenLayers.Geometry.LineString([new OpenLayers.Geometry.Point(10, 20), new OpenLayers.Geometry.Point(30, 40)]),
+        new OpenLayers.Geometry.LineString([new OpenLayers.Geometry.Point(50, 60), new OpenLayers.Geometry.Point(70, 80)])]));
+    test(new OpenLayers.Geometry.MultiPolygon([
+        new OpenLayers.Geometry.Polygon([
+            new OpenLayers.Geometry.LinearRing([new OpenLayers.Geometry.Point(10, 20), new OpenLayers.Geometry.Point(30, 40), new OpenLayers.Geometry.Point(10, 20)]),
+            new OpenLayers.Geometry.LinearRing([new OpenLayers.Geometry.Point(50, 60), new OpenLayers.Geometry.Point(70, 80), new OpenLayers.Geometry.Point(50, 60)])]),
+        new OpenLayers.Geometry.Polygon([
+            new OpenLayers.Geometry.LinearRing([new OpenLayers.Geometry.Point(15, 25), new OpenLayers.Geometry.Point(35, 45), new OpenLayers.Geometry.Point(15, 25)]),
+            new OpenLayers.Geometry.LinearRing([new OpenLayers.Geometry.Point(55, 65), new OpenLayers.Geometry.Point(75, 85), new OpenLayers.Geometry.Point(55, 65)])])]));
+}
+</script>
+</body>
+</html>
