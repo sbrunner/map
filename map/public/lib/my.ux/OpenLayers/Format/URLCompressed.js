@@ -4,14 +4,14 @@
  * full text of the license. */
 
 /**
- * @requires OpenLayers/Feature/Vector.js
- * @requires OpenLayers/Geometry/Point.js
- * @requires OpenLayers/Geometry/MultiPoint.js
- * @requires OpenLayers/Geometry/LineString.js
- * @requires OpenLayers/Geometry/MultiLineString.js
- * @requires OpenLayers/Geometry/Polygon.js
- * @requires OpenLayers/Geometry/MultiPolygon.js
- * @requires OpenLayers/Console.js
+ * @requires OpenLayers/Format.js
+ * @include OpenLayers/Feature/Vector.js
+ * @include OpenLayers/Geometry/Point.js
+ * @include OpenLayers/Geometry/MultiPoint.js
+ * @include OpenLayers/Geometry/LineString.js
+ * @include OpenLayers/Geometry/MultiLineString.js
+ * @include OpenLayers/Geometry/Polygon.js
+ * @include OpenLayers/Geometry/MultiPolygon.js
  */
 
 /**
@@ -517,11 +517,16 @@ OpenLayers.Format.URLCompressed = OpenLayers.Class(OpenLayers.Format, {
             for (var i = 0, leni = multipolygon.components.length; i < leni; i++) {
                 var polygon = multipolygon.components[i];
                 result += '(';
+                var first = true;
                 for (var j = 0, lenj = polygon.components.length; j < lenj; j++) {
                     var curve = polygon.components[j]; 
-                    if (result.length !== 1) {
+                    if (first) {
+                        first = false;
+                    }
+                    else {
                         result += "'";
                     }
+                        
                     result += this.encodePoints(curve.components);
                 }
                 result += ')';
