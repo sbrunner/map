@@ -207,7 +207,7 @@ OpenLayers.Format.URLCompressed = OpenLayers.Class(OpenLayers.Format, {
         var index = data.search(/~/);
         if (index > 0) {
             var attributesdata = data.substring(index + 1).split("'");
-            data = data.substring(0, index);
+            data = data.substring(0, index + 1);
             for (var i=0, len=attributesdata.length; i<len; ++i) {
                 var kv = decodeURIComponent(attributesdata[i]).split('*');
                 attributes[kv[0]] = kv[1];
@@ -236,6 +236,7 @@ OpenLayers.Format.URLCompressed = OpenLayers.Class(OpenLayers.Format, {
      */
     parseGeometry: function(data) {
         var innerData = data.substr(2, data.length - 3);
+
         switch (data.charAt(0)) {
             case 'p':
                 return this.decodePoints(innerData)[0];
@@ -492,6 +493,9 @@ OpenLayers.Format.URLCompressed = OpenLayers.Class(OpenLayers.Format, {
                 if (result.length !== 0) {
                     result += "'";
                 }
+                curve = curve.clone();
+                // remove duplicate point
+                curve.components.pop();
                 result += this.encodePoints(curve.components);
             }
             return "a(" + result + ")";
