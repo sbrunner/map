@@ -4,14 +4,14 @@
  * full text of the license. */
 
 /**
- * @requires OpenLayers/Feature/Vector.js
- * @requires OpenLayers/Geometry/Point.js
- * @requires OpenLayers/Geometry/MultiPoint.js
- * @requires OpenLayers/Geometry/LineString.js
- * @requires OpenLayers/Geometry/MultiLineString.js
- * @requires OpenLayers/Geometry/Polygon.js
- * @requires OpenLayers/Geometry/MultiPolygon.js
- * @requires OpenLayers/Console.js
+ * @requires OpenLayers/Format.js
+ * @include OpenLayers/Feature/Vector.js
+ * @include OpenLayers/Geometry/Point.js
+ * @include OpenLayers/Geometry/MultiPoint.js
+ * @include OpenLayers/Geometry/LineString.js
+ * @include OpenLayers/Geometry/MultiLineString.js
+ * @include OpenLayers/Geometry/Polygon.js
+ * @include OpenLayers/Geometry/MultiPolygon.js
  */
 
 /**
@@ -207,9 +207,9 @@ OpenLayers.Format.URLCompressed = OpenLayers.Class(OpenLayers.Format, {
         var index = data.search(/~/);
         if (index > 0) {
             var attributesdata = data.substring(index + 1).split("'");
-            data = data.substring(0, index);
+            data = data.substring(0, index + 1);
             for (var i=0, len=attributesdata.length; i<len; ++i) {
-                var kv = attributesdata[i].split('*');
+                var kv = decodeURIComponent(attributesdata[i]).split('*');
                 attributes[kv[0]] = kv[1];
             }
         }
@@ -236,6 +236,7 @@ OpenLayers.Format.URLCompressed = OpenLayers.Class(OpenLayers.Format, {
      */
     parseGeometry: function(data) {
         var innerData = data.substr(2, data.length - 3);
+
         switch (data.charAt(0)) {
             case 'p':
                 return this.decodePoints(innerData)[0];
@@ -261,16 +262,16 @@ OpenLayers.Format.URLCompressed = OpenLayers.Class(OpenLayers.Format, {
                 return new OpenLayers.Geometry.MultiLineString(lines);
             case 'A':
                 var polygons = [];
-                var polygonsData = innerdata.substr(1, data.length - 2)
+                var polygonsData = innerData.substr(1, innerData.length - 2)
                         .split(")(");
-                for (var i=0, leni=poligonsData; i<leni; ++i) {
+                for (var i=0, leni=polygonsData.length; i<leni; ++i) {
                     var rings = [];
-                    var ringData = polygonsData[i].split("'");
+                    var ringsData = polygonsData[i].split("'");
                     for (var j=0, lenj=ringsData.length; j<lenj; ++j) { 
                         rings.push(new OpenLayers.Geometry.LinearRing(
-                                this.decodePoints(linesData[i])));
+                                this.decodePoints(ringsData[j])));
                     }
-                    polygons.push(new OpenLayers.Geometry.Polygon(lines));
+                    polygons.push(new OpenLayers.Geometry.Polygon(rings));
                 }
                 return new OpenLayers.Geometry.MultiPolygon(polygons);
         }
@@ -335,6 +336,18 @@ OpenLayers.Format.URLCompressed = OpenLayers.Class(OpenLayers.Format, {
         return result;
     },
 
+    doSimplify: function(geometry) {
+        if (geometry.simplify) {
+            geometry = geometry.clone().simplify(this.simplify);
+        }
+        else if (geometry instanceof OpenLayers.Geometry.Collection) {
+            for (var i = 0, len = geometry.components.length ; i < len ; i++) {
+                geometry.components[i] = this.doSimplify(geometry.components[i]);
+            }
+        }
+        return geometry;
+    },
+    
     /**
      * Property: extract
      * Object with properties corresponding to the URLCompressed types.
@@ -388,9 +401,9 @@ OpenLayers.Format.URLCompressed = OpenLayers.Class(OpenLayers.Format, {
                 geometry = geometry.clone();
                 geometry.transform(this.internalProjection, 
                                    this.externalProjection);
-            }                       
-            if (geometry.simplify && this.simplify > 0) {
-                geometry = geometry.clone().simplify(this.simplify);
+            }
+            if (this.simplify > 0) {
+                geometry = this.doSimplify(geometry);
             }
             var geometryType = geometry.CLASS_NAME.split('.')[2];
             return this.extract[geometryType.toLowerCase()].apply(this, [geometry]);
@@ -480,6 +493,9 @@ OpenLayers.Format.URLCompressed = OpenLayers.Class(OpenLayers.Format, {
                 if (result.length !== 0) {
                     result += "'";
                 }
+                curve = curve.clone();
+                // remove duplicate point
+                curve.components.pop();
                 result += this.encodePoints(curve.components);
             }
             return "a(" + result + ")";
@@ -501,11 +517,16 @@ OpenLayers.Format.URLCompressed = OpenLayers.Class(OpenLayers.Format, {
             for (var i = 0, leni = multipolygon.components.length; i < leni; i++) {
                 var polygon = multipolygon.components[i];
                 result += '(';
+                var first = true;
                 for (var j = 0, lenj = polygon.components.length; j < lenj; j++) {
                     var curve = polygon.components[j]; 
-                    if (result.length !== 1) {
+                    if (first) {
+                        first = false;
+                    }
+                    else {
                         result += "'";
                     }
+                        
                     result += this.encodePoints(curve.components);
                 }
                 result += ')';
