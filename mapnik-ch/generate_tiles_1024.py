@@ -202,10 +202,10 @@ FORMAT = 'png'
 FILE_EXTENSION = 'png'
 
 if __name__ == "__main__":
-    mapfile = "/home/sbrunner/workspace/map-git/mapnik-ch/mapnik.style"
+    mapfile = "mapnik.style"
     tile_dir = "/media/Tiles/tiles/1024/ch-2011-06"
 
     # World
-    bbox = (-180,-85, 180,85)
+    bbox = (420000, 30000, 900000, 350000)
     render_tiles(bbox, mapfile, tile_dir, 0, 6, "Swiss")
 

@@ -145,61 +145,6 @@ if __name__ == "__main__":
     tile_dir = "/media/BigBackup/tiles/ch/"
 
     bbox = (420000, 30000, 900000, 350000)
-
-    """
-    def getXY(bounds, z):
-        maxExtent = (420000, 30000, 900000, 350000)
-        serverResolutions = [1000,500,250,100,50,20,10,5,2,1,0.5]
-
-        res = serverResolutions[z];
-        x = (bounds[0] - maxExtent[0]) / (res * 1024);
-        y = (maxExtent[3] - bounds[1]) / (res * 1024);
-
-        print (x, y)
-
-
-    x = 0
-    y = 0
-    z = 1
-    p0 = (x * TILES_SIZE, (y + 1) * TILES_SIZE)
-    p1 = ((x + 1) * TILES_SIZE, y * TILES_SIZE)
-    print (p0, p1) # ((0, 1024), (1024, 0))
-
-    print fromPixelToMetre((0, 1024), (1024, 0), 1) # (420000.0,-162000.0,932000.0,350000.0)
-    print fromMetreToPixel((420000.0,30000.0,932000.0,542000.0), 1) # (0.0, 1024.0, 1024.0, 0.0)
-    getXY((420000.0,-162000.0,932000.0,350000.0), 1)
-    
-    print fromPixelToMetre((0, 2048), (1024, 1024), 3) # 420000.0,145200.0,522400.0,247600.0
-    print fromMetreToPixel((420000.0,145200.0,522400.0,247600.0), 3) # 
-    getXY((420000.0,145200.0,522400.0,247600.0), 3) # 
-
-    x = 0
-    y = 1
-    z = 3 
-    p0 = (x * TILES_SIZE, (y + 1) * TILES_SIZE)
-    p1 = ((x + 1) * TILES_SIZE, y * TILES_SIZE)
-    print (p0, p1)
-
-    x = 1
-    y = 0
-    z = 3 
-    p0 = (x * TILES_SIZE, y * TILES_SIZE)
-    p1 = ((x + 1) * TILES_SIZE, (y + 1) * TILES_SIZE)
-    print (p0, p1)
-    print fromPixelToMetre((1024, 0), (2048, 1024), 3)
-    print fromMetreToPixel((522400.0,247600.0,624800.0,350000.0), 3)
-    """
-
-    """
-    x = 881
-    y = 100
-    z = 10
-    p0 = (x * TILES_SIZE, (y + 1) * TILES_SIZE)
-    p1 = ((x + 1) * TILES_SIZE, y * TILES_SIZE)
-    print fromPixelToMetre(p0, p1, z)
-    """
-
-    bbox = (871000, 30000, 900000, 350000)
     render_tiles(bbox, mapfile, tile_dir, 10, 10, "Suisse")
 
 

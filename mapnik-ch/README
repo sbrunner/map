@@ -1,0 +1,20 @@
+
+# Style sources
+# http://svn.openstreetmap.org/applications/rendering/mapnik/
+
+mapnik/osm.xml:
+-<Map bgcolor="#b5d0d0" srs="&srs900913;" minimum_version="0.7.1">
++<Map bgcolor="#F1EEE8" minimum_version="0.7.1" srs="+proj=somerc +lat_0=46.95240555555556 +lon_0=7.439583333333333 +x_0=600000 +y_0=200000 +ellps=bessel +towgs84=674.374,15.056,405.346,0,0,0,0 +units=m +no_defs ">
+
+mapnik/generate_tiles_multiprocess.py
+
+
+
+#wget http://download.geofabrik.de/osm/europe.osm.bz2
+wget http://download.geofabrik.de/osm/europe.osm.pbf
+
+
+osm2pgsql  --bbox 5.13,45.40,11.46,48.24 --create --proj EPSG:21781 --prefix osm --slim --style osm2pgsql.style --cache 800 --username www-data --password www-data
+
+
+./generate_tiles.py
