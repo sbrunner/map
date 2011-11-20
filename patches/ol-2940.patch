@@ -13,9 +13,9 @@ index 9e02949..91be72e 100644
 +     * {Map({String, Function})} Map relation type to a functions that parce the relation.
 +     * This can be set for example to:
 +     * {
-+     *     multipolygon: OpenLayera.Format.OSM.multipolygonParser,
-+     *     boundary:     OpenLayera.Format.OSM.multipolygonParser,
-+     *     route:        OpenLayera.Format.OSM.routeParser
++     *     multipolygon: OpenLayers.Format.OSM.multipolygonParser,
++     *     boundary:     OpenLayers.Format.OSM.multipolygonParser,
++     *     route:        OpenLayers.Format.OSM.routeParser
 +     * }
 +     */
 +    relationsParsers: {}, 

@@ -1,0 +1,78 @@
+# ./configure --with-wfs --with-ogr --with-proj --with-postgis --with-gdal --with-wms
+# make
+
+# sudo -u postgres createuser -s sbrunner -P
+# psql -U sbrunner -W test-mapserver
+# create table test (int integer, str varchar(40));
+# select AddGeometryColumn('public', 'test', 'geom', 21781, 'POINT', 2);
+# insert into test VALUES (19, 'toto', ST_SetSRID(ST_MakePoint(600000, 200000), 21781));
+
+MAP
+  NAME ortho
+  STATUS ON
+
+  TRANSPARENT OFF
+
+  WEB
+    TEMPLATE FooBar
+    METADATA
+      "wms_enable_request" "*"
+      "ows_enable_request" "*"
+      "wfs_title"          "WFS Test Server for MapServer"
+      "wfs_srs"            "EPSG:21781"
+      "wfs_enable_request" "*"  # necessary
+    END
+  END
+
+  EXTENT 400000 100000 700000 300000
+
+  UNITS METERS
+  IMAGETYPE jpeg
+  RESOLUTION 254
+  #SHAPEPATH "/home/sbrunner/Desktop/"
+
+  PROJECTION
+    "init=epsg:21781"
+  END
+
+    SYMBOL
+        NAME "square"
+        TYPE vector
+        POINTS
+            0 0
+            0 1
+            1 1
+            1 0
+            0 0
+        END
+        FILLED true
+    END
+
+    LAYER
+        NAME 'test'
+        TYPE POINT
+        
+        CONNECTIONTYPE POSTGIS
+        CONNECTION "host=localhost dbname=test-mapserver user=sbrunner password=sbr111"
+        DATA 'geom from (select * from test) as sub using unique int using srid=21781'
+        METADATA
+            "gml_include_items" "all"
+            "gml_types" "auto"
+            #"gml_geom_type" "Point"
+            #"gml_str_type"      "Character"
+            #Integer|Real|Character|Date|Boolean
+        END
+        PROJECTION
+           "init=epsg:21781"
+        END
+        CLASS
+            NAME "point"
+            STYLE
+                SYMBOL "square"
+                SIZE 16
+                COLOR 0 0 0
+                OUTLINECOLOR 0 0 0
+            END
+        END
+    END
+END
