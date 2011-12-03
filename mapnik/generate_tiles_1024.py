@@ -120,11 +120,11 @@ class RenderThread:
                 
                 bytes=os.stat('/tmp/mapnik%i'%nb)[6]
     #            if bytes == 103:
-                if bytes == 222:
-                    empty = " Empty Tile "
-                    os.remove(tile_uri)
-                else:
-                    call("optipng -q -zc 9 -zm 7 -zs 0 -f 0 -i 0 -out %(dst)s %(src)s;" % {'src': '/tmp/mapnik%i'%nb, 'dst': tile_uri}, shell=True)
+#                if bytes == 222:
+ #                   empty = " Empty Tile "
+ #                   os.remove(tile_uri)
+ #               else:
+                call("optipng -q -zc 9 -zm 7 -zs 0 -f 0 -i 0 -out %(dst)s %(src)s;" % {'src': '/tmp/mapnik%i'%nb, 'dst': tile_uri}, shell=True)
 
             self.printLock.acquire()
             print name, ":", z, x, y, exists, empty
@@ -195,23 +195,24 @@ FILE_EXTENSION = 'png'
 
 if __name__ == "__main__":
 
-    bbox = (5.9, 45.7, 10.5, 47.9)
+#    bbox = (5.9, 45.7, 10.5, 47.9)
+    bbox = (5.13, 45.40, 11.46, 48.24)
 
-#    mapfile = "/home/sbrunner/workspace/map-git/mapnik/mapnik/osm.xml"
-#    tile_dir = "/media/Tiles/tiles/1024/ch-2010-06/"
-#    render_tiles(bbox, mapfile, tile_dir, 18, 18, "Swiss")
+    mapfile = "mapnik/osm.xml"
+    tile_dir = "/media/Tiles/tiles/1024/ch-2007-10/"
+    render_tiles(bbox, mapfile, tile_dir, 0, 18, "Swiss")
 
 #    mapfile = "adrs.mapnik"
 #    tile_dir = "/media/Tiles/tiles/1024/adrs/"
 #    render_tiles(bbox, mapfile, tile_dir, 18, 18, "adrs")
 
-    mapfile = "service.mapnik"
-    tile_dir = "/media/Tiles/tiles/1024/service/"
-    render_tiles(bbox, mapfile, tile_dir, 0, 18, "service")
+ #   mapfile = "service.mapnik"
+ #   tile_dir = "/media/Tiles/tiles/1024/service/"
+ #   render_tiles(bbox, mapfile, tile_dir, 0, 18, "service")
 
-    mapfile = "parking.mapnik"
-    tile_dir = "/media/Tiles/tiles/1024/parking/"
-    render_tiles(bbox, mapfile, tile_dir, 0, 18, "parking")
+#    mapfile = "parking.mapnik"
+#    tile_dir = "/media/Tiles/tiles/1024/parking/"
+#    render_tiles(bbox, mapfile, tile_dir, 0, 18, "parking")
 
 
 
