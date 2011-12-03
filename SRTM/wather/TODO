@@ -1,0 +1,16 @@
+initdb --pgdata=
+
+DB=water
+
+#sudo -u postgres createuser -W www-data
+sudo -u www-data createdb $PORT -E UTF8 $DB -T template0
+#sudo -u www-data createlang $PORT plpgsql $DB
+sudo -u www-data psql $PORT -d $DB -f /usr/share/postgresql/9.1/contrib/postgis-1.5/postgis.sql
+sudo -u www-data psql $PORT -d $DB -f /usr/share/postgresql/9.1/contrib/postgis-1.5/spatial_ref_sys.sql
+
+time sudo -u postgres osm2pgsql -c -d $DB --port 5433 -s -S water.osm2pgsql /media/Tiles/data/planet-091230.osm.bz2 
+or
+time /usr/share/postgresql-9.1-postgis/utils/new_postgis_restore.pl /media/Tiles/pgdumps/water-091230.dump -T template0 | psql $DB
+or
+/usr/share/postgresql-9.1-postgis/utils/postgis_restore.pl /usr/share/postgresql/9.1/contrib/postgis-1.5/postgis.sql $DB /media/Tiles/pgdumps/water-091230.dump -T template0
+
