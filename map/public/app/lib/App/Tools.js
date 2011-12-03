@@ -112,14 +112,6 @@ App.Tools = function(map) {
         var open = ap.getParameters()["open"];
         
         /*
-         * Selected feature (global)
-         */
-        selection = toolBuilder(OpenLayers.i18n("Selected"), new Ext.Panel({
-            id: 'featureData',
-            style: "padding: 8px;"
-        }));
-
-        /*
          * Layers
          */
         var layerTree = new Ext.tree.TreePanel({
@@ -351,6 +343,6 @@ App.Tools = function(map) {
             });
         }
         
-        return [selection, layers, mobile, routing, links, more];
+        return [layers, mobile, routing, links, more];
     }
 };

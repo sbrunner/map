@@ -8,6 +8,7 @@
 
 /*
  * @requires GeoExt/widgets/MapPanel.js
+ * @include GeoExt/widgets/Popup.js
  * @include OpenLayers/Projection.js
  * @include OpenLayers/Layer/SphericalMercator.js
  * @include OpenLayers/Map.js
@@ -75,21 +76,31 @@ App.Map = Ext.extend(GeoExt.MapPanel, {
         })]);
 
         var selectFeatureControl = null;
+        var hoverFeatureControl = null;
+        var featureLayers = null;
         map.events.register('addlayer', map, function(arg) {
             if (arg.layer instanceof OpenLayers.Layer.Vector && (arg.layer.ref || arg.layer.name == "Routing")) {
-                if (map.popups.length > 0) {
-                    map.removePopup(map.popups[0]);
-                }
                 if (selectFeatureControl) {
-                    selectFeatureControl.destroy();
+                    featureLayers.push(arg.layer);
+                    hoverFeatureControl.setLayer(featureLayers);
+                    selectFeatureControl.setLayer(featureLayers);
                 }
-                var selectFeatureControl = new OpenLayers.Control.SelectFeature(arg.layer, {
-                    autoActivate: true,
-                    hover: true,
-                    clickout: true,
-                    toggle: true
-                });
-                this.addControl(selectFeatureControl);
+                else {
+                    featureLayers = [arg.layer];
+                    hoverFeatureControl = new OpenLayers.Control.SelectFeature(featureLayers, {
+                        autoActivate: true,
+                        hover: true,
+                        highlightOnly: true
+                    });
+                    this.addControl(hoverFeatureControl);
+                    selectFeatureControl = new OpenLayers.Control.SelectFeature(featureLayers, {
+                        autoActivate: true,
+                        hover: false,
+                        clickout: true,
+                        toggle: false
+                    });
+                    this.addControl(selectFeatureControl);
+                }
 
                 arg.layer.events.register('featureselected', this, function(o) {
                     var html = null;
@@ -153,9 +164,15 @@ App.Map = Ext.extend(GeoExt.MapPanel, {
                         var href = "http://www.openstreetmap.org/browse/" + o.feature.type + "/" + o.feature.osm_id + "/history";
                         html += '<br /><a href="' + href + '">History</a>';
                     }
-                    
-                    selection.panel.update(html);
-                    selection.window.anchorTo(selection.ownerCt.getEl(), 'tr-br');
+
+                    var popup = new GeoExt.Popup({
+                        title: o.feature.attributes.name,
+                        location: o.feature,
+                        width: 200,
+                        html: html,
+                        collapsible: true
+                    });
+                    popup.show();
                 });
             }
 
