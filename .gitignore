@@ -1,4 +1,5 @@
 *.pyc
+*~
 map/public/build/*
 buildout/*
 apache/README.txt
