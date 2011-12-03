@@ -1,0 +1,42 @@
+DATE=060818
+DATE=070620
+DATE=071031
+DB=osm-ch-$DATE
+PORT=-p 5433
+
+sudo -u postgres createuser -W www-data
+
+sudo -u www-data createdb $PORT -E UTF8 $DB -T template0
+#sudo -u www-data createlang $PORT plpgsql $DB
+sudo -u www-data psql $PORT -d $DB -f /usr/share/postgresql/9.1/contrib/postgis-1.5/postgis.sql
+sudo -u www-data psql $PORT -d $DB -f /usr/share/postgresql/9.1/contrib/postgis-1.5/spatial_ref_sys.sql
+
+#cat /media/Tiles/planet-060818.osm ./utf8-fix > /media/Tiles/planet-060818-fix.osm
+#osmosis --read-xml-0.5 enableDateParsing=no file=/media/Tiles/planet-$DATE.osm --migrate --write-xml file=/media/Tiles/planet-$DATE-0.6.osm
+#osmosis --read-xml file=/media/Tiles/planet-$DATE-0.6.osm --bounding-box top=48.24 left=5.13 bottom=45.40 right=11.46 --write-xml file=/media/Tiles/planet-060818-fix.osm
+osm2pgsql --bbox 5.13,45.40,11.46,48.24 --create --merc --prefix osm --slim --style osm.osm2pgsql --cache 800 \
+    --host localhost --username www-data --password --port 5433 --database $DB /media/Tiles/planet-$DATE.osm.bz2
+
+sudo -u postgres time ionice -c3 nice -n 19 ./generate_tiles_1024.py
+
+#wget http://download.geofabrik.de/osm/europe.osm.bz2
+#wget http://download.geofabrik.de/osm/europe.osm.pbf
+
+
+wget http://download.geofabrik.de/osm/europe/switzerland.osm.bz2
+rm switzerland.osm
+DATE="`date +'%F'`"
+mv switzerland.osm.bz2 switzerland-$DATE.osm.bz2
+#bunzip2 switzerland.osm.bz2
+sudo -u postgres osm2pgsql -p adrs -S ~/workspace/map-git/mapnik/err.osm2pgsql -d osm -cs switzerland-$DATE.osm.bz2
+sudo -u postgres ./generate_tiles_1024.py
+#dpkg -l rm switzerland.osm
+
+
+rm switzerland.osm
+wget http://download.geofabrik.de/osm/europe/switzerland.osm.pbf
+DATE="`date +'%F'`"
+mv switzerland.osm.pbf switzerland-$DATE.osm.pbf
+sudo -u postgres osm2pgsql -p adrs -S ~/workspace/map-git/mapnik/err.osm2pgsql -d osm -cs switzerland-$DATE.osm.pbf
+sudo -u postgres ./generate_tiles_1024.py
+ 
