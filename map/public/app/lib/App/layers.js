@@ -25,13 +25,14 @@
  * @include OpenLayers/Format/OSM.js
  */
 function getLayersTree(map) {
-/*    var brutes = {
+    var brutes = {
         text: OpenLayers.i18n("Raw (XAPI)"),
         leaf: false,
         children: [],
         tags: "xapi"
     };
-    var types = ['node', 'way', 'relation'];
+//    var types = ['node', 'way', 'relation'];
+    var types = ['node', 'way'];
     var cats = ["leisure", "amenity", "shop", "office", "tourism", "historic", "highway", "barrier", "cycleway", "tracktype", "railway", "aeroway", "power", "man_made", "landuse", "military", "natural", "route", "boundary", "sport", "abutters", "accessories", "place"];
     for (var i = 0 ; i < types.length ; i++) {
         type = types[i];
@@ -55,7 +56,7 @@ function getLayersTree(map) {
             };
             typeNode.children.push(catNode);
         }
-    }*/
+    }
 
     var wikipediam = [{
         text: OpenLayers.i18n("OSM no label"),
@@ -273,30 +274,28 @@ function getLayersTree(map) {
                     numZoomLevels: 19,
                     attribution: "Data by <a href='http://www.osm.org/'>OSM</a>", 
                     ref: "refuge" 
-                },
-/*                {
+                },                {
                     text: OpenLayers.i18n("Orientation"),
                     expanded: false,
                     leaf: false,
                     children: [{
-                        text: OpenLayers.i18n("Street-O Map"),
-                        numZoomLevels: 19,
-                        leaf: true,
-                        handler: addLayer,
-                        url: "http://tiler1.censusprofiler.org/streeto/${z}/${x}/${y}.png",
-                        ref: 'streetomap'
-                    },
-                    {
                         text: OpenLayers.i18n("Pseud-O Map"),
                         numZoomLevels: 19,
                         leaf: true,
                         handler: addLayer,
-                        url: "http://tiler1.censusprofiler.org/oterrain/${z}/${x}/${y}.png",
+                        url: "http://casa.oobrien.com/maptiler/oterrain_global/${z}/${x}/${y}.png",
                         ref: 'pseudomap'
+                    },
+                    {
+                        text: OpenLayers.i18n("Street-O Map"),
+                        numZoomLevels: 19,
+                        leaf: true,
+                        handler: addLayer,
+                        url: "http://tiler1.censusprofiler.org/streeto_global/${z}/${x}/${y}.png",
+                        ref: 'streetomap'
                     }]
-                }*/]
+                }]
             },
-            http://c.tile2.opencyclemap.org/transport/16/33983/23183.png
             {
                 text: OpenLayers.i18n("Public transport (opencyclemap)"),
                 leaf: true,
@@ -323,8 +322,8 @@ function getLayersTree(map) {
                 numZoomLevels: 15,
                 attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", 
                 ref: "ptl" 
-            },
-/*            {
+            }/*,
+            {
                 text: OpenLayers.i18n("Trolley Bus (XAPI)"),
                 leaf: true,
                 handler: addXapiStyleLayer,
@@ -332,8 +331,7 @@ function getLayersTree(map) {
                 ref: 'bus',
                 element: 'relation',
                 predicate: "route=trolleybus"
-            },*/
-            ]
+            }*/]
         },
         {
             text: OpenLayers.i18n("Specific"),
@@ -347,23 +345,14 @@ function getLayersTree(map) {
                 numZoomLevels: 19,
                 attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", 
                 ref: "odlb" 
-            },
-/*            {
-                text: OpenLayers.i18n("Historic"),
-                leaf: true,
-                ref: "hist",
-                handler: addWmsLayer,
-                url: 'http://129.206.229.158/histosm-wms',
-                attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", 
-                layers: 'osm_auto:histosm_points'
-            }*/]
+            }]
         },
         {
             text: OpenLayers.i18n("Dem"),
             tags: OpenLayers.i18n("dem srtm"),
             leaf: false,
             expanded: true,
-            children: [/*{
+            children: [{
                 text: OpenLayers.i18n("Color hill shade"),
                 leaf: true,
                 handler: addLayer,
@@ -371,7 +360,7 @@ function getLayersTree(map) {
                 numZoomLevels: 19,
                 attribution: "Data by <a href='ftp://e0srp01u.ecs.nasa.gov/srtm/version2/SRTM3/'>NASA</a>, <a href='http://asterweb.jpl.nasa.gov/gdem.asp'>ASTER</a>, <a href='http://www.gebco.net/'>GEBCO</a> and <a href='http://www.osm.org/'>OSM</a>", 
                 ref: "topo" 
-            },
+            },/*
             {
                 text: OpenLayers.i18n("Contours"),
                 leaf: true,
@@ -387,15 +376,6 @@ function getLayersTree(map) {
                 ref: "cont",
                 handler: addWmsLayer,
                 url: "http://tiles.openpistemap.org/contours-only/${z}/${x}/${y}.png",
-                attribution: "Data by <a href='ftp://e0srp01u.ecs.nasa.gov/srtm/version2/SRTM3/'>NASA</a>", 
-                layers: '' 
-            },
-            {
-                text: OpenLayers.i18n("Contours"),
-                leaf: true,
-                ref: "cont",
-                handler: addWmsLayer,
-                url: "http://map.stephane-brunner.ch/contours/${z}/${x}/${y}.png",
                 attribution: "Data by <a href='ftp://e0srp01u.ecs.nasa.gov/srtm/version2/SRTM3/'>NASA</a>", 
                 layers: '' 
             },*/
@@ -451,18 +431,6 @@ function getLayersTree(map) {
                 ],
                 ref: 'bicycle'
             },
-/*            {
-                text: OpenLayers.i18n("Montainbike"),
-                numZoomLevels: 19,
-                leaf: true,
-                handler: addLayer,
-                url: [
-                    "http://a.www.toolserver.org/tiles/mtb-overlay/${z}/${x}/${y}.png",
-                    "http://b.www.toolserver.org/tiles/mtb-overlay/${z}/${x}/${y}.png",
-                    "http://c.www.toolserver.org/tiles/mtb-overlay/${z}/${x}/${y}.png"
-                ],
-                ref: 'mtb_overlay'
-            },*/
             {
                 text: OpenLayers.i18n("Vector (XAPI)"),
                 expanded: false,
@@ -492,7 +460,7 @@ function getLayersTree(map) {
                     style: getHikkingStyle,
                     ref: 'info',
                     element: 'node',
-                    predicate: "tourism"
+                    predicate: "tourism=*"
                 },
                 {
                     text: OpenLayers.i18n("Hiking (scale)"),
@@ -501,7 +469,7 @@ function getLayersTree(map) {
                     style: getHikkingStyle,
                     ref: 'sac',
                     element: 'way',
-                    predicate: "sac_scale"
+                    predicate: "sac_scale=*"
                 },
                 {
                     text: OpenLayers.i18n("Hiking (path)"),
@@ -520,7 +488,7 @@ function getLayersTree(map) {
                     ref: 'mtbs',
                     element: 'way',
                     predicate: "mtb:scale=*"
-                },
+                },/*
                 {
                     text: OpenLayers.i18n("MTB (route)"),
                     leaf: true,
@@ -538,7 +506,7 @@ function getLayersTree(map) {
                     ref: 'velo',
                     element: 'relation',
                     predicate: "route=bicycle"
-                },
+                },*/
                 {
                     text: OpenLayers.i18n("Sled"),
                     leaf: true,
@@ -547,7 +515,7 @@ function getLayersTree(map) {
                     ref: 'sled',
                     element: 'way',
                     predicate: "piste:type=sled"
-                },
+                },/*
                 {
                     text: OpenLayers.i18n("Snows shoe"),
                     leaf: true,
@@ -556,7 +524,7 @@ function getLayersTree(map) {
                     ref: 'xx',
                     element: 'relation',
                     predicate: "route=snowshoe"
-                },
+                },*/
                 {
                     text: OpenLayers.i18n("Nordic"),
                     leaf: true,
@@ -574,7 +542,7 @@ function getLayersTree(map) {
                     ref: 'dh',
                     element: 'way',
                     predicate: "piste:type=downhill"
-                },
+                }/*,
                 {
                     text: OpenLayers.i18n("Winter Walks"),
                     leaf: true,
@@ -592,7 +560,7 @@ function getLayersTree(map) {
                     ref: 'ft',
                     element: 'relation',
                     predicate: "route=fitness_trail"
-                }]
+                }*/]
             }]
         },
         {
@@ -639,14 +607,6 @@ function getLayersTree(map) {
                 url: 'http://plan.epfl.ch/wms',
                 layers: 'epfl_surface,unil_surface,circulation2,surface_foret,unil_batiments',
                 attribution: "<a href='http://wiki.openstreetmap.org/wiki/EPFL_WMS'>plan.epfl.ch</a>"
-            }/*, {
-                text: OpenLayers.i18n("Genf"),
-                leaf: true,
-                handler: addWmsLayer,
-                ref: 'genf',
-                url: 'http://etat.geneve.ch/ags2/services/Orthophotos_2005/MapServer/WMSServer',
-                layers: '0',
-                attribution: "<a href='http://wiki.openstreetmap.org/wiki/SITG_WMS'>Orthophotos du SITG 2005 (Système d'Information du Territoire Genevois)</a>"
             }, {
                 text: OpenLayers.i18n("Yverdon"),
                 leaf: true,
@@ -656,38 +616,6 @@ function getLayersTree(map) {
                 layers: 'orthophoto_yverdon',
                 attribution: "<a href='http://wiki.openstreetmap.org/wiki/HEIG-VD_WMS'>Orthophoto Yverdon 2007 / HEIG-VD</a>"
             }, {
-                text: OpenLayers.i18n("Yverdon cessnov"),
-                leaf: true,
-                handler: addWmsLayer,
-                ref: 'yverdoncessnov',
-                url: 'http://ogc.heig-vd.ch/mapserver/wms',
-                layers: 'r-pod_yverdon_cessnov',
-                attribution: "<a href='http://wiki.openstreetmap.org/wiki/HEIG-VD_WMS'>Orthophoto Yverdon 2010 / R-Pod @ HEIG-VD</a>"
-            }, {
-                text: OpenLayers.i18n("Yverdon Y-Parc"),
-                leaf: true,
-                handler: addWmsLayer,
-                ref: 'yverdonyparc',
-                url: 'http://ogc.heig-vd.ch/mapserver/wms',
-                layers: 'r-pod_yverdon_y-parc',
-                attribution: "<a href='http://wiki.openstreetmap.org/wiki/HEIG-VD_WMS'>Orthophoto Yverdon 2010 / R-Pod @ HEIG-VD</a>"
-            }, {
-                text: OpenLayers.i18n("Yverdon Bellevue"),
-                leaf: true,
-                handler: addWmsLayer,
-                ref: 'yverdonbellevue',
-                url: 'http://ogc.heig-vd.ch/mapserver/wms',
-                layers: 'r-pod_yverdon_bellevue',
-                attribution: "<a href='http://wiki.openstreetmap.org/wiki/HEIG-VD_WMS'>Orthophoto Yverdon 2010 / R-Pod @ HEIG-VD</a>"
-            }, {
-                text: OpenLayers.i18n("Neuchatel"),
-                leaf: true,
-                handler: addWmsLayer,
-                ref: 'neuchatel',
-                url: 'http://sitn.ne.ch/ogc-sitn-open/wms',
-                layers: 'ortho',
-                attribution: "<a href='http://wiki.openstreetmap.org/wiki/SITN_WMS'>orthophotos2006sitn50cm</a>"
-            }*/, {
                 text: OpenLayers.i18n("Jura"),
                 leaf: true,
                 handler: addWmsLayer,
@@ -695,6 +623,14 @@ function getLayersTree(map) {
                 url: 'http://sitn.ne.ch/ogc-sitj-ortho/wms',
                 layers: 'ortho1998',
                 attribution: "<a href='http://wiki.openstreetmap.org/wiki/Switzerland:Jura'>Orthophotos 1998 RCJU 50cm</a>"
+            }, {
+                text: OpenLayers.i18n("R-Pod"),
+                leaf: true,
+                handler: addWmsLayer,
+                ref: 'rpod',
+                url: 'http://ogc.heig-vd.ch/mapserver/wms',
+                layers: 'r-pod_payerne_zi,r-pod_payerne_ville,r-pod_entreroches_TEMP,r-pod_cheserex,r-pod_chavornay,r-pod_yverdon_ouest,r-pod_chatonnaye,r-pod_fontenais,r-pod_chamblon,r-pod_pomy,r-pod_cuarny_a1,r-pod_chavornay_creux_de_terre,r-pod_penthereaz,r-pod_yverdon_y-parc_2,r-pod_suchy_bois,r-pod_cheseaux_mebre,r-pod_yverdon_zone_sportive,r-pod_suchy_etang,r-pod_ependes_chalamont,r-pod_ballaigues,r-pod_yverdon_champ_pittet,r-pod_montagny_les_monts,r-pod_chexbres_daillard,r-pod_yverdon_heig-vd_neige,r-pod_yverdon_bellevue,r-pod_yverdon_y-parc,r-pod_essertines_nonfoux,r-pod_yverdon_cessnov',
+                attribution: "<a href='http://wiki.openstreetmap.org/wiki/HEIG-VD_WMS'>Orthophoto 2010-2011 / R-Pod @ HEIG-VD</a>"
             }]
         },
         {
@@ -710,7 +646,7 @@ function getLayersTree(map) {
                     style: getMaxSpeedStyle,
                     ref: 'speed',
                     element: 'way',
-                    predicate: "maxspeed"
+                    predicate: "maxspeed=*"
                 },
                 {
                     text: OpenLayers.i18n("Weight"),
@@ -719,7 +655,7 @@ function getLayersTree(map) {
                     style: null,
                     ref: 'weight',
                     element: 'way',
-                    predicate: "maxweight"
+                    predicate: "maxweight=*"
                 },
                 {
                     text: OpenLayers.i18n("Height"),
@@ -728,7 +664,7 @@ function getLayersTree(map) {
                     style: null,
                     ref: 'height',
                     element: 'way',
-                    predicate: "maxheight"
+                    predicate: "maxheight=*"
                 },
                 {
                     text: OpenLayers.i18n("Width"),
@@ -737,7 +673,7 @@ function getLayersTree(map) {
                     style: null,
                     ref: 'width',
                     element: 'way',
-                    predicate: "maxwidth"
+                    predicate: "maxwidth=*"
                 },
                 {
                     text: OpenLayers.i18n("Length"),
@@ -746,7 +682,7 @@ function getLayersTree(map) {
                     style: null,
                     ref: 'length',
                     element: 'way',
-                    predicate: "maxlength"
+                    predicate: "maxlength=*"
                 }]
             },
             {
@@ -1212,8 +1148,8 @@ function getLayersTree(map) {
             text: OpenLayers.i18n("Localized (Wikipedia)"),
             leaf: false,
             children: wikipediam
-        }/*,
-        brutes*/]
+        },
+        brutes]
     };
 
     propagateTags = function(element, tags) {

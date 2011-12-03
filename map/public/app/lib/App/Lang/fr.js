@@ -21,6 +21,8 @@ OpenLayers.Util.extend(OpenLayers.Lang.fr, {
     "OpenCycleMap": "OpenCycleMap",
     "OpenPisteMap": "OpenPisteMap",
     "Public transport": "Transports publics",
+    "Public transport (opencyclemap)": "Transports publics (opencyclemap)",
+    "Public transport (xn--pnvkarte-m4a)": "Transports publics (xn--pnvkarte-m4a)",
     "CloudMade nonames": "CloudMade sans nom",
     "September 2008": "Septembre 2008",
     "June 2009": "Juin 2009",
