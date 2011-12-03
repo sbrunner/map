@@ -296,8 +296,18 @@ function getLayersTree(map) {
                     }]
                 }*/]
             },
+            http://c.tile2.opencyclemap.org/transport/16/33983/23183.png
             {
-                text: OpenLayers.i18n("Public transport"),
+                text: OpenLayers.i18n("Public transport (opencyclemap)"),
+                leaf: true,
+                handler: addLayer,
+                url: "http://c.tile2.opencyclemap.org/transport/${z}/${x}/${y}.png",
+                numZoomLevels: 17,
+                attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", 
+                ref: "ptocm" 
+            },
+            {
+                text: OpenLayers.i18n("Public transport (xn--pnvkarte-m4a)"),
                 leaf: true,
                 handler: addLayer,
                 url: "http://tile.xn--pnvkarte-m4a.de/tilegen/${z}/${x}/${y}.png",
