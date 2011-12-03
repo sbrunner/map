@@ -246,7 +246,6 @@ App.Tools = function(map) {
             // Key for map.stephane-brunner.ch: 60a6b92afa824cc985331da088d3225c
             routingProviders: { 
                 cloudmade : GeoExt.ux.RoutingProviders.getCloudmadeRoutingProvider(cloudmadeKey),
-                sbrunner: GeoExt.ux.RoutingProviders.getSbrunnerRoutingProvider(),
     //            ors: GeoExt.ux.RoutingProviders.getOpenRouteServiceProvider(),
                 yours: GeoExt.ux.RoutingProviders.getYOURSRoutingProvider()
             },
