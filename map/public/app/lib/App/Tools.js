@@ -322,6 +322,9 @@ App.Tools = function(map) {
             html: "<h3>" + OpenLayers.i18n('Tools') + "</h3>"
                 + "<ul>"
                 + '<li><a href="http://map.stephane-brunner.ch/proj/">' + OpenLayers.i18n('Projection Converter') + '</a></li>'
+                + '<li><a href="http://map.stephane-brunner.ch/ch.html">' + OpenLayers.i18n('OSM in Swiss Grid') + '</a></li>'
+                + '<li><a href="http://map.stephane-brunner.ch/geom_link_creator.html">' + OpenLayers.i18n('Geom link creator') + '</a></li>'
+                + '<li><a href="http://map.stephane-brunner.ch/streetview.html">' + OpenLayers.i18n('OSM with Google StreetView') + '</a></li>'
                 + "</ul>"
                 + "<h3>" + OpenLayers.i18n('Feedback') + "</h3>"
                 + "<ul>"
