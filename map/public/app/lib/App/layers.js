@@ -128,7 +128,7 @@ function getLayersTree(map) {
 
             
     var root = {
-		text: OpenLayers.i18n("All layers"),
+        text: OpenLayers.i18n("All layers"),
         tags: "",
         expanded: true,
         children: [{
