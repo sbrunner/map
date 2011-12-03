@@ -388,7 +388,7 @@ function getLayersTree(map) {
                 url: "http://map.stephane-brunner.ch/contours/${z}/${x}/${y}.png",
                 attribution: "Data by <a href='ftp://e0srp01u.ecs.nasa.gov/srtm/version2/SRTM3/'>NASA</a>", 
                 layers: '' 
-            }*/,
+            },*/
             {
                 text: OpenLayers.i18n("Hill shade"),
                 leaf: true,
@@ -1202,8 +1202,8 @@ function getLayersTree(map) {
             text: OpenLayers.i18n("Localized (Wikipedia)"),
             leaf: false,
             children: wikipediam
-        },
-        brutes]
+        }/*,
+        brutes*/]
     };
 
     propagateTags = function(element, tags) {
