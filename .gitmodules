@@ -10,3 +10,27 @@
 [submodule "map/public/lib/ext/Ext"]
 	path = map/public/lib/ext/Ext
 	url = git://github.com/probonogeek/extjs.git
+[submodule "map/public/lib/OSM"]
+	path = map/public/lib/OSM
+	url = git@github.com:sbrunner/OpenLayers-OSM.git
+[submodule "map/public/lib/ViewGrid"]
+	path = map/public/lib/ViewGrid
+	url = git@github.com:sbrunner/OpenLayers-ViewGrid.git
+[submodule "map/public/lib/LoadingPanel"]
+	path = map/public/lib/LoadingPanel
+	url = git@github.com:sbrunner/OpenLayers-LoadingPanel.git
+[submodule "map/public/lib/URLCompressed"]
+	path = map/public/lib/URLCompressed
+	url = git@github.com:sbrunner/OpenLayers-URLCompressed.git
+[submodule "map/public/lib/RoutingPanel"]
+	path = map/public/lib/RoutingPanel
+	url = git@github.com:sbrunner/GeoExt-RoutingPanel.git
+[submodule "map/public/lib/LayerCatalogue"]
+	path = map/public/lib/LayerCatalogue
+	url = git@github.com:sbrunner/GeoExt-LayerCatalogue.git
+[submodule "map/public/lib/BubblePanel"]
+	path = map/public/lib/BubblePanel
+	url = git@github.com:sbrunner/Ext-BubblePanel.git
+[submodule "map/public/lib/CloudMade"]
+	path = map/public/lib/CloudMade
+	url = git@github.com:sbrunner/OpenLayers-CloudMade.git
