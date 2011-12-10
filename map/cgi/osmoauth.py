@@ -20,6 +20,7 @@
 
 import urllib
 import oauth2 as oauth
+import cgi
 from cgi import FieldStorage
 
 class OSMOAuth:
@@ -28,6 +29,7 @@ class OSMOAuth:
     Register at $API_URL/oauth_clients'''
 
     # devserver, use for testing
+#    API_URL = "http://api06.dev.openstreetmap.org"
     API_URL = "http://www.openstreetmap.org"
     CONSUMER_KEY = "6a9xZHmgvVL2w6jLBMhKzZvB1AV5POxQP862YmYu"
     SHARED_SECRET = "eH0KK9qDI92XmJn0xuvZOVySsUUF1Z45uEQUuvMH"
