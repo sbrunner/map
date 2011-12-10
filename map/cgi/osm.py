@@ -12,8 +12,8 @@ from cgi import FieldStorage
 from session import Session
 from osmoauth import OSMOAuth
 
-sess = Session(expires=365*24*60*60, cookie_path='/')
-api = OSMOAuth(sess)
+session = Session(expires=365*24*60*60, cookie_path='/')
+api = OSMOAuth(session)
 
 args = FieldStorage()
 
@@ -37,13 +37,13 @@ elif args.has_key('new'):
   </changeset>
 </osm>"""%args.getvalue('new')
     changeset_id = api.put("/api/0.6/changeset/create", empty_changeset)
-    session['changeset_id'] = changeset_id
+    session.data['changeset_id'] = changeset_id
 
     print
     if args.has_key('cb'):
         print "function %s() {return '%s'} "%(args.getvalue('cb'), changeset_id)
     else:
-        print result
+        print changeset_id
 
 elif args.has_key('close'):
     # close changeset
@@ -56,7 +56,14 @@ elif args.has_key('close'):
         print result
 
 elif args.has_key('action'):
-    result = api.put(args.getvalue('action'),  raw_input())
+    if REQUEST_METHOD == "POST":
+        result = api.post(args.getvalue('action'),  raw_input())
+    elif REQUEST_METHOD == "PUT":
+        result = api.put(args.getvalue('action'),  raw_input())
+    elif REQUEST_METHOD == "DELETE":
+        result = api.delete(args.getvalue('action'),  raw_input())
+    else:
+        result = api.get(args.getvalue('action'),  raw_input())
 
     print
     if args.has_key('cb'):
@@ -74,7 +81,7 @@ elif args.has_key('test'):
   </changeset>
 </osm>"""
     changeset_id = api.put("/api/0.6/changeset/create", empty_changeset)
-    session['changeset_id'] = changeset_id
+    session.data['changeset_id'] = changeset_id
 
     n1 = api.put("/api/0.6/node/create", """<?xml version="1.0" encoding="UTF-8"?>
 <osm>
@@ -115,4 +122,4 @@ else:
     print
     print "No valid query."
 
-sess.close()
+session.close()
