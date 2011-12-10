@@ -17,17 +17,17 @@ api = OSMOAuth(session)
 
 args = FieldStorage()
 
-if args.has_key('login'):
+if args.list != None and args.has_key('login'):
     # Just inisialyse the session to be shure that we are autorised.
     print
     print "OK"
 
-elif args.has_key('oauth_token'):
+elif args.list != None and args.has_key('oauth_token'):
     # auth callback.
     print
     print "logged OK"
 
-elif args.has_key('new'):
+elif args.list != None and args.has_key('new'):
     # create changeset
     empty_changeset = """<?xml version="1.0" encoding="UTF-8"?>
 <osm>
@@ -45,7 +45,7 @@ elif args.has_key('new'):
     else:
         print changeset_id
 
-elif args.has_key('close'):
+elif args.list != None and args.has_key('close'):
     # close changeset
     result = api.put("/api/0.6/changeset/%s/close"%changeset_id)
 
@@ -55,7 +55,7 @@ elif args.has_key('close'):
     else:
         print result
 
-elif args.has_key('action'):
+elif args.list != None and args.has_key('action'):
     if REQUEST_METHOD == "POST":
         result = api.post(args.getvalue('action'),  raw_input())
     elif REQUEST_METHOD == "PUT":
@@ -71,7 +71,7 @@ elif args.has_key('action'):
     else:
         print result
 
-elif args.has_key('test'):
+elif args.list != None and args.has_key('test'):
     # create changeset
     empty_changeset = """<?xml version="1.0" encoding="UTF-8"?>
 <osm>

@@ -40,7 +40,7 @@ class OSMOAuth:
         data = session.data
         self.data = data
         args = FieldStorage()
-        if args.has_key('reset'):
+        if args.list != None and args.has_key('reset'):
             data['oauth_token'] = None
             data['oauth_token_secret'] = None
             
