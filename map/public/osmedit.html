@@ -186,7 +186,7 @@ create new tools like square, round
             // create permalink provider
             var permalinkProvider = new GeoExt.state.PermalinkProvider();
             Ext.state.Manager.setProvider(permalinkProvider);
-            // update link when state chnages
+            // update link when state changes
             var onStatechange = function(provider) {
                 var l = provider.getLink();
                 Ext.get("permalink").update("<a href=" + l + ">Permalink</a>");
@@ -263,17 +263,23 @@ create new tools like square, round
                         }
                         var finish = function() {
                             OpenLayers.Request.issue({
-                                url: 'http://stephane-brunner.ch/cgi-bin/osm.py?action=/api/0.6/changeset/' + changeset + '/close',
-                                method: 'PUT',
+                                url: 'http://stephane-brunner.ch/cgi-bin/osm.py',
+                                params: {
+                                    'action': '/api/0.6/changeset/' + changeset + '/close',
+                                    'method': 'PUT'
+                                },
                                 failure: function(r) { alert(OpenLayer.i18n("Unable to create a node.") + "\n" + r.statusText + "\n" + r.responseText); update(); }
                             });
                             update();
                         };
                         todo.push(function() {
                             OpenLayers.Request.GET({
-                                url: "http://stephane-brunner.ch/cgi-bin/osm.py?new=TestHTMLEditor",
+                                url: "http://stephane-brunner.ch/cgi-bin/osm.py",
+                                params: {
+                                    'new': 'TestHTMLEditor'
+                                },
                                 success: function(r) {
-                                    changeset = r.responseText;
+                                    changeset = r.responseText.replace(/^\s+|\s+$/g, '');
                                     todoNext();
                                 },
                                 failure: function(r) { alert(OpenLayer.i18n("Unable to open changeset.") + "\n" + r.statusText + "\n" + r.responseText); }
@@ -293,21 +299,25 @@ create new tools like square, round
                         tagTemplate.compile();
                         var nodeTemplate = new Ext.Template('<osm><node lon="{lon}" lat="{lat}" changeset="{changeset}">{tags}</node></osm>');
                         nodeTemplate.compile();
-                        var sendNode = function(f, url, method) {
+                        var sendNode = function(f, action, method) {
                             var nodes = '';
                             var tags = '';
                             for (p in f.properties) {
                                 tags += tagTemplate.apply({'k': p, 'v': f.properties[p]});
                             }
+                            var g = f.geometry.clone().transform(epsg900913, epsg4326);
                             OpenLayers.Request.issue({
-                                url: url,
-                                method: method,
-                                data: nodeTemplate.apply({
-                                    'lon': f.geometry.x,
-                                    'lat': f.geometry.y,
-                                    'changeset': changeset,
-                                    'tags': tags
-                                }),
+                                url: 'http://stephane-brunner.ch/cgi-bin/osm.py',
+                                params: {
+                                    'method': method,
+                                    'action': action,
+                                    'data': nodeTemplate.apply({
+                                        'lon': g.x,
+                                        'lat': g.y,
+                                        'changeset': changeset,
+                                        'tags': tags
+                                    })
+                                },
                                 success: function(r) {
                                     f.osm_id = r.data;
                                     f.geometry.osm_id = r.data;
@@ -320,14 +330,14 @@ create new tools like square, round
                         };
                         newNodes.forEach(function(f) {
                             todo.push(function() {
-                                sendNode(f, 'http://stephane-brunner.ch/cgi-bin/osm.py?action=/api/0.6/node/create', 'PUT')
+                                sendNode(f, '/api/0.6/node/create', 'PUT')
                             });
                         });
                         var wayTemplate = new Ext.Template('<osm><way changeset="{changeset}">{nodes}{tags}</way></osm>');
                         wayTemplate.compile();
                         var nodeLinkTemplate = new Ext.Template('<nd ref="{ref}" />');
                         nodeLinkTemplate.compile();
-                        var sendWay = function(f, url, method) {
+                        var sendWay = function(f, action, method) {
                             var nodes = '';
                             getNodes(f).forEach(function(p) {
                                 nodes += nodeTemplate.apply({'ref': p.osm_id});
@@ -338,13 +348,16 @@ create new tools like square, round
                             }
                             data += '</osm>';
                             OpenLayers.Request.issue({
-                                url: url,
-                                method: method,
-                                data: nodeTemplate.apply({
-                                    'changeset': changeset,
-                                    'nodes': nodes,
-                                    'tags': tags
-                                }),
+                                url: 'http://stephane-brunner.ch/cgi-bin/osm.py',
+                                params: {
+                                    'method': method,
+                                    'action': action,
+                                    'data': nodeTemplate.apply({
+                                        'changeset': changeset,
+                                        'nodes': nodes,
+                                        'tags': tags
+                                    })
+                                },
                                 success: function(r) {
                                     f.osm_id = r.data;
                                     f.geometry.osm_id = r.data;
@@ -357,26 +370,29 @@ create new tools like square, round
                         };
                         newWays.forEach(function(f) {
                             todo.push(function() {
-                                sendWay(f, 'http://stephane-brunner.ch/cgi-bin/osm.py?action=/api/0.6/way/create', 'PUT');
+                                sendWay(f, '/api/0.6/way/create', 'PUT');
                             });
                         });
                         osm.getFeaturesBy('action', 'modified').forEach(function(f) {
                             if (f.type == 'node') {
                                 todo.push(function() {
-                                    sendNode(f, 'http://stephane-brunner.ch/cgi-bin/osm.py?action=/api/0.6/node/#' + f.osm_id, 'PUT');
+                                    sendNode(f, '/api/0.6/node/#' + f.osm_id, 'PUT');
                                 });
                             }
                             else {
                                 todo.push(function() {
-                                    sendWay(f, 'http://stephane-brunner.ch/cgi-bin/osm.py?action=/api/0.6/way/#' + f.osm_id, 'PUT');
+                                    sendWay(f, '/api/0.6/way/#' + f.osm_id, 'PUT');
                                 });
                             }
                         });
                         featuresDeleted.forEach(function(f) {
                             todo.push(function() {
                                 OpenLayers.Request.issue({
-                                    url: 'http://stephane-brunner.ch/cgi-bin/osm.py?action=/api/0.6/' + f.type + '/#' + f.osm_id,
-                                    method: 'DEPETE',
+                                    url: 'http://stephane-brunner.ch/cgi-bin/osm.py',
+                                    params: {
+                                        'method': 'DELETE',
+                                        'action': '/api/0.6/' + f.type + '/#' + f.osm_id
+                                    },
                                     success: function(r) {
                                         featuresDeleted = featuresDeleted.splice(featuresDeleted.indexOf(f), 1);
                                         todoNext();

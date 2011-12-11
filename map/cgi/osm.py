@@ -55,15 +55,27 @@ elif args.list != None and args.has_key('close'):
     else:
         print result
 
-elif args.list != None and args.has_key('action'):
-    if REQUEST_METHOD == "POST":
-        result = api.post(args.getvalue('action'),  raw_input())
-    elif REQUEST_METHOD == "PUT":
-        result = api.put(args.getvalue('action'),  raw_input())
-    elif REQUEST_METHOD == "DELETE":
-        result = api.delete(args.getvalue('action'),  raw_input())
+elif args.list != None and args.has_key('action') and args.has_key('method') and args.has_key('data'):
+    if args.getvalue('method') == "POST":
+        result = api.post(args.getvalue('action'),  args.getvalue('data'))
+    elif args.getvalue('method') == "PUT":
+        result = api.put(args.getvalue('action'),  args.getvalue('data'))
+    elif args.getvalue('method') == "DELETE":
+        result = api.delete(args.getvalue('action'),  args.getvalue('data'))
     else:
-        result = api.get(args.getvalue('action'),  raw_input())
+        result = api.get(args.getvalue('action'),  args.getvalue('data'))
+
+    print
+    if args.has_key('cb'):
+        print "function %s() {return '%s'} "%(args.getvalue('cb'), result)
+    else:
+        print result
+
+elif args.list != None and args.has_key('action') and args.has_key('method'):
+    if args.getvalue('method') == "DELETE":
+        result = api.delete(args.getvalue('action'), None)
+    else:
+        result = api.get(args.getvalue('action'), None)
 
     print
     if args.has_key('cb'):
