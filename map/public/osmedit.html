@@ -28,10 +28,8 @@
 /**
 TODO
 
-implements save
-merge nodes on create way
-split on snap
-add missing tools: save, delete, edit
+merge nodes on create way (split on snap)
+add missing tools: delete, edit
 create properties editor
 create new tools like square, round
 */
@@ -130,7 +128,7 @@ create new tools like square, round
             var getNodes = function(f) {
                 var nodes = [];
                 f.geometry.components.forEach(function(g2) {
-                    if (!g2.osm_id) {
+                    if (g2.components) {
                         g2.components.forEach(function(g3) {
                             nodes.push(g3);
                         });
@@ -141,42 +139,58 @@ create new tools like square, round
                 });
                 return nodes;
             };
+            var updating = false;
             var update = function(e) {
-                // manage remove ...
-                depandancies = {};
-                //var fl = e.features;
-                var fl = osm.features;
-                fl.forEach(function(f) {
-                    if (!f.osm_id) {
-                        f.action = 'new';
-                        f.osm_id = new_osm_id;
-                        new_osm_id -= 1;
-                        if (f.geometry.CLASS_NAME == "OpenLayers.Geometry.Point") {
-                            f.type = 'node';
-                            f.fid = "node." + f.osm_id;
+                // var fl = e.features;
+                // manage delete, ...
+                if (!updating) {
+                    updating = true;
+                    depandancies = {};
+                    var fl = osm.features;
+                    fl.forEach(function(f) {
+                        if (!f.osm_id) {
+                            f.action = 'new';
+                            f.osm_id = new_osm_id;
+                            new_osm_id -= 1;
+                            if (f.geometry.CLASS_NAME == "OpenLayers.Geometry.Point") {
+                                f.type = 'node';
+                                f.fid = "node." + f.osm_id;
+                            }
+                            else {
+                                f.type = 'way';
+                                f.fid = "way." + f.osm_id;
+                                getNodes(f).forEach(function(p) {
+                                    if (!p.osm_id) {
+                                        var feat = new OpenLayers.Feature.Vector();
+                                        feat.geometry = p;
+                                        feat.osm_id = new_osm_id;
+                                        p.osm_id = new_osm_id;
+                                        new_osm_id -= 1;
+                                        feat.type = "node";
+                                        feat.fid = "node." + feat.osm_id;
+                                        feat.action = 'new';
+                                        osm.addFeatures([feat]);
+                                    }
+                                });
+                            }
                         }
-                        else {
-                            f.type = 'way';
-                            f.fid = "way." + feat.osm_id;
+
+                        if (f.type != 'node') {
                             getNodes(f).forEach(function(p) {
-                                var feat = new OpenLayers.Feature.Vector(geom);
-                                feat.osm_id = new_osm_id;
-                                new_osm_id -= 1;
-                                feat.type = "node";
-                                feat.fid = "node." + feat.osm_id;
-                                osm.addFeatures([feat]);
+                                addDep(f.osm_id, p.osm_id);
                             });
                         }
-                    }
-                    
-                    if (f.type != 'node') {
-                        getNodes(f).forEach(function(p) {
-                            addDep(f.osm_id, p.osm_id);
-                        });
-                    }
-                });
+                    });
+                    updating = false
+                }
             };
 
+            osm.events.register('sketchcomplete', osm, function(e) {
+                update(e);
+            });
+            osm.events.register('featuresadded', osm, function(e) {
+                update(e);
+            });
             osm.events.register('featuremodified', osm, function(e) {
                 if (!e.feature.action) {
                     e.feature.action = 'modified';
@@ -210,6 +224,7 @@ create new tools like square, round
                             alert(OpenLayers.i18n("Unable to up download new area on modified features"));
                         }
                         else {
+                            depandancies = {};
                             strategie.update();
                         }
                     }
@@ -244,6 +259,7 @@ create new tools like square, round
                 new Ext.Action({
                     text: "Revert all",
                     handler: function() {
+                        depandancies = {};
                         strategie.update();
                     }
                 }),
@@ -319,10 +335,10 @@ create new tools like square, round
                                     })
                                 },
                                 success: function(r) {
-                                    f.osm_id = r.data;
-                                    f.geometry.osm_id = r.data;
+                                    f.osm_id = r.responseText.replace(/^\s+|\s+$/g, '');
+                                    f.geometry.osm_id = f.osm_id;
                                     f.fid = f.type + "." + f.osm_id;
-                                    delete f.action;
+                                    f.action = 'commited';
                                     todoNext();
                                 },
                                 failure: function(r) { alert(OpenLayer.i18n("Unable to create a node.") + "\n" + r.statusText + "\n" + r.responseText); finish(); }
@@ -340,29 +356,28 @@ create new tools like square, round
                         var sendWay = function(f, action, method) {
                             var nodes = '';
                             getNodes(f).forEach(function(p) {
-                                nodes += nodeTemplate.apply({'ref': p.osm_id});
+                                nodes += nodeLinkTemplate.apply({'ref': p.osm_id});
                             });
                             var tags = '';
                             for (p in f.properties) {
                                 tags += tagTemplate.apply({'k': p, 'v': f.properties[p]});
                             }
-                            data += '</osm>';
                             OpenLayers.Request.issue({
                                 url: 'http://stephane-brunner.ch/cgi-bin/osm.py',
                                 params: {
                                     'method': method,
                                     'action': action,
-                                    'data': nodeTemplate.apply({
+                                    'data': wayTemplate.apply({
                                         'changeset': changeset,
                                         'nodes': nodes,
                                         'tags': tags
                                     })
                                 },
                                 success: function(r) {
-                                    f.osm_id = r.data;
-                                    f.geometry.osm_id = r.data;
+                                    f.osm_id = r.responseText.replace(/^\s+|\s+$/g, '');
+                                    f.geometry.osm_id = f.osm_id;
                                     f.fid = f.type + "." + f.osm_id;
-                                    delete f.action;
+                                    f.action = 'commited';
                                     todoNext();
                                 },
                                 failure: function(r) { alert(OpenLayer.i18n("Unable to create a node.") + "\n" + r.statusText + "\n" + r.responseText); finish(); }
@@ -491,13 +506,37 @@ create new tools like square, round
             mapPanel.getTopToolbar().addButton(new GeoExt.Action({
                 text: "ModifyFeature",
                 toggleGroup: "tool",
+                desable: true,
                 control: new OpenLayers.Control.ModifyFeature(osm, {}),
                 map: mapPanel.map
             }));
             mapPanel.getTopToolbar().addButton(new GeoExt.Action({
                 text: "Rotate - Zoom",
                 toggleGroup: "tool",
+                desable: true,
                 control: new OpenLayers.Control.TransformFeature(osm, {preserveAspectRatio: true}),
+                map: mapPanel.map
+            }));
+            mapPanel.getTopToolbar().addButton(new GeoExt.Action({
+                text: "Delete",
+                toggleGroup: "tool",
+                desable: true,
+                control: new OpenLayers.Control.SelectFeature(osm, {
+                    onBeforeSelect: function(f) {
+                    }
+                }),
+                map: mapPanel.map
+            }));
+            mapPanel.getTopToolbar().addButton(new GeoExt.Action({
+                text: "Edit",
+                toggleGroup: "tool",
+                desable: true,
+                control: new OpenLayers.Control.SelectFeature(osm, {
+                    onSelect: function(f) {
+                    },
+                    onUnSelect: function(f) {
+                    }
+                }),
                 map: mapPanel.map
             }));
         };
