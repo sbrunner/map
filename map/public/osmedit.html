@@ -450,25 +450,19 @@ create new tools like square, round
             mapPanel.getTopToolbar().addButton(new GeoExt.Action({
                 text: "Point",
                 toggleGroup: "tool",
-                control: new OpenLayers.Control.DrawFeature(osm, OpenLayers.Handler.Point, {
-                    handlerOptions: {citeCompliant: this.citeCompliant}
-                }),
+                control: new OpenLayers.Control.DrawFeature(osm, OpenLayers.Handler.Point),
                 map: mapPanel.map
             }));
             mapPanel.getTopToolbar().addButton(new GeoExt.Action({
                 text: "Path",
                 toggleGroup: "tool",
-                control: new OpenLayers.Control.DrawFeature(osm, OpenLayers.Handler.Path, {
-                    handlerOptions: {citeCompliant: this.citeCompliant}
-                }),
+                control: new OpenLayers.Control.DrawFeature(osm, OpenLayers.Handler.Path),
                 map: mapPanel.map
             }));
             mapPanel.getTopToolbar().addButton(new GeoExt.Action({
                 text: "Polygon",
                 toggleGroup: "tool",
-                control: new OpenLayers.Control.DrawFeature(osm, OpenLayers.Handler.Polygon, {
-                    handlerOptions: {citeCompliant: this.citeCompliant}
-                }),
+                control: new OpenLayers.Control.DrawFeature(osm, OpenLayers.Handler.Polygon),
                 map: mapPanel.map
             }));
             mapPanel.getTopToolbar().addButton(new GeoExt.Action({
