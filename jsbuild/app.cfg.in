@@ -67,6 +67,7 @@ include =
     OpenLayers/Handler/Polygon.js
     GeoExt/widgets/MapPanel.js
     GeoExt/widgets/Action.js
+    GeoExt/widgets/Popup.js
     GeoExt/state/PermalinkProvider.js
     App/osmstyle.js
     App/josmstyle.js
