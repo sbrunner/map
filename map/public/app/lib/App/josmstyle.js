@@ -6,28 +6,10 @@
  * of the license.
  */
 
-function getJOSMLikeStyleMap() {
-    var styleMap = new OpenLayers.StyleMap();
-    styleMap.styles["default"].addRules([new OpenLayers.Rule({
-        symbolizer: {
-            pointRadius: 5,
-            fillOpacity: 0.6,
-            fillColor: 'lightgrey',
-            strokeColor: 'lightgrey',
-            strokeWidth: 3
-        },
-        filter: new OpenLayers.Filter()
-    })]);
-    styleMap.styles.select.addRules([new OpenLayers.Rule({
-        symbolizer: {
-            pointRadius: 5,
-            fillOpacity: 0.6,
-            fillColor: 'blue',
-            strokeColor: 'blue',
-            strokeWidth: 3
-        },
-        filter: new OpenLayers.Filter()
-    })]);
+function getJOSMLikeStyleMap(styleMap) {
+    if (!styleMap) {
+        styleMap = new OpenLayers.StyleMap();
+    }
 
     addPoint(styleMap, 'boundary', 'national_park', 'app/images/josm/misc/deprecated.png', 16, 16);
     addPoint(styleMap, 'boundary', 'political', 'app/images/josm/misc/deprecated.png', 16, 16);

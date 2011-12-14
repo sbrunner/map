@@ -32,6 +32,8 @@ merge nodes on create way (split on snap)
 add missing tools: delete, edit
 create properties editor
 create new tools like square, round
+
+add label to surfaces
 */
 
         function crossWithSegment(seg, verts) {
@@ -115,7 +117,30 @@ create new tools like square, round
                     numZoomLevels: 19,
                     attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>"
                 });
-                
+
+            var styleMap = new OpenLayers.StyleMap();
+            styleMap.styles["default"].addRules([new OpenLayers.Rule({
+                symbolizer: {
+                    pointRadius: 5,
+                    fillOpacity: 0.6,
+                    fillColor: 'lightgrey',
+                    strokeColor: 'lightgrey',
+                    strokeWidth: 3
+                },
+                filter: new OpenLayers.Filter()
+            })]);
+            styleMap.styles.select.addRules([new OpenLayers.Rule({
+                symbolizer: {
+                    pointRadius: 5,
+                    fillOpacity: 0.6,
+                    fillColor: 'blue',
+                    strokeColor: 'blue',
+                    strokeWidth: 3
+                },
+                filter: new OpenLayers.Filter()
+            })]);
+            styleMap = getJOSMLikeStyleMap(styleMap);
+            styleMap = getOSMStyle(styleMap);
             var osm = new OpenLayers.Layer.Vector(OpenLayers.i18n("All features"), {
                 projection: epsg900913,
                 maxResolution: 1000000,
@@ -136,7 +161,7 @@ create new tools like square, round
                         }*/
                     })
                 }),
-                styleMap: getOSMStyle(),
+                styleMap: styleMap,
                 numZoomLevels: 26,
                 attribution: "Data CC-By-SA by <a href='http://openstreetmap.org/'>OpenStreetMap</a>",
                 getFeaturesBy: function(property, value) {

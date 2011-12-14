@@ -6,8 +6,10 @@
  * of the license.
  */
 
-function getOSMStyle() {
-    var styleMap = getJOSMLikeStyleMap();
+function getOSMStyle(styleMap) {
+    if (!styleMap) {
+        styleMap = getJOSMLikeStyleMap();
+    }
     /*
     addPoint(styleMap, 'religion', 'bahai', 'app/images/josm/religion/bahai.png');
     addPoint(styleMap, 'religion', 'buddhist', 'app/images/josm/religion/buddhism.png');
