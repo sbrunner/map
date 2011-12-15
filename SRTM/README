@@ -22,22 +22,13 @@ gdal_merge.py -o 0.gtiff -of GTiff -ps 156543.03390625 156543.03390625 -co TILED
 
 for z in 0 1 2 3 4 5 6 7 8
 do
-  gdaldem hillshade -z 3 -co TILED=YES -co BIGTIFF=YES -co COMPRESS=LZW -co TFW=YES $z.gtiff hill-shade-$z.gtiff
-  gdaldem color-relief -co TILED=YES -co BIGTIFF=YES -co COMPRESS=LZW $z.gtiff /home/sbrunner/workspace/map-git/SRTM/scale2.txt color-relief-$z.gtiff
+  gdaldem hillshade -z 3 -co TILED=YES -co BLOCKXSIZE=32 -co BLOCKYSIZE=32 -co BIGTIFF=YES -co COMPRESS=LZW -co TFW=YES $z.gtiff hill-shade-$z.gtiff
+  gdaldem color-relief -co TILED=YES -co BLOCKXSIZE=32 -co BLOCKYSIZE=32 -co BIGTIFF=YES -co COMPRESS=LZW $z.gtiff /home/sbrunner/workspace/map-git/SRTM/scale2.txt color-relief-$z.gtiff
 #  composite -compose mathematics -define compose:args=1.4,0,0,0 hill-shade-$z.gtiff color-relief-$z.gtiff color-shade-$z.tif
   calc=0.005*A*B
   gdal_calc.py --A_band 1 --B_band 1 -A hill-shade-$z.gtiff -B color-relief-$z.gtiff --outfile=color-shade-$z-1.gtiff --calc="$calc"
   gdal_calc.py --A_band 1 --B_band 2 -A hill-shade-$z.gtiff -B color-relief-$z.gtiff --outfile=color-shade-$z-2.gtiff --calc="$calc"
   gdal_calc.py --A_band 1 --B_band 3 -A hill-shade-$z.gtiff -B color-relief-$z.gtiff --outfile=color-shade-$z-3.gtiff --calc="$calc"
-  gdal_merge.py -o color-shade-$z.gtiff -of GTiff -co TILED=YES -co BIGTIFF=YES -co COMPRESS=LZW -co TFW=YES -separate color-shade-$z-1.gtiff color-shade-$z-2.gtiff color-shade-$z-3.gtiff
-done
-
-
-for z in 6 7
-do
-  calc=0.005*A*B
-  gdal_calc.py --A_band 1 --B_band 1 -A hill-shade-$z.gtiff -B color-relief-$z.gtiff --outfile=color-shade-$z-1.gtiff --calc="$calc"
-  gdal_calc.py --A_band 1 --B_band 2 -A hill-shade-$z.gtiff -B color-relief-$z.gtiff --outfile=color-shade-$z-2.gtiff --calc="$calc"
-  gdal_calc.py --A_band 1 --B_band 3 -A hill-shade-$z.gtiff -B color-relief-$z.gtiff --outfile=color-shade-$z-3.gtiff --calc="$calc"
-  gdal_merge.py -o color-shade-$z.gtiff -of GTiff -co TILED=YES -co BIGTIFF=YES -co COMPRESS=LZW -co TFW=YES -separate color-shade-$z-1.gtiff color-shade-$z-2.gtiff color-shade-$z-3.gtiff
+  gdal_merge.py -o color-shade-$z.gtiff -of GTiff -co TILED=YES -co BLOCKXSIZE=32 -co BLOCKYSIZE=32 -co BIGTIFF=YES -co COMPRESS=LZW -co TFW=YES -separate color-shade-$z-1.gtiff color-shade-$z-2.gtiff color-shade-$z-3.gtiff
+#  gdal_merge.py -o color-shade-$z.gtiff -of GTiff -co TILED=YES -co BLOCKXSIZE=32 -co BLOCKYSIZE=32 -co BIGTIFF=YES -co COMPRESS=JPEG -co JPEG_QUALITY=80 -co TFW=YES -separate color-shade-$z-1.gtiff color-shade-$z-2.gtiff color-shade-$z-3.gtiff
 done
