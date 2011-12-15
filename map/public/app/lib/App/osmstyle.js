@@ -117,7 +117,7 @@ function getOSMStyle(styleMap) {
       'wetland': { fillColor: '#dddddd', fillOpacity: 0.5, stroke: false },
       'wood': { fillColor: '#73c182', fillOpacity: 0.5, stroke: false }
     });
-    addStrokeArea(styleMap, 'building', '.+', '#bca9a9', 1);
+    addArea(styleMap, 'building', '.+', '#bca9a9', 1);
 
     styleMap.styles["default"].addRules([new OpenLayers.Rule({
         symbolizer: { fill: false },
