@@ -192,20 +192,20 @@ create new tools like squared, rounded
                     depandancies[id2] = [id1];
                 }
             };
-            var getNodes = function(f) {
-                var nodes = [];
-                f.geometry.components.forEach(function(g2) {
-                    if (g2.components) {
-                        g2.components.forEach(function(g3) {
-                            nodes.push(g3);
-                        });
-                    }
-                    else {
-                        nodes.push(g2);
-                    }
-                });
-                return nodes;
-            };
+            function addFeatureToPoint(p) {
+                if (!p.osm_id) {
+                    // todo snap
+                    var feat = new OpenLayers.Feature.Vector();
+                    feat.geometry = p;
+                    feat.osm_id = new_osm_id;
+                    p.osm_id = new_osm_id;
+                    new_osm_id -= 1;
+                    feat.type = "node";
+                    feat.fid = "node." + feat.osm_id;
+                    feat.action = 'new';
+                    osm.addFeatures([feat]);
+                }
+            }
             var updating = false;
             var update = function(e) {
                 // var fl = e.features;
@@ -225,29 +225,18 @@ create new tools like squared, rounded
                             else {
                                 f.type = 'way';
                                 f.fid = "way." + f.osm_id;
-                                getNodes(f).forEach(function(p) {
-                                    if (!p.osm_id) {
-                                        // todo snap
-                                        var feat = new OpenLayers.Feature.Vector();
-                                        feat.geometry = p;
-                                        feat.osm_id = new_osm_id;
-                                        p.osm_id = new_osm_id;
-                                        new_osm_id -= 1;
-                                        feat.type = "node";
-                                        feat.fid = "node." + feat.osm_id;
-                                        feat.action = 'new';
-                                        osm.addFeatures([feat]);
-                                    }
+                                f.geometry.getVertices().forEach(function(p) {
+                                    addFeatureToPoint(p)
                                 });
                             }
                         } else {
                             if (f.action != 'new') {
                                 f.action = 'modified';
                             }
-                            if (f.geometry.CLASS_NAME == "OpenLayers.Geometry.Point") {
-                                getNodes(f).forEach(function(p) {
+                            if (f.geometry.CLASS_NAME != "OpenLayers.Geometry.Point") {
+                                f.geometry.getVertices().forEach(function(p) {
                                     if (!p.osm_id) {
-                                        // todo snap, ...
+                                        addFeatureToPoint(p)
                                     }
                                 });
                             }
@@ -258,7 +247,7 @@ create new tools like squared, rounded
                     fl.forEach(function(f) {
 
                         if (f.type != 'node') {
-                            getNodes(f).forEach(function(p) {
+                            f.geometry.getVertices().forEach(function(p) {
                                 addDep(f.osm_id, p.osm_id);
                             });
                         }
@@ -277,6 +266,7 @@ create new tools like squared, rounded
                 if (!e.feature.action) {
                     e.feature.action = 'modified';
                 }
+                update(e);
             });
 
             // create permalink provider
@@ -437,7 +427,7 @@ create new tools like squared, rounded
                         nodeLinkTemplate.compile();
                         var sendWay = function(f, action, method) {
                             var nodes = '';
-                            getNodes(f).forEach(function(p) {
+                            f.geometry.getVertices().forEach(function(p) {
                                 nodes += nodeLinkTemplate.apply({'ref': p.osm_id});
                             });
                             var tags = '';
@@ -693,11 +683,17 @@ create new tools like squared, rounded
                     }
                 })
             }));
+            var modifyFeature = new OpenLayers.Control.ModifyFeature(osm, {});
+            modifyFeature.selectControl.onUnselect = function(f) {
+                f.geometry.getVertices().forEach(function(p) {
+                    osm.drawFeature(osm.getFeatureBy('osm_id', p.osm_id));
+                });
+            }
             mapPanel.getTopToolbar().addButton(new GeoExt.Action({
                 text: "ModifyFeature",
                 toggleGroup: "tool",
                 desable: true,
-                control: new OpenLayers.Control.ModifyFeature(osm, {}),
+                control: modifyFeature,
                 map: mapPanel.map
             }));
 /*            mapPanel.getTopToolbar().addButton(new GeoExt.Action({
