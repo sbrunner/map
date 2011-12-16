@@ -194,38 +194,40 @@ create new tools like squared, rounded
                     depandancies[id2] = [id1];
                 }
             };
-            function addFeatureToPoint(p) {
-                if (!p.osm_id) {
-                    var snapped = snappedList[p.x + 21000000 + p.y * 42000000];
-                    if (snapped) {
-                        if (snapped && snapped.x == p.x && snapped.y == p.y) {
-                            for (var i = 0, len = snapped.toFeatures.length ; i < len ; i++) {
-                                var f = snapped.toFeatures[i];
-                                var index = snapped.toIndices[i];
-                                var oldIndex = index;
-                                var dist = snapped.toIndicesDistance[i];
-                                snappedIndices.forEach(function (a) {
-                                    if (a[0] < oldIndex) {
-                                        index += 1;
-                                    }
-                                    else if (a[0] == oldIndex && a[1] < dist) {
-                                        index += 1;
-                                    }
-                                });
-                                snappedIndices.push([oldIndex, dist]);
-                                if (f.geometry.CLASS_NAME == "OpenLayers.Geometry.Point") {
-                                    // TODO
+            function snappedPoint(p) {
+                var snapped = snappedList[p.x + 21000000 + p.y * 42000000];
+                if (snapped) {
+                    if (snapped && snapped.x == p.x && snapped.y == p.y) {
+                        for (var i = 0, len = snapped.toFeatures.length ; i < len ; i++) {
+                            var f = snapped.toFeatures[i];
+                            var index = snapped.toIndices[i];
+                            var oldIndex = index;
+                            var dist = snapped.toIndicesDistance[i];
+                            snappedIndices.forEach(function (a) {
+                                if (a[0] < oldIndex) {
+                                    index += 1;
                                 }
-                                else if (f.geometry.CLASS_NAME == "OpenLayers.Geometry.Polygon") {
-                                    var l = f.geometry.components[0].components.length;
-                                    f.geometry.components[0].addComponent(p, (l - index - 1) % (l - 1) + 1);
+                                else if (a[0] == oldIndex && a[1] < dist) {
+                                    index += 1;
                                 }
-                                else {
-                                    f.geometry.addComponent(p, index + 1);
-                                }
+                            });
+                            snappedIndices.push([oldIndex, dist]);
+                            if (f.geometry.CLASS_NAME == "OpenLayers.Geometry.Point") {
+                                // TODO
+                            }
+                            else if (f.geometry.CLASS_NAME == "OpenLayers.Geometry.Polygon") {
+                                f.geometry.components[0].addComponent(p, index + 1);
+                            }
+                            else {
+                                f.geometry.addComponent(p, index + 1);
                             }
                         }
                     }
+                }
+            }
+            function addFeatureToPoint(p) {
+                if (!p.osm_id) {
+                    snappedPoint(p);
                     var feat = new OpenLayers.Feature.Vector();
                     feat.geometry = p;
                     feat.osm_id = new_osm_id;
@@ -252,6 +254,11 @@ create new tools like squared, rounded
                             if (f.geometry.CLASS_NAME == "OpenLayers.Geometry.Point") {
                                 f.type = 'node';
                                 f.fid = "node." + f.osm_id;
+                                f.geometry.osm_id = f.osm_id;
+                                if (snapped && snapped.x == f.geometry.x && snapped.y == f.geometry.y) {
+                                    snappedList[snapped.x + 21000000 + snapped.y * 42000000] = snapped;
+                                    snappedPoint(f.geometry);
+                                }
                             }
                             else {
                                 f.type = 'way';
@@ -302,14 +309,12 @@ create new tools like squared, rounded
                 }
             });
             osm.events.register('featuresadded', osm, function(e) {
-                snapped = null;
                 update(e);
             });
             osm.events.register('featuremodified', osm, function(e) {
                 if (!e.feature.action) {
                     e.feature.action = 'modified';
                 }
-                snapped = null;
                 update(e);
             });
 
