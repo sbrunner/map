@@ -3,7 +3,7 @@
 	url = https://github.com/developmentseed/openlayers_themes.git
 [submodule "map/public/lib/openlayers"]
 	path = map/public/lib/openlayers
-	url = https://github.com/openlayers/openlayers.git
+	url = git@github.com:sbrunner/openlayers.git
 [submodule "map/public/lib/gxp"]
 	path = map/public/lib/gxp
 	url = git://github.com/opengeo/gxp.git
