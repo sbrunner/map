@@ -30,7 +30,12 @@ TODO
 
 split and merge on snap point
 add missing tools: delete
-create new tools like squared, rounded
+create new tools like:
+ * squared
+ * rounded
+ * split
+ * combined
+ * relation editor
 */
 
         function crossWithSegment(seg, verts) {
@@ -213,7 +218,13 @@ create new tools like squared, rounded
                             });
                             snappedIndices.push([oldIndex, dist]);
                             if (f.geometry.CLASS_NAME == "OpenLayers.Geometry.Point") {
-                                // TODO
+                                var components = p.parent.components;
+                                for (var i = 0, len = components.length ; i < len ; i++) {
+                                    if (components[i].x == f.geometry.x && components[i].y == f.geometry.y) {
+                                        components[i] = f.geometry;
+                                    }
+                                }
+                                return false;
                             }
                             else if (f.geometry.CLASS_NAME == "OpenLayers.Geometry.Polygon") {
                                 f.geometry.components[0].addComponent(p, index + 1);
@@ -224,19 +235,21 @@ create new tools like squared, rounded
                         }
                     }
                 }
+                return true;
             }
             function addFeatureToPoint(p) {
                 if (!p.osm_id) {
-                    snappedPoint(p);
-                    var feat = new OpenLayers.Feature.Vector();
-                    feat.geometry = p;
-                    feat.osm_id = new_osm_id;
-                    p.osm_id = new_osm_id;
-                    new_osm_id -= 1;
-                    feat.type = "node";
-                    feat.fid = "node." + feat.osm_id;
-                    feat.action = 'new';
-                    osm.addFeatures([feat]);
+                    if (snappedPoint(p)) {
+                        var feat = new OpenLayers.Feature.Vector();
+                        feat.geometry = p;
+                        feat.osm_id = new_osm_id;
+                        p.osm_id = new_osm_id;
+                        new_osm_id -= 1;
+                        feat.type = "node";
+                        feat.fid = "node." + feat.osm_id;
+                        feat.action = 'new';
+                        osm.addFeatures([feat]);
+                    }
                 }
             }
             var updating = false;
@@ -280,6 +293,25 @@ create new tools like squared, rounded
                             }
                         }
                     }
+/*                    var dirty = false;
+                    osm.features.sort(function (f1, f2) {
+                        t1 = 0
+                        if (f1.geometry.CLASS_NAME == 'OpenLayers.Geometry.Point') {
+                            t1 = 3;
+                        }
+                        else if (f1.geometry.CLASS_NAME == 'OpenLayers.Geometry.LineString') {
+                            t1 = 2
+                        }
+                        t2 = 0
+                        if (f2.geometry.CLASS_NAME == 'OpenLayers.Geometry.Point') {
+                            t2 = 3;
+                        }
+                        else if (f2.geometry.CLASS_NAME == 'OpenLayers.Geometry.LineString') {
+                            t2 = 2
+                        }
+                        dirty = dirty || (t1 != t2);
+                        return t2 - t1;
+                    });*/
                     depandancies = {};
                     var fl = osm.features;
                     fl.forEach(function(f) {
@@ -292,6 +324,9 @@ create new tools like squared, rounded
                     });
                     snappedList = {};
                     snappedIndices = [];
+/*                    if (dirty) {
+                        osm.redraw();
+                    }*/
                     updating = false;
                 }
             };
