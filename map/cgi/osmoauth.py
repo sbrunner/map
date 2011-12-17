@@ -45,27 +45,33 @@ class OSMOAuth:
             data['oauth_token_secret'] = None
             
         if data.get('oauth_token') != None:
-            is_authorized = data['oauth_authorized'] == '1'
+            self.is_authorized = data['oauth_authorized'] == '1'
         else:
-            # otherwise create a new token and store it in datauration file
-            self.token = self.get_request_token()
-            is_authorized = False
-            data['oauth_token'] = self.token['oauth_token']
-            data['oauth_token_secret'] = self.token['oauth_token_secret']
-            data['oauth_authorized'] = '0'
-            print session.cookie
-            print "Status: 302 Moved"
-            print "Location: %s" % (OSMOAuth.API_URL+'/oauth/authorize?oauth_token='+self.token['oauth_token'])
-            print
+            self.request_token()
             
-        if not is_authorized:
+        if not self.is_authorized:
             token = self.request_access_token()
-            data['oauth_token'] = token['oauth_token']
-            data['oauth_token_secret'] = token['oauth_token_secret']
-            data['oauth_authorized'] = '1'
-            print session.cookie
+            if not 'oauth_token' in token:
+                self.request_token()
+            else:
+                data['oauth_token'] = token['oauth_token']
+                data['oauth_token_secret'] = token['oauth_token_secret']
+                data['oauth_authorized'] = '1'
+                print session.cookie
 
         self.access_with()
+
+    def request_token(self):
+        # otherwise create a new token and store it in datauration file
+        self.token = self.get_request_token()
+        self.is_authorized = False
+        self.data['oauth_token'] = self.token['oauth_token']
+        self.data['oauth_token_secret'] = self.token['oauth_token_secret']
+        self.data['oauth_authorized'] = '0'
+        print session.cookie
+        print "Status: 302 Moved"
+        print "Location: %s" % (OSMOAuth.API_URL+'/oauth/authorize?oauth_token='+self.token['oauth_token'])
+        print
 
     def request_token_url(self):
         return self.API_URL + "/oauth/request_token"
