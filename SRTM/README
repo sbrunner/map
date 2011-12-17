@@ -2,14 +2,14 @@
 gdal_merge.py -o ../abz.gtiff -of GTiff -ps 611.4962261962891 611.4962261962891 -co TILED=YES -co COMPRESS=LZW -co BIGTIFF=YES *.tif
 gdal_merge.py -o ../abj.gtiff -of GTiff -ps 611.4962261962891 611.4962261962891 -co TILED=YES -co COMPRESS=JPEG -co JPEG_QUALITY=90 -co BLOCKYSIZE=8 -co BIGTIFF=YES *.tif
 
-gdal_merge.py -o 7.gtiff -of GTiff -ps 1222.9924523926 1222.9924523926 -co TILED=YES -co COMPRESS=LZW -co BIGTIFF=YES 1/*.tif
-gdal_merge.py -o 6.gtiff -of GTiff -ps 2445.9849047852 2445.9849047852 -co TILED=YES -co COMPRESS=LZW -co BIGTIFF=YES 1/*.tif
-gdal_merge.py -o 5.gtiff -of GTiff -ps 4891.9698095703 4891.9698095703 -co TILED=YES -co COMPRESS=LZW -co BIGTIFF=YES 1/*.tif
-gdal_merge.py -o 4.gtiff -of GTiff -ps 9783.9396191406 9783.9396191406 -co TILED=YES -co COMPRESS=LZW -co BIGTIFF=YES 1/*.tif
-gdal_merge.py -o 3.gtiff -of GTiff -ps 19567.879238281 19567.879238281 -co TILED=YES -co COMPRESS=LZW -co BIGTIFF=YES 1/*.tif
-gdal_merge.py -o 2.gtiff -of GTiff -ps 39135.758476562 39135.758476562 -co TILED=YES -co COMPRESS=LZW -co BIGTIFF=YES 1/*.tif
-gdal_merge.py -o 1.gtiff -of GTiff -ps 78271.516953125 78271.516953125 -co TILED=YES -co COMPRESS=LZW -co BIGTIFF=YES 1/*.tif
-gdal_merge.py -o 0.gtiff -of GTiff -ps 156543.03390625 156543.03390625 -co TILED=YES -co COMPRESS=LZW -co BIGTIFF=YES 1/*.tif
+gdal_merge.py -o 7.gtiff -of GTiff -ps 1222.9924523926 1222.9924523926 -co TILED=YES -co COMPRESS=LZW -co BIGTIFF=YES -co BLOCKXSIZE=32 -co BLOCKYSIZE=32 -co TFW=YES 1/*.tif
+gdal_merge.py -o 6.gtiff -of GTiff -ps 2445.9849047852 2445.9849047852 -co TILED=YES -co COMPRESS=LZW -co BIGTIFF=YES -co TFW=YES 1/*.tif
+gdal_merge.py -o 5.gtiff -of GTiff -ps 4891.9698095703 4891.9698095703 -co TILED=YES -co COMPRESS=LZW -co BIGTIFF=YES -co TFW=YES 1/*.tif
+gdal_merge.py -o 4.gtiff -of GTiff -ps 9783.9396191406 9783.9396191406 -co TILED=YES -co COMPRESS=LZW -co BIGTIFF=YES -co TFW=YES 1/*.tif
+gdal_merge.py -o 3.gtiff -of GTiff -ps 19567.879238281 19567.879238281 -co TILED=YES -co COMPRESS=LZW -co BIGTIFF=YES -co TFW=YES 1/*.tif
+gdal_merge.py -o 2.gtiff -of GTiff -ps 39135.758476562 39135.758476562 -co TILED=YES -co COMPRESS=LZW -co BIGTIFF=YES -co TFW=YES 1/*.tif
+gdal_merge.py -o 1.gtiff -of GTiff -ps 78271.516953125 78271.516953125 -co TILED=YES -co COMPRESS=LZW -co BIGTIFF=YES -co TFW=YES 1/*.tif
+gdal_merge.py -o 0.gtiff -of GTiff -ps 156543.03390625 156543.03390625 -co TILED=YES -co COMPRESS=LZW -co BIGTIFF=YES -co TFW=YES 1/*.tif
 
 #gdal_translate -of GTiff -ps 1222.9924523926 1222.9924523926 -co TILED=YES -co COMPRESS=LZW -co BIGTIFF=YES 8.gtif 7.gtif
 #gdal_translate -of GTiff -ps 2445.9849047852 2445.9849047852 -co TILED=YES -co COMPRESS=LZW -co BIGTIFF=YES 7.gtif 6.gtif
@@ -23,7 +23,7 @@ gdal_merge.py -o 0.gtiff -of GTiff -ps 156543.03390625 156543.03390625 -co TILED
 for z in 0 1 2 3 4 5 6 7 8
 do
   gdaldem hillshade -z 3 -co TILED=YES -co BLOCKXSIZE=32 -co BLOCKYSIZE=32 -co BIGTIFF=YES -co COMPRESS=LZW -co TFW=YES $z.gtiff hill-shade-$z.gtiff
-  gdaldem color-relief -co TILED=YES -co BLOCKXSIZE=32 -co BLOCKYSIZE=32 -co BIGTIFF=YES -co COMPRESS=LZW $z.gtiff /home/sbrunner/workspace/map-git/SRTM/scale2.txt color-relief-$z.gtiff
+  gdaldem color-relief -co TILED=YES -co BLOCKXSIZE=32 -co BLOCKYSIZE=32 -co BIGTIFF=YES -co COMPRESS=LZW -co TFW=YES $z.gtiff /home/sbrunner/workspace/map-git/SRTM/scale2.txt color-relief-$z.gtiff
 #  composite -compose mathematics -define compose:args=1.4,0,0,0 hill-shade-$z.gtiff color-relief-$z.gtiff color-shade-$z.tif
   calc=0.005*A*B
   gdal_calc.py --A_band 1 --B_band 1 -A hill-shade-$z.gtiff -B color-relief-$z.gtiff --outfile=color-shade-$z-1.gtiff --calc="$calc"
