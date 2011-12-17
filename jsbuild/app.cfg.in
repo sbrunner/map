@@ -42,8 +42,9 @@ first =
     OpenLayers/Util.js
     OpenLayers/Lang.js
 include =
-    OpenLayers/Renderer/VML.js
+#    OpenLayers/Renderer/VML.js
     OpenLayers/Renderer/SVG.js
+#    OpenLayers/Renderer/Canvas.js
     OpenLayers/Layer/SphericalMercator.js
     OpenLayers/Layer/XYZ.js
     OpenLayers/Layer/Vector.js
