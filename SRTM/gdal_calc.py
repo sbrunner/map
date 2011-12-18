@@ -141,7 +141,7 @@ def doit(opts, args):
         myOutDrv = gdal.GetDriverByName(opts.format)
         print 'Driver %s supports Create() method.' % format
         myOut=myOutDrv.Create(opts.outF, DimensionsCheck[0], DimensionsCheck[1], 1, gdal.GetDataTypeByName(myOutType), 
-				['BLOCKXSIZE=32', 'BLOCKYSIZE=32', 'TILED=YES', 'BIGTIFF=YES', 'COMPRESS=JPEG', 'JPEG_QUALITY=80'])
+				['BLOCKXSIZE=32', 'BLOCKYSIZE=32', 'TILED=YES', 'BIGTIFF=YES', 'COMPRESS=LZW', 'TFW=YES'])
 
         # set output geo info based on first input layer
         myOut.SetGeoTransform(myFiles[0].GetGeoTransform())
