@@ -31,6 +31,22 @@ include =
 exclude =
     OpenLayers.js
 
+[android.js]
+root = ${vars:jsbuild-root}
+first =
+    sencha-touch${vars:extdebug}.js
+#    jquery-1.6.1${vars:jqm-min}.js
+#    jquery.mobile-1.0a4.1${vars:jqm-min}.js
+    OpenLayers/SingleFile.js
+    OpenLayers/BaseTypes.js
+    OpenLayers/BaseTypes/Class.js
+    OpenLayers/Util.js
+include =
+    OpenLayers/Renderer/Canvas.js
+    App/android.js
+exclude =
+    OpenLayers.js
+
 [edit.js]
 root = ${vars:jsbuild-root}
 first =

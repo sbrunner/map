@@ -7,7 +7,6 @@
  */
 /*
  * @requires App/MobileClasses.js
- * @include OpenLayers/Control/Permalink.js
  */
 
 var init = function () {
@@ -44,96 +43,6 @@ var init = function () {
         }
     });
 
-    var permalink = new OpenLayers.Control.Permalink({anchor: true, base: window.location.href});
-    permalink.createParams = function(center, zoom, layers) {
-        center = center || this.map.getCenter();
-        var params = OpenLayers.Util.getParameters(this.base);
-        if (center) {
-            //zoom
-            params.m_z = zoom || this.map.getZoom();
-
-            //lon,lat
-            var lat = center.lat;
-            var lon = center.lon;
-            if (this.displayProjection && this.map.getProjectionObject()) {
-                var mapPosition = OpenLayers.Projection.transform(
-                  { x: lon, y: lat },
-                  this.map.getProjectionObject(), this.displayProjection);
-                lon = mapPosition.x;
-                lat = mapPosition.y;
-                params.m_y = Math.round(lat*100000)/100000;
-                params.m_x = Math.round(lon*100000)/100000;
-            }
-        }
-        return params;
-    };
-    var href = window.location.href;
-    var argparser = new OpenLayers.Control.ArgParser();
-    argparser.setMap = function(map) {
-        OpenLayers.Control.prototype.setMap.apply(this, arguments);
-
-        var index = href.indexOf("=");
-        if (index < 0) { // short version
-            index = href.indexOf("#");
-            if (index < 0) {
-                return;
-            }
-            var args = href.substring(index + 1);
-            args = args.split("-");
-
-            this.center = new OpenLayers.LonLat(parseFloat(args[0]),
-                                                parseFloat(args[1]));
-            this.zoom = parseInt(args[2]);
-            this.setCenter();
-
-            var model = new Geo.CatalogueModel({
-                map: map,
-                root: getLayersTree(map)
-            });
-            for (var i = 3, len = args.length; i + 1 < len; i += 2) {
-                var layer = model.getLayerNodeByRef(args[i]);
-                if (layer) {
-                    layer.opacity = parseInt(args[i + 1]) / 100.0;
-                    model.addLayer(layer);
-                }
-            }
-
-            var controls = map.getControlsByClass("OpenLayers.Control.Permalink");
-            for (var i = 0, len = controls.length; i < len; i++) {
-                controls[i].base = href.substring(0, index);
-            }
-            return;
-        }
-
-        var args = this.getParameters(window.location.href);
-        // Be careful to set layer first, to not trigger unnecessary layer loads
-        if (args.c_layers) {
-            var model = new Geo.CatalogueModel({
-                map: map,
-                root: getLayersTree(map)
-            });
-            for (var i = 0, len = args.c_layers.length; i < len; i++) {
-                var layer = model.getLayerNodeByRef(args.c_layers[i]);
-                if (args['m_o_' + args.c_layers[i]]) {
-                    layer.opacity = args['m_o_' + args.c_layers[i]];
-                }
-                model.addLayer(layer);
-            }
-        }
-        else {
-            map.addLayer(new OpenLayers.Layer.OSM(OpenLayers.i18n("OpenStreetMap"), null, {
-                transitionEffect: 'resize', isBaseLayer: false
-            }));
-        }
-        if (args.m_x && args.m_x) {
-            this.center = new OpenLayers.LonLat(parseFloat(args.m_x),
-                                                parseFloat(args.m_y));
-            if (args.m_z) {
-                this.zoom = parseInt(args.m_z);
-            }
-            this.setCenter();
-        }
-    },
 
     // create map
     map = new OpenLayers.Map({
@@ -148,9 +57,7 @@ var init = function () {
             -20037508.34, -20037508.34, 20037508.34, 20037508.34
         ),
         controls: [
-            permalink, argparser,
             new OpenLayers.Control.Attribution(),
-            new OpenLayers.Control.KeyboardDefaults(),
             new OpenLayers.Control.ScaleLine({geodesic: true, maxWidth: 120}),
             new OpenLayers.Control.TouchNavigation({
                 dragPanOptions: {
@@ -170,14 +77,8 @@ var init = function () {
             vector
         ]
     });
-    if (argparser.center) {
-        argparser.center.transform(map.displayProjection,
-                map.getProjectionObject());
-        map.setCenter(argparser.center, argparser.zoom);
-    }
-    else {
-        map.zoomToMaxExtent();
-    }
+    map.zoomToMaxExtent();
+
 
     var style = {
         fillOpacity: 0.1,
@@ -211,6 +112,22 @@ var init = function () {
             )
         ]);
         map.zoomToExtent(vector.getDataExtent());
+    });
+
+
+    var model = new Geo.CatalogueModel({
+        map: map,
+        root: getLayersTree(map)
+    });
+    var visibility
+     = true;
+    ['mk','mapquest','germany'].forEach(function(layerref) {
+        var layer = model.getLayerNodeByRef(layerref);
+        if (layer) {
+            layer.visibility = visibility;
+            visibility = false;
+            model.addLayer(layer);
+        }
     });
 };
 
