@@ -74,12 +74,26 @@ var init = function () {
                 displayInLayerSwitcher: false,
                 attribution: "",
                 projection: sm
-            }),
-            vector
+            })
         ]
     });
     map.zoomToMaxExtent();
 
+
+    var model = new Geo.CatalogueModel({
+        map: map,
+        root: getLayersTree(map)
+    });
+    var visibility = true;
+    ['mk', 'mapquest', 'germany'].forEach(function(layerref) {
+        var layer = model.getLayerNodeByRef(layerref);
+        if (layer) {
+            layer.visibility = visibility;
+            visibility = false;
+            model.addLayer(layer);
+        }
+    });
+    map.addLayer(vector);
 
     var style = {
         fillOpacity: 0.1,
@@ -113,22 +127,6 @@ var init = function () {
             )
         ]);
         map.zoomToExtent(vector.getDataExtent());
-    });
-
-
-    var model = new Geo.CatalogueModel({
-        map: map,
-        root: getLayersTree(map)
-    });
-    var visibility
-     = true;
-    ['mk','mapquest','germany'].forEach(function(layerref) {
-        var layer = model.getLayerNodeByRef(layerref);
-        if (layer) {
-            layer.visibility = visibility;
-            visibility = false;
-            model.addLayer(layer);
-        }
     });
 };
 
