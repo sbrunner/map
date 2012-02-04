@@ -86,7 +86,7 @@ a:hover {
 div.no-over table.x-btn-over td {
     background-image: none;
 }
-    
+
 .x-toolbar .gx-map-measurelength,
 .x-toolbar .gx-map-measurearea {
     background-image: url(../images/measure.png);
@@ -141,9 +141,7 @@ div.toolwindow div.title {
 
 .olControlOverviewMapElement {
     background-color: #000000;
-    -moz-opacity:0.75;
-    opacity: 0.75;
-    filter:alpha(opacity=75);
+    background-color: rgba(0,0,0,0.75);
 }
 
 div.toolwindow div.routing div.title {
