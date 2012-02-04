@@ -2,7 +2,7 @@
  * @include streetviewpanel/ux/widgets/StreetViewPanel.js
  * @include streetviewpanel/ux/control/StreetViewClick.js
  * @include OpenLayers/Map.js
- * @include OpenLayers/Layer/XYZ.js
+ * @include OpenLayers/Layer/OSM.js
  * @include OpenLayers/Layer/Google.js
  * @include OpenLayers/Control/MousePosition.js
  * @include OpenLayers/Control/PanZoom.js
@@ -12,7 +12,7 @@
  * @include OpenLayers/Layer/SphericalMercator.js
  * @include GeoExt/widgets/MapPanel.js
  */
- 
+
 Ext.onReady(function() {
 
     layer = new OpenLayers.Layer.OSM();

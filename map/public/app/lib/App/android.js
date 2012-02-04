@@ -7,6 +7,7 @@
  */
 /*
  * @requires App/MobileClasses.js
+ * @include OpenLayers/Layer/OSM.js
  */
 
 var init = function () {

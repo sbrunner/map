@@ -8,6 +8,7 @@
 /*
  * @requires App/MobileClasses.js
  * @include OpenLayers/Control/Permalink.js
+ * @include OpenLayers/Layer/OSM.js
  */
 
 var init = function () {

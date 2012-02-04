@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2010-2011 The Open Source Geospatial Foundation
- * 
+ *
  * Published under the BSD license.
  * See http://svn.geoext.org/core/trunk/geoext/license.txt for the full text
  * of the license.
@@ -12,7 +12,7 @@
  * @include OpenLayers/Projection.js
  * @include OpenLayers/Layer/SphericalMercator.js
  * @include OpenLayers/Map.js
- * @include OpenLayers/Layer/XYZ.js
+ * @include OpenLayers/Layer/OSM.js
  * @include OpenLayers/Control/Navigation.js
  * @include OpenLayers/Kinetic.js
  * @include OpenLayers/Control/PanZoomBar.js
@@ -67,10 +67,10 @@ App.Map = Ext.extend(GeoExt.MapPanel, {
                 new OpenLayers.Control.OverviewMap({minRatio: 64, maxRatio: 64, layers: [new OpenLayers.Layer.OSM()]})
             ]
         };
-        
+
         var map = new OpenLayers.Map(mapOptions);
         map.addLayers([new OpenLayers.Layer.OSM("back", "http://map.stephane-brunner.ch/white.png", {
-            numZoomLevels: 19, 
+            numZoomLevels: 19,
             displayInLayerSwitcher: false,
             attribution: ""
         })]);
@@ -197,7 +197,7 @@ App.Map = Ext.extend(GeoExt.MapPanel, {
             prettyStateKeys: true
         }, options);
         GeoExt.LayerCatalogue.superclass.constructor.call(this, options);
-        
+
         this.getTopToolbar().addButton(tools.getAdditionalButtons(map));
     },
 
