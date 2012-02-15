@@ -91,9 +91,6 @@ a:hover {
         OpenLayers.Number.thousandsSeparator = ' ';
         OpenLayers.IMAGE_RELOAD_ATTEMPTS = 2;
         OpenLayers.ImgPath = "http://map.stephane-brunner.ch/app/images/oltheme/";
-        OpenLayers.Util.onImageLoadError = function() {
-            this.src = "http://map.stephane-brunner.ch/no.png";
-        }
 
         // create permalink provider
         var permalinkProvider = new GeoExt.state.PermalinkProvider({ encodeType: false });

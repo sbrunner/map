@@ -101,9 +101,6 @@ href="http://map.stephane-brunner.ch/test/">Permalink</a></li>
         OpenLayers.Number.thousandsSeparator = ' ';
         OpenLayers.IMAGE_RELOAD_ATTEMPTS = 2;
         OpenLayers.ImgPath = "http://map.stephane-brunner.ch/app/images/oltheme/";
-        OpenLayers.Util.onImageLoadError = function() {
-            this.src = "http://map.stephane-brunner.ch/no.png";
-        }
 
         map = new OpenLayers.Map("map", {
             units: "m",

@@ -19,9 +19,11 @@
     bottom: 2em;
     right: 3px;
 }
-
 .olPopup {
     border: 1px solid gray !important;
+}
+.olImageLoadError {
+    display: none;
 }
 
 body {
