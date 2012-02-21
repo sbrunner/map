@@ -128,12 +128,12 @@ App.Tools = function(map) {
         });
 
         /*
-         * Catalogue 
+         * Catalogue
          */
         var tree = new GeoExt.LayerCatalogue({
             mapPanel: GeoExt.MapPanel.guess(),
             stateId: "c",
-            width: 300,
+            width: 320,
             height: 300,
             tree: {
                 height: 275,
