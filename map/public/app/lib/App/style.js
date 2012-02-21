@@ -1,19 +1,59 @@
 /**
  * Copyright (c) 2010-2011 The Open Source Geospatial Foundation
- * 
+ *
  * Published under the BSD license.
  * See http://svn.geoext.org/core/trunk/geoext/license.txt for the full text
  * of the license.
  */
 /*
- * @include App/commonstyle.js
- * @include App/josmstyle.js
- * @include App/osmstyle.js
+ * @include OpenLayers/StyleMap.js
+ * @include OpenLayers/Filter/Comparison.js
  */
+
+function addStroke(styleMap, property, value, strokeColor, strokeWidth, strokeDashstyle, strokeOpacity) {
+    styleMap.styles["default"].addRules([new OpenLayers.Rule({
+        symbolizer: { strokeColor: strokeColor, strokeWidth: strokeWidth,
+            strokeDashstyle: strokeDashstyle ? strokeDashstyle : "solid" ,
+            strokeOpacity: strokeOpacity ? strokeOpacity : 1
+        },
+        filter: new OpenLayers.Filter.Comparison({
+            type: OpenLayers.Filter.Comparison.LIKE,
+            property: property,
+            value: value
+        })
+    })]);
+    styleMap.styles.select.addRules([new OpenLayers.Rule({
+        symbolizer: { strokeWidth: strokeWidth },
+        filter: new OpenLayers.Filter.Comparison({
+            type: OpenLayers.Filter.Comparison.LIKE,
+            property: property,
+            value: value
+        })
+    })]);
+}
+
+function addStrokeOperator(styleMap, property, value, operator, strokeColor, strokeWidth, strokeDashstyle) {
+    styleMap.styles["default"].addRules([new OpenLayers.Rule({
+        symbolizer: { strokeColor: strokeColor, strokeWidth: strokeWidth, strokeDashstyle: strokeDashstyle ? strokeDashstyle : "solid" },
+        filter: new OpenLayers.Filter.Comparison({
+            type: operator,
+            property: property,
+            value: value
+        })
+    })]);
+    styleMap.styles.select.addRules([new OpenLayers.Rule({
+        symbolizer: { strokeWidth: strokeWidth },
+        filter: new OpenLayers.Filter.Comparison({
+            type: operator,
+            property: property,
+            value: value
+        })
+    })]);
+}
 
 function getMaxSpeedStyle() {
     var styleMap = new OpenLayers.StyleMap();
-    
+
     addStrokeOperator(styleMap, "maxspeed", 135, OpenLayers.Filter.Comparison.GREATER_THAN_OR_EQUAL_TO, "#fe4503", 5);
     addStrokeOperator(styleMap, "maxspeed", 135, OpenLayers.Filter.Comparison.LESS_THAN, "#c0f100", 5);
     addStrokeOperator(styleMap, "maxspeed", 125, OpenLayers.Filter.Comparison.LESS_THAN, "#f6f807", 5);
@@ -27,6 +67,11 @@ function getMaxSpeedStyle() {
     addStrokeOperator(styleMap, "maxspeed", 25, OpenLayers.Filter.Comparison.LESS_THAN, "#00da8b", 5);
 
     return styleMap;
+}
+
+function addUniqueValueRules(styleMap, attrib, rules) {
+    styleMap.addUniqueValueRules("default", attrib, rules);
+    styleMap.addUniqueValueRules("select", attrib, rules);
 }
 
 function getMountainStyle() {
@@ -43,18 +88,18 @@ function getMountainStyle() {
     'horrible': { strokeOpacity: 0.4 },
     'no': { strokeOpacity: 0.25 }
   });
-  styleMap.addUniqueValueRules("default", "tourism", {
+  addUniqueValueRules(styleMap, "tourism", {
     'alpine_hut': { externalGraphic: 'app/images/symbols/alpinehut.p.16.png', graphicWidth: 16, graphicHeight: 16, graphicOpacity: 1 },
     'information': { externalGraphic: 'app/images/symbols/information.png', graphicWidth: 16, graphicHeight: 16, graphicOpacity: 1 },
     'viewpoint': { externalGraphic: 'app/images/symbols/view_point.p.16.png', graphicWidth: 16, graphicHeight: 16, graphicOpacity: 1 }
   });
-  styleMap.addUniqueValueRules("default", "information", {
+  addUniqueValueRules(styleMap, "information", {
     'guidepost': { externalGraphic: 'app/images/symbols/guidepost.png', graphicWidth: 16, graphicHeight: 16, graphicOpacity: 1 }
   });
-  styleMap.addUniqueValueRules("default", "natural", {
+  addUniqueValueRules(styleMap, "natural", {
     'peak': { externalGraphic: 'app/images/symbols/peak.png', graphicWidth: 8, graphicHeight: 8, graphicOpacity: 1 }
   });
-  styleMap.addUniqueValueRules("default", "mountain_pass", {
+  addUniqueValueRules(styleMap, "mountain_pass", {
     'yes': { externalGraphic: 'app/images/symbols/pass.png', graphicWidth: 16, graphicHeight: 16, graphicOpacity: 1 }
   });
   styleMap.addUniqueValueRules("default", "aerialway", {

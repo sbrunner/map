@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2010-2011 The Open Source Geospatial Foundation
- * 
+ *
  * Published under the BSD license.
  * See http://svn.geoext.org/core/trunk/geoext/license.txt for the full text
  * of the license.
@@ -79,7 +79,7 @@ function addXapiStyleLayer(options) {
     layer = new OpenLayers.Layer.Vector(name, {
         ref: ref,
         projection: epsg4326,
-        strategies: strategies, 
+        strategies: strategies,
         protocol: protocol,
         styleMap: styleMap,
         numZoomLevels: 22,
@@ -93,6 +93,9 @@ function addOsmStyleLayer(options) {
     var styleMap = null;
     if (options.style) {
         styleMap = options.style();
+        if (styleMap.build) {
+            styleMap.build();
+        }
     }
     var ref = options.ref;
 
@@ -110,14 +113,14 @@ function addOsmStyleLayer(options) {
         projection: epsg4326,
         maxResolution: 1.5,
         strategies: strategies,
-        protocol: new OpenLayers.Protocol.HTTP({
+        protocol: new OpenLayers.Protocol.OSMAPI({
             url: url,
             format: new OpenLayers.Format.OSM({
                 checkTags: true,
                 externalProjection: epsg4326,
                 relationsParsers: {
                     multipolygon: OpenLayers.Format.OSM.multipolygonParser,
-                    boundary:     OpenLayers.Format.OSM.multipolygonParser,
+//                    boundary:     OpenLayers.Format.OSM.multipolygonParser,
                     route:        OpenLayers.Format.OSM.routeParser
                 }
             })

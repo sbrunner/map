@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2010-2011 The Open Source Geospatial Foundation
- * 
+ *
  * Published under the BSD license.
  * See http://svn.geoext.org/core/trunk/geoext/license.txt for the full text
  * of the license.
@@ -23,7 +23,7 @@
  * @include OpenLayers/Handler.js
  * @include OpenLayers/Handler/Path.js
  * @include OpenLayers/Handler/Polygon.js
- * 
+ *
  * @include GeoExt/widgets/Action.js
  * @include GeoExt.ux/MeasureLength.js
  * @include GeoExt.ux/MeasureArea.js
@@ -81,7 +81,7 @@ App.Tools = function(map) {
             tooltip: OpenLayers.i18n("Measure an area")
         });
         var geocodder = GeoExt.ux.RoutingProviders.nominatimSearchCombo({
-            map: map, 
+            map: map,
             zoom: 14
         });
 
@@ -103,14 +103,14 @@ App.Tools = function(map) {
     });
 
     // Main
-    this.tbar = new Ext.Toolbar({ 
-        items: getTbarItems(map) 
+    this.tbar = new Ext.Toolbar({
+        items: getTbarItems(map)
     });
 
     this.getAdditionalButtons = function(map) {
         var ap = map.getControlsByClass("OpenLayers.Control.ArgParser")[0];
         var open = ap.getParameters()["open"];
-        
+
         /*
          * Layers
          */
@@ -161,7 +161,7 @@ App.Tools = function(map) {
         if (map.layers.length == 1) {
             tree.addLayerByRef('mk');
         }
-        
+
         /*
          * Layers
          */
@@ -236,7 +236,7 @@ App.Tools = function(map) {
             // Key for dev.geoext.org: 187a9f341f70406a8064d07a30e5695c
             // Key for localhost: BC9A493B41014CAABB98F0471D759707
             // Key for map.stephane-brunner.ch: 60a6b92afa824cc985331da088d3225c
-            routingProviders: { 
+            routingProviders: {
                 cloudmade : GeoExt.ux.RoutingProviders.getCloudmadeRoutingProvider(cloudmadeKey),
     //            ors: GeoExt.ux.RoutingProviders.getOpenRouteServiceProvider(),
                 yours: GeoExt.ux.RoutingProviders.getYOURSRoutingProvider()
@@ -305,7 +305,7 @@ App.Tools = function(map) {
 
                 + '<hr /><p><b><a href="https://github.com/sbrunner/map">Sources du site</a></b></p>'
         }));
-        
+
         var more = toolBuilder(OpenLayers.i18n("More"), new Ext.Panel({
             autoScroll: true,
             width: 200,
@@ -342,7 +342,7 @@ App.Tools = function(map) {
                 mobile.toggle();
             });
         }
-        
+
         return [layers, mobile, routing, links, more];
     }
 };

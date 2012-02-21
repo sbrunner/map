@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2010-2011 The Open Source Geospatial Foundation
- * 
+ *
  * Published under the BSD license.
  * See http://svn.geoext.org/core/trunk/geoext/license.txt for the full text
  * of the license.
@@ -9,14 +9,17 @@
 /*
  * @include App/style.js
  * @include App/utils-mobile.js
- * 
+ *
+ * @include OSM/Style/Mapnik.js
+ * @include OSM/Style/JOSM.js
+ *
  * @include OpenLayers/Protocol/XAPI.js
  * @include OpenLayers/Protocol/OSMAPI.js
- * 
+ *
  * @include OpenLayers/Strategy/Fixed.js
  * @include OpenLayers/Strategy/BBOX.js
  * @include OpenLayers/Protocol/HTTP.js
- * 
+ *
  * @include OpenLayers/Layer/Vector.js
  * @include OpenLayers/Layer/XYZ.js
  * @include OpenLayers/Layer/WMS.js
@@ -29,7 +32,7 @@ function getLayersTree(map) {
         text: OpenLayers.i18n("Raw (XAPI)"),
         leaf: false,
         children: [],
-        tags: "xapi"
+        tags: "raw xapi"
     };
 //    var types = ['node', 'way', 'relation'];
     var types = ['node', 'way'];
@@ -92,8 +95,8 @@ function getLayersTree(map) {
             leaf: true,
             handler: addLayer,
             url: [
-                "http://a.www.toolserver.org/tiles/osm-labels-" + l + "/${z}/${x}/${y}.png", 
-                "http://b.www.toolserver.org/tiles/osm-labels-" + l + "/${z}/${x}/${y}.png", 
+                "http://a.www.toolserver.org/tiles/osm-labels-" + l + "/${z}/${x}/${y}.png",
+                "http://b.www.toolserver.org/tiles/osm-labels-" + l + "/${z}/${x}/${y}.png",
                 "http://c.www.toolserver.org/tiles/osm-labels-" + l + "/${z}/${x}/${y}.png"
             ],
             displayOutsideMaxExtent: true,
@@ -110,8 +113,8 @@ function getLayersTree(map) {
             leaf: true,
             handler: addLayer,
             url: [
-                "http://a.www.toolserver.org/tiles/osm-labels-" + l + "/${z}/${x}/${y}.png", 
-                "http://b.www.toolserver.org/tiles/osm-labels-" + l + "/${z}/${x}/${y}.png", 
+                "http://a.www.toolserver.org/tiles/osm-labels-" + l + "/${z}/${x}/${y}.png",
+                "http://b.www.toolserver.org/tiles/osm-labels-" + l + "/${z}/${x}/${y}.png",
                 "http://c.www.toolserver.org/tiles/osm-labels-" + l + "/${z}/${x}/${y}.png"
             ],
             displayOutsideMaxExtent: true,
@@ -127,7 +130,7 @@ function getLayersTree(map) {
         tags: ""
     });
 
-            
+
     var root = {
         text: OpenLayers.i18n("All layers"),
         tags: "",
@@ -145,7 +148,7 @@ function getLayersTree(map) {
                     text: OpenLayers.i18n("All features"),
                     leaf: true,
                     handler: addOsmStyleLayer,
-                    style: getOSMStyle,
+                    style: OSM.Style.Mapnik.getStyleMap,
                     ref: 'all'
                 },
                 {
@@ -165,8 +168,8 @@ function getLayersTree(map) {
                         "http://c.tile.openstreetmap.org/${z}/${x}/${y}.png"
                     ],
                     numZoomLevels: 19,
-                    attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", 
-                    ref: "mk" 
+                    attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>",
+                    ref: "mk"
                 },
                 {
                     text: OpenLayers.i18n("Mapnik black an white"),
@@ -178,8 +181,8 @@ function getLayersTree(map) {
                         "http://c.www.toolserver.org/tiles/bw-mapnik/${z}/${x}/${y}.png"
                     ],
                     numZoomLevels: 19,
-                    attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", 
-                    ref: "mkbw" 
+                    attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>",
+                    ref: "mkbw"
                 },
                 {
                     text: OpenLayers.i18n("MapQuest"),
@@ -192,8 +195,8 @@ function getLayersTree(map) {
                         "http://otile4.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.png"
                     ],
                     numZoomLevels: 19,
-                    attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", 
-                    ref: "mapquest" 
+                    attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>",
+                    ref: "mapquest"
                 },
                 {
                     text: OpenLayers.i18n("Osmarender"),
@@ -205,8 +208,8 @@ function getLayersTree(map) {
                         "http://c.tah.openstreetmap.org/Tiles/tile/${z}/${x}/${y}.png"
                     ],
                     numZoomLevels: 17,
-                    attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", 
-                    ref: "osma" 
+                    attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>",
+                    ref: "osma"
                 },
                 {
                     text: OpenLayers.i18n("CloudMade"),
@@ -215,7 +218,7 @@ function getLayersTree(map) {
                     key: 'BC9A493B41014CAABB98F0471D759707',
                     styleId: '1',
                     tags: "cloudmade",
-                    ref: "cloudmade" 
+                    ref: "cloudmade"
                 },
                 {
                     text: OpenLayers.i18n("Germany"),
@@ -227,8 +230,8 @@ function getLayersTree(map) {
                         "http://c.www.toolserver.org/tiles/germany/${z}/${x}/${y}.png"
                     ],
                     numZoomLevels: 19,
-                    attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", 
-                    ref: "germany" 
+                    attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>",
+                    ref: "germany"
                 }]
             },
             {
@@ -245,8 +248,8 @@ function getLayersTree(map) {
                         "http://c.tile.opencyclemap.org/cycle/${z}/${x}/${y}.png"
                     ],
                     numZoomLevels: 17,
-                    attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", 
-                    ref: "bike" 
+                    attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>",
+                    ref: "bike"
                 },
 /*                {
                     text: OpenLayers.i18n("OpenPisteMap"),
@@ -254,7 +257,7 @@ function getLayersTree(map) {
                     handler: addLayer,
                     url: "http://tiles.openpistemap.org/contours/${z}/${x}/${y}.png",
                     numZoomLevels: 19,
-                    attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", 
+                    attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>",
                     ref: "sky"
                 },*/
                 {
@@ -263,8 +266,8 @@ function getLayersTree(map) {
                     handler: addLayer,
                     url: "http://toolserver.org/tiles/hikebike/${z}/${x}/${y}.png",
                     numZoomLevels: 19,
-                    attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", 
-                    ref: "hiking2" 
+                    attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>",
+                    ref: "hiking2"
                 },
                 {
                     text: OpenLayers.i18n("Refuge.info"),
@@ -272,8 +275,8 @@ function getLayersTree(map) {
                     handler: addLayer,
                     url: "http://maps.refuges.info/tiles/renderer.py/hiking_without_contours/${z}/${x}/${y}.png",
                     numZoomLevels: 19,
-                    attribution: "Data by <a href='http://www.osm.org/'>OSM</a>", 
-                    ref: "refuge" 
+                    attribution: "Data by <a href='http://www.osm.org/'>OSM</a>",
+                    ref: "refuge"
                 },                {
                     text: OpenLayers.i18n("Orientation"),
                     expanded: false,
@@ -302,8 +305,8 @@ function getLayersTree(map) {
                 handler: addLayer,
                 url: "http://c.tile2.opencyclemap.org/transport/${z}/${x}/${y}.png",
                 numZoomLevels: 17,
-                attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", 
-                ref: "ptocm" 
+                attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>",
+                ref: "ptocm"
             },
             {
                 text: OpenLayers.i18n("Public transport (xn--pnvkarte-m4a)"),
@@ -311,8 +314,8 @@ function getLayersTree(map) {
                 handler: addLayer,
                 url: "http://tile.xn--pnvkarte-m4a.de/tilegen/${z}/${x}/${y}.png",
                 numZoomLevels: 17,
-                attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", 
-                ref: "pt" 
+                attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>",
+                ref: "pt"
             },
             {
                 text: OpenLayers.i18n("Public Transport Lines"),
@@ -320,8 +323,8 @@ function getLayersTree(map) {
                 handler: addLayer,
                 url: "http://openptmap.de/tiles/${z}/${x}/${y}.png",
                 numZoomLevels: 15,
-                attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", 
-                ref: "ptl" 
+                attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>",
+                ref: "ptl"
             }/*,
             {
                 text: OpenLayers.i18n("Trolley Bus (XAPI)"),
@@ -343,8 +346,8 @@ function getLayersTree(map) {
                 handler: addLayer,
                 url: "http://osm.informatik.uni-leipzig.de/osm_tiles2/${z}/${x}/${y}.png",
                 numZoomLevels: 19,
-                attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", 
-                ref: "odlb" 
+                attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>",
+                ref: "odlb"
             }]
         },
         {
@@ -358,8 +361,8 @@ function getLayersTree(map) {
                 handler: addLayer,
                 url: "http://map.stephane-brunner.ch/topo/${z}/${x}/${y}.png",
                 numZoomLevels: 19,
-                attribution: "Data by <a href='ftp://e0srp01u.ecs.nasa.gov/srtm/version2/SRTM3/'>NASA</a>, <a href='http://asterweb.jpl.nasa.gov/gdem.asp'>ASTER</a>, <a href='http://www.gebco.net/'>GEBCO</a> and <a href='http://www.osm.org/'>OSM</a>", 
-                ref: "topo" 
+                attribution: "Data by <a href='ftp://e0srp01u.ecs.nasa.gov/srtm/version2/SRTM3/'>NASA</a>, <a href='http://asterweb.jpl.nasa.gov/gdem.asp'>ASTER</a>, <a href='http://www.gebco.net/'>GEBCO</a> and <a href='http://www.osm.org/'>OSM</a>",
+                ref: "topo"
             },/*
             {
                 text: OpenLayers.i18n("Contours"),
@@ -367,8 +370,8 @@ function getLayersTree(map) {
                 handler: addLayer,
                 url: "http://map.stephane-brunner.ch/contours/${z}/${x}/${y}.png",
                 numZoomLevels: 19,
-                attribution: "Data by <a href='ftp://e0srp01u.ecs.nasa.gov/srtm/version2/SRTM3/'>NASA</a>, <a href='http://asterweb.jpl.nasa.gov/gdem.asp'>ASTER</a>, <a href='http://www.gebco.net/'>GEBCO</a> and <a href='http://www.osm.org/'>OSM</a>", 
-                ref: "cont" 
+                attribution: "Data by <a href='ftp://e0srp01u.ecs.nasa.gov/srtm/version2/SRTM3/'>NASA</a>, <a href='http://asterweb.jpl.nasa.gov/gdem.asp'>ASTER</a>, <a href='http://www.gebco.net/'>GEBCO</a> and <a href='http://www.osm.org/'>OSM</a>",
+                ref: "cont"
             },
             {
                 text: OpenLayers.i18n("Contours"),
@@ -376,8 +379,8 @@ function getLayersTree(map) {
                 ref: "cont",
                 handler: addWmsLayer,
                 url: "http://tiles.openpistemap.org/contours-only/${z}/${x}/${y}.png",
-                attribution: "Data by <a href='ftp://e0srp01u.ecs.nasa.gov/srtm/version2/SRTM3/'>NASA</a>", 
-                layers: '' 
+                attribution: "Data by <a href='ftp://e0srp01u.ecs.nasa.gov/srtm/version2/SRTM3/'>NASA</a>",
+                layers: ''
             },*/
             {
                 text: OpenLayers.i18n("Hill shade"),
@@ -385,8 +388,8 @@ function getLayersTree(map) {
                 handler: addLayer,
                 url: "http://toolserver.org/~cmarqu/hill/${z}/${x}/${y}.png",
                 numZoomLevels: 16,
-                attribution: "Data by <a href='ftp://e0srp01u.ecs.nasa.gov/srtm/version2/SRTM3/'>NASA</a>", 
-                ref: "hill" 
+                attribution: "Data by <a href='ftp://e0srp01u.ecs.nasa.gov/srtm/version2/SRTM3/'>NASA</a>",
+                ref: "hill"
             },
             {
                 text: OpenLayers.i18n("Relief Refuge.info"),
@@ -394,8 +397,8 @@ function getLayersTree(map) {
                 handler: addLayer,
                 url: "http://maps.refuges.info/tiles/renderer.py/relief/${z}/${x}/${y}.jpeg",
                 numZoomLevels: 19,
-                attribution: "Data by <a href='ftp://e0srp01u.ecs.nasa.gov/srtm/version2/SRTM3/'>NASA</a>", 
-                ref: "relief" 
+                attribution: "Data by <a href='ftp://e0srp01u.ecs.nasa.gov/srtm/version2/SRTM3/'>NASA</a>",
+                ref: "relief"
             },
             {
                 text: OpenLayers.i18n("Hillshade of Europe"),
@@ -1038,16 +1041,16 @@ function getLayersTree(map) {
                 key: 'BC9A493B41014CAABB98F0471D759707',
                 styleId: '3',
                 tags: "cloudmade nonames",
-                ref: "non" 
+                ref: "non"
             },
             {
                 text: OpenLayers.i18n("Text of fixme and note"),
                 leaf: true,
                 handler: addLayer,
                 url: "http://beta.letuffe.org/tiles/renderer.py/fixme-text/${z}/${x}/${y}.png",
-                displayOutsideMaxExtent: true, 
-                buffer: 1, 
-                attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", 
+                displayOutsideMaxExtent: true,
+                buffer: 1,
+                attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>",
                 ref: "fn"
             },
 /*            {
@@ -1056,7 +1059,7 @@ function getLayersTree(map) {
                 handler: addLayer,
                 url: "http://matt.dev.openstreetmap.org/dupe_nodes/tiles/renderer.py/1.0.0/dupe_nodes/${z}/${x}/${y}.png",
                 numZoomLevels: 19,
-                attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", 
+                attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>",
                 ref: "dbl"
             },*/
             {
@@ -1066,7 +1069,7 @@ function getLayersTree(map) {
                 key: 'BC9A493B41014CAABB98F0471D759707',
                 styleId: '6700',
                 tags: "cloudmade navdebug",
-                ref: "navdebug" 
+                ref: "navdebug"
             },
             {
                 text: OpenLayers.i18n("Incomplete adresses, services"),
@@ -1074,7 +1077,7 @@ function getLayersTree(map) {
                 handler: addLayer,
                 url: "http://map.stephane-brunner.ch/tiles/adrs/${z}/${x}/${y}.png",
                 numZoomLevels: 19,
-                attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", 
+                attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>",
                 ref: "adrs"
             },
             {
@@ -1116,7 +1119,7 @@ function getLayersTree(map) {
                     url: "https://s3-eu-west-1.amazonaws.com/tiles-ch-2010-06/${z}/${x}/${y}.png",
                     numZoomLevels: 19,
                     tileSize: new OpenLayers.Size(1024, 1024),
-                    attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>", 
+                    attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>",
                     tags: "swiss history 2010",
                     ref: "20100622"
                 },
@@ -1169,6 +1172,6 @@ function getLayersTree(map) {
         }
     }
     propagateTags(root, "");
-    
+
     return root;
 }
