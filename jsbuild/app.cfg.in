@@ -47,52 +47,6 @@ include =
 exclude =
     OpenLayers.js
 
-[edit.js]
-root = ${vars:jsbuild-root}
-first =
-    Ext/adapter/ext/ext-base${vars:extdebug}.js
-    Ext/ext-all${vars:extdebug}.js
-    OpenLayers/SingleFile.js
-    OpenLayers/BaseTypes.js
-    OpenLayers/BaseTypes/Class.js
-    OpenLayers/Util.js
-    OpenLayers/Lang.js
-include =
-#    OpenLayers/Renderer/VML.js
-    OpenLayers/Renderer/SVG.js
-#    OpenLayers/Renderer/Canvas.js
-    OpenLayers/Layer/SphericalMercator.js
-    OpenLayers/Layer/XYZ.js
-    OpenLayers/Layer/Vector.js
-    OpenLayers/Strategy/BBOX.js
-    OpenLayers/Strategy/Refresh.js
-    OpenLayers/Protocol/OSMAPI.js
-    OpenLayers/Format/OSM.js
-    OpenLayers/Control/Navigation.js
-    OpenLayers/Control/PanZoom.js
-    OpenLayers/Control/ArgParser.js
-    OpenLayers/Control/Attribution.js
-    OpenLayers/Control/PanZoomBar.js
-    OpenLayers/Control/Snapping.js
-    OpenLayers/Control/Split.js
-    OpenLayers/Control/DrawFeature.js
-    OpenLayers/Control/DragFeature.js
-    OpenLayers/Control/ModifyFeature.js
-    OpenLayers/Control/TransformFeature.js
-    OpenLayers/Handler/Point.js
-    OpenLayers/Handler/Path.js
-    OpenLayers/Handler/Polygon.js
-    GeoExt/widgets/MapPanel.js
-    GeoExt/widgets/Action.js
-    GeoExt/widgets/Popup.js
-    GeoExt/state/PermalinkProvider.js
-    App/osmstyle.js
-    App/josmstyle.js
-    App/commonstyle.js
-exclude =
-    OpenLayers.js
-
-
 [trace.js]
 root = ${vars:jsbuild-root}
 first =
@@ -243,47 +197,3 @@ include =
     App/Lang/fr.js
 exclude =
     OpenLayers/Lang.js
-
-[geoext.js]
-root =
-    map/public/lib/openlayers/lib
-    map/public/lib/geoext/lib
-first =
-    OpenLayers/SingleFile.js
-    OpenLayers/BaseTypes.js
-    OpenLayers/BaseTypes/Class.js
-    OpenLayers/Util.js
-    OpenLayers/Lang.js
-exclude =
-    Firebug
-    OpenLayers.js
-    OpenLayers/Lang
-    OpenLayers/Popup/AnchoredBubble.js
-    GeoExt.js
-    GeoExt/locale
-    GeoExt/SingleFile.js
-    Gears
-[gxp_alone.js]
-root =
-    map/public/lib/gxp/src/script
-exclude =
-    loader.js
-[gxp.js]
-root =
-    map/public/lib/ext
-    map/public/build
-first =
-    Ext/adapter/ext/ext-base${vars:extdebug}.js
-    Ext/ext-all${vars:extdebug}.js
-    geoext.js
-include =
-    gxp_alone.js
-exclude =
-    OpenLayers
-    GeoExt
-    widgets
-    data
-    plugins
-    menu
-    Gears
-    Rico
