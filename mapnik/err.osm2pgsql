@@ -11,3 +11,7 @@ node,way   highway            text         linear
 node,way   service            text         linear
 node,way   amenity            text         polygon
 node,way   parking            text         polygon
+node,way   landuse            text         polygon
+node,way   sac_scale            text         polygon
+node,way   mtb:scale            text         polygon
+node,way   tracktype            text         polygon

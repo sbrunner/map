@@ -34,3 +34,9 @@
 [submodule "map/public/lib/CloudMade"]
 	path = map/public/lib/CloudMade
 	url = git@github.com:sbrunner/OpenLayers-CloudMade.git
+[submodule "mapnik-stylesheets"]
+	path = mapnik-stylesheets
+	url = git://github.com/openstreetmap/mapnik-stylesheets.git
+[submodule "osm-legend"]
+	path = osm-legend
+	url = git://github.com/yvecai/RenderLegend.git

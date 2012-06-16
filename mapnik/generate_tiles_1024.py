@@ -27,7 +27,7 @@ class GoogleProjection:
         self.Cc = []
         self.zc = []
         self.Ac = []
-        c = 256
+        c = TILES_SIZE
         for d in range(0,levels):
             e = c/2;
             self.Bc.append(c/360.0)
@@ -35,20 +35,20 @@ class GoogleProjection:
             self.zc.append((e,e))
             self.Ac.append(c)
             c *= 2
-                
+
     def fromLLtoPixel(self,ll,zoom):
-         d = self.zc[zoom]
-         e = round(d[0] + ll[0] * self.Bc[zoom])
-         f = minmax(sin(DEG_TO_RAD * ll[1]),-0.9999,0.9999)
-         g = round(d[1] + 0.5*log((1+f)/(1-f))*-self.Cc[zoom])
-         return (e,g)
-     
+        d = self.zc[zoom]
+        e = round(d[0] + ll[0] * self.Bc[zoom])
+        f = minmax(sin(DEG_TO_RAD * ll[1]),-0.9999,0.9999)
+        g = round(d[1] + 0.5*log((1+f)/(1-f))*-self.Cc[zoom])
+        return (e,g)
+
     def fromPixelToLL(self,px,zoom):
-         e = self.zc[zoom]
-         f = (px[0] - e[0])/self.Bc[zoom]
-         g = (px[1] - e[1])/-self.Cc[zoom]
-         h = RAD_TO_DEG * ( 2 * atan(exp(g)) - 0.5 * pi)
-         return (f,h)
+        e = self.zc[zoom]
+        f = (px[0] - e[0])/self.Bc[zoom]
+        g = (px[1] - e[1])/-self.Cc[zoom]
+        h = RAD_TO_DEG * ( 2 * atan(exp(g)) - 0.5 * pi)
+        return (f,h)
 
 
 
@@ -88,12 +88,8 @@ class RenderThread:
         mapnik.render(self.m, im)
         im.save(tile_uri, FORMAT)
 
-        self.printLock.acquire()
-        print (l0, l1)
-        self.printLock.release()
-
     def loop(self, nb):
-        
+
         self.m = mapnik.Map(TILES_SIZE, TILES_SIZE)
         # Load style XML
         mapnik.load_map(self.m, self.mapfile, True)
@@ -101,7 +97,7 @@ class RenderThread:
         self.prj = mapnik.Projection(self.m.srs)
         # Projects between tile pixel co-ordinates and LatLong (EPSG:4326)
         self.tileproj = GoogleProjection(self.maxZoom+1)
-        
+
         while True:
             #Fetch a tile from the queue and render it
             r = self.q.get()
@@ -117,14 +113,15 @@ class RenderThread:
                 exists= "exists"
             else:
                 self.render_tile('/tmp/mapnik%i'%nb, x, y, z)
-                
+
                 bytes=os.stat('/tmp/mapnik%i'%nb)[6]
     #            if bytes == 103:
 #                if bytes == 222:
  #                   empty = " Empty Tile "
  #                   os.remove(tile_uri)
  #               else:
-                call("optipng -q -zc 9 -zm 7 -zs 0 -f 0 -i 0 -out %(dst)s %(src)s;" % {'src': '/tmp/mapnik%i'%nb, 'dst': tile_uri}, shell=True)
+#                call("optipng -q -zc 9 -zm 7 -zs 0 -f 0 -i 0 -out %(dst)s %(src)s;" % {'src': '/tmp/mapnik%i'%nb, 'dst': tile_uri}, shell=True)
+                call("mv %(src)s %(dst)s" % {'src': '/tmp/mapnik%i'%nb, 'dst': tile_uri}, shell=True)
 
             self.printLock.acquire()
             print name, ":", z, x, y, exists, empty
@@ -150,7 +147,7 @@ def render_tiles(bbox, mapfile, tile_dir, minZoom=1,maxZoom=18, name="unknown", 
     if not os.path.isdir(tile_dir):
          os.mkdir(tile_dir)
 
-    gprj = GoogleProjection(maxZoom+1) 
+    gprj = GoogleProjection(maxZoom+1)
 
     ll0 = (bbox[0],bbox[3])
     ll1 = (bbox[2],bbox[1])
@@ -189,30 +186,38 @@ def render_tiles(bbox, mapfile, tile_dir, minZoom=1,maxZoom=18, name="unknown", 
     for i in range(num_threads):
         renderers[i].join()
 
-
-FORMAT = 'png256'
+#https://github.com/mapnik/mapnik/wiki/OutputFormats
+FORMAT = 'png'
 FILE_EXTENSION = 'png'
+#FORMAT = 'jpeg'
+#FILE_EXTENSION = 'jpeg'
 
 if __name__ == "__main__":
 
 #    bbox = (5.9, 45.7, 10.5, 47.9)
-    bbox = (5.13, 45.40, 11.46, 48.24)
+#    bbox = (5.13, 45.40, 11.46, 48.24)
+    bbox = (6.5, 46.45, 6.8, 46.66) # Lausanne Vevey
 
-    mapfile = "mapnik/osm.xml"
-    tile_dir = "/media/Tiles/tiles/1024/ch-2007-10/"
-    render_tiles(bbox, mapfile, tile_dir, 0, 18, "Swiss")
+    mapfile = "incomplete.mapnik"
+    tile_dir = "/media/Tiles/tiles/256/err/"
+#    render_tiles(bbox, mapfile, tile_dir, 0, 16, "Swiss")
+    render_tiles(bbox, mapfile, tile_dir, 0, 14, "Swiss")
+
+#    mapfile = "mapnik/osm.xml"
+#    tile_dir = "/media/Tiles/tiles/1024/ch-2007-10/"
+#    render_tiles(bbox, mapfile, tile_dir, 0, 16, "Swiss")
 
 #    mapfile = "adrs.mapnik"
 #    tile_dir = "/media/Tiles/tiles/1024/adrs/"
-#    render_tiles(bbox, mapfile, tile_dir, 18, 18, "adrs")
+#    render_tiles(bbox, mapfile, tile_dir, 18, 16, "adrs")
 
  #   mapfile = "service.mapnik"
  #   tile_dir = "/media/Tiles/tiles/1024/service/"
- #   render_tiles(bbox, mapfile, tile_dir, 0, 18, "service")
+ #   render_tiles(bbox, mapfile, tile_dir, 0, 16, "service")
 
 #    mapfile = "parking.mapnik"
 #    tile_dir = "/media/Tiles/tiles/1024/parking/"
-#    render_tiles(bbox, mapfile, tile_dir, 0, 18, "parking")
+#    render_tiles(bbox, mapfile, tile_dir, 0, 16, "parking")
 
 
 

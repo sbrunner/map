@@ -1,3 +1,39 @@
+#
+#CREATE TABLE dbl_lanuse (id serial);
+#SELECT AddGeometryColumn('dbl_lanuse', 'way', 900913, 'GEOMETRY', 2);
+#CREATE TABLE road_on_landuse (id serial);
+#SELECT AddGeometryColumn('road_on_landuse', 'way', 900913, 'GEOMETRY', 2);
+#
+#INSERT INTO dbl_lanuse (way) (SELECT ST_Intersection(p1.way, p2.way) AS way
+#FROM osm_polygon AS p1, osm_polygon AS p2
+#WHERE p1.landuse IS NOT NULL AND p2.landuse IS NOT NULL AND ST_Intersects(p1.way, p2.way)
+#    AND ST_IsValid(p1.way) AND ST_IsValid(p2.way)
+#    AND ST_Area(ST_Intersection(p1.way, p2.way)) > 0
+#    AND p1.osm_id > p2.osm_id);
+#
+#INSERT INTO road_on_landuse (way) (SELECT ST_Intersection(p.way, l.way) AS way FROM osm_polygon AS p, osm_line AS l WHERE p.landuse IS NOT NULL AND (l.highway = 'primary' OR l.highway = 'segondary' OR l.highway = 'tertiary' OR l.highway = 'unclassified') AND ST_Intersects(p.way, l.way)
+#    AND ST_IsValid(p.way) AND ST_IsValid(l.way)
+#    AND ST_Length(ST_Intersection(p.way, l.way)) > 0);
+#
+
+#CREATE TABLE test (id serial, p1 integer, p2 integer);
+#SELECT AddGeometryColumn('test', 'way', 900913, 'GEOMETRY', 2);
+#INSERT INTO test (way, p1, p2) (SELECT ST_Intersection(p1.way, p2.way) AS way, p1.osm_id, p2.osm_id
+#FROM osm_polygon AS p1, osm_polygon AS p2
+#WHERE p1.landuse IS NOT NULL AND p2.landuse IS NOT NULL
+#    AND p1.osm_id > p2.osm_id
+#    AND ST_IsValid(p1.way) AND ST_IsValid(p2.way)
+#    AND p1.way && 'BOX(723576 5852757,756972 5886752)'::box2d
+#    AND p2.way && 'BOX(723576 5852757,756972 5886752)'::box2d
+#    AND ST_Intersects(p1.way, p2.way)
+#    AND ST_Area(ST_Intersection(p1.way, p2.way)) > 0);
+#
+
+#SELECT sum(area(way)), count(p1), p2 FROM test GROUP BY p2;
+#
+#SELECT area(way), "addr:country", "addr:city", "addr:postcode", "addr:street", "addr:housenumber", "highway", "service", "amenity", "parking", "landuse", "sac_scale", "mtb:scale", "tracktype" FROM osm_polygon WHERE osm_id IN (102609901, -1332586);
+#
+
 MAP
   NAME ortho
   STATUS ON
@@ -8,6 +44,8 @@ MAP
     METADATA
       wms_enable_request "*"
       ows_enable_request "*"
+      wms_encoding "UTF-8"
+      wfs_encoding "UTF-8"
     END
   END
 
@@ -19,9 +57,10 @@ MAP
   #SHAPEPATH "/home/sbrunner/Desktop/"
 
   PROJECTION
+    "init=epsg:900913"
     "init=epsg:21781"
     "init=epsg:3857"
-#    "init=epsg:2056"
+    "init=epsg:2056"
   END
 
     SYMBOL
@@ -37,47 +76,230 @@ MAP
         FILLED true
     END
 
-  LAYER
-    NAME 'HYDRANT'
-    TYPE POINT
-    DATA '/home/sbrunner/tmp/test/WA_HYDRANT.shp'
+#  LAYER
+#    NAME 'HYDRANT'
+#    TYPE POINT
+#    DATA '/home/sbrunner/tmp/test/WA_HYDRANT.shp'
+##        PROJECTION
+##           "init=epsg:21781"
+##        END
+#        CLASS
+#            NAME "point"
+#            STYLE
+#                SYMBOL "square"
+#                SIZE 16
+#                COLOR 0 0 0
+#                OUTLINECOLOR 0 0 0
+#            END
+#        END
+#  END
+
+#  LAYER
+#    NAME 'ortho'
+#    TYPE RASTER
+#    STATUS ON
+#    DATA "/media/Big/DOP25_2009_1_1.tif"
 #        PROJECTION
 #           "init=epsg:21781"
 #        END
-        CLASS
-            NAME "point"
-            STYLE
-                SYMBOL "square"
-                SIZE 16
-                COLOR 0 0 0
-                OUTLINECOLOR 0 0 0
-            END
-        END
-  END
+#  END
+
+#shp2img -m map.map -i png -o admin.png -e -7419811 -13027781 12619089 17648744 -s 1600 2449 -l admin
+#  LAYER
+#    NAME 'admin'
+#    TYPE LINE
+#    CONNECTIONTYPE POSTGIS
+#    CONNECTION "host=localhost dbname=adminch user=www-data password=www-data"
+#    DATA "way from (select name, way, osm_id as gid from planet_osm_line where admin_level = '2') as subquery using unique gid using srid=2056"
+#    CLASS
+#      STYLE
+#        COLOR 0 0 0
+#        WIDTH 0.3
+#        ANTIALIAS true
+#      END
+#    END
+#  END
 
   LAYER
-    NAME 'ortho'
-    TYPE RASTER
-    STATUS ON
-    DATA "/media/Big/DOP25_2009_1_1.tif"
-        PROJECTION
-           "init=epsg:21781"
-        END
-  END
-
-#shp2img -m map.map -i png -o admin.png -e -7419811 -13027781 12619089 17648744 -s 1600 2449 -l admin 
-  LAYER
-    NAME 'admin'
-    TYPE LINE
+    NAME 'dbl_lanuse'
+    GROUP 'error'
+    TYPE POLYGON
+    TEMPLATE fooOnlyForWMSGetFeatureInfo
     CONNECTIONTYPE POSTGIS
-    CONNECTION "host=localhost dbname=adminch user=postgres password=postgres"
-    DATA "way from (select name, way, osm_id as gid from planet_osm_line where admin_level = '2') as subquery using unique gid using srid=2056"
+    CONNECTION "host=localhost dbname=err user=www-data password=www-data"
+    DATA "way from (select * from dbl_lanuse) as subquery using unique id using srid=900913"
     CLASS
       STYLE
-        COLOR 0 0 0
-        WIDTH 0.3
+        COLOR 0 255 0
+        WIDTH 1
         ANTIALIAS true
       END
+    END
+    METADATA
+      gml_include_items "all"
+      gml_way_type "polygon"
+      gml_geometries "way"
+    END
+    PROJECTION
+      "init=epsg:3857"
+      "init=epsg:900913"
+    END
+  END
+
+  LAYER
+    NAME 'road_on_landuse'
+    GROUP 'error'
+    TYPE LINE
+    TEMPLATE fooOnlyForWMSGetFeatureInfo
+    CONNECTIONTYPE POSTGIS
+    CONNECTION "host=localhost dbname=err user=www-data password=www-data"
+    DATA "way from (select * from road_on_landuse) as subquery using unique id using srid=900913"
+    CLASS
+      STYLE
+        COLOR 255 0 0
+        WIDTH 1
+        ANTIALIAS true
+      END
+    END
+    METADATA
+      gml_include_items "all"
+      gml_way_type "line"
+      gml_geometries "way"
+    END
+    PROJECTION
+      "init=epsg:3857"
+      "init=epsg:900913"
+    END
+  END
+
+  LAYER
+    NAME 'service'
+    GROUP 'error'
+    TYPE LINE
+    TEMPLATE fooOnlyForWMSGetFeatureInfo
+    CONNECTIONTYPE POSTGIS
+    CONNECTION "host=localhost dbname=err user=www-data password=www-data"
+    DATA "way from (select * from osm_line where highway = 'service' AND service IS NULL) as subquery using unique osm_id using srid=900913"
+    CLASS
+      STYLE
+        COLOR 0 0 255
+        WIDTH 1
+        ANTIALIAS true
+      END
+    END
+    METADATA
+      gml_include_items "all"
+      gml_exclude_items "addr:country,addr:city,addr:postcode,addr:street,addr:housenumber,mtb:scale"
+      gml_way_type "line"
+      gml_geometries "way"
+    END
+    PROJECTION
+      "init=epsg:3857"
+      "init=epsg:900913"
+    END
+  END
+
+  LAYER
+    NAME 'path'
+    GROUP 'error'
+    TYPE LINE
+    TEMPLATE fooOnlyForWMSGetFeatureInfo
+    CONNECTIONTYPE POSTGIS
+    CONNECTION "host=localhost dbname=err user=www-data password=www-data"
+    DATA "way from (select * from osm_line where highway != 'path' AND (sac_scale IS NOT NULL OR \"mtb:scale\" IS NOT NULL)) as subquery using unique osm_id using srid=900913"
+    CLASS
+      STYLE
+        COLOR 255 0 255
+        WIDTH 1
+        ANTIALIAS true
+      END
+    END
+    METADATA
+      gml_include_items "all"
+      gml_way_type "line"
+      gml_geometries "way"
+    END
+    PROJECTION
+      "init=epsg:3857"
+      "init=epsg:900913"
+    END
+  END
+
+  LAYER
+    NAME 'nottrack'
+    GROUP 'error'
+    TYPE LINE
+    TEMPLATE fooOnlyForWMSGetFeatureInfo
+    CONNECTIONTYPE POSTGIS
+    CONNECTION "host=localhost dbname=err user=www-data password=www-data"
+    DATA "way from (select * from osm_line where highway != 'track' AND tracktype IS NOT NULL) as subquery using unique osm_id using srid=900913"
+    CLASS
+      STYLE
+        COLOR 0 255 255
+        WIDTH 1
+        ANTIALIAS true
+      END
+    END
+    METADATA
+      gml_include_items "all"
+      gml_way_type "line"
+      gml_geometries "way"
+    END
+    PROJECTION
+      "init=epsg:3857"
+      "init=epsg:900913"
+    END
+  END
+
+  LAYER
+    NAME 'track'
+    GROUP 'error'
+    TYPE LINE
+    TEMPLATE fooOnlyForWMSGetFeatureInfo
+    CONNECTIONTYPE POSTGIS
+    CONNECTION "host=localhost dbname=err user=www-data password=www-data"
+    DATA "way from (select * from osm_line where highway = 'track' AND tracktype IS NULL) as subquery using unique osm_id using srid=900913"
+    CLASS
+      STYLE
+        COLOR 0 255 255
+        WIDTH 1
+        ANTIALIAS true
+      END
+    END
+    METADATA
+      gml_include_items "all"
+      gml_way_type "line"
+      gml_geometries "way"
+    END
+    PROJECTION
+      "init=epsg:3857"
+      "init=epsg:900913"
+    END
+  END
+
+  LAYER
+    NAME 'parking'
+    GROUP 'error'
+    TYPE POLYGON
+    TEMPLATE fooOnlyForWMSGetFeatureInfo
+    CONNECTIONTYPE POSTGIS
+    CONNECTION "host=localhost dbname=err user=www-data password=www-data"
+    DATA "way from (select * from osm_polygon where amenity = 'parking' AND parking IS NULL) as subquery using unique osm_id using srid=900913"
+    CLASS
+      STYLE
+        COLOR 255 255 0
+        WIDTH 1
+        ANTIALIAS true
+      END
+    END
+    METADATA
+      gml_include_items "all"
+      gml_way_type "polygon"
+      gml_geometries "way"
+    END
+    PROJECTION
+      "init=epsg:3857"
+      "init=epsg:900913"
     END
   END
 END
