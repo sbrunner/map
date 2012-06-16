@@ -78,17 +78,23 @@ include =
     OpenLayers/Control/Permalink.js
     OpenLayers/Control/Attribution.js
     OpenLayers/Control/ScaleLine.js
+    OpenLayers/Control/LayerSwitcher.js
+    OpenLayers/Control/WMSGetFeatureInfo.js
     OpenLayers/Protocol/HTTP.js
     OpenLayers/Strategy/Fixed.js
     OpenLayers/Format/GPX.js
     OpenLayers/Format/OSM.js
-    OpenLayers/Layer/WMTS.js
-    OpenLayers/Layer/TileCache.js
-    OpenLayers/Layer/XYZ.js
+    OpenLayers/Format/GML.js
+    OpenLayers/Format/WMSGetFeatureInfo.js
+    OpenLayers/Layer/OSM.js
+    OpenLayers/Layer/WMS.js
     OpenLayers/Layer/Vector.js
+    OpenLayers/Layer/WMTS.js
+    OpenLayers/Layer/SphericalMercator.js
     OpenLayers/Renderer/VML.js
     OpenLayers/Renderer/SVG.js
-    OpenLayers/Layer/SphericalMercator.js
+#    OpenLayers/Popup.js
+    OpenLayers/Popup/FramedCloud.js
 exclude =
     OpenLayers.js
 
@@ -163,6 +169,21 @@ include =
     proj4js/lib/projCode/tmerc.js
     proj4js/lib/projCode/utm.js
     proj4js/lib/projCode/lcc.js
+
+# WMTS
+[OpenLayers.js]
+root = ${vars:jsbuild-root}
+first =
+    OpenLayers/SingleFile.js
+    OpenLayers/BaseTypes.js
+    OpenLayers/BaseTypes/Class.js
+    OpenLayers/Util.js
+    OpenLayers/Lang.js
+include =
+    OpenLayers/Layer/WMTS.js
+    OpenLayers/Format/WMTSCapabilities.js
+exclude =
+    OpenLayers.js
 
 [en.js]
 root = ${vars:jsbuild-root}
