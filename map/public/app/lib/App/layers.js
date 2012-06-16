@@ -294,7 +294,7 @@ function getLayersTree(map) {
                         numZoomLevels: 19,
                         leaf: true,
                         handler: addLayer,
-                        url: "http://tiler1.censusprofiler.org/streeto_global/${z}/${x}/${y}.png",
+                        url: "http://casa.oobrien.com/maptiler/oterrain_global/${z}/${x}/${y}.png",
                         ref: 'streetomap'
                     }]
                 }]
@@ -399,7 +399,7 @@ function getLayersTree(map) {
                 numZoomLevels: 19,
                 attribution: "Data by <a href='ftp://e0srp01u.ecs.nasa.gov/srtm/version2/SRTM3/'>NASA</a>",
                 ref: "relief"
-            },
+            }/*,
             {
                 text: OpenLayers.i18n("Hillshade of Europe"),
                 leaf: true,
@@ -408,7 +408,7 @@ function getLayersTree(map) {
                 url: 'http://129.206.229.158/cached/hillshade',
                 attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>",
                 layers: 'europe_wms:hs_srtm_europa'
-            }]
+            }*/]
         },
         {
             text: OpenLayers.i18n("Outdoor"),
@@ -1043,7 +1043,7 @@ function getLayersTree(map) {
                 tags: "cloudmade nonames",
                 ref: "non"
             },
-            {
+            { // TODO => xapi
                 text: OpenLayers.i18n("Text of fixme and note"),
                 leaf: true,
                 handler: addLayer,
