@@ -142,8 +142,9 @@ div.toolwindow div.title {
 }
 
 .olControlOverviewMapElement {
-    background-color: #000000;
-    background-color: rgba(0,0,0,0.75);
+    background-color: #888888;
+    background-color: rgba(0,0,0,0.7);
+    border-radius: 6px 0 0 0;
 }
 
 div.toolwindow div.routing div.title {
@@ -181,4 +182,19 @@ div.routing div.form {
 }
 .olLayerViewGridTile {
     text-align: center;
+}
+div.olControlZoom {
+}
+div.olControlZoom a {
+    background: #888888; /* fallback for IE - IE6 requires background shorthand*/
+    background: rgba(0, 0, 0, 0.5);
+}
+div.olControlZoom a:hover {
+    background: #555555; /* fallback for IE */
+    background: rgba(0, 0, 0, 0.7);
+}
+@media only screen and (max-width: 600px) {
+    div.olControlZoom a:hover {
+        background: rgba(0, 0, 0, 0.5);
+	}
 }

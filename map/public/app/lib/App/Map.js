@@ -15,7 +15,7 @@
  * @include OpenLayers/Layer/OSM.js
  * @include OpenLayers/Control/Navigation.js
  * @include OpenLayers/Kinetic.js
- * @include OpenLayers/Control/PanZoomBar.js
+ * @include OpenLayers/Control/Zoom.js
  * @include OpenLayers/Control/ZoomPanel.js
  * @include OpenLayers/Control/ArgParser.js
  * @include OpenLayers/Control/Attribution.js
@@ -56,7 +56,8 @@ App.Map = Ext.extend(GeoExt.MapPanel, {
             maxResolution: 156543.0339,
             maxExtent: new OpenLayers.Bounds(-20037508, -20037508, 20037508, 20037508.34),
             controls: [
-                new OpenLayers.Control.PanZoomBar({panIcons: false}),
+//                new OpenLayers.Control.PanZoomBar({panIcons: false}),
+                new OpenLayers.Control.Zoom({panIcons: false}),
                 new OpenLayers.Control.MousePosition(),
                 new OpenLayers.Control.Navigation(),
                 new OpenLayers.Control.ArgParser(),

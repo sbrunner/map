@@ -40,3 +40,6 @@
 [submodule "osm-legend"]
 	path = osm-legend
 	url = git://github.com/yvecai/RenderLegend.git
+[submodule "map/public/lib/geoext"]
+	path = map/public/lib/geoext
+	url = git://github.com/geoext/geoext.git

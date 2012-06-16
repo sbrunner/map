@@ -199,6 +199,20 @@ function getLayersTree(map) {
                     ref: "mapquest"
                 },
                 {
+                    text: OpenLayers.i18n("MapBox"),
+                    leaf: true,
+                    handler: addLayer,
+                    url: [
+                        "http://a.tiles.mapbox.com/v3/mapbox.mapbox-streets/${z}/${x}/${y}.png",
+                        "http://b.tiles.mapbox.com/v3/mapbox.mapbox-streets/${z}/${x}/${y}.png",
+                        "http://c.tiles.mapbox.com/v3/mapbox.mapbox-streets/${z}/${x}/${y}.png",
+                        "http://d.tiles.mapbox.com/v3/mapbox.mapbox-streets/${z}/${x}/${y}.png"
+                    ],
+                    numZoomLevels: 18,
+                    attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>",
+                    ref: "mapbox"
+                },
+                {
                     text: OpenLayers.i18n("Osmarender"),
                     leaf: true,
                     handler: addLayer,
@@ -268,6 +282,15 @@ function getLayersTree(map) {
                     numZoomLevels: 19,
                     attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>",
                     ref: "hiking2"
+                },
+                {
+                    text: OpenLayers.i18n("Hiking"),
+                    leaf: true,
+                    handler: addLayer,
+                    url: "http://4umaps.eu/${z}/${x}/${y}.png",
+                    numZoomLevels: 16,
+                    attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>",
+                    ref: "hiking3"
                 },
                 {
                     text: OpenLayers.i18n("Refuge.info"),
@@ -699,7 +722,18 @@ function getLayersTree(map) {
                 ],
                 numZoomLevels: 16,
                 attribution: "<a href='http://www.openstreetmap.org/'>CC-BY-SA OpenStreetMap &amp; Contributors</a>",
-                ref: 'lignt'
+                ref: 'light'
+            },
+            {
+                text: OpenLayers.i18n("Lignting"),
+                leaf: true,
+                handler: addLayer,
+                url: [
+                    "http://129.206.74.245:8005/tms_lt.ashx?x=${x}&y=${y}&z=${z}"
+                ],
+                numZoomLevels: 19,
+                attribution: "<a href='http://www.openstreetmap.org/'>CC-BY-SA OpenStreetMap &amp; Contributors</a>",
+                ref: 'light2'
             },
             {
                 text: OpenLayers.i18n("Surveillance"),
@@ -1152,6 +1186,28 @@ function getLayersTree(map) {
             leaf: false,
             children: wikipediam
         },
+        {
+			text: OpenLayers.i18n("Alternative"),
+			leaf: false,
+			children: [{
+				text: OpenLayers.i18n("Water color"),
+				leaf: true,
+				handler: addLayer,
+				url: "http://tile.stamen.com/watercolor/${z}/${x}/${y}.jpg",
+				numZoomLevels: 19,
+				attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>",
+				ref: "wc"
+			},
+			{
+				text: OpenLayers.i18n("Toner"),
+				leaf: true,
+				handler: addLayer,
+				url: "http://tile.stamen.com/toner/${z}/${x}/${y}.jpg",
+				numZoomLevels: 19,
+				attribution: "<a href='http://www.osm.org/'>CC by-sa - OSM</a>",
+				ref: "wc"
+			}]
+		},
         brutes]
     };
 
