@@ -43,3 +43,6 @@
 [submodule "map/public/lib/geoext"]
 	path = map/public/lib/geoext
 	url = git://github.com/geoext/geoext.git
+[submodule "map/public/lib/cgxp"]
+	path = map/public/lib/cgxp
+	url = git@github.com:camptocamp/cgxp.git
