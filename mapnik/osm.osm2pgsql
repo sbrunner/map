@@ -102,6 +102,8 @@ way        way_area     real                # This is calculated during import
 #way       nwn              text     linear
 #way       route_pref_color text     linear
 #way       route_name       text     linear
+node	   amenity-symbols	text
+node,way   generator:source	text     polygon
 
 # The following entries can be used with the --extra-attributes option
 # to include the username, userid, version & timstamp in the DB
