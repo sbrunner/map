@@ -1,3 +1,37 @@
+[gpprint.js]
+root = ${vars:jsbuild-root}
+first =
+    Ext/adapter/ext/ext-base${vars:extdebug}.js
+    Ext/ext-all${vars:extdebug}.js
+    OpenLayers/SingleFile.js
+    OpenLayers/BaseTypes.js
+    OpenLayers/BaseTypes/Class.js
+    OpenLayers/Util.js
+    OpenLayers/Lang.js
+include =
+    OpenLayers/Control/Navigation.js
+    OpenLayers/Control/KeyboardDefaults.js
+    OpenLayers/Control/PanZoomBar.js
+    OpenLayers/Control/ArgParser.js
+    OpenLayers/Control/Attribution.js
+    OpenLayers/Control/ScaleLine.js
+    OpenLayers/Control/MousePosition.js
+    OpenLayers/Renderer/VML.js
+    OpenLayers/Renderer/SVG.js
+    OpenLayers/Layer/OSM.js
+    OpenLayers/Lang.js
+    OpenLayers/Lang/fr.js
+    GeoExt/Lang.js
+    widgets/Viewer.js #GXP
+    plugins/OLSource.js #GXP
+    locale/fr.js #GXP
+    CGXP/widgets/MapPanel.js
+    CGXP/plugins/MenuShortcut.js
+    CGXP/locale/fr.js
+    App/gpprint.js
+exclude =
+    OpenLayers.js
+
 [app.js]
 root = ${vars:jsbuild-root}
 first =
