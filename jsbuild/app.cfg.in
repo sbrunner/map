@@ -81,6 +81,27 @@ include =
 exclude =
     OpenLayers.js
 
+[utfgrid.js]
+root = ${vars:jsbuild-root}
+first =
+    OpenLayers/SingleFile.js
+    OpenLayers/BaseTypes.js
+    OpenLayers/BaseTypes/Class.js
+    OpenLayers/Util.js
+include =
+    OpenLayers/Map.js
+    OpenLayers/Layer/OSM.js
+    OpenLayers/Layer/UTFGrid.js
+    OpenLayers/Request.js
+    OpenLayers/Control/Navigation.js
+    OpenLayers/Control/Zoom.js
+    OpenLayers/Control/MousePosition.js
+    OpenLayers/Control/ArgParser.js
+    OpenLayers/Control/Permalink.js
+    OpenLayers/Control/UTFGrid.js
+exclude =
+    OpenLayers.js
+
 [trace.js]
 root = ${vars:jsbuild-root}
 first =
@@ -204,8 +225,7 @@ include =
     proj4js/lib/projCode/utm.js
     proj4js/lib/projCode/lcc.js
 
-# WMTS
-[OpenLayers.js]
+[wmts.js]
 root = ${vars:jsbuild-root}
 first =
     OpenLayers/SingleFile.js
@@ -216,6 +236,10 @@ first =
 include =
     OpenLayers/Layer/WMTS.js
     OpenLayers/Format/WMTSCapabilities.js
+    OpenLayers/Control/Navigation.js
+    OpenLayers/Control/Zoom.js
+    OpenLayers/Control/MousePosition.js
+    OpenLayers/Control/LayerSwitcher.js
 exclude =
     OpenLayers.js
 
