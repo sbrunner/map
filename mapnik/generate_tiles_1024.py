@@ -8,6 +8,7 @@ from subprocess import call
 import sys, os
 import json
 import multiprocessing
+from time import sleep
 
 try:
     import mapnik2 as mapnik
@@ -197,18 +198,18 @@ def render_tiles(bbox, mapfile, tile_dir, minZoom=1, maxZoom=18, name="unknown",
         renderers[i].join()
 
 #https://github.com/mapnik/mapnik/wiki/OutputFormats
-#FORMAT = 'png'
-#FILE_EXTENSION = 'png'
+FORMAT = 'png'
+FILE_EXTENSION = 'png'
 #FORMAT = 'jpeg'
 #FILE_EXTENSION = 'jpeg'
-FORMAT = 'grid'
-FILE_EXTENSION = 'json'
+#FORMAT = 'grid'
+#FILE_EXTENSION = 'json'
 
 if __name__ == "__main__":
     mapfile = "../../mapnik-stylesheets/osm.xml"
     tile_dir = "/media/Big/Test/png/"
-    tile_dir = "/media/Big/Test/admin/"
-    tile_dir = "/media/Big/Test/full/"
+#    tile_dir = "/media/Big/Test/admin/"
+#    tile_dir = "/media/Big/Test/full/"
 
 #    m = mapnik.Map(TILES_SIZE, TILES_SIZE)
 #    mapnik.load_map(m, mapfile, False)
