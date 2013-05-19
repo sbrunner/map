@@ -15,4 +15,4 @@ map.egg-info/
 print/print-*.jar
 production.ini
 osm2pgrouting/osm2pgrouting
-
+world_boundaries

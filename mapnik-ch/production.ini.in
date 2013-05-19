@@ -1,0 +1,62 @@
+[app:osm_ch]
+use = egg:osm_ch
+reload_templates = false
+debug_authorization = false
+debug_notfound = false
+debug_routematch = false
+debug_templates = false
+
+tilegeneration_configfile = %(here)s/tilegeneration/config.yaml
+
+[pipeline:main]
+pipeline =
+    egg:WebError#evalerror
+    osm_ch
+
+[filter:weberror]
+use = egg:WebError#error_catcher
+debug = false
+;error_log = 
+;show_exceptions_in_wsgi_errors = true
+;smtp_server = localhost
+;error_email = janitor@example.com
+;smtp_username = janitor
+;smtp_password = "janitor's password"
+;from_address = paste@localhost
+;error_subject_prefix = "Pyramid Error"
+;smtp_use_tls =
+;error_message =
+
+[pipeline:main]
+pipeline = weberror osm_ch
+
+# Begin logging configuration
+
+[loggers]
+keys = root, c2cgeoportal, osm_ch
+
+[handlers]
+keys = console
+
+[formatters]
+keys = generic
+
+[logger_root]
+level = WARN
+handlers = console
+
+[logger_gpmap]
+level = INFO
+handlers =
+qualname = osm_ch
+
+[handler_console]
+class = StreamHandler
+args = (sys.stderr,)
+level = NOTSET
+formatter = generic
+
+[formatter_generic]
+format = %(asctime)s %(levelname)-5.5s [%(name)s][%(threadName)s] %(message)s
+
+# End logging configuration

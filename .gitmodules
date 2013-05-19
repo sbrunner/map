@@ -46,3 +46,6 @@
 [submodule "map/public/lib/cgxp"]
 	path = map/public/lib/cgxp
 	url = git@github.com:camptocamp/cgxp.git
+[submodule "mapnik-ch/mapnik-stylesheets"]
+	path = mapnik-ch/mapnik-stylesheets
+	url = git://github.com/sbrunner/mapnik-stylesheets.git

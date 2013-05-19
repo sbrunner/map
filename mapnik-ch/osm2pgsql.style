@@ -86,6 +86,11 @@ node,way   wood         text         linear
 node,way   z_order      int4         linear # This is calculated during import
 way        way_area     real                # This is calculated during import
 
+#UPDATE planet_osm_point SET "generator:source" = tags -> 'generator:source' where tags ?| ARRAY['generator:source'];
+#UPDATE planet_osm_line SET "generator:source" = tags -> 'generator:source' where tags ?| ARRAY['generator:source'];
+#UPDATE planet_osm_polygon SET "generator:source" = tags -> 'generator:source' where tags ?| ARRAY['generator:source'];
+node,way    generator:source    text    linear
+
 # If you're interested in bicycle routes, you may want the following fields
 # To make these work you need slim mode or the necessary data won't be remembered.
 #way       lcn_ref      text     linear
