@@ -24,11 +24,16 @@ grids:
 # 'http_url' and 'hosts' (array), 'http_url' can include all attribute of this cache,
 # and host is a value from hosts.
 caches:
-    mbtiles:
+    local:
         type: mbtiles
         folder: /media/sbrunner/Big/OSM/mbtiles
         # for GetCapabilities
         http_url:  http://localhost/osm/wsgi/tiles
+    internet:
+        type: mbtiles
+        folder: php
+        # for GetCapabilities
+        http_url:  http://map.stephane-brunner.ch/mbtiles/wmts
         
 # this defines some defaults values for all the layers
 layer_default:
@@ -71,7 +76,7 @@ layers:
         output_format: png
 
 generation:
-    default_cache: mbtiles
+    default_cache: local
     default_layers: [mapnik]
 
     # maximum allowed consecutive errors, after it exit [default to 10]

@@ -1,0 +1,19 @@
+Options -Indexes
+Options +FollowSymLinks
+Options -MultiViews
+RewriteEngine On
+RewriteBase /mbtiles/
+#RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^([\w\d_-]+)/(\d+)/(\d+)/(\d+)\.(\w+)$ serv.php?tileset=$1&z=$2&x=$3&y=$4&ext=$5 [QSA,L]
+RewriteRule ^1.0.0/([\w\d_-]+)/(\d+)/(\d+)/(\d+)\.(\w+)$ serv.php?tileset=$1-tms&z=$2&x=$3&y=$4&ext=$5 [QSA,L]
+RewriteRule ^info$ serv.php [QSA,L]
+RewriteRule ^root.xml$ serv.php?tmsinfo=root [QSA,L]
+RewriteRule ^1.0.0/?$ serv.php?tmsinfo=service [QSA,L]
+RewriteRule ^1.0.0/([\w\d_-]+)/?$ serv.php?tmsinfo=resource&tmslayer=$1 [QSA,L]
+RewriteRule ^wmts/1.0.0/WMTSCapabilities.xml$ 1.0.0/WMTSCapabilities.xml [QSA,L]
+RewriteRule ^wmts/1.0.0/([\w\d_-]+)/([\w\d_-]+)/([\w\d_-]+)/(\d+)/(\d+)/(\d+)\.(\w+)$ serv.php?tileset=$1-wmts&style=$2&grid=$3&z=$4&y=$5&x=$6&ext=$7 [QSA,L]
+RewriteRule ^wmts/1.0.0/([\w\d_-]+)/([\w\d_-]+)/([\w\d_-]+)/([\w\d_-]+)/(\d+)/(\d+)/(\d+)\.(\w+)$ serv.php?tileset=$1-wmts&style=$2&d0=$3&grid=$4&z=$5&y=$6&x=$7&ext=$8 [QSA,L]
+RewriteRule ^wmts/1.0.0/([\w\d_-]+)/([\w\d_-]+)/([\w\d_-]+)/([\w\d_-]+)/([\w\d_-]+)/(\d+)/(\d+)/(\d+)\.(\w+)$ serv.php?tileset=$1-wmts&style=$2&d0=$3&d1=$4&grid=$5&z=$6&y=$7&x=$8&ext=$9 [QSA,L]
+RewriteRule ^wmts/1.0.0/([\w\d_-]+)/([\w\d_-]+)/([\w\d_-]+)/([\w\d_-]+)/([\w\d_-]+)/([\w\d_-]+)/(\d+)/(\d+)/(\d+)\.(\w+)$ serv.php?tileset=$1-wmts&style=$2&d0=$3&d1=$4&d2=$5&grid=$6&z=$7&y=$8&x=$9&ext=$10 [QSA,L]
+RewriteRule ^wmts/1.0.0/([\w\d_-]+)/([\w\d_-]+)/([\w\d_-]+)/([\w\d_-]+)/([\w\d_-]+)/([\w\d_-]+)/([\w\d_-]+)/(\d+)/(\d+)/(\d+)\.(\w+)$ serv.php?tileset=$1-wmts&style=$2&d0=$3&d1=$4&d2=$5&d3=$6&grid=$7&z=$8&y=$9&x=$10&ext=$11 [QSA,L]
+RewriteRule ^wmts/1.0.0/([\w\d_-]+)/([\w\d_-]+)/([\w\d_-]+)/([\w\d_-]+)/([\w\d_-]+)/([\w\d_-]+)/([\w\d_-]+)/([\w\d_-]+)/(\d+)/(\d+)/(\d+)\.(\w+)$ serv.php?tileset=$1-wmts&style=$2&d0=$3&d1=$4&d2=$5&d3=$6&d4=$7&grid=$8&z=$9&y=$10&x=$11&ext=$12 [QSA,L]

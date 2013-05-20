@@ -2,6 +2,12 @@ python bootstrap.py --distribute -v 1.7.1
 ./buildout/bin/buildout
 ./buildout/bin/buildout install osm2pgsql
 ./buildout/bin/generate_tiles
+./buildout/bin/generate_controller --ol
+./buildout/bin/generate_controller --capabilities
+./buildout/bin/generate_controller --ol --cache internet
+./buildout/bin/generate_controller --capabilities --cache internet
+
+# copy /media/sbrunner/Big/OSM/mbtiles and php folder to the webserver
 
 #wget http://download.geofabrik.de/osm/europe.osm.bz2
 #wget http://download.geofabrik.de/osm/europe.osm.pbf
